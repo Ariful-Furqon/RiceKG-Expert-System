@@ -1,26 +1,130 @@
-﻿{% extends "layout.html" %}
-{% block title %}
-Diagnosis Result
-{% endblock %}
+{% extends "layout.html" %}
+{% block title %}Diagnosis Result - RiceKG Expert System{% endblock %}
+
 {% block content %}
-<div class="hero-image">
-    <div class="hero-text">
-        <h2 style="font-size: 36px; margin-bottom: 20px;">Diagnosis Result:</h2>
-        {% if penyakit and penyakit|length > 0 %}
-            <div style="background: rgba(0,0,0,0.6); border-radius: 8px; padding: 20px; display: inline-block;">
-                {% for p in penyakit %}
-                    <h1 style="color: #4CAF50; font-size: 32px; margin: 10px 0;">✔ {{ p.replace('_', ' ') }}</h1>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div style="background: rgba(0,0,0,0.6); border-radius: 8px; padding: 20px; display: inline-block;">
-                <h3 style="color: #f44336;">No pest or disease matched the selected symptoms.</h3>
-                <p>Please check additional symptoms or consult an agricultural expert.</p>
-            </div>
-        {% endif %}
-        <div style="margin-top: 30px;">
-            <a href="{{ url_for('index_page') }}" class="btn btn-primary" style="padding: 10px 25px; font-size: 16px; text-decoration: none; color: white; background: #2e7d32; border-radius: 5px;">Back to Diagnosis</a>
-        </div>
+<!-- Results Top Banner -->
+<section class="hero-wrapper" style="padding: 2.5rem 1.5rem 2rem;">
+  <div class="hero-container">
+    <div class="hero-badge-pill">
+      <i class="fa-solid fa-square-poll-vertical"></i> Pellet DL Inference Complete
     </div>
-</div>
+    <h1 class="hero-title" style="font-size: 2.2rem;">Expert Diagnostic Report</h1>
+    <p class="hero-subtitle" style="margin-bottom: 0.5rem;">
+      Inference executed via First-Order SWRL Horn-Clause deductive logic in <strong>{{ elapsed_time }}s</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- Results Main Container -->
+<main class="main-wrapper" style="margin-top: -1.5rem;">
+
+  <!-- Summary Card -->
+  <div class="result-header-card">
+    {% if diagnoses and diagnoses|length > 0 %}
+      <div class="result-badge-success">
+        <i class="fa-solid fa-circle-check"></i> {{ diagnoses|length }} Biotic Threat(s) Inferred with 100% Logic Certainty
+      </div>
+      <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--dark); margin-bottom: 8px;">
+        Deterministic Diagnostic Conclusion
+      </h2>
+      <p style="color: var(--muted); max-width: 700px; margin: 0 auto;">
+        Based on the observed field manifestations, the Pellet semantic reasoner successfully fired corresponding Multi-Tier SWRL production rules.
+      </p>
+    {% else %}
+      <div class="result-badge-warning">
+        <i class="fa-solid fa-triangle-exclamation"></i> Inconclusive Symptom Set (No Rule Fired)
+      </div>
+      <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--dark); margin-bottom: 8px;">
+        No Exact SWRL Rule Match Found
+      </h2>
+      <p style="color: var(--muted); max-width: 700px; margin: 0 auto;">
+        The selected symptom combination did not satisfy any canonical or relaxed Horn-clause conditions. Please review observed symptoms or conduct supplementary laboratory pathology tests.
+      </p>
+    {% endif %}
+  </div>
+
+  <!-- Diagnosed Threats Cards -->
+  {% if diagnoses and diagnoses|length > 0 %}
+    {% for threat in diagnoses %}
+    <div class="threat-result-card">
+      <div class="threat-card-header">
+        <div class="threat-title-group">
+          <div class="threat-icon-lg">{{ threat.icon }}</div>
+          <div>
+            <h3 class="threat-name">{{ threat.nama }}</h3>
+            <div class="threat-scientific">Causal Agent: <em>{{ threat.nama_latin }}</em></div>
+          </div>
+        </div>
+        <div>
+          <span class="{{ threat.badge_class }}">{{ threat.kategori }}</span>
+        </div>
+      </div>
+
+      <div class="threat-card-body">
+        <!-- Metadata Overview -->
+        <div class="threat-meta-grid">
+          <div>
+            <div class="meta-item-label">Primary Target Organ</div>
+            <div class="meta-item-val"><i class="fa-solid fa-plant-wilt" style="color: var(--primary); margin-right: 6px;"></i> {{ threat.organ_target }}</div>
+          </div>
+          <div>
+            <div class="meta-item-label">Taxonomic / Etiological Group</div>
+            <div class="meta-item-val"><i class="fa-solid fa-microscope" style="color: var(--info); margin-right: 6px;"></i> {{ threat.kategori }}</div>
+          </div>
+          <div>
+            <div class="meta-item-label">Reasoning Engine</div>
+            <div class="meta-item-val"><i class="fa-solid fa-code-branch" style="color: var(--accent); margin-right: 6px;"></i> Pellet SWRL Reasoner</div>
+          </div>
+        </div>
+
+        <!-- Threat Description -->
+        <div style="margin-bottom: 1.75rem;">
+          <h4 class="section-subtitle"><i class="fa-solid fa-circle-info" style="color: var(--info);"></i> Pathological Description</h4>
+          <p style="color: var(--slate); font-size: 0.95rem; line-height: 1.6;">{{ threat.deskripsi }}</p>
+        </div>
+
+        <!-- Prescriptive IPM Recommendations -->
+        <div>
+          <h4 class="section-subtitle"><i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> Actionable Integrated Pest Management (IPM) Prescriptions</h4>
+          <ul class="ipm-list">
+            {% for rec in threat.pengendalian_ipm %}
+            <li class="ipm-list-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>{{ rec }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- User Observed Symptoms Summary -->
+  <div class="result-header-card" style="text-align: left;">
+    <h4 class="section-subtitle"><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Input Symptoms Analyzed ({{ selected_symptoms|length }})</h4>
+    <div class="input-symptoms-chips">
+      {% for sym_id in selected_symptoms %}
+      <span class="chip-tag matched">
+        <i class="fa-solid fa-check"></i> {{ symptom_name_map.get(sym_id, sym_id.replace('_', ' ')) }}
+      </span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Buttons -->
+  <div style="display: flex; justify-content: center; gap: 16px; margin-top: 2rem; flex-wrap: wrap;">
+    <a href="{{ url_for('index_page') }}" class="btn-pill" style="padding: 12px 24px; font-size: 1rem; background: var(--primary); color: white; border-color: var(--primary); font-weight: 700;">
+      <i class="fa-solid fa-rotate-left"></i> Diagnose Another Sample
+    </a>
+    <a href="{{ url_for('turtle') }}" class="btn-pill" style="padding: 12px 24px; font-size: 1rem; font-weight: 600;">
+      <i class="fa-solid fa-book-medical"></i> Browse Biotic Threat Catalog
+    </a>
+    <button type="button" class="btn-pill" onclick="window.print()" style="padding: 12px 24px; font-size: 1rem; font-weight: 600;">
+      <i class="fa-solid fa-print"></i> Print Diagnostic Report
+    </button>
+  </div>
+
+</main>
 {% endblock %}
+

@@ -1,7 +1,98 @@
 {% extends "layout.html" %}
-{% block title %}
-About us
-{% endblock %}
+{% block title %}About RiceKG - Semantic Expert System{% endblock %}
+
 {% block content %}
-<p>This Application is made by C22-PS205 Team</p>
-{% endblock %}
+<!-- About Top Banner -->
+<section class="hero-wrapper" style="padding: 3rem 1.5rem 2.5rem;">
+  <div class="hero-container">
+    <div class="hero-badge-pill">
+      <i class="fa-solid fa-graduation-cap"></i> Academic Research & Development
+    </div>
+    <h1 class="hero-title">About RiceKG Framework</h1>
+    <p class="hero-subtitle">
+      An Explainable Semantic Knowledge Graph and Multi-Tier SWRL Reasoning System for Rice Biotic Stressor Diagnosis and Prescriptive Management.
+    </p>
+  </div>
+</section>
+
+<!-- About Main Content -->
+<main class="main-wrapper" style="margin-top: -1.5rem;">
+
+  <!-- Core Overview Card -->
+  <div class="about-hero-card">
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 1.5rem;">
+      <div class="logo-icon" style="width: 50px; height: 50px; font-size: 24px;">
+        <i class="fa-solid fa-wheat-awn"></i>
+      </div>
+      <div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--dark);">System Conceptualization</h2>
+        <div style="color: var(--muted); font-size: 0.95rem;">Department of Information Technology, Faculty of Computer Science, Universitas Jember</div>
+      </div>
+    </div>
+
+    <p style="color: var(--slate); font-size: 1rem; line-height: 1.7; margin-bottom: 1.25rem;">
+      <strong>RiceKG</strong> addresses the fundamental limitations of modern black-box machine learning models and brittle production-rule expert systems by integrating formal <strong>OWL 2 Description Logic (DL)</strong> conceptual ontologies with <strong>Semantic Web Rule Language (SWRL)</strong> inference powered by the <strong>Pellet Reasoner</strong>.
+    </p>
+    <p style="color: var(--slate); font-size: 1rem; line-height: 1.7;">
+      The framework formalizes <strong>10 major biotic threats</strong> (5 destructive insect pests and 5 prevalent phytopathogenic diseases), <strong>45 hierarchical phenotypic symptoms</strong> categorized by anatomical organ, and <strong>30 actionable Integrated Pest Management (IPM)</strong> treatments.
+    </p>
+
+    <!-- Key Architecture Pillars -->
+    <div class="about-features-grid">
+      <div class="feature-box">
+        <div class="feature-icon-circle">
+          <i class="fa-solid fa-network-wired"></i>
+        </div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 8px;">OWL 2 Domain Ontology</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.5;">
+          Rigorous TBox and ABox formalization capturing biological taxonomies, organ relations, and phenological growth stages.
+        </p>
+      </div>
+
+      <div class="feature-box">
+        <div class="feature-icon-circle">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 8px;">Multi-Tier SWRL Rules</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.5;">
+          Tier 1 canonical rules, Tier 2 relaxed rules under partial symptom observations, and Tier 3 multi-threat co-infection rules.
+        </p>
+      </div>
+
+      <div class="feature-box">
+        <div class="feature-icon-circle">
+          <i class="fa-solid fa-magnifying-glass-chart"></i>
+        </div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 8px;">100% Explainable XAI</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.5;">
+          Zero black-box opacity. Every diagnosis and prescriptive recommendation is backed by a mathematical First-Order logic proof trace.
+        </p>
+      </div>
+
+      <div class="feature-box">
+        <div class="feature-icon-circle">
+          <i class="fa-solid fa-laptop-code"></i>
+        </div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 8px;">Pellet Reasoner</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.5;">
+          Java-based Tableau DL reasoner executing dynamic forward-chaining inference with thread-safe entity lifecycle management.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Research & Open Source Card -->
+  <div class="about-hero-card">
+    <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 1rem;">
+      <i class="fa-solid fa-code" style="color: var(--primary); margin-right: 8px;"></i> Open-Source & Reproducibility
+    </h3>
+    <p style="color: var(--slate); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+      To foster open smart agriculture research, the complete ontology (<code style="background: var(--light-bg); padding: 2px 6px; border-radius: 4px; color: var(--primary-dark);">rice_ontology.owl</code>), SWRL rule bases, benchmark datasets (<code style="background: var(--light-bg); padding: 2px 6px; border-radius: 4px; color: var(--primary-dark);">dataText.csv</code>), and web application are freely available on GitHub.
+    </p>
+    <a href="https://github.com/Ariful-Furqon/RiceKG-Expert-System" target="_blank" class="btn-pill" style="padding: 10px 22px; font-size: 0.95rem; background: var(--dark); color: white; border-color: var(--dark);">
+      <i class="fa-brands fa-github"></i> Explore GitHub Repository
+    </a>
+  </div>
+
+</main>
+{% endblock %}

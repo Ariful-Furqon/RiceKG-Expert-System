@@ -1,39 +1,234 @@
-
 [
-    {
-      "id": "1",
-      "nama": "Leatherback Turtle",
-      "nama_latin": "Dermochelis coriacea",
-      "deskripsi": "Leatherback turtles have a dark shell with white spots. It can reach 180 centimeters in length and weigh up to 500 kilograms. Leatherback turtles are found in tropical waters to sub-polar oceans. When leatherback turtles lay their eggs, they will go to the beaches of the tropics. D. coriacea spend most of their lives on the high seas and only come to land when they are about to lay eggs and they can lay 60 to 129 eggs in two to three years."
-    },
-    {
-      "id": "2",
-      "nama": "Green sea turtle",
-      "nama_latin": "Chelonia mydas",
-      "deskripsi": "The green turtle (C. mydas) is the most common sea turtle seen in tropical seas. The most prominent feature of the green turtle is that it has a small head and a blunt beak. This species has a gray, black, or brown body. Then why is it called the green turtle? The name green turtle itself comes from the color of the fat under the green scales. In contrast to leatherback turtles which can lay four to five eggs per season, green turtles only lay eggs once in three to four years."
-    },
-    {
-      "id": "3",
-      "nama": "Loggerhead sea turtle",
-      "nama_latin": "Caretta caretta",
-      "deskripsi": "The loggerhead turtle is also known as the loggerhead turtle. This species has a reddish-brown shell, large head, and stacked beak. On the front of the head there are five sides with a light brown to yellow plastron. Very strong jaws make this turtle able to consume shellfish that live on the seabed such as mussels, mimi and other invertebrates. The average loggerhead turtle can grow to 70 to 210 centimeters and weigh 135 to 400 kilograms."
-    },
-    {
-      "id": "4",
-      "nama": "Flatback sea turtle",
-      "nama_latin": "Natator depressa",
-      "deskripsi": "Called Flatback sea turtle because this species has scales that are flat and slightly curved on the outside. This turtle is a turtle of the genus Natator and is an omnivore. Flat turtle foods include sea cucumbers, jellyfish, shellfish, shrimp, and other invertebrates."
-    },
-    {
-      "id": "5",
-      "nama": "Hawksbill sea turtle",
-      "nama_latin": "Eretmochelys imbricate",
-      "deskripsi": "Hawksbill turtles are also called hawksbill turtles because they have sharp and pointed beaks with large jaws. With such an anatomy of the mouth, it is easier for the hawksbill to reach the food in the crevices of the coral such as sponges and anemones. They also usually eat shrimp and squid. The name hawksbill turtle itself refers to its overlapping scales like fish scales. The hallmark of the hawksbill turtle is that it has a shell with a mixture of yellow, black and clean brown colors. While the plastron (organ at the bottom of the turtle) is yellowish."
-    },
-    {
-      "id": "6",
-      "nama": "Olive ridley sea turtle",
-      "nama_latin": "Lepidochelys olivacea",
-      "deskripsi": "The sea turtle is often mistaken for a green turtle because it has similar body characteristics. The difference is that this turtle, with another name olive ridley turtle, has a larger head and a more slender and angular shell shape. The body is pale green in color and has approximately five lateral scales. This species is the smallest turtle among all species that exist today and has a habit of eating crabs, clams, shrimp and mussels."
-    }
-  ]
+  {
+    "id": "1",
+    "key": "Grasshopper",
+    "nama": "Grasshopper (Belalang)",
+    "nama_latin": "Oxya chinensis",
+    "kategori": "Insect Pest",
+    "organ_target": "Foliage, Leaf blade, Panicles",
+    "icon": "🦗",
+    "badge_class": "badge-pest",
+    "gejala_kunci": [
+      "Brown Nymphs",
+      "Yellow Nymphs",
+      "Eggs On Plant",
+      "Broad Leaf Damage",
+      "Severed Panicles",
+      "Leaf Chewing Damage"
+    ],
+    "deskripsi": "Grasshoppers are voracious chewing defoliators that feed on rice leaves and sever developing panicles, causing dramatic reduction in photosynthetic leaf area and unfilled grains.",
+    "pengendalian_ipm": [
+      "Biological control utilizing entomopathogenic fungus Metarhizium anisopliae.",
+      "Botanical neem-based repellent or bio-pesticide foliar spray.",
+      "Deployment of nocturnal light traps along field borders to catch adults."
+    ]
+  },
+  {
+    "id": "2",
+    "key": "Rice_Root_Nematode",
+    "nama": "Rice Root Nematode (Nematoda Akar)",
+    "nama_latin": "Hirschmanniella oryzae",
+    "kategori": "Endoparasitic Nematode",
+    "organ_target": "Root System",
+    "icon": "🪱",
+    "badge_class": "badge-pest",
+    "gejala_kunci": [
+      "Hook-Like Root Swelling",
+      "Root Knot Swelling",
+      "Deformed Roots",
+      "Necrotic Spots",
+      "Yellowing Leaves",
+      "Stunted Growth"
+    ],
+    "deskripsi": "Microscopic migratory endoparasites that penetrate epidermal cells of rice roots, causing characteristic hook-like terminal swellings, cortical necrosis, nutrient deficiency, and severe plant stunting.",
+    "pengendalian_ipm": [
+      "Intermittent field drying and drainage to disrupt aquatic nematode movement.",
+      "Crop rotation with non-host leguminous or cover crops.",
+      "Application of bio-nematicides or targeted Fluopyram treatments."
+    ]
+  },
+  {
+    "id": "3",
+    "key": "Rice_Stem_Borer",
+    "nama": "Rice Stem Borer (Penggerek Batang)",
+    "nama_latin": "Scirpophaga incertulas",
+    "kategori": "Insect Pest (Lepidoptera)",
+    "organ_target": "Culm, Tillers, Panicles",
+    "icon": "🐛",
+    "badge_class": "badge-pest",
+    "gejala_kunci": [
+      "Frass In Stem",
+      "Bore Holes In Stem",
+      "Deadheart Seedling",
+      "Easily Pulled Tillers",
+      "Whitehead Empty Panicles"
+    ],
+    "deskripsi": "Larvae bore into the central culm, severing vascular bundles. Causes 'Deadheart' (drying of central whorl) in vegetative stage and 'Whitehead' (empty, bleached panicles) during reproductive stage.",
+    "pengendalian_ipm": [
+      "Field release of Trichogramma japonicum egg parasitoids.",
+      "Installation of synthetic sex pheromone delta traps to disrupt mating.",
+      "Application of systemic chlorantraniliprole at peak egg hatching."
+    ]
+  },
+  {
+    "id": "4",
+    "key": "Rice_Bug",
+    "nama": "Rice Bug (Walang Sangit)",
+    "nama_latin": "Leptocorisa oratorius",
+    "kategori": "Insect Pest (Hemiptera)",
+    "organ_target": "Milk-stage Grains, Panicles",
+    "icon": "🪲",
+    "badge_class": "badge-pest",
+    "gejala_kunci": [
+      "Leaf Margin Sap Sucking",
+      "Rotten Panicles",
+      "Random Feeding Pattern",
+      "Empty Grains",
+      "Nymphs Present",
+      "Adult Insects Present"
+    ],
+    "deskripsi": "Adults and nymphs insert piercing-sucking stylets into milky developing rice grains, extracting liquid endosperm and causing empty, chalky, or shriveled grains with pungent odor.",
+    "pengendalian_ipm": [
+      "Synchronous community planting within a 2-3 week window.",
+      "Frequent weeding of surrounding gramineous grasses harboring alternative hosts.",
+      "Application of entomopathogenic fungus Beauveria bassiana or odor bait traps."
+    ]
+  },
+  {
+    "id": "5",
+    "key": "Brown_Planthopper",
+    "nama": "Brown Planthopper (Wereng Batang Cokelat)",
+    "nama_latin": "Nilaparvata lugens",
+    "kategori": "Insect Pest & Viral Vector",
+    "organ_target": "Stem base, Phloem sap",
+    "icon": "🦟",
+    "badge_class": "badge-pest",
+    "gejala_kunci": [
+      "Hopperburn Drying",
+      "Circular Hopperburn Patches",
+      "Blackened Feeding Punctures",
+      "Plant Yellowing",
+      "Brown Planthopper Present"
+    ],
+    "deskripsi": "Phloem-feeding sap suckers congregating at plant bases. Causes 'Hopperburn' (extensive circular patches of wilting and drying) and acts as the vector for Rice Grassy Stunt Virus (RGSV).",
+    "pengendalian_ipm": [
+      "Conservation of natural predatory mirid bugs (Cyrtorhinus lividipennis) and spiders.",
+      "Avoidance of excessive nitrogenous fertilizer application.",
+      "Cultivation of resistant rice varieties carrying Bph gene complexes."
+    ]
+  },
+  {
+    "id": "6",
+    "key": "Bacterial_Leaf_Blight",
+    "nama": "Bacterial Leaf Blight (Hawar Daun Bakteri)",
+    "nama_latin": "Xanthomonas oryzae pv. oryzae",
+    "kategori": "Phytopathogenic Bacteria",
+    "organ_target": "Leaf blade, Foliar vascular veins",
+    "icon": "🦠",
+    "badge_class": "badge-disease",
+    "gejala_kunci": [
+      "Yellowing Leaf Veins",
+      "Leaf Discoloration Yellow",
+      "Yellowing Leaf Tips",
+      "Uniform Field Infection",
+      "Rapid Disease Spread"
+    ],
+    "deskripsi": "Systemic vascular bacterial infection that produces water-soaked to yellowish wavy stripes along leaf margins, progressing to gray-white foliar necrosis and extensive canopy blight.",
+    "pengendalian_ipm": [
+      "Balanced NPK fertilization; avoiding excess urea during high humidity.",
+      "Application of copper-based bactericides or validamycin during early lesion emergence.",
+      "Adoption of certified blight-resistant cultivars (e.g. Inpari 32)."
+    ]
+  },
+  {
+    "id": "7",
+    "key": "False_Smut",
+    "nama": "False Smut (Penyakit Gosong Palsu)",
+    "nama_latin": "Ustilaginoidea virens",
+    "kategori": "Phytopathogenic Fungus",
+    "organ_target": "Spikelets, Floral organs, Grains",
+    "icon": "🍄",
+    "badge_class": "badge-disease",
+    "gejala_kunci": [
+      "Rusty Grain Balls",
+      "Blackened Grain Balls",
+      "Rainy Season Outbreak",
+      "Milky Stage Vulnerability",
+      "Slight Panicle Infection"
+    ],
+    "deskripsi": "Panicle fungal pathogen that converts individual spikelet florets into large, powdery, velvet-textured spore balls transitioning from orange/yellow to greenish-black.",
+    "pengendalian_ipm": [
+      "Preventive foliar spraying of copper oxychloride or azoxystrobin at late booting stage.",
+      "Utilization of certified pathogen-free seeds treated with seed dressers.",
+      "Controlled field irrigation to reduce continuous canopy humidity during heading."
+    ]
+  },
+  {
+    "id": "8",
+    "key": "Rice_Blast",
+    "nama": "Rice Blast (Penyakit Blas)",
+    "nama_latin": "Magnaporthe oryzae",
+    "kategori": "Phytopathogenic Fungus",
+    "organ_target": "Leaves, Collar, Node, Panicle neck",
+    "icon": "🍂",
+    "badge_class": "badge-disease",
+    "gejala_kunci": [
+      "Panicle Neck Rot",
+      "Diamond-Shaped Lesions",
+      "Uniform Field Infection",
+      "Infected Seedlings"
+    ],
+    "deskripsi": "Devastating ascomycete fungus forming elliptical diamond/spindle-shaped lesions with grayish-white centers on leaves and collar, leading to catastrophic 'Neck Blast' and total lodging.",
+    "pengendalian_ipm": [
+      "Targeted application of tricyclazole, isoprothiolane, or trifloxystrobin at heading.",
+      "Application of soluble silica fertilizer to reinforce epidermal cell walls.",
+      "Utilization of multi-line resistant varieties and seed disinfection."
+    ]
+  },
+  {
+    "id": "9",
+    "key": "Rice_Grassy_Stunt",
+    "nama": "Rice Grassy Stunt (Kerdil Rumput)",
+    "nama_latin": "Rice Grassy Stunt Virus (RGSV)",
+    "kategori": "Viral Disease (Vector: Nilaparvata lugens)",
+    "organ_target": "Whole plant vegetative system",
+    "icon": "🌾",
+    "badge_class": "badge-virus",
+    "gejala_kunci": [
+      "Severe Stunting",
+      "No Panicle Formation",
+      "Brown Planthopper Present",
+      "Yellowing Leaves",
+      "Rusty Grain Balls"
+    ],
+    "deskripsi": "Vector-transmitted viral disease causing extreme plant stunting, erect growth habit, profuse tillering (grass-like clump), narrow pale leaves, and complete failure of panicle emergence.",
+    "pengendalian_ipm": [
+      "Strict population suppression of brown planthopper (BPH) vectors.",
+      "Immediate rouging and burying of infected plants exhibiting grassy clumps.",
+      "Synchronous planting and adherence to a 1-month crop-free fallow period."
+    ]
+  },
+  {
+    "id": "10",
+    "key": "Rice_Tungro_Virus",
+    "nama": "Rice Tungro Virus (Penyakit Tungro)",
+    "nama_latin": "Rice Tungro Virus (RTV: RTSV + RTBV)",
+    "kategori": "Viral Disease (Vector: Nephotettix virescens)",
+    "organ_target": "Leaves & Phloem system",
+    "icon": "🌱",
+    "badge_class": "badge-virus",
+    "gejala_kunci": [
+      "Green Leafhopper Present",
+      "Yellowing Leaves",
+      "Whitehead Empty Panicles",
+      "Necrotic Spots",
+      "Severe Stunting"
+    ],
+    "deskripsi": "Composite viral syndrome transmitted semi-persistently by green leafhoppers, characterized by yellow-to-orange leaf discoloration starting from leaf tips, leaf twisting, and stunted growth.",
+    "pengendalian_ipm": [
+      "Targeted management of green leafhopper (GLH) vectors using systemic insecticides or neem oil.",
+      "Cultivation of tungro-resistant rice cultivars (e.g. Inpari 36, Inpari 37 Lanrang).",
+      "Synchronous community planting and adjusting the planting calendar to avoid peak vector flights."
+    ]
+  }
+]

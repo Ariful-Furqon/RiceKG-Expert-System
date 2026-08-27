@@ -214,9 +214,6 @@ Below are representative formal SWRL rules implemented in RiceKG:
 
 #### Tier 1: Canonical Full Conjunction Rules
 $$\begin{aligned}
-\text{Rule 1 (Grasshopper)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Brown\_Nymphs}) \land \text{hasSymptom}(?r, \text{Yellow\_Nymphs}) \land \\
-& \text{hasSymptom}(?r, \text{Eggs\_On\_Plant}) \land \text{hasSymptom}(?r, \text{Broad\_Leaf\_Damage}) \land \\
-& \text{hasSymptom}(?r, \text{Severed\_Panicles}) \land \text{hasSymptom}(?r, \text{Leaf\_Chewing\_Damage}) \\
 \text{Rule 1 (Grasshopper)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Brown Nymphs}) \land \text{hasSymptom}(?r, \text{Yellow Nymphs}) \land \\
 & \text{hasSymptom}(?r, \text{Eggs On Plant}) \land \text{hasSymptom}(?r, \text{Broad Leaf Damage}) \land \\
 & \text{hasSymptom}(?r, \text{Severed Panicles}) \land \text{hasSymptom}(?r, \text{Leaf Chewing Damage}) \\
@@ -224,10 +221,6 @@ $$\begin{aligned}
 \end{aligned}$$
 
 $$\begin{aligned}
-\text{Rule 2 (Root Nematode)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Hook\_Like\_Root\_Swelling}) \land \text{hasSymptom}(?r, \text{Root\_Knot\_Swelling}) \land \\
-& \text{hasSymptom}(?r, \text{Deformed\_Roots}) \land \text{hasSymptom}(?r, \text{Necrotic\_Spots}) \land \\
-& \text{hasSymptom}(?r, \text{Yellowing\_Leaves}) \land \text{hasSymptom}(?r, \text{Stunted\_Growth}) \\
-& \rightarrow \text{hasPest}(?r, \text{Rice\_Root\_Nematode})
 \text{Rule 2 (Root Nematode)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Hook-Like Root Swelling}) \land \text{hasSymptom}(?r, \text{Root Knot Swelling}) \land \\
 & \text{hasSymptom}(?r, \text{Deformed Roots}) \land \text{hasSymptom}(?r, \text{Necrotic Spots}) \land \\
 & \text{hasSymptom}(?r, \text{Yellowing Leaves}) \land \text{hasSymptom}(?r, \text{Stunted Growth}) \\
@@ -235,10 +228,6 @@ $$\begin{aligned}
 \end{aligned}$$
 
 $$\begin{aligned}
-\text{Rule 3 (Stem Borer)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Frass\_In\_Stem}) \land \text{hasSymptom}(?r, \text{Bore\_Holes\_In\_Stem}) \land \\
-& \text{hasSymptom}(?r, \text{Deadheart\_Seedling}) \land \text{hasSymptom}(?r, \text{Easily\_Pulled\_Tillers}) \land \\
-& \text{hasSymptom}(?r, \text{Whitehead\_Empty\_Panicles}) \\
-& \rightarrow \text{hasPest}(?r, \text{Rice\_Stem\_Borer})
 \text{Rule 3 (Stem Borer)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Frass In Stem}) \land \text{hasSymptom}(?r, \text{Bore Holes In Stem}) \land \\
 & \text{hasSymptom}(?r, \text{Deadheart Seedling}) \land \text{hasSymptom}(?r, \text{Easily Pulled Tillers}) \land \\
 & \text{hasSymptom}(?r, \text{Whitehead Empty Panicles}) \\
@@ -246,10 +235,6 @@ $$\begin{aligned}
 \end{aligned}$$
 
 $$\begin{aligned}
-\text{Rule 6 (Bacterial Blight)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Yellowing\_Leaf\_Veins}) \land \text{hasSymptom}(?r, \text{Leaf\_Discoloration\_Yellow}) \land \\
-& \text{hasSymptom}(?r, \text{Yellowing\_Leaf\_Tips}) \land \text{hasSymptom}(?r, \text{Uniform\_Field\_Infection}) \land \\
-& \text{hasSymptom}(?r, \text{Rapid\_Disease\_Spread}) \\
-& \rightarrow \text{hasDisease}(?r, \text{Bacterial\_Leaf\_Blight})
 \text{Rule 6 (Bacterial Blight)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Yellowing Leaf Veins}) \land \text{hasSymptom}(?r, \text{Leaf Discoloration Yellow}) \land \\
 & \text{hasSymptom}(?r, \text{Yellowing Leaf Tips}) \land \text{hasSymptom}(?r, \text{Uniform Field Infection}) \land \\
 & \text{hasSymptom}(?r, \text{Rapid Disease Spread}) \\
@@ -257,34 +242,24 @@ $$\begin{aligned}
 \end{aligned}$$
 
 $$\begin{aligned}
-\text{Rule 8 (Rice Blast)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Panicle\_Neck\_Rot}) \land \text{hasSymptom}(?r, \text{Diamond\_Shaped\_Lesions}) \land \\
-& \text{hasSymptom}(?r, \text{Uniform\_Field\_Infection}) \land \text{hasSymptom}(?r, \text{Infected\_Seedlings}) \\
-& \rightarrow \text{hasDisease}(?r, \text{Rice\_Blast})
 \text{Rule 8 (Rice Blast)}: \quad & \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Panicle Neck Rot}) \land \text{hasSymptom}(?r, \text{Diamond-Shaped Lesions}) \land \\
 & \text{hasSymptom}(?r, \text{Uniform Field Infection}) \land \text{hasSymptom}(?r, \text{Infected Seedlings}) \\
 & \rightarrow \text{hasDisease}(?r, \text{Rice Blast})
 \end{aligned}$$
 
 #### Tier 2: Relaxed Distinguishing Diagnostic Rules
-$$\text{Rule 11 (Grasshopper Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Severed\_Panicles}) \land \text{hasSymptom}(?r, \text{Leaf\_Chewing\_Damage}) \rightarrow \text{hasPest}(?r, \text{Grasshopper})$$
 $$\text{Rule 11 (Grasshopper Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Severed Panicles}) \land \text{hasSymptom}(?r, \text{Leaf Chewing Damage}) \rightarrow \text{hasPest}(?r, \text{Grasshopper})$$
 
-$$\text{Rule 12 (Root Nematode Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Hook\_Like\_Root\_Swelling}) \land \text{hasSymptom}(?r, \text{Root\_Knot\_Swelling}) \rightarrow \text{hasPest}(?r, \text{Rice\_Root\_Nematode})$$
 $$\text{Rule 12 (Root Nematode Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Hook-Like Root Swelling}) \land \text{hasSymptom}(?r, \text{Root Knot Swelling}) \rightarrow \text{hasPest}(?r, \text{Rice Root Nematode})$$
 
-$$\text{Rule 13 (Stem Borer Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Frass\_In\_Stem}) \land \text{hasSymptom}(?r, \text{Bore\_Holes\_In\_Stem}) \rightarrow \text{hasPest}(?r, \text{Rice\_Stem\_Borer})$$
 $$\text{Rule 13 (Stem Borer Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Frass In Stem}) \land \text{hasSymptom}(?r, \text{Bore Holes In Stem}) \rightarrow \text{hasPest}(?r, \text{Rice Stem Borer})$$
 
-$$\text{Rule 15 (Brown Planthopper Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Hopperburn\_Drying}) \land \text{hasSymptom}(?r, \text{Circular\_Hopperburn\_Patches}) \rightarrow \text{hasPest}(?r, \text{Brown\_Planthopper})$$
 $$\text{Rule 15 (Brown Planthopper Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Hopperburn Drying}) \land \text{hasSymptom}(?r, \text{Circular Hopperburn Patches}) \rightarrow \text{hasPest}(?r, \text{Brown Planthopper})$$
 
-$$\text{Rule 18 (Rice Blast Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Panicle\_Neck\_Rot}) \land \text{hasSymptom}(?r, \text{Diamond\_Shaped\_Lesions}) \rightarrow \text{hasDisease}(?r, \text{Rice\_Blast})$$
 $$\text{Rule 18 (Rice Blast Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Panicle Neck Rot}) \land \text{hasSymptom}(?r, \text{Diamond-Shaped Lesions}) \rightarrow \text{hasDisease}(?r, \text{Rice Blast})$$
 
-$$\text{Rule 19 (Grassy Stunt Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Brown\_Planthopper\_Present}) \land \text{hasSymptom}(?r, \text{Severe\_Stunting}) \rightarrow \text{hasDisease}(?r, \text{Rice\_Grassy\_Stunt})$$
 $$\text{Rule 19 (Grassy Stunt Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Brown Planthopper Present}) \land \text{hasSymptom}(?r, \text{Severe Stunting}) \rightarrow \text{hasDisease}(?r, \text{Rice Grassy Stunt})$$
 
-$$\text{Rule 20 (Tungro Virus Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Green\_Leafhopper\_Present}) \land \text{hasSymptom}(?r, \text{Yellowing\_Leaves}) \rightarrow \text{hasDisease}(?r, \text{Rice\_Tungro\_Virus})$$
 $$\text{Rule 20 (Tungro Virus Relaxed)}: \quad \text{Rice}(?r) \land \text{hasSymptom}(?r, \text{Green Leafhopper Present}) \land \text{hasSymptom}(?r, \text{Yellowing Leaves}) \rightarrow \text{hasDisease}(?r, \text{Rice Tungro Virus})$$
 
 ---

@@ -1,32 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %}{% endblock %}</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='site.css')}}"
-    />
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}RiceKG - Explainable Rice Pest & Disease Diagnosis{% endblock %}</title>
+    
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css') }}" />
   </head>
 
   <body>
-    <div class="navbar">
-      <a href="{{ url_for('index_page') }}" class="navbar-brand">Home</a>
-      <a href="{{ url_for('about') }}" class="navbar-item">About</a>
-      <a href="{{ url_for('turtle') }}" class="navbar-item">Turtle</a>
-    </div>
+    <!-- Top Navigation Bar -->
+    <nav class="rice-navbar">
+      <div class="container">
+        <a href="{{ url_for('index_page') }}" class="rice-brand">
+          <div class="logo-icon">
+            <i class="fa-solid fa-wheat-awn"></i>
+          </div>
+          <div>
+            <div class="brand-title">Rice<span>KG</span></div>
+            <div class="brand-subtitle">Explainable Semantic Expert System</div>
+          </div>
+        </a>
 
-    <div class="body-content">
-      {% block content %} {% endblock %}
+        <ul class="nav-links">
+          <li>
+            <a href="{{ url_for('index_page') }}" class="nav-link-item {% if request.endpoint == 'index_page' or request.endpoint == 'diagnose' %}active{% endif %}">
+              <i class="fa-solid fa-stethoscope"></i> Diagnosis
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('turtle') }}" class="nav-link-item {% if request.endpoint == 'turtle' %}active{% endif %}">
+              <i class="fa-solid fa-book-medical"></i> Biotic Threats
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('about') }}" class="nav-link-item {% if request.endpoint == 'about' %}active{% endif %}">
+              <i class="fa-solid fa-circle-info"></i> About
+            </a>
+          </li>
+          <li>
+            <span class="nav-badge"><i class="fa-solid fa-brain"></i> Pellet SWRL</span>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-      <!-- <hr /> -->
-    </div>
+    <!-- Main Dynamic Content -->
+    {% block content %} {% endblock %}
+
+    <!-- Academic Footer -->
+    <footer class="rice-footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <h4>RiceKG Expert Diagnostic Framework</h4>
+          <p>Semantic Web Knowledge Graph & Multi-Tier SWRL Reasoning for Smart Agriculture</p>
+        </div>
+        <div class="footer-links">
+          <a href="{{ url_for('index_page') }}" class="footer-link">Diagnosis</a>
+          <a href="{{ url_for('turtle') }}" class="footer-link">Knowledge Base</a>
+          <a href="{{ url_for('about') }}" class="footer-link">Architecture</a>
+          <a href="https://github.com/Ariful-Furqon/RiceKG-Expert-System" target="_blank" class="footer-link">
+            <i class="fa-brands fa-github"></i> GitHub
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+      </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
   </body>
-  <footer class="py-2 border-top">
-    <p class="mb-0 text-center">
-      © Achmad Sepvi Andi Hidayat | 2023 | All Rights Reserved
-    </p>
-  </footer>
 </html>
+

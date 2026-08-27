@@ -1,15 +1,131 @@
 {% extends "layout.html" %}
-{% block title %}
-Types of Turtles in Indonesia
-{% endblock %}
+{% block title %}Biotic Threats Catalog - RiceKG{% endblock %}
+
 {% block content %}
-<div class="background">
-<p>Types of Turtles in Indonesia</p>
-<ul>
-    {% for i in penyu %}
-    <li>{{i.nama}}</li>
-    <p> {{i.nama_latin}}</p>  
-    <p>{{i.deskripsi}}</p>
+<!-- Catalog Top Banner -->
+<section class="hero-wrapper" style="padding: 3rem 1.5rem 2.5rem;">
+  <div class="hero-container">
+    <div class="hero-badge-pill">
+      <i class="fa-solid fa-book-bookmark"></i> Rice Biotic Threat Ontology Catalog
+    </div>
+    <h1 class="hero-title">Target Rice Pests & Pathogenic Diseases</h1>
+    <p class="hero-subtitle">
+      Formalized domain knowledge of 10 destructive rice biotic stressors, phenotypic symptom profiles, target organs, and actionable IPM treatment prescriptions.
+    </p>
+  </div>
+</section>
+
+<!-- Catalog Content Grid -->
+<main class="main-wrapper" style="margin-top: -1.5rem;">
+
+  <!-- Search Filter Toolbar -->
+  <div class="toolbar-card">
+    <div class="search-box-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input 
+        type="text" 
+        id="threatSearch" 
+        class="symptom-search-input" 
+        placeholder="Filter biotic threats (e.g. 'Stem Borer', 'Bacterial', 'Blast', 'Virus')..." 
+        autocomplete="off"
+      />
+    </div>
+    <div class="toolbar-actions">
+      <div class="selected-counter-badge" style="background: var(--primary-light);">
+        <span>{{ threats|length }}</span> Threats Formalized
+      </div>
+    </div>
+  </div>
+
+  <!-- Threats Grid -->
+  <div class="catalog-grid" id="threatGrid">
+    {% for threat in threats %}
+    <div class="catalog-card threat-item">
+      <div>
+        <!-- Card Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+          <div style="font-size: 2.2rem; line-height: 1;">{{ threat.icon }}</div>
+          <span class="{{ threat.badge_class }}">{{ threat.kategori }}</span>
+        </div>
+
+        <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 4px;">
+          {{ threat.nama }}
+        </h3>
+        <div style="font-style: italic; color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem;">
+          {{ threat.nama_latin }}
+        </div>
+
+        <!-- Target Organ -->
+        <div style="background: var(--light-bg); padding: 8px 12px; border-radius: var(--radius-sm); margin-bottom: 1rem; border: 1px solid var(--border);">
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700;">Target Plant Part</div>
+          <div style="font-size: 0.88rem; font-weight: 600; color: var(--dark);">{{ threat.organ_target }}</div>
+        </div>
+
+        <!-- Description -->
+        <p style="font-size: 0.88rem; color: var(--slate); line-height: 1.5; margin-bottom: 1.25rem;">
+          {{ threat.deskripsi }}
+        </p>
+
+        <!-- Key Symptoms Chips -->
+        <div style="margin-bottom: 1.25rem;">
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px;">Key Diagnostic Manifestations</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            {% for sym in threat.gejala_kunci %}
+            <span style="background: #e2e8f0; color: var(--slate); font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 12px;">
+              {{ sym }}
+            </span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Prescriptive IPM Actions -->
+      <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: auto;">
+        <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--primary-dark); font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-shield-halved"></i> Prescriptive IPM Treatment
+        </div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px;">
+          {% for ipm in threat.pengendalian_ipm %}
+          <li style="font-size: 0.82rem; color: #166534; display: flex; align-items: flex-start; gap: 8px;">
+            <i class="fa-solid fa-check" style="margin-top: 3px; font-size: 11px; flex-shrink: 0; color: var(--primary);"></i>
+            <span>{{ ipm }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
     {% endfor %}
-</ul>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div style="text-align: center; margin-top: 3rem;">
+    <a href="{{ url_for('index_page') }}" class="btn-pill" style="padding: 12px 28px; font-size: 1rem; background: var(--primary); color: white; border-color: var(--primary); font-weight: 700;">
+      <i class="fa-solid fa-stethoscope"></i> Go to Diagnostic Reasoning Form
+    </a>
+  </div>
+
+</main>
 {% endblock %}
+
+{% block scripts %}
+<script>
+  // Live Threat Search
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('threatSearch');
+    const threatCards = document.querySelectorAll('.threat-item');
+
+    searchInput.addEventListener('input', function() {
+      const query = this.value.toLowerCase().trim();
+      threatCards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

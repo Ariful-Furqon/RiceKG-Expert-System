@@ -1,340 +1,237 @@
-﻿{% extends "layout.html" %} 
-{% block title %} Rice Pest & Disease Diagnosis {% endblock %} 
+{% extends "layout.html" %} 
+{% block title %}Diagnostic Expert System - RiceKG{% endblock %} 
+
 {% block content %}
-<div class="hero-image">
-  <div class="hero-text">
-    <h1 style="font-size: 42px">Rice Pest & Disease Expert Diagnostic System</h1>
-    <h3>Select observed symptoms to infer pests and diseases</h3>
-    <form method='post' enctype=multipart/form-data action="/result">
+<!-- Hero Section -->
+<section class="hero-wrapper">
+  <div class="hero-container">
+    <div class="hero-badge-pill">
+      <i class="fa-solid fa-leaf"></i> OWL 2 & Pellet Description Logic Reasoner
+    </div>
+    <h1 class="hero-title">Rice Pest & Disease Expert Diagnostic System</h1>
+    <p class="hero-subtitle">
+      Select observed foliar lesions, stem damage, panicle discolorations, or insect vector sightings to infer causal biotic agents and generate prescriptive Integrated Pest Management (IPM) recommendations.
+    </p>
 
-        <div class="hero">
-          <div class="container2">
-            <div class="row2">
-              <p>Yellowing Leaf Veins</p>
-              <label>
-                <input type="checkbox" value="Yellowing_Leaf_Veins" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Leaf Discoloration (Yellow)</p>
-              <label>
-                <input type="checkbox" value="Leaf_Discoloration_Yellow" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Yellowing Leaf Tips</p>
-              <label>
-                <input type="checkbox" value="Yellowing_Leaf_Tips" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Rapid Disease Spread</p>
-              <label>
-                <input type="checkbox" value="Rapid_Disease_Spread" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Rusty Grain Balls</p>
-              <label>
-                <input type="checkbox" value="Rusty_Grain_Balls" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Blackened Grain Balls</p>
-              <label>
-                <input type="checkbox" value="Blackened_Grain_Balls" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Rainy Season Outbreak</p>
-              <label>
-                <input type="checkbox" value="Rainy_Season_Outbreak" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Uniform Field Infection</p>
-              <label>
-                <input type="checkbox" value="Uniform_Field_Infection" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Slight Panicle Infection</p>
-              <label>
-                <input type="checkbox" value="Slight_Panicle_Infection" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Milky Stage Vulnerability</p>
-              <label>
-                <input type="checkbox" value="Milky_Stage_Vulnerability" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Panicle Neck Rot</p>
-              <label>
-                <input type="checkbox" value="Panicle_Neck_Rot" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Diamond-Shaped Lesions</p>
-              <label>
-                <input type="checkbox" value="Diamond_Shaped_Lesions" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Infected Seedlings</p>
-              <label>
-                <input type="checkbox" value="Infected_Seedlings" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Brown Planthopper Present</p>
-              <label>
-                <input type="checkbox" value="Brown_Planthopper_Present" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Severe Stunting</p>
-              <label>
-                <input type="checkbox" value="Severe_Stunting" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>No Panicle Formation</p>
-              <label>
-                <input type="checkbox" value="No_Panicle_Formation" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Green Leafhopper Present</p>
-              <label>
-                <input type="checkbox" value="Green_Leafhopper_Present" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Localized Leaf Yellowing</p>
-              <label>
-                <input type="checkbox" value="Localized_Leaf_Yellowing" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Empty Grains</p>
-              <label>
-                <input type="checkbox" value="Empty_Grains" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Plant Yellowing</p>
-              <label>
-                <input type="checkbox" value="Plant_Yellowing" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Hopperburn Drying</p>
-              <label>
-                <input type="checkbox" value="Hopperburn_Drying" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Circular Hopperburn Patches</p>
-              <label>
-                <input type="checkbox" value="Circular_Hopperburn_Patches" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row2">
-              <p>Blackened Feeding Punctures</p>
-              <label>
-                <input type="checkbox" value="Blackened_Feeding_Punctures" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-          </div>
-
-          <div class="container">
-            <div class="row">
-              <p>Brown Nymphs</p>
-              <label>
-                <input type="checkbox" value="Brown_Nymphs" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Yellow Nymphs</p>
-              <label>
-                <input type="checkbox" value="Yellow_Nymphs" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Eggs on Plant</p>
-              <label>
-                <input type="checkbox" value="Eggs_On_Plant" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Broad Leaf Damage</p>
-              <label>
-                <input type="checkbox" value="Broad_Leaf_Damage" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Severed Panicles</p>
-              <label>
-                <input type="checkbox" value="Severed_Panicles" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Leaf Chewing Damage</p>
-              <label>
-                <input type="checkbox" value="Leaf_Chewing_Damage" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Hook-Like Root Swelling</p>
-              <label>
-                <input type="checkbox" value="Hook_Like_Root_Swelling" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Root Knot Swelling</p>
-              <label>
-                <input type="checkbox" value="Root_Knot_Swelling" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Deformed Roots</p>
-              <label>
-                <input type="checkbox" value="Deformed_Roots" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Necrotic Spots</p>
-              <label>
-                <input type="checkbox" value="Necrotic_Spots" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Yellowing Leaves</p>
-              <label>
-                <input type="checkbox" value="Yellowing_Leaves" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Stunted Growth</p>
-              <label>
-                <input type="checkbox" value="Stunted_Growth" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Frass in Stem</p>
-              <label>
-                <input type="checkbox" value="Frass_In_Stem" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Bore Holes in Stem</p>
-              <label>
-                <input type="checkbox" value="Bore_Holes_In_Stem" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Deadheart Seedling</p>
-              <label>
-                <input type="checkbox" value="Deadheart_Seedling" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Easily Pulled Tillers</p>
-              <label>
-                <input type="checkbox" value="Easily_Pulled_Tillers" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Whitehead / Empty Panicles</p>
-              <label>
-                <input type="checkbox" value="Whitehead_Empty_Panicles" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Nymphs Present</p>
-              <label>
-                <input type="checkbox" value="Nymphs_Present" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Adult Insects Present</p>
-              <label>
-                <input type="checkbox" value="Adult_Insects_Present" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Leaf Margin Sap Sucking</p>
-              <label>
-                <input type="checkbox" value="Leaf_Margin_Sap_Sucking" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Rotten Panicles</p>
-              <label>
-                <input type="checkbox" value="Rotten_Panicles" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-            <div class="row">
-              <p>Random Feeding Pattern</p>
-              <label>
-                <input type="checkbox" value="Random_Feeding_Pattern" name="mycheckbox" />
-                <span></span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex" style="margin-top: 20px;">
-          <input type="submit" value="Diagnose" style="padding: 10px 30px; font-size: 18px; cursor: pointer;" />
-        </div>
-      </form>
+    <div class="hero-stats-grid">
+      <div class="hero-stat-card">
+        <span class="hero-stat-num">10</span>
+        <span class="hero-stat-label">Biotic Threats</span>
+      </div>
+      <div class="hero-stat-card">
+        <span class="hero-stat-num">{{ total_symptoms }}</span>
+        <span class="hero-stat-label">Formal Symptoms</span>
+      </div>
+      <div class="hero-stat-card">
+        <span class="hero-stat-num">99.5%</span>
+        <span class="hero-stat-label">Benchmark Accuracy</span>
+      </div>
+      <div class="hero-stat-card">
+        <span class="hero-stat-num">100%</span>
+        <span class="hero-stat-label">Logic Explainability</span>
+      </div>
     </div>
   </div>
-</div>
+</section>
+
+<!-- Main Interactive Form Section -->
+<main class="main-wrapper">
+  <form id="diagnosticForm" method="post" action="{{ url_for('diagnose') }}">
+
+    <!-- Search & Control Toolbar -->
+    <div class="toolbar-card">
+      <div class="search-box-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input 
+          type="text" 
+          id="symptomSearch" 
+          class="symptom-search-input" 
+          placeholder="Search symptoms (e.g., 'Yellowing', 'Stem', 'Nymphs', 'Lesions')..." 
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="toolbar-actions">
+        <button type="button" class="btn-pill" id="expandAllBtn">
+          <i class="fa-solid fa-angles-down"></i> Expand All
+        </button>
+        <button type="button" class="btn-pill" id="collapseAllBtn">
+          <i class="fa-solid fa-angles-up"></i> Collapse All
+        </button>
+        <button type="button" class="btn-pill" id="clearAllTopBtn">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+        <div class="selected-counter-badge">
+          <span id="selectedCountBadge">0</span> Selected
+        </div>
+      </div>
+    </div>
+
+    <!-- Symptom Categories Accordions -->
+    {% for category in symptom_categories %}
+    <div class="category-section" id="cat-{{ category.category_id }}">
+      <div class="category-header" onclick="toggleCategory('cat-{{ category.category_id }}')">
+        <div class="category-title-group">
+          <div class="category-icon-box">
+            <i class="fa-solid {{ category.icon }}"></i>
+          </div>
+          <div>
+            <h3 class="category-title">{{ category.category_name }}</h3>
+            <p class="category-desc">{{ category.description }} ({{ category.symptoms|length }} symptoms)</p>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="category-toggle-btn"><i class="fa-solid fa-chevron-down"></i></span>
+        </div>
+      </div>
+
+      <div class="category-content">
+        <div class="symptoms-grid">
+          {% for symptom in category.symptoms %}
+          <label class="symptom-card" for="sym-{{ symptom.id }}">
+            <input 
+              type="checkbox" 
+              id="sym-{{ symptom.id }}" 
+              value="{{ symptom.id }}" 
+              name="mycheckbox" 
+              class="symptom-checkbox"
+            />
+            <div class="custom-checkbox">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="symptom-info">
+              <div class="symptom-name">{{ symptom.name }}</div>
+              <div class="symptom-desc">{{ symptom.description }}</div>
+            </div>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- Sticky Bottom Action Bar -->
+    <div class="action-bar-bottom">
+      <div class="action-bar-status">
+        <i class="fa-solid fa-microchip"></i>
+        <div>
+          <div class="action-bar-text">
+            <span id="selectedCountBottom">0</span> Symptoms Selected for Reasoning
+          </div>
+          <div class="action-bar-subtext">Click below to trigger forward-chaining SWRL rules via Pellet</div>
+        </div>
+      </div>
+
+      <div class="action-bar-buttons">
+        <button type="button" class="btn-reset-light" id="clearAllBottomBtn">
+          <i class="fa-solid fa-arrow-rotate-left"></i> Reset
+        </button>
+        <button type="submit" class="btn-diagnose" id="submitDiagnosisBtn">
+          <i class="fa-solid fa-bolt"></i> Run SWRL Reasoner
+        </button>
+      </div>
+    </div>
+
+  </form>
+</main>
 {% endblock %}
+
+{% block scripts %}
+<script>
+  // Interactive UI Script for RiceKG Diagnosis
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.symptom-checkbox');
+    const selectedCountBadge = document.getElementById('selectedCountBadge');
+    const selectedCountBottom = document.getElementById('selectedCountBottom');
+    const symptomSearch = document.getElementById('symptomSearch');
+    const symptomCards = document.querySelectorAll('.symptom-card');
+
+    function updateCount() {
+      const checkedBoxes = document.querySelectorAll('.symptom-checkbox:checked');
+      const count = checkedBoxes.length;
+      selectedCountBadge.textContent = count;
+      selectedCountBottom.textContent = count;
+
+      // Update card visual active states
+      checkboxes.forEach(cb => {
+        const card = cb.closest('.symptom-card');
+        if (cb.checked) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', updateCount);
+    });
+
+    // Reset All Buttons
+    function resetAll() {
+      checkboxes.forEach(cb => {
+        cb.checked = false;
+      });
+      updateCount();
+    }
+
+    document.getElementById('clearAllTopBtn').addEventListener('click', resetAll);
+    document.getElementById('clearAllBottomBtn').addEventListener('click', resetAll);
+
+    // Live Search Filter
+    symptomSearch.addEventListener('input', function() {
+      const query = this.value.toLowerCase().trim();
+      symptomCards.forEach(card => {
+        const name = card.querySelector('.symptom-name').textContent.toLowerCase();
+        const desc = card.querySelector('.symptom-desc').textContent.toLowerCase();
+        if (name.includes(query) || desc.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Expand all categories during active search
+      if (query.length > 0) {
+        document.querySelectorAll('.category-section').forEach(sec => {
+          sec.classList.remove('collapsed');
+        });
+      }
+    });
+
+    // Expand / Collapse All
+    document.getElementById('expandAllBtn').addEventListener('click', function() {
+      document.querySelectorAll('.category-section').forEach(sec => {
+        sec.classList.remove('collapsed');
+      });
+    });
+
+    document.getElementById('collapseAllBtn').addEventListener('click', function() {
+      document.querySelectorAll('.category-section').forEach(sec => {
+        sec.classList.add('collapsed');
+      });
+    });
+
+    // Form submit validation
+    document.getElementById('diagnosticForm').addEventListener('submit', function(e) {
+      const checked = document.querySelectorAll('.symptom-checkbox:checked');
+      if (checked.length === 0) {
+        e.preventDefault();
+        alert('Please select at least one symptom before running the diagnosis.');
+      }
+    });
+
+    updateCount();
+  });
+
+  // Toggle single category
+  function toggleCategory(catId) {
+    const sec = document.getElementById(catId);
+    if (sec) {
+      sec.classList.toggle('collapsed');
+    }
+  }
+</script>
+{% endblock %}
+
