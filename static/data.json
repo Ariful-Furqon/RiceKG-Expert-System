@@ -1,0 +1,39 @@
+
+[
+    {
+      "id": "1",
+      "nama": "Leatherback Turtle",
+      "nama_latin": "Dermochelis coriacea",
+      "deskripsi": "Leatherback turtles have a dark shell with white spots. It can reach 180 centimeters in length and weigh up to 500 kilograms. Leatherback turtles are found in tropical waters to sub-polar oceans. When leatherback turtles lay their eggs, they will go to the beaches of the tropics. D. coriacea spend most of their lives on the high seas and only come to land when they are about to lay eggs and they can lay 60 to 129 eggs in two to three years."
+    },
+    {
+      "id": "2",
+      "nama": "Green sea turtle",
+      "nama_latin": "Chelonia mydas",
+      "deskripsi": "The green turtle (C. mydas) is the most common sea turtle seen in tropical seas. The most prominent feature of the green turtle is that it has a small head and a blunt beak. This species has a gray, black, or brown body. Then why is it called the green turtle? The name green turtle itself comes from the color of the fat under the green scales. In contrast to leatherback turtles which can lay four to five eggs per season, green turtles only lay eggs once in three to four years."
+    },
+    {
+      "id": "3",
+      "nama": "Loggerhead sea turtle",
+      "nama_latin": "Caretta caretta",
+      "deskripsi": "The loggerhead turtle is also known as the loggerhead turtle. This species has a reddish-brown shell, large head, and stacked beak. On the front of the head there are five sides with a light brown to yellow plastron. Very strong jaws make this turtle able to consume shellfish that live on the seabed such as mussels, mimi and other invertebrates. The average loggerhead turtle can grow to 70 to 210 centimeters and weigh 135 to 400 kilograms."
+    },
+    {
+      "id": "4",
+      "nama": "Flatback sea turtle",
+      "nama_latin": "Natator depressa",
+      "deskripsi": "Called Flatback sea turtle because this species has scales that are flat and slightly curved on the outside. This turtle is a turtle of the genus Natator and is an omnivore. Flat turtle foods include sea cucumbers, jellyfish, shellfish, shrimp, and other invertebrates."
+    },
+    {
+      "id": "5",
+      "nama": "Hawksbill sea turtle",
+      "nama_latin": "Eretmochelys imbricate",
+      "deskripsi": "Hawksbill turtles are also called hawksbill turtles because they have sharp and pointed beaks with large jaws. With such an anatomy of the mouth, it is easier for the hawksbill to reach the food in the crevices of the coral such as sponges and anemones. They also usually eat shrimp and squid. The name hawksbill turtle itself refers to its overlapping scales like fish scales. The hallmark of the hawksbill turtle is that it has a shell with a mixture of yellow, black and clean brown colors. While the plastron (organ at the bottom of the turtle) is yellowish."
+    },
+    {
+      "id": "6",
+      "nama": "Olive ridley sea turtle",
+      "nama_latin": "Lepidochelys olivacea",
+      "deskripsi": "The sea turtle is often mistaken for a green turtle because it has similar body characteristics. The difference is that this turtle, with another name olive ridley turtle, has a larger head and a more slender and angular shell shape. The body is pale green in color and has approximately five lateral scales. This species is the smallest turtle among all species that exist today and has a habit of eating crabs, clams, shrimp and mussels."
+    }
+  ]

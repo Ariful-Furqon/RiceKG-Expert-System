@@ -1,0 +1,26 @@
+﻿{% extends "layout.html" %}
+{% block title %}
+Diagnosis Result
+{% endblock %}
+{% block content %}
+<div class="hero-image">
+    <div class="hero-text">
+        <h2 style="font-size: 36px; margin-bottom: 20px;">Diagnosis Result:</h2>
+        {% if penyakit and penyakit|length > 0 %}
+            <div style="background: rgba(0,0,0,0.6); border-radius: 8px; padding: 20px; display: inline-block;">
+                {% for p in penyakit %}
+                    <h1 style="color: #4CAF50; font-size: 32px; margin: 10px 0;">✔ {{ p.replace('_', ' ') }}</h1>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="background: rgba(0,0,0,0.6); border-radius: 8px; padding: 20px; display: inline-block;">
+                <h3 style="color: #f44336;">No pest or disease matched the selected symptoms.</h3>
+                <p>Please check additional symptoms or consult an agricultural expert.</p>
+            </div>
+        {% endif %}
+        <div style="margin-top: 30px;">
+            <a href="{{ url_for('index_page') }}" class="btn btn-primary" style="padding: 10px 25px; font-size: 16px; text-decoration: none; color: white; background: #2e7d32; border-radius: 5px;">Back to Diagnosis</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

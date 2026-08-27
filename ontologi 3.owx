@@ -1,0 +1,2256 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/acer/ontologies/2023/11/untitled-ontology-5"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/acer/ontologies/2023/11/untitled-ontology-5">
+    <Prefix name="" IRI="http://www.semanticweb.org/acer/ontologies/2023/11/untitled-ontology-5/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="swrl" IRI="http://www.w3.org/2003/11/swrl#"/>
+    <Prefix name="swrla" IRI="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#"/>
+    <Prefix name="swrlb" IRI="http://www.w3.org/2003/11/swrlb#"/>
+    <Prefix name="untitled-ontology-5" IRI="http://www.semanticweb.org/acer/ontologies/2023/11/untitled-ontology-5#"/>
+    <Declaration>
+        <Class IRI="#Hama"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Padi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Penyakit"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#memilikiGejala"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#memilikiHama"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#memilikiPenyakit"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hama"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#penyakit"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Anggang-Anggang"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bekas_Makan_di_Daun"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bekas_Tusukan_Menghitam"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Belalang"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Benih_Diberi_Antibiotik"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Benih_Tertular"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bentuk_Belah_Ketupat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Berubah_Warna_Kuning"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bibit_Mati"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Blas"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Blas_Padi"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bulir_Kosong"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bulir_Masak_Susu"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bulir_Mengarat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bulir_Menghitam"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Daerah_Menguning"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Daun_Menguning"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Eriborus_Sinicus"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fungisida_Azoksistrobin"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fungisida_Bacillus_Pumilus"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fungisida_Heksakonazol"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fungisida_Strobilurin"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fungisida_Validasimin"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gosong"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gosong_Palsu"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Hangus_Melingkar"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Hawar"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Imago"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Insektisida"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Insektisida_Buprofezin"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Insektisida_Etofenproks"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Insektisida_Klorantraniliprol"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Insektisida_Klorpirifos"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Insektisida_Pimetrozin"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Jamur_Entomopatogenik"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Jamur_Nematophora"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Kerdil"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Kerdil_Rumput"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Kotoran_di_Batang"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Kumbang_Mirid"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Laba-Laba"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lalat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lalat_Parasit"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lebar"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lubang_di_Batang"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Malai_Hampa"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Malai_Terkena_Sedikit"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Malai_Terpotong"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Malai_Tidak_Terbentuk"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Menular"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Mudah_di_Cabut"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Musim_Hujan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Nematisida"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Nematoda"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Nimfa"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Nimfa_Coklat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Nimfa_Kuning"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pangkal_Malai_Membusuk"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Patogen_Jamur"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pembengkakan_Jaringan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Penggerek"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pertumbuhan_Terhambat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Perubahan_Bentuk_Daun"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pola_Makan_Acak"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pucuk_Daun_Menguning"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Serai"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Serangan_Merata"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Spot"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Tanaman_Kerdil"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Tanaman_Menguning"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Tawon"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Tawon_Parasitoid"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Telur_Belalang"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Tembaga_Sulfat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Tepi_Daun_Dihisap"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Terdapat_Wereng_Coklat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Terdapat_Wereng_Hijau"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Tulang_Daun_Menguning"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Verticillium_Chlamydosporium"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Virus"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Walang"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Wereng"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Hangus_(Hopperburn)"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pembengkakan_Jaringan_(Kait)"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Hama"/>
+        <Class IRI="#Padi"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Penyakit"/>
+        <Class IRI="#Padi"/>
+    </SubClassOf>
+    <ClassAssertion>
+        <Class IRI="#Hama"/>
+        <NamedIndividual IRI="#Belalang"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Penyakit"/>
+        <NamedIndividual IRI="#Blas_Padi"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Penyakit"/>
+        <NamedIndividual IRI="#Gosong_Palsu"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Penyakit"/>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Penyakit"/>
+        <NamedIndividual IRI="#Kerdil_Rumput"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Hama"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Hama"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Penyakit"/>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Hama"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Hama"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Bekas_Makan_di_Daun"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Lebar"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Malai_Terpotong"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Nimfa_Coklat"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Nimfa_Kuning"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Telur_Belalang"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Insektisida_Buprofezin"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Insektisida_Etofenproks"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Insektisida_Klorpirifos"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Jamur_Entomopatogenik"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Lalat_Parasit"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Patogen_Jamur"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Belalang"/>
+        <NamedIndividual IRI="#Tawon"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Blas_Padi"/>
+        <NamedIndividual IRI="#Benih_Tertular"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Blas_Padi"/>
+        <NamedIndividual IRI="#Bentuk_Belah_Ketupat"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Blas_Padi"/>
+        <NamedIndividual IRI="#Pangkal_Malai_Membusuk"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Blas_Padi"/>
+        <NamedIndividual IRI="#Serangan_Merata"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Blas_Padi"/>
+        <NamedIndividual IRI="#Fungisida_Bacillus_Pumilus"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Blas_Padi"/>
+        <NamedIndividual IRI="#Fungisida_Strobilurin"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Gosong_Palsu"/>
+        <NamedIndividual IRI="#Bulir_Masak_Susu"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Gosong_Palsu"/>
+        <NamedIndividual IRI="#Bulir_Mengarat"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Gosong_Palsu"/>
+        <NamedIndividual IRI="#Bulir_Menghitam"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Gosong_Palsu"/>
+        <NamedIndividual IRI="#Malai_Terkena_Sedikit"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Gosong_Palsu"/>
+        <NamedIndividual IRI="#Musim_Hujan"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Gosong_Palsu"/>
+        <NamedIndividual IRI="#Serangan_Merata"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+        <NamedIndividual IRI="#Berubah_Warna_Kuning"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+        <NamedIndividual IRI="#Menular"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+        <NamedIndividual IRI="#Pucuk_Daun_Menguning"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+        <NamedIndividual IRI="#Serangan_Merata"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+        <NamedIndividual IRI="#Tulang_Daun_Menguning"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+        <NamedIndividual IRI="#Benih_Diberi_Antibiotik"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Hawar_Daun_Bakteri"/>
+        <NamedIndividual IRI="#Tembaga_Sulfat"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Kerdil_Rumput"/>
+        <NamedIndividual IRI="#Malai_Tidak_Terbentuk"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Kerdil_Rumput"/>
+        <NamedIndividual IRI="#Spot"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Kerdil_Rumput"/>
+        <NamedIndividual IRI="#Tanaman_Kerdil"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Kerdil_Rumput"/>
+        <NamedIndividual IRI="#Terdapat_Wereng_Coklat"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Daun_Menguning"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Pembengkakan_Jaringan"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Pertumbuhan_Terhambat"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Perubahan_Bentuk_Daun"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Spot"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Pembengkakan_Jaringan_(Kait)"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Jamur_Nematophora"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Nematisida"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Nematoda_Akar_Padi"/>
+        <NamedIndividual IRI="#Verticillium_Chlamydosporium"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+        <NamedIndividual IRI="#Bibit_Mati"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+        <NamedIndividual IRI="#Kotoran_di_Batang"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+        <NamedIndividual IRI="#Lubang_di_Batang"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+        <NamedIndividual IRI="#Malai_Hampa"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+        <NamedIndividual IRI="#Mudah_di_Cabut"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+        <NamedIndividual IRI="#Eriborus_Sinicus"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+        <NamedIndividual IRI="#Insektisida_Klorantraniliprol"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Penggerek_Batang_Padi"/>
+        <NamedIndividual IRI="#Tawon_Parasitoid"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+        <NamedIndividual IRI="#Daun_Menguning"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+        <NamedIndividual IRI="#Malai_Hampa"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+        <NamedIndividual IRI="#Spot"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+        <NamedIndividual IRI="#Terdapat_Wereng_Hijau"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+        <NamedIndividual IRI="#Insektisida"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+        <NamedIndividual IRI="#Insektisida_Buprofezin"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Virus_Tungro"/>
+        <NamedIndividual IRI="#Insektisida_Pimetrozin"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Bulir_Kosong"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Daerah_Menguning"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Imago"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Malai_Terpotong"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Nimfa"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Pola_Makan_Acak"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Tepi_Daun_Dihisap"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Insektisida"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Walang_Sangit"/>
+        <NamedIndividual IRI="#Serai"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Bekas_Tusukan_Menghitam"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Bulir_Kosong"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Hangus_Melingkar"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Imago"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Nimfa"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Tanaman_Menguning"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Hangus_(Hopperburn)"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Anggang-Anggang"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Insektisida_Buprofezin"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Insektisida_Etofenproks"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Insektisida_Pimetrozin"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Kumbang_Mirid"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Laba-Laba"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Lalat"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <NamedIndividual IRI="#Wereng_Coklat"/>
+        <NamedIndividual IRI="#Tawon_Parasitoid"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <Class IRI="#Padi"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <Class IRI="#Padi"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <Class IRI="#Hama"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#memilikiGejala"/>
+        <Class IRI="#Penyakit"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <Class IRI="#Hama"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#memilikiPengendalian"/>
+        <Class IRI="#Penyakit"/>
+    </ObjectPropertyRange>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Wereng Coklat - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R5</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Nimfaa"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Imagoo"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Tanaman_Menguning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Hangus"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Hangus_Melingkar"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bekas_Tusukan_Menghitam"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bulir_Kosong"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Wereng"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Belalang - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R1</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Nimfa_Coklat"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Nimfa_Kuning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Telur_Pada_Tanaman"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Leebar"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Malai_Terpotong"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bekas_makan_di_Daun"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Belalang"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Belalang - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S1</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Malai_Terpotong"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bekas_makan_di_Daun"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Belalang"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Blas Padi - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R8</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pangkal_Malai_Membusuk"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bentuk_Belah_Ketupat"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Serangan_Merata"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Benih_Tertular"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Blas"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Blas Padi - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S8</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pangkal_Malai_Membusuk"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bentuk_Belah_Ketupat"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Blas"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Hawar Daun Bakteri - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R6</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Tulang_Daun_Menguning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Berubah_Warna_Kuning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pucuk_Daun_Menguning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Serangan_Merata"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Menulaar"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Hawar"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Penggerek Batang Padi - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R3</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Kotoran_di_Batang"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Lubang_di_Batang"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bibit_Mati"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Mudah_Dicabut"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Malai_Hampa"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Penggerek"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Walang Sangit - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R4</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Nimfaa"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Imagoo"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Tepi_Daun_Dihisap"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Malai_Membusuk"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pola_Makan_Acak"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Daerah_Menguning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bulir_Kosong"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Walang"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Walang Sangit - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S4</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Nimfaa"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Imagoo"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bulir_Kosong"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Walang"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Gosong Palsu - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R7</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bulir_Mengarat"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bulir_Menghitam"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Serangan_Merata"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Musim_Hujan"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Malai_Terkena_Sedikit"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bulir_Masak_Susu"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Gosong"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Gosong Palsu - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S7</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bulir_Mengarat"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Bulir_Menghitam"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Gosong"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Virus Tungro - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R99</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Terdapat_Wereng_Hijau"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Spoot"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Daun_Menguning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Malai_Hampa"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Virus"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Nematoda Akar Padi - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R2</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pembengkakan_Jaringan_Akar_Kait"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pembengkakan_Jaringan_Akar"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Perubahan_Bentuk"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Spoot"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Daun_Menguning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pertumbuhan_Terhambat"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Nematoda"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Virus Tungro - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S99</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Terdapat_Wereng_Hijau"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Daun_Menguning"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Virus"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Wereng Coklat - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S5</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Hangus"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Hangus_Melingkar"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Wereng"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Penggerek Batang Padi - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S3</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Kotoran_di_Batang"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Lubang_di_Batang"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Penggerek"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Kerdil Rumput - Threshold 100%</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>R9</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Terdapat_Wereng_Coklat"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Spoot"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Tanaman_Kerdil"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Malai_Tidak_Terbentuk"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Kerdil"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Nematoda - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S2</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pembengkakan_Jaringan_Akar_Kait"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Pembengkakan_Jaringan_Akar"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiHama"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Nematoda"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Hawar Daun Bakteri - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S6</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Tulang_Daun_Menguning"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Serangan_Merata"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Hawar"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="swrla:isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal>Kerdil Rumput - Gejala Utama</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal>S9</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Padi"/>
+                <Variable IRI="/p"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Terdapat_Wereng_Coklat"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiGejala"/>
+                <Variable IRI="/p"/>
+                <Variable IRI="/Tanaman_Kerdil"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#memilikiPenyakit"/>
+                <Variable IRI="/p"/>
+                <NamedIndividual IRI="#Kerdil"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Anggang-Anggang</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Bekas_Makan_di_Daun</IRI>
+        <Literal>Bekas Makan di Daun</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Bekas_Tusukan_Menghitam</IRI>
+        <Literal>Bekas Tusukan Menghitam pada serangan awal</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Bekas_Tusukan_Menghitam</IRI>
+        <Literal>Bekas Tusukan Menghitam</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Benih_Diberi_Antibiotik</IRI>
+        <Literal>pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Benih_Diberi_Antibiotik</IRI>
+        <Literal>Benih Diberi Antibiotik</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Benih_Tertular</IRI>
+        <Literal>Benih Tertular</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Bentuk_Belah_Ketupat</IRI>
+        <Literal>Bentuk Belah Ketupat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Berubah_Warna_Kuning</IRI>
+        <Literal>Layu</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Berubah_Warna_Kuning</IRI>
+        <Literal>Berubah Warna Kuning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Bibit_Mati</IRI>
+        <Literal>Bibit Mati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Blas_Padi</IRI>
+        <Literal>Blas Padi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Bulir_Kosong</IRI>
+        <Literal>Bulir Kosong</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Bulir_Masak_Susu</IRI>
+        <Literal>Bulir Masak Susu</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Bulir_Mengarat</IRI>
+        <Literal>Bulir Mengarat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Bulir_Menghitam</IRI>
+        <Literal>Bulir Menghitam</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Daerah_Menguning</IRI>
+        <Literal>Daerah yang diserang menguning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Daerah_Menguning</IRI>
+        <Literal>Daerah Menguning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Daun_Menguning</IRI>
+        <Literal>Daun Menguning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Eriborus_Sinicus</IRI>
+        <Literal>Pengendalian Hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Eriborus_Sinicus</IRI>
+        <Literal>Eriborus Sinicus</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Fungisida_Azoksistrobin</IRI>
+        <Literal>Pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Fungisida_Azoksistrobin</IRI>
+        <Literal>Fungisida Azoksistrobin</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Fungisida_Bacillus_Pumilus</IRI>
+        <Literal>pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Fungisida_Bacillus_Pumilus</IRI>
+        <Literal>Fungisida Bacillus Pumilus</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Fungisida_Heksakonazol</IRI>
+        <Literal>Pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Fungisida_Heksakonazol</IRI>
+        <Literal>Fungisida Heksakonazol</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Fungisida_Strobilurin</IRI>
+        <Literal>pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Fungisida_Strobilurin</IRI>
+        <Literal>Fungisida Strobilurin</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Fungisida_Validasimin</IRI>
+        <Literal>Pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Fungisida_Validasimin</IRI>
+        <Literal>Fungisida Validasimin</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Gosong_Palsu</IRI>
+        <Literal>Gosong Palsu</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Hangus_Melingkar</IRI>
+        <Literal>Hangus Melingkar</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Hawar_Daun_Bakteri</IRI>
+        <Literal>Hawar Daun Bakteri</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Insektisida</IRI>
+        <Literal>pengendalian kimiawi / hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Insektisida_Buprofezin</IRI>
+        <Literal>Pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Insektisida_Buprofezin</IRI>
+        <Literal>Insektisida Buprofezin</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Insektisida_Etofenproks</IRI>
+        <Literal>Pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Insektisida_Etofenproks</IRI>
+        <Literal>Insektisida Etofenproks</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Insektisida_Klorantraniliprol</IRI>
+        <Literal>Pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Insektisida_Klorantraniliprol</IRI>
+        <Literal>Insektisida Klorantraniliprol</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Insektisida_Klorpirifos</IRI>
+        <Literal>Pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Insektisida_Klorpirifos</IRI>
+        <Literal>Insektisida Klorpirifos</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Insektisida_Pimetrozin</IRI>
+        <Literal>pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Insektisida_Pimetrozin</IRI>
+        <Literal>Insektisida Pimetrozin</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Jamur_Entomopatogenik</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Jamur_Entomopatogenik</IRI>
+        <Literal>Jamur Entomopatogenik</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Jamur_Nematophora</IRI>
+        <Literal>Pengendalian Hayati (jamur nematophora gynophila)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Jamur_Nematophora</IRI>
+        <Literal>Jamur Nematophora</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Kerdil_Rumput</IRI>
+        <Literal>Kerdil Rumput</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Kotoran_di_Batang</IRI>
+        <Literal>Kotoran di Batang</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Kumbang_Mirid</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Kumbang_Mirid</IRI>
+        <Literal>Kumbang Mirid</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Laba-Laba</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Lalat</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Lalat_Parasit</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Lalat_Parasit</IRI>
+        <Literal>Lalat Parasit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Lebar</IRI>
+        <Literal>Spot Lahan</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Lubang_di_Batang</IRI>
+        <Literal>Lubang di Batang</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Malai_Hampa</IRI>
+        <Literal>Malai Hampa dan Berwarna putih</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Malai_Hampa</IRI>
+        <Literal>Malai Hampa</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Malai_Terkena_Sedikit</IRI>
+        <Literal>Malai Terkena Sedikit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Malai_Terpotong</IRI>
+        <Literal>Malai Terpotong</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Malai_Tidak_Terbentuk</IRI>
+        <Literal>Malai Tidak Terbentuk</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Mudah_di_Cabut</IRI>
+        <Literal>Tanaman Mudah di Cabut</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Mudah_di_Cabut</IRI>
+        <Literal>Mudah di Cabut</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Musim_Hujan</IRI>
+        <Literal>Awal Musim Hujan dan Akhir musim Hujan</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Musim_Hujan</IRI>
+        <Literal>Musim Hujan</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Nematisida</IRI>
+        <Literal>Pengendalian kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Nematoda_Akar_Padi</IRI>
+        <Literal>Nematoda Akar Padi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Nimfa_Coklat</IRI>
+        <Literal>Nimfa Coklat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Nimfa_Kuning</IRI>
+        <Literal>Nimfa Kuning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Pangkal_Malai_Membusuk</IRI>
+        <Literal>Pangkal Malai Membusuk</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Patogen_Jamur</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Patogen_Jamur</IRI>
+        <Literal>Patogen Jamur</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Pembengkakan_Jaringan</IRI>
+        <Literal>Pembengkakan Jaringan di Akar</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Pembengkakan_Jaringan</IRI>
+        <Literal>Pembengkakan Jaringan</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Penggerek_Batang_Padi</IRI>
+        <Literal>Penggerek Batang Padi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Pertumbuhan_Terhambat</IRI>
+        <Literal>Pertumbuhan Terhambat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Perubahan_Bentuk_Daun</IRI>
+        <Literal>Perubahan Bentuk Daun</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Pola_Makan_Acak</IRI>
+        <Literal>Pola Makan Acak</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Pucuk_Daun_Menguning</IRI>
+        <Literal>Pucuk Daun Menguning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Serai</IRI>
+        <Literal>pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Serangan_Merata</IRI>
+        <Literal>Serangan Merata</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Spot</IRI>
+        <Literal>Spot (Lebar lahan)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Tanaman_Kerdil</IRI>
+        <Literal>Tanaman Kerdil</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Tanaman_Menguning</IRI>
+        <Literal>Tanaman Menguning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Tawon</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Tawon_Parasitoid</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Tawon_Parasitoid</IRI>
+        <Literal>Tawon Parasitoid</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Telur_Belalang</IRI>
+        <Literal>Telur Belalang</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Tembaga_Sulfat</IRI>
+        <Literal>Pengendalian hayati &amp; Kimiawi</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Tembaga_Sulfat</IRI>
+        <Literal>Tembaga Sulfat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Tepi_Daun_Dihisap</IRI>
+        <Literal>Tepi Daun Dihisap</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Terdapat_Wereng_Coklat</IRI>
+        <Literal>Terdapat Wereng Coklat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Terdapat_Wereng_Hijau</IRI>
+        <Literal>Terdapat Wereng Hijau</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Tulang_Daun_Menguning</IRI>
+        <Literal>Tulang Daun Menguning</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Verticillium_Chlamydosporium</IRI>
+        <Literal>Pengendalian hayati</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Verticillium_Chlamydosporium</IRI>
+        <Literal>Verticillium Chlamydosporium</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Virus_Tungro</IRI>
+        <Literal>Virus Tungro</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Walang_Sangit</IRI>
+        <Literal>Walang Sangit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Wereng_Coklat</IRI>
+        <Literal>Wereng Coklat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Hangus_(Hopperburn)</IRI>
+        <Literal>Hangus (Hopperburn)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Pembengkakan_Jaringan_(Kait)</IRI>
+        <Literal>Pembengkakan Jaringan Akar berbentuk kait</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Pembengkakan_Jaringan_(Kait)</IRI>
+        <Literal>Pembengkakan Jaringan (Kait)</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.24.2023-01-14T21:28:32Z) https://github.com/owlcs/owlapi -->
+

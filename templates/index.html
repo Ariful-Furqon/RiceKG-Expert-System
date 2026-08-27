@@ -1,0 +1,340 @@
+﻿{% extends "layout.html" %} 
+{% block title %} Rice Pest & Disease Diagnosis {% endblock %} 
+{% block content %}
+<div class="hero-image">
+  <div class="hero-text">
+    <h1 style="font-size: 42px">Rice Pest & Disease Expert Diagnostic System</h1>
+    <h3>Select observed symptoms to infer pests and diseases</h3>
+    <form method='post' enctype=multipart/form-data action="/result">
+
+        <div class="hero">
+          <div class="container2">
+            <div class="row2">
+              <p>Yellowing Leaf Veins</p>
+              <label>
+                <input type="checkbox" value="Yellowing_Leaf_Veins" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Leaf Discoloration (Yellow)</p>
+              <label>
+                <input type="checkbox" value="Leaf_Discoloration_Yellow" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Yellowing Leaf Tips</p>
+              <label>
+                <input type="checkbox" value="Yellowing_Leaf_Tips" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Rapid Disease Spread</p>
+              <label>
+                <input type="checkbox" value="Rapid_Disease_Spread" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Rusty Grain Balls</p>
+              <label>
+                <input type="checkbox" value="Rusty_Grain_Balls" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Blackened Grain Balls</p>
+              <label>
+                <input type="checkbox" value="Blackened_Grain_Balls" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Rainy Season Outbreak</p>
+              <label>
+                <input type="checkbox" value="Rainy_Season_Outbreak" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Uniform Field Infection</p>
+              <label>
+                <input type="checkbox" value="Uniform_Field_Infection" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Slight Panicle Infection</p>
+              <label>
+                <input type="checkbox" value="Slight_Panicle_Infection" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Milky Stage Vulnerability</p>
+              <label>
+                <input type="checkbox" value="Milky_Stage_Vulnerability" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Panicle Neck Rot</p>
+              <label>
+                <input type="checkbox" value="Panicle_Neck_Rot" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Diamond-Shaped Lesions</p>
+              <label>
+                <input type="checkbox" value="Diamond_Shaped_Lesions" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Infected Seedlings</p>
+              <label>
+                <input type="checkbox" value="Infected_Seedlings" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Brown Planthopper Present</p>
+              <label>
+                <input type="checkbox" value="Brown_Planthopper_Present" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Severe Stunting</p>
+              <label>
+                <input type="checkbox" value="Severe_Stunting" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>No Panicle Formation</p>
+              <label>
+                <input type="checkbox" value="No_Panicle_Formation" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Green Leafhopper Present</p>
+              <label>
+                <input type="checkbox" value="Green_Leafhopper_Present" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Localized Leaf Yellowing</p>
+              <label>
+                <input type="checkbox" value="Localized_Leaf_Yellowing" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Empty Grains</p>
+              <label>
+                <input type="checkbox" value="Empty_Grains" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Plant Yellowing</p>
+              <label>
+                <input type="checkbox" value="Plant_Yellowing" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Hopperburn Drying</p>
+              <label>
+                <input type="checkbox" value="Hopperburn_Drying" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Circular Hopperburn Patches</p>
+              <label>
+                <input type="checkbox" value="Circular_Hopperburn_Patches" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row2">
+              <p>Blackened Feeding Punctures</p>
+              <label>
+                <input type="checkbox" value="Blackened_Feeding_Punctures" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="row">
+              <p>Brown Nymphs</p>
+              <label>
+                <input type="checkbox" value="Brown_Nymphs" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Yellow Nymphs</p>
+              <label>
+                <input type="checkbox" value="Yellow_Nymphs" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Eggs on Plant</p>
+              <label>
+                <input type="checkbox" value="Eggs_On_Plant" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Broad Leaf Damage</p>
+              <label>
+                <input type="checkbox" value="Broad_Leaf_Damage" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Severed Panicles</p>
+              <label>
+                <input type="checkbox" value="Severed_Panicles" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Leaf Chewing Damage</p>
+              <label>
+                <input type="checkbox" value="Leaf_Chewing_Damage" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Hook-Like Root Swelling</p>
+              <label>
+                <input type="checkbox" value="Hook_Like_Root_Swelling" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Root Knot Swelling</p>
+              <label>
+                <input type="checkbox" value="Root_Knot_Swelling" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Deformed Roots</p>
+              <label>
+                <input type="checkbox" value="Deformed_Roots" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Necrotic Spots</p>
+              <label>
+                <input type="checkbox" value="Necrotic_Spots" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Yellowing Leaves</p>
+              <label>
+                <input type="checkbox" value="Yellowing_Leaves" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Stunted Growth</p>
+              <label>
+                <input type="checkbox" value="Stunted_Growth" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Frass in Stem</p>
+              <label>
+                <input type="checkbox" value="Frass_In_Stem" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Bore Holes in Stem</p>
+              <label>
+                <input type="checkbox" value="Bore_Holes_In_Stem" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Deadheart Seedling</p>
+              <label>
+                <input type="checkbox" value="Deadheart_Seedling" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Easily Pulled Tillers</p>
+              <label>
+                <input type="checkbox" value="Easily_Pulled_Tillers" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Whitehead / Empty Panicles</p>
+              <label>
+                <input type="checkbox" value="Whitehead_Empty_Panicles" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Nymphs Present</p>
+              <label>
+                <input type="checkbox" value="Nymphs_Present" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Adult Insects Present</p>
+              <label>
+                <input type="checkbox" value="Adult_Insects_Present" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Leaf Margin Sap Sucking</p>
+              <label>
+                <input type="checkbox" value="Leaf_Margin_Sap_Sucking" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Rotten Panicles</p>
+              <label>
+                <input type="checkbox" value="Rotten_Panicles" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+            <div class="row">
+              <p>Random Feeding Pattern</p>
+              <label>
+                <input type="checkbox" value="Random_Feeding_Pattern" name="mycheckbox" />
+                <span></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex" style="margin-top: 20px;">
+          <input type="submit" value="Diagnose" style="padding: 10px 30px; font-size: 18px; cursor: pointer;" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

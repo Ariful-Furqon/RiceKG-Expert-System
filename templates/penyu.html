@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}
+Types of Turtles in Indonesia
+{% endblock %}
+{% block content %}
+<div class="background">
+<p>Types of Turtles in Indonesia</p>
+<ul>
+    {% for i in penyu %}
+    <li>{{i.nama}}</li>
+    <p> {{i.nama_latin}}</p>  
+    <p>{{i.deskripsi}}</p>
+    {% endfor %}
+</ul>
+{% endblock %}
