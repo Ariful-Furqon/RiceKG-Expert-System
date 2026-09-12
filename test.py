@@ -1,7 +1,6 @@
 import pytest
 import model
 
-
 class TestCanonicalDiagnoses:
     """Tests that canonical (Tier 1) full-symptom profiles produce correct diagnoses."""
 
