@@ -23,12 +23,12 @@
         <span class="hero-stat-label">Formal Symptoms</span>
       </div>
       <div class="hero-stat-card">
-        <span class="hero-stat-num">99.5%</span>
-        <span class="hero-stat-label">Benchmark Accuracy</span>
+        <span class="hero-stat-num">80</span>
+        <span class="hero-stat-label">Field Benchmarks</span>
       </div>
       <div class="hero-stat-card">
-        <span class="hero-stat-num">100%</span>
-        <span class="hero-stat-label">Logic Explainability</span>
+        <span class="hero-stat-num">99.25%</span>
+        <span class="hero-stat-label">Benchmark Accuracy</span>
       </div>
     </div>
   </div>
@@ -36,6 +36,45 @@
 
 <!-- Main Interactive Form Section -->
 <main class="main-wrapper">
+
+  <!-- Quick-Load Demonstration Scenarios Card -->
+  <div class="scenarios-card">
+    <div class="scenarios-header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span class="scenarios-icon-pill"><i class="fa-solid fa-flask-vial"></i></span>
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--dark); margin: 0;">
+            Quick-Load Benchmark Scenarios
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--muted); margin: 3px 0 0 0;">
+            Click any field observation scenario below to automatically populate symptoms for instant validation:
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenarios-grid">
+      {% for sc in scenarios %}
+      <button 
+        type="button" 
+        class="scenario-btn" 
+        data-symptoms='{{ sc.symptoms | tojson }}'
+        onclick="loadScenario(this)"
+      >
+        <div class="scenario-btn-top">
+          <span class="scenario-icon">{{ sc.icon }}</span>
+          <span class="{{ sc.badge_class }}" style="font-size: 0.72rem; padding: 2px 8px;">{{ sc.category }}</span>
+        </div>
+        <div class="scenario-title">{{ sc.title }}</div>
+        <div class="scenario-desc">{{ sc.description }}</div>
+        <div class="scenario-symptoms-count">
+          <i class="fa-solid fa-list-check"></i> {{ sc.symptoms|length }} symptoms pre-loaded
+        </div>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
   <form id="diagnosticForm" method="post" action="{{ url_for('diagnose') }}">
 
     <!-- Search & Control Toolbar -->
@@ -230,6 +269,55 @@
     const sec = document.getElementById(catId);
     if (sec) {
       sec.classList.toggle('collapsed');
+    }
+  }
+
+  // Quick-load preset benchmark scenarios
+  function loadScenario(btn) {
+    const allCheckboxes = document.querySelectorAll('.symptom-checkbox');
+    allCheckboxes.forEach(cb => {
+      cb.checked = false;
+      const card = cb.closest('.symptom-card');
+      if (card) card.classList.remove('selected');
+    });
+
+    try {
+      const syms = JSON.parse(btn.getAttribute('data-symptoms'));
+      syms.forEach(symId => {
+        const cb = document.getElementById(symId);
+        if (cb) {
+          cb.checked = true;
+          const card = cb.closest('.symptom-card');
+          if (card) card.classList.add('selected');
+          
+          // Ensure category is visible
+          const catSec = cb.closest('.category-section');
+          if (catSec) {
+            catSec.classList.remove('collapsed');
+          }
+        }
+      });
+    } catch (err) {
+      console.error("Failed to parse scenario symptoms:", err);
+    }
+
+    // Active button styling
+    document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Update count display
+    const checkedCount = document.querySelectorAll('.symptom-checkbox:checked').length;
+    const badge = document.getElementById('selectedCountBadge');
+    const bar = document.getElementById('stickySelectedCount');
+    const actionBar = document.getElementById('stickyActionBar');
+    if (badge) badge.textContent = checkedCount;
+    if (bar) bar.textContent = checkedCount;
+    if (actionBar) {
+      if (checkedCount > 0) {
+        actionBar.classList.add('visible');
+      } else {
+        actionBar.classList.remove('visible');
+      }
     }
   }
 </script>

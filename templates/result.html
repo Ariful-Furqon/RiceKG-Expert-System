@@ -83,8 +83,57 @@
           <p style="color: var(--slate); font-size: 0.95rem; line-height: 1.6;">{{ threat.deskripsi }}</p>
         </div>
 
+        <!-- Explainable AI (XAI) Deductive Proof Trace Section -->
+        {% if threat.explanation %}
+        <div class="xai-proof-card">
+          <div class="xai-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-code-branch" style="color: var(--primary);"></i>
+              <span style="font-weight: 800; font-size: 0.95rem; color: var(--dark);">
+                Deductive SWRL Proof Trace (Explainable AI)
+              </span>
+            </div>
+            <span class="badge-tier {{ threat.explanation.tier_badge }}">
+              {{ threat.explanation.rule_level }}
+            </span>
+          </div>
+
+          <div class="xai-rule-id">
+            <strong>{{ threat.explanation.rule_id }}:</strong> {{ threat.explanation.name }}
+          </div>
+
+          <!-- Mathematical Horn-Clause Formula -->
+          <div class="swrl-formula-box">
+            <code>{{ threat.explanation.formula }}</code>
+          </div>
+
+          <!-- Antecedents Verification Checklist -->
+          <div style="margin-top: 0.85rem;">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px;">
+              Antecedents Satisfaction Trace:
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              {% for ant in threat.explanation.antecedents_status %}
+              <span class="ant-badge {% if ant.observed %}ant-matched{% else %}ant-unmatched{% endif %}">
+                {% if ant.observed %}
+                  <i class="fa-solid fa-circle-check" style="color: #16a34a;"></i>
+                {% else %}
+                  <i class="fa-regular fa-circle" style="color: #94a3b8;"></i>
+                {% endif %}
+                <span>{{ ant.symptom_name }}</span>
+              </span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div style="font-size: 0.85rem; color: var(--slate); margin-top: 10px; line-height: 1.5; background: #f8fafc; padding: 8px 12px; border-radius: 6px;">
+            <strong style="color: var(--dark);">Inference Rationale:</strong> {{ threat.explanation.rationale }}
+          </div>
+        </div>
+        {% endif %}
+
         <!-- Prescriptive IPM Recommendations -->
-        <div>
+        <div style="margin-top: 1.5rem;">
           <h4 class="section-subtitle"><i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> Actionable Integrated Pest Management (IPM) Prescriptions</h4>
           <ul class="ipm-list">
             {% for rec in threat.pengendalian_ipm %}

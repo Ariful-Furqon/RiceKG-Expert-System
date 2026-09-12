@@ -1,8 +1,8 @@
 import os
 import json
 import time
-from flask import Flask, request, render_template, redirect, url_for
-from model import predict_diseases
+from flask import Flask, request, render_template, redirect, url_for, jsonify
+from model import predict_diseases, explain_diagnoses, SWRL_RULES_METADATA
 
 app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -114,20 +114,70 @@ for t in THREAT_CATALOG:
     if "key" in t:
         THREAT_MAP[t["key"]] = t
 
+# Benchmark Preset Field Scenarios for Rapid Reviewer Demonstration
+BENCHMARK_SCENARIOS = [
+    {
+        "id": "scenario_stem_borer",
+        "title": "Rice Stem Borer",
+        "category": "Insect Pest (Tier 1/2)",
+        "badge_class": "badge-pest",
+        "icon": "🐛",
+        "description": "Culm boring, internal larval frass, and characteristic empty whiteheads.",
+        "symptoms": ["Frass_In_Stem", "Bore_Holes_In_Stem", "Whitehead_Empty_Panicles"]
+    },
+    {
+        "id": "scenario_blb",
+        "title": "Bacterial Leaf Blight",
+        "category": "Phytopathogenic Bacteria",
+        "badge_class": "badge-disease",
+        "icon": "🍃",
+        "description": "Chlorotic yellow stripes along leaf vein ridges with uniform field spread.",
+        "symptoms": ["Yellowing_Leaf_Veins", "Leaf_Discoloration_Yellow", "Uniform_Field_Infection"]
+    },
+    {
+        "id": "scenario_coinfection",
+        "title": "Dual Co-Infection (BLB + Blast)",
+        "category": "Multi-Threat Co-Occurrence",
+        "badge_class": "badge-disease",
+        "icon": "⚡",
+        "description": "Simultaneous presence of bacterial vascular blight and fungal blast lesions.",
+        "symptoms": ["Yellowing_Leaf_Veins", "Uniform_Field_Infection", "Panicle_Neck_Rot", "Diamond_Shaped_Lesions"]
+    },
+    {
+        "id": "scenario_uncertainty",
+        "title": "Symptom Uncertainty (Sub-Threshold)",
+        "category": "Incomplete Scouting",
+        "badge_class": "badge-pest",
+        "icon": "🔍",
+        "description": "Foliar chlorosis without observing GLH vector (evaluates uncertainty threshold).",
+        "symptoms": ["Yellowing_Leaves", "Necrotic_Spots", "Plant_Yellowing", "Stunted_Growth"]
+    },
+    {
+        "id": "scenario_negative",
+        "title": "Negative Control (Abiotic Stress)",
+        "category": "Physiological Chlorosis",
+        "badge_class": "badge-disease",
+        "icon": "🌱",
+        "description": "General nitrogen deficiency symptoms (no biotic SWRL rule should fire).",
+        "symptoms": ["Plant_Yellowing", "Yellowing_Leaf_Tips"]
+    }
+]
+
 
 @app.route("/")
 def index_page():
-    """Renders the main diagnostic form."""
+    """Renders the main diagnostic form with quick-load demonstration scenarios."""
     return render_template(
         "index.html",
         symptom_categories=SYMPTOM_CATEGORIES,
-        total_symptoms=sum(len(c["symptoms"]) for c in SYMPTOM_CATEGORIES)
+        total_symptoms=sum(len(c["symptoms"]) for c in SYMPTOM_CATEGORIES),
+        scenarios=BENCHMARK_SCENARIOS
     )
 
 
 @app.route('/result', methods=['GET', 'POST'])
 def diagnose():
-    """Handles symptom selection and executes ontology-based reasoning."""
+    """Handles symptom selection and executes ontology-based reasoning with XAI proof traces."""
     if request.method == 'POST':
         start_time = time.time()
         selected_symptoms = request.form.getlist('mycheckbox')
@@ -136,6 +186,9 @@ def diagnose():
         diagnosed_results = predict_diseases(selected_symptoms)
         elapsed_time = round(time.time() - start_time, 3)
         print(f"[Diagnosis Result] Inferred in {elapsed_time}s:", diagnosed_results)
+
+        # Generate Explainable AI (XAI) deductive proof traces
+        explanations = explain_diagnoses(selected_symptoms, diagnosed_results)
 
         # Enrich diagnosis details
         enriched_diagnoses = []
@@ -148,7 +201,9 @@ def diagnose():
                         break
 
             if threat_info:
-                enriched_diagnoses.append(threat_info)
+                threat_copy = dict(threat_info)
+                threat_copy["explanation"] = explanations.get(diag_name, {})
+                enriched_diagnoses.append(threat_copy)
             else:
                 enriched_diagnoses.append({
                     "key": diag_name,
@@ -159,13 +214,15 @@ def diagnose():
                     "badge_class": "badge-disease",
                     "organ_target": "Rice Crop",
                     "deskripsi": "Inferred successfully via RiceKG SWRL description logic reasoning.",
-                    "pengendalian_ipm": ["Consult local agricultural extension officers for localized IPM measures."]
+                    "pengendalian_ipm": ["Consult local agricultural extension officers for localized IPM measures."],
+                    "explanation": explanations.get(diag_name, {})
                 })
 
         return render_template(
             'result.html',
             penyakit=diagnosed_results,
             diagnoses=enriched_diagnoses,
+            explanations=explanations,
             selected_symptoms=selected_symptoms,
             symptom_name_map=SYMPTOM_NAME_MAP,
             elapsed_time=elapsed_time
@@ -185,6 +242,104 @@ def threat_catalog():
     """Renders the biotic threats knowledge base catalog."""
     return render_template("threats.html", threats=THREAT_CATALOG)
 
-    
+
+# =========================================================================
+# RESTful API Endpoints (v1)
+# =========================================================================
+
+@app.route("/api/v1/diagnose", methods=["POST"])
+def api_diagnose():
+    """
+    REST API endpoint for RiceKG automated diagnosis.
+    Accepts JSON: {"symptoms": ["Symptom_1", "Symptom_2", ...]}
+    Returns JSON with inferred biotic threats, XAI proof traces, and IPM prescriptions.
+    """
+    data = request.get_json(silent=True)
+    if not data or "symptoms" not in data:
+        return jsonify({
+            "status": "error",
+            "message": "Missing 'symptoms' array in JSON request body."
+        }), 400
+
+    symptoms = data.get("symptoms", [])
+    if not isinstance(symptoms, list):
+        return jsonify({
+            "status": "error",
+            "message": "'symptoms' must be a JSON array of symptom identifier strings."
+        }), 400
+
+    start_time = time.time()
+    diagnosed_results = predict_diseases(symptoms)
+    elapsed_time = round(time.time() - start_time, 3)
+
+    explanations = explain_diagnoses(symptoms, diagnosed_results)
+
+    enriched_diagnoses = []
+    for diag_name in diagnosed_results:
+        threat_info = THREAT_MAP.get(diag_name)
+        if not threat_info:
+            for t in THREAT_CATALOG:
+                if t.get("key") == diag_name or diag_name in t.get("nama", ""):
+                    threat_info = t
+                    break
+
+        item = {
+            "key": diag_name,
+            "name": threat_info.get("nama", diag_name.replace("_", " ")) if threat_info else diag_name,
+            "scientific_name": threat_info.get("nama_latin", "Scientific ID confirmed via SWRL") if threat_info else "",
+            "category": threat_info.get("kategori", "Biotic Threat") if threat_info else "Biotic Threat",
+            "target_organ": threat_info.get("organ_target", "Rice Plant") if threat_info else "Rice Plant",
+            "description": threat_info.get("deskripsi", "") if threat_info else "",
+            "ipm_prescriptions": threat_info.get("pengendalian_ipm", []) if threat_info else [],
+            "explanation": explanations.get(diag_name, {})
+        }
+        enriched_diagnoses.append(item)
+
+    return jsonify({
+        "status": "success",
+        "query": {
+            "symptoms_count": len(symptoms),
+            "symptoms": symptoms
+        },
+        "inference": {
+            "reasoner": "Pellet DL (Tableau Forward-Chaining)",
+            "execution_time_seconds": elapsed_time,
+            "diagnoses_count": len(diagnosed_results)
+        },
+        "diagnoses": enriched_diagnoses,
+        "explanations": explanations
+    }), 200
+
+
+@app.route("/api/v1/threats", methods=["GET"])
+def api_threats():
+    """Returns all 10 formalized rice biotic threats and metadata."""
+    return jsonify({
+        "status": "success",
+        "total_threats": len(THREAT_CATALOG),
+        "threats": THREAT_CATALOG
+    }), 200
+
+
+@app.route("/api/v1/symptoms", methods=["GET"])
+def api_symptoms():
+    """Returns all 45 phenotypic symptoms grouped by anatomical organ."""
+    return jsonify({
+        "status": "success",
+        "total_symptoms": sum(len(c["symptoms"]) for c in SYMPTOM_CATEGORIES),
+        "categories": SYMPTOM_CATEGORIES
+    }), 200
+
+
+@app.route("/api/v1/scenarios", methods=["GET"])
+def api_scenarios():
+    """Returns preset benchmark field scenarios."""
+    return jsonify({
+        "status": "success",
+        "scenarios": BENCHMARK_SCENARIOS
+    }), 200
+
+
 if __name__ == "__main__":
     app.run(debug=os.environ.get("FLASK_DEBUG", "false").lower() == "true")
+
