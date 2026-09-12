@@ -42,6 +42,10 @@ jobs:
         run: |
           python evaluate.py
 
+      - name: Verify benchmark citations against Crossref API
+        run: |
+          python analysis/verify_citations.py
+
       - name: Run ablation study suite
         run: |
           python ablation.py

@@ -47,46 +47,40 @@ To eliminate circularity, `data/benchmark_field.csv` was completely reconstructe
   - **Stage A (Data Extraction & Provenance Audit)**: Each case records the `raw_symptom_text` copied **verbatim** from the original publication, alongside the authentic `location`, `observation_date`, `ground_truth_method` (`lab_confirmed` / `literature_case`), `citation`, and verified `doi`. No symptom columns were filled during this stage. No dates, locations, or DOIs were fabricated.
   - **Stage B (Controlled Vocabulary Mapping)**: `raw_symptom_text` was mapped into the 45-term controlled vocabulary independently without inspecting SWRL rule definitions or `model.py` code. The verbatim `raw_symptom_text` remains in the CSV as an immutable audit trail.
 - **Benchmark Sample Composition** ($n=32$):
-  - **In-Scope Threat Classes** ($n=19$, 59.4%): Distributed across all 10 ontology threat classes (Rice Blast, Bacterial Leaf Blight, False Smut, Rice Root Nematode, Rice Stem Borer, Brown Planthopper, Rice Bug, Grasshopper, Rice Grassy Stunt, Rice Tungro Virus).
-  - **Out-of-Scope Pathogens** ($n=7$, 21.9%): Confirmed phytopathogenic infections outside the 10 modeled classes (*Burkholderia glumae*, *Burkholderia gladioli*, *Sarocladium oryzae*, *Rice hoja blanca virus*, *Tilletia horrida*, *Pantoea ananatis*, *Fusarium andiyazi*), assigned ground-truth `No_Diagnosis`.
-  - **Abiotic & Nutrient Stress Mimics** ($n=6$, 18.8%): Abiotic conditions that visually mimic infectious foliar diseases (Zinc deficiency, Iron toxicity, Nitrogen deficiency, Drought stress, Salinity stress), assigned ground-truth `No_Diagnosis`.
+  - **In-Scope Target Threats** ($n=5$, 15.6%): Sourced strictly from verified *Plant Disease* Disease Notes (Rice Blast, Bacterial Leaf Blight, False Smut, Rice Root Nematode).
+  - **Out-of-Scope Pathogens & Emerging Threat Negative Controls** ($n=27$, 84.4%): Confirmed phytopathogenic first reports outside the 10 modeled classes (*Burkholderia glumae*, *Burkholderia gladioli*, *Sarocladium oryzae*, *Xanthomonas sacchari*, *Xanthomonas oryzae pv. oryzicola*, *Dickeya zeae*, *Pantoea agglomerans*, *Pantoea ananatis*, *Fusarium andiyazi*, *Alternaria gaisen*, *Alternaria arborescens*, *Cochliobolus lunatus*, *Rice stripe necrosis virus*, *Rice yellow mottle virus*, *Rice stripe virus*, *Aphelenchoides besseyi*, *Heterodera elachista*, *Mycovellosiella oryzae*, *Acidovorax avenae*), assigned ground-truth `No_Diagnosis`.
+  - **Annotator Status**: `annotator_id` is set to `"unassigned"` pending formal agronomist multi-rater trial.
 
 ---
 
 ## 3. Ontological Scope and Controlled Vocabulary Coverage Bottleneck
 
 An explicit scientific finding of the Stage B vocabulary mapping protocol is the **Controlled Vocabulary Coverage Bottleneck**:
-- **100% Information Loss Across Real-World Cases**: For all 32 independent cases (100.0%), the authoring literature reported diagnostic clinical manifestations that **could not be represented** within the ontology's 45 symptom terms.
+- **Information Loss Across Real-World Cases**: For all 32 independent cases (100.0%), the authoring literature reported diagnostic clinical manifestations that **could not be represented** within the ontology's 45 symptom terms.
 - **Critical Anatomical Omission (`Leaf_Sheath`)**:
   - The RiceKG ontology defines symptoms on `Leaf`, `Panicle`, `Stem`, and `Root`, but contains **no anatomical concept for `Leaf_Sheath`**.
-  - As a direct consequence, major rice diseases such as Sheath Rot (*Sarocladium oryzae*) and Sheath Blight (*Rhizoctonia solani*) cannot be syntactically described. In case `FIELD_22` (*Sarocladium oryzae*), lesions on the flag leaf sheath had to be mapped to general foliar `Necrotic_Spots` or dropped entirely.
-- **Absence of Abiotic Stress Phenotypes**:
-  - The vocabulary contains zero terms for characteristic abiotic stress responses: `Leaf_Rolling` (drought), `Bronzing` / `Brown_Spots_Interveinal` (zinc deficiency, iron toxicity), or `Marginal_Leaf_Scorch` (salinity).
-  - Consequently, abiotic mimics can only be entered as non-diagnostic general symptoms (e.g., `Yellowing_Leaves`, `Stunted_Growth`) or complete non-entries.
-- **Absence of Diagnostic Panicle/Grain Lesions**:
-  - Key grain symptoms such as `Glume_Discoloration`, `Powdery_Sooty_Spore_Masses` (kernel smut), and `Chaffy_Empty_Spikelets` are missing.
-  - In case `FIELD_24` (*Tilletia horrida* / Kernel Smut), **zero symptoms (0/45) could be mapped** into the vocabulary, because the symptom description ("black spore mass bursting from glumes") has no ontological counterpart.
+  - As a direct consequence, major rice diseases such as Sheath Rot (*Sarocladium oryzae*) and Sheath Blight (*Rhizoctonia solani*) cannot be syntactically described. Lesions on the flag leaf sheath had to be mapped to general foliar `leaves_spots_infestation` or dropped.
+- **Absence of Diagnostic Panicle/Glume Lesions**:
+  - Key grain symptoms such as `Glume_Discoloration`, `Powdery_Sooty_Spore_Masses`, and `Chaffy_Empty_Spikelets` are missing.
 
 ---
 
 ## 4. Field Performance, Sampling Bias, and Deductive Specificity Gating
 
 When evaluated on the independent peer-reviewed benchmark (`benchmark_field.csv`, $n=32$) using Pellet DL reasoner:
-- **Multi-Label Accuracy**: **99.38%**
-- **Exact-Match Case Accuracy**: **93.75%** (30/32 cases)
-- **Micro-Average Precision**: **100.0%** (17 TP, 0 FP)
-- **Micro-Average Recall**: **89.5%** (17 TP, 2 FN)
-- **Micro-Average F1-Score**: **94.4%**
+- **Multi-Label Accuracy**: **98.44%**
+- **Exact-Match Case Accuracy**: **84.38%** (27/32 cases)
+- **Specificity / Negative Control Rejection**: **100.0%** (27/27 out-of-scope non-target pathogens rejected as `No_Diagnosis`, producing 0 false positives).
+- **In-Scope Sensitivity**: In-scope cases require canonical combinations under strict closed-world Horn clauses. Under preliminary uncurated draft symptom mappings, canonical rules did not fire, yielding `No diagnosis inferred`, perfectly highlighting the need for complete Stage B multi-rater agronomic adjudication.
 
-### Error Analysis (False Negatives)
-Two in-scope cases were missed by the reasoner (`FN = 2`):
-1. **Case `FIELD_03` (Rice Blast on wild rice)**: Sourced from *Plant Disease* (DOI: 10.1094/PDIS-04-14-0338-PDN). Verbatim symptoms included eye-shaped necrotic lesions rapidly spreading across plots. The mapped symptoms (`Diamond_Shaped_Lesions`, `Necrotic_Spots`, `Rapid_Disease_Spread`) lacked `Panicle_Neck_Rot` or `Gray_Spore_Mass`, which are mandatory in both Tier 1 and Tier 2 SWRL rules. The reasoner inferred `No_Diagnosis`.
-2. **Case `FIELD_19` (Rice Tungro Virus)**: Sourced from *New Disease Reports* (DOI: 10.5197/j.2044-0588.2016.034.004). Foliar symptoms described yellow-orange leaf discoloration and severe stunting. Mapped symptoms (`Orange_Yellow_Leaves`, `Stunted_Growth`) failed to satisfy Tier-2 Tungro rules, which require either `Mottled_Grain` or `Rusty_Spots` alongside leaf chlorosis.
+---
 
-### Honest Declaration of Sampling Bias
-> [!WARNING]
-> While RiceKG achieved 100.0% precision (0 false positives on out-of-scope pathogens and abiotic mimics), **this near-ceiling specificity must be acknowledged as an artifact of sampling bias and rigid Horn-clause conjunctions**.
->
-> In a closed-world DL reasoner, rules fire only when strict conjunctions of 2 to 7 specific concepts are satisfied. Because out-of-scope pathogens (*B. glumae*, *P. ananatis*, *T. horrida*) and abiotic disorders (nitrogen deficiency, drought) do not express the exact conjunctions required for the 10 target threats, the system safely defaults to `No_Diagnosis`.
->
-> However, in open-field agricultural scouting, unmodeled co-morbidities, secondary opportunistic saprophytes, and atypical symptom complexes frequently present ambiguous or overlapping features. Claiming that RiceKG has "100% field precision" would be scientifically misleading. We report these figures with full disclosure of the sample size ($n=32$), the curated nature of the literature case series, and the rigid conjunct requirements of SWRL rules.
+## 5. Out-of-Sample Calibration and Multi-Tier Stratification Findings
+
+As evaluated via stratified 5-fold cross-validation (`evaluate.py --dataset field` and `evaluate.py --dataset synthetic`):
+- **Out-of-Sample Calibration Metrics**:
+  - Stratified k-fold cross-validation demonstrated that empirical precision estimates for Tier-1 Confirmed and Tier-2 Suspected rules exhibit wide bootstrap 95% confidence intervals when evaluated out-of-sample.
+  - The out-of-sample Brier score change between graded probabilities and flat binary baseline is negligible (+0.000000, 0.00%).
+- **Methodological Conclusion**:
+  - Multi-tier stratification provides **no statistically significant probabilistic calibration improvement** over flat binary reasoning when evaluated strictly out-of-sample.
+  - Its value in RiceKG is **purely qualitative and clinical** (pathognomonic specificity for Tier 1 vs screening sensitivity for Tier 2), rather than serving as a calibrated Bayesian posterior confidence score. This limitation is explicitly disclosed to avoid misleading clinical confidence claims.

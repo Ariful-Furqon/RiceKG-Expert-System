@@ -42,18 +42,32 @@ The 80 cases are partitioned into six diagnostic tiers:
 - **Primary Sources**: APS *Plant Disease* ("Disease Notes"), BSPP *New Disease Reports*, *Crop Protection*, *Insects*, *Plant and Soil*, *Field Crops Research*.
 - **Circularity Avoidance**: IRRI Rice Doctor was explicitly excluded because the ontology's 45 symptoms were historically derived from IRRI diagnostic compendia. Sourcing from independent peer-reviewed literature ensures orthogonal evaluation.
 
-### Mandatory Two-Stage Construction Protocol
+### Mandatory Two-Stage Construction Protocol & Verification Gates
 1. **Stage A (Provenance & Verbatim Extraction)**:
-   - For every case, the authentic publication was retrieved and `raw_symptom_text` was extracted **verbatim**.
-   - `location`, `observation_date`, `ground_truth_method` (`lab_confirmed` / `literature_case`), `citation`, and `doi` were verified directly against the published text. No data was fabricated.
-2. **Stage B (Vocabulary Mapping)**:
-   - Verbatim symptoms were mapped into the 45 controlled vocabulary terms by an agronomist without inspecting SWRL rule definitions or `model.py` code.
-   - `raw_symptom_text` is preserved in the CSV as a permanent audit trail.
+   - For every case, the authentic publication was retrieved and `raw_symptom_text` was extracted **verbatim** from the published abstract/text.
+   - `location` and `observation_date` appear directly in the paper; when observation date is unstated, `observation_date` is left empty (`""`).
+   - `ground_truth_method`: set to `lab_confirmed` strictly where isolation, PCR, sequencing, or Koch's postulates are reported (or `expert_visual` for macroscopic/microscopic spore structures).
+   - Real publication titles are strictly preserved in `citation` without alteration.
+   - Every DOI is audited and verified against the official Crossref API (`api.crossref.org/works/{doi}`).
+2. **Stage B (Vocabulary Mapping & Annotator Status)**:
+   - `annotator_id` is set to `"unassigned"` pending formal human agronomist multi-rater trial.
+   - Symptoms mapped in this stage are uncurated/preliminary draft mappings pending full agronomic adjudication.
+   - `raw_symptom_text` is preserved in the CSV as a permanent verbatim audit trail.
 
-### Dataset Composition ($n=32$)
-- **Target In-Scope Threats** ($n=19$, 59.4%): Cases representing the 10 diagnostic threat classes.
-- **Out-of-Scope Pathogens** ($n=7$, 21.9%): Pathogens outside the 10 modeled classes (*B. glumae*, *B. gladioli*, *S. oryzae*, *Rice hoja blanca virus*, *T. horrida*, *P. ananatis*, *F. andiyazi*), evaluated as negative controls (`diagnosis: No_Diagnosis`).
-- **Abiotic & Nutrient Stress Mimics** ($n=6$, 18.8%): Abiotic conditions mimicking foliar disease (Zinc deficiency, Iron toxicity, Nitrogen deficiency, Drought stress, Salinity stress), evaluated as negative controls (`diagnosis: No_Diagnosis`).
+### Dataset Composition ($n=32$ Peer-Reviewed Disease Notes)
+All 32 cases are drawn strictly from primary peer-reviewed disease notes (APS *Plant Disease* "Disease Notes"):
+- **Target In-Scope Threats** ($n=5$, 15.6%):
+  - Rice Blast (*Magnaporthe oryzae* / *Pyricularia grisea*, $n=2$: Western Australia, California)
+  - Bacterial Leaf Blight (*Xanthomonas oryzae pv. oryzae*, $n=1$: Madagascar)
+  - Rice Root Nematode (*Meloidogyne graminicola*, $n=1$: Sichuan, China)
+  - False Smut (*Ustilaginoidea virens*, $n=1$: Louisiana)
+- **Out-of-Scope Pathogens & Emerging Threat Negative Controls** ($n=27$, 84.4%):
+  - Emerging bacterial panicle blights and foot rots (*Xanthomonas sacchari*, *Burkholderia glumae*, *Burkholderia gladioli*, *Dickeya zeae*, *Pantoea agglomerans*, *Pantoea ananatis*)
+  - Bacterial leaf streak (*Xanthomonas oryzae pv. oryzicola*)
+  - Emerging fungal blights and rots (*Sarocladium oryzae*, *Alternaria gaisen*, *Alternaria arborescens*, *Cochliobolus lunatus*, *Fusarium andiyazi*, *Mycovellosiella oryzae*)
+  - Emerging viral threats (*Rice stripe necrosis virus*, *Rice yellow mottle virus*, *Rice stripe virus*)
+  - Emerging nematode threats (*Aphelenchoides besseyi*, *Heterodera elachista*)
+  - Evaluated as true negative controls (`diagnosis: No_Diagnosis`).
 
 ---
 
