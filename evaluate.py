@@ -67,6 +67,9 @@ def load_data(csv_path):
         citation_idx = header_lower.index("citation") if "citation" in header_lower else -1
         case_id_idx = header_lower.index("case_id") if "case_id" in header_lower else -1
 
+        raw_symptom_idx = header_lower.index("raw_symptom_text") if "raw_symptom_text" in header_lower else -1
+        doi_idx = header_lower.index("doi") if "doi" in header_lower else -1
+
         for row_idx, row in enumerate(reader, 2):
             if not row or not any(field.strip() for field in row):
                 continue
@@ -83,8 +86,10 @@ def load_data(csv_path):
             # Extract symptoms from columns prior to diagnosis or columns named symptom_*
             symptoms = []
             for col_i, col in enumerate(row[:diag_idx]):
-                if header_lower and col_i < len(header_lower) and header_lower[col_i] == "case_id":
-                    continue
+                if header_lower and col_i < len(header_lower):
+                    col_name = header_lower[col_i]
+                    if col_name in ("case_id", "raw_symptom_text"):
+                        continue
                 val = col.strip()
                 if val and val != raw_target:
                     symptoms.append(val)
@@ -98,11 +103,15 @@ def load_data(csv_path):
             prov = row[provenance_idx].strip() if provenance_idx >= 0 and len(row) > provenance_idx else "rule_derived"
             citation = row[citation_idx].strip() if citation_idx >= 0 and len(row) > citation_idx else "Internal RiceKG SWRL Rule Base"
             case_id = row[case_id_idx].strip() if case_id_idx >= 0 and len(row) > case_id_idx else f"CASE_{len(dataset)+1:02d}"
+            raw_symptom_text = row[raw_symptom_idx].strip() if raw_symptom_idx >= 0 and len(row) > raw_symptom_idx else ""
+            doi = row[doi_idx].strip() if doi_idx >= 0 and len(row) > doi_idx else ""
 
             dataset.append({
                 "id": len(dataset) + 1,
                 "case_id": case_id,
                 "row_csv": row_idx,
+                "raw_symptom_text": raw_symptom_text,
+                "doi": doi,
                 "symptoms": symptoms,
                 "expected": targets,
                 "raw_target": raw_target,

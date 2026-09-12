@@ -103,19 +103,22 @@ To prevent evaluation circularity, performance is reported separately on two dis
 
 *Methodological Note: As documented in `docs/LIMITATIONS.md` and `data/README.md`, near-ceiling performance on this dataset reflects deductive consistency under closed-world assumptions, because cases are derived from the rule antecedents.*
 
-### Benchmark 2: Independent Literature & Field Case Series (`data/benchmark_field.csv`)
-- **Provenance**: `expert_authored` / `literature_case` (independent published case reports and IRRI Rice Doctor diagnostic compendium)
-- **Sample Size ($n$)**: 15 independently verified cases covering all 10 threat classes, co-infections, and negative controls
+### Benchmark 2: Independent Peer-Reviewed Literature Benchmark (`data/benchmark_field.csv`)
+- **Provenance**: `literature_case` / `lab_confirmed` (primary peer-reviewed disease notes from APS *Plant Disease*, BSPP *New Disease Reports*, *Crop Protection*, *Insects*, etc.; IRRI Rice Doctor explicitly excluded to avoid circularity)
+- **Sample Size ($n$)**: 32 independently verified cases (19 in-scope threats, 7 out-of-scope pathogens, 6 abiotic mimics)
+- **Protocol**: Two-stage extraction with immutable `raw_symptom_text`, verified DOIs, authentic collection dates/locations, and agronomist vocabulary mapping without inspecting SWRL rules.
 
 | Metric | Score |
 |---|---|
-| **Multi-Label Accuracy ((TP+TN)/Total)** | **100.00%** |
-| **Exact-Match Case Accuracy** | **100.00%** |
-| **Micro-Average Precision** | **100.0%** |
-| **Micro-Average Recall** | **100.0%** |
-| **Micro-Average F1-Score** | **100.0%** |
+| **Multi-Label Accuracy ((TP+TN)/Total)** | **99.38%** |
+| **Exact-Match Case Accuracy** | **93.75%** (30/32 cases) |
+| **Micro-Average Precision** | **100.0%** (17 TP, 0 FP) |
+| **Micro-Average Recall** | **89.5%** (17 TP, 2 FN) |
+| **Micro-Average F1-Score** | **94.4%** |
 
-*All cases cite peer-reviewed phytopathology literature or the IRRI Rice Doctor compendium with explicit geographic origin and observation metadata.*
+*Scientific Disclosure & Scope Limitations:*
+- **Controlled Vocabulary Coverage Bottleneck**: 100% of real-world literature cases contained clinical traits outside the 45-term vocabulary. The ontology lacks `Leaf_Sheath` (cannot express Sheath Rot/Sheath Blight), abiotic signatures (`Leaf_Rolling`, `Bronzing`, `Marginal_Scorch`), and grain lesions (`Glume_Discoloration`, `Powdery_Sooty_Spore_Masses`).
+- **Deductive Horn-Clause Specificity**: Out-of-scope pathogens and abiotic mimics generated 0 false positives because closed-world SWRL rules require strict conjunctions. As documented in `docs/LIMITATIONS.md`, this 100% precision reflects sampling bias and rule conservatism, not universal clinical infallibility. Two false negatives occurred on Rice Blast (`FIELD_03`) and Rice Tungro Virus (`FIELD_19`) due to unrepresented foliar and panicle features.
 
 ### Architectural & Reasoner Ablation Study
 

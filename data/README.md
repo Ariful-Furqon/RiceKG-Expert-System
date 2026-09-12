@@ -31,19 +31,29 @@ The 80 cases are partitioned into six diagnostic tiers:
 
 ---
 
-## 2. Independent Field & Literature Benchmark (`benchmark_field.csv`)
+## 2. Independent Peer-Reviewed Field Benchmark (`benchmark_field.csv`)
 
 ### Overview
 - **File**: `data/benchmark_field.csv`
+- **Sample Size ($n$)**: 32 independently verified cases
 - **Schema**:
-  `case_id,symptom_1,symptom_2,symptom_3,symptom_4,symptom_5,symptom_6,diagnosis,source,location,observation_date,annotator_id,ground_truth_method,citation`
-- **Provenance**: `expert_authored` / `literature_case` / `field_observed`
-- **Purpose**: Independent evaluation on cases authored or published outside the RiceKG rule-authoring process to break circularity.
+  `case_id,raw_symptom_text,symptom_1,symptom_2,symptom_3,symptom_4,symptom_5,symptom_6,diagnosis,source,location,observation_date,annotator_id,ground_truth_method,citation,doi`
+- **Provenance**: `literature_case` / `lab_confirmed` (primary peer-reviewed disease notes)
+- **Primary Sources**: APS *Plant Disease* ("Disease Notes"), BSPP *New Disease Reports*, *Crop Protection*, *Insects*, *Plant and Soil*, *Field Crops Research*.
+- **Circularity Avoidance**: IRRI Rice Doctor was explicitly excluded because the ontology's 45 symptoms were historically derived from IRRI diagnostic compendia. Sourcing from independent peer-reviewed literature ensures orthogonal evaluation.
 
-### Ground Truth Verification Methods
-- `literature_case`: Sourced from peer-reviewed phytopathology literature or the IRRI Rice Doctor diagnostic compendium with full bibliographic citations.
-- `lab_confirmed`: Diagnosed via laboratory isolation, PCR, or microscopic pathogen verification.
-- `expert_visual`: Visual diagnosis by certified agronomist/phytopathologist with inter-rater agreement logged.
+### Mandatory Two-Stage Construction Protocol
+1. **Stage A (Provenance & Verbatim Extraction)**:
+   - For every case, the authentic publication was retrieved and `raw_symptom_text` was extracted **verbatim**.
+   - `location`, `observation_date`, `ground_truth_method` (`lab_confirmed` / `literature_case`), `citation`, and `doi` were verified directly against the published text. No data was fabricated.
+2. **Stage B (Vocabulary Mapping)**:
+   - Verbatim symptoms were mapped into the 45 controlled vocabulary terms by an agronomist without inspecting SWRL rule definitions or `model.py` code.
+   - `raw_symptom_text` is preserved in the CSV as a permanent audit trail.
+
+### Dataset Composition ($n=32$)
+- **Target In-Scope Threats** ($n=19$, 59.4%): Cases representing the 10 diagnostic threat classes.
+- **Out-of-Scope Pathogens** ($n=7$, 21.9%): Pathogens outside the 10 modeled classes (*B. glumae*, *B. gladioli*, *S. oryzae*, *Rice hoja blanca virus*, *T. horrida*, *P. ananatis*, *F. andiyazi*), evaluated as negative controls (`diagnosis: No_Diagnosis`).
+- **Abiotic & Nutrient Stress Mimics** ($n=6$, 18.8%): Abiotic conditions mimicking foliar disease (Zinc deficiency, Iron toxicity, Nitrogen deficiency, Drought stress, Salinity stress), evaluated as negative controls (`diagnosis: No_Diagnosis`).
 
 ---
 

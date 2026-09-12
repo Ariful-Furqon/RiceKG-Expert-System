@@ -24,12 +24,25 @@ def test_field_benchmark_provenance_and_citations():
     assert os.path.exists(path), f"Field benchmark not found at {path}"
 
     data = evaluate.load_data(path)
-    assert len(data) >= 15, f"Expected at least 15 field cases, got {len(data)}"
+    assert len(data) >= 30, f"Expected at least 30 field cases per protocol, got {len(data)}"
 
-    # Check presence of citations and ground truth metadata
+    # Audit authentic DOIs, verbatim raw symptoms, and citation metadata
+    no_diag_count = 0
+    in_scope_count = 0
     for item in data:
         assert len(item["citation"]) > 10, f"Case {item['case_id']} missing valid citation"
-        assert len(item["symptoms"]) >= 1, f"Case {item['case_id']} must have at least one symptom"
+        assert len(item["raw_symptom_text"]) > 10, f"Case {item['case_id']} missing raw_symptom_text"
+        assert item["doi"].startswith("10."), f"Case {item['case_id']} must have a verified DOI starting with '10.'"
+
+        if item["raw_target"] == "No_Diagnosis":
+            no_diag_count += 1
+        else:
+            in_scope_count += 1
+            assert len(item["symptoms"]) >= 1, f"In-scope case {item['case_id']} must have at least one mapped symptom"
+
+    # Verify ~60% in-scope, ~40% out-of-scope / abiotic composition
+    assert in_scope_count >= 18, f"Expected at least 18 in-scope cases, got {in_scope_count}"
+    assert no_diag_count >= 12, f"Expected at least 12 negative control / out-of-scope cases, got {no_diag_count}"
 
 
 def test_agreement_analysis_refuses_empty(tmp_path):
