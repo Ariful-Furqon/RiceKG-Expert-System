@@ -183,13 +183,12 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/turtle")
 @app.route("/threats")
 @app.route("/knowledge-base")
-def turtle():
-    """Biotic threats catalog endpoint."""
-    return render_template("penyu.html", threats=THREAT_CATALOG)
+def threat_catalog():
+    """Renders the biotic threats knowledge base catalog."""
+    return render_template("threats.html", threats=THREAT_CATALOG)
 
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=os.environ.get("FLASK_DEBUG", "false").lower() == "true")

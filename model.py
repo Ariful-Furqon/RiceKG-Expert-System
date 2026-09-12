@@ -1,4 +1,4 @@
-﻿"""
+"""
 Rice Pest and Disease Diagnostic Model based on Ontology and SWRL Rules.
 """
 
@@ -188,18 +188,20 @@ with onto:
     rule20.set_as_rule("""hasSymptom(?Rice, Green_Leafhopper_Present) ^ hasSymptom(?Rice, Yellowing_Leaves) -> hasDisease(?Rice, Rice_Tungro_Virus)""")
 
 
-# Save English ontology file
-onto.save(file=ONTOLOGY_PATH, format="rdfxml")
-
-
 def predict_diseases(symptoms):
     """
     Infers rice pests and diseases using SWRL reasoning.
+
+    Creates a temporary Rice individual, attaches observed symptoms,
+    executes Pellet DL forward-chaining inference, extracts inferred
+    hasPest/hasDisease properties, and cleans up all temporary entities.
+
     :param symptoms: List of symptom identifier strings (English).
     :return: List of diagnosed pest and disease names.
     """
     plant_id = f"RiceSample_{uuid.uuid4().hex[:8]}"
     new_plant = Rice(plant_id, namespace=onto)
+    created_symptoms = []
 
     try:
         for symptom_name in symptoms:
@@ -210,6 +212,7 @@ def predict_diseases(symptoms):
             symptom_obj = onto.search_one(iri=f"*{symptom_name}")
             if symptom_obj is None:
                 symptom_obj = Symptom(symptom_name, namespace=onto)
+                created_symptoms.append(symptom_obj)
             new_plant.hasSymptom.append(symptom_obj)
 
         sync_reasoner_pellet(infer_property_values=True, infer_data_property_values=True)
@@ -219,3 +222,9 @@ def predict_diseases(symptoms):
         return predicted_names
     finally:
         destroy_entity(new_plant)
+        for sym in created_symptoms:
+            try:
+                destroy_entity(sym)
+            except Exception:
+                pass
+

@@ -1,4 +1,4 @@
-﻿"""
+"""
 Evaluation Script for Rice Pest and Disease Diagnostic Expert System.
 Calculates multi-label Confusion Matrix (TP, FP, FN, TN), Precision, Recall, F1-Score, and Accuracy.
 """
@@ -155,7 +155,7 @@ def run_evaluation():
 
     if false_positives_log:
         print("\n" + "=" * 80)
-        print("FALSE POSITIVE ANALYSIS (For Reviewer Comment #5)")
+        print("FALSE POSITIVE DIAGNOSTIC ANALYSIS")
         print("=" * 80)
         for fp_info in false_positives_log:
             print(f"Case #{fp_info['case_id']}:")

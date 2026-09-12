@@ -1,4 +1,4 @@
-﻿# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -73,3 +73,19 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
+
+# Project-specific: Scratch notebooks & experiments
+*.ipynb
+.ipynb_checkpoints/
+
+# Project-specific: Legacy Protege ontology files
+*.owx
+*.properties
+
+# Project-specific: Manuscript (must not be in public repo for journal review)
+RiceKG_Manuscript_Remake.md
+
+# Project-specific: Unused legacy assets
+static/dropdown.js
+static/Image_*.jpg
+static/images/output_*.png

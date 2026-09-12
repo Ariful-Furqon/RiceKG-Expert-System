@@ -1,25 +1,31 @@
-﻿# RiceKG: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Pest and Disease Diagnosis
+# RiceKG: Knowledge Graph and SWRL-Based Expert System for Rice Pest and Disease Diagnosis
 
-An ontology-driven expert system leveraging Web Ontology Language (OWL 2) and Semantic Web Rule Language (SWRL) with Pellet reasoner for diagnosing rice pests and diseases based on observed field symptoms.
+[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Pellet Reasoner](https://img.shields.io/badge/Reasoner-Pellet%20DL-orange)](https://github.com/stardog-union/pellet)
+[![OWL 2](https://img.shields.io/badge/Ontology-OWL%202-purple)](https://www.w3.org/TR/owl2-overview/)
 
----
-
-## 🌾 Overview
-
-This repository provides an automated semantic reasoning system for diagnosing 10 major rice pests and diseases. The system integrates:
-- **Ontology (OWL 2)**: Formal conceptualization of rice entities, symptoms, pests, diseases, and treatment management.
-- **SWRL Rules**: Deterministic forward-chaining rules linking combinations of phenotypic symptoms to specific diagnoses.
-- **Automated Pellet Reasoner (`owlready2`)**: Semantic inference engine executing property assertion and multi-label diagnosis.
-- **Flask Web Interface**: User-friendly web interface for interactive symptom selection and diagnosis.
-- **Multi-Label Evaluation Suite**: Automated script computing Confusion Matrix metrics (TP, FP, FN, TN, Precision, Recall, F1, Accuracy).
+An ontology-driven expert system leveraging **Web Ontology Language (OWL 2)** and **Semantic Web Rule Language (SWRL)** with the **Pellet DL reasoner** for diagnosing rice pests and diseases based on observed field symptoms.
 
 ---
 
-## 🔬 Diagnosed Pests & Diseases
+## Overview
+
+This repository provides an automated semantic reasoning system for diagnosing **10 major rice biotic threats** (5 destructive insect pests and 5 prevalent phytopathogenic diseases). The system integrates:
+
+- **Ontology (OWL 2)**: Formal TBox/ABox conceptualization of rice entities, symptoms, pests, diseases, and treatment management.
+- **Multi-Tier SWRL Rules**: 20 deterministic forward-chaining rules (Tier 1 canonical + Tier 2 relaxed partial-symptom rules) linking combinations of phenotypic symptoms to specific diagnoses.
+- **Pellet DL Reasoner (`owlready2`)**: Java-based Tableau description logic reasoner executing property assertion and multi-label diagnosis.
+- **Flask Web Interface**: Interactive web interface for symptom selection and diagnostic reasoning.
+- **Multi-Label Evaluation Suite**: Automated script computing per-class Confusion Matrix metrics (TP, FP, FN, TN, Precision, Recall, F1, Accuracy).
+
+---
+
+## Diagnosed Pests & Diseases
 
 | Type | Name | Scientific / Common Identifier |
 |---|---|---|
-| **Pest** | `Grasshopper` | *Oxya chinensis* / Grasshopper |
+| **Pest** | `Grasshopper` | *Oxya chinensis* |
 | **Pest** | `Rice_Root_Nematode` | *Hirschmanniella oryzae* |
 | **Pest** | `Rice_Stem_Borer` | *Scirpophaga incertulas* |
 | **Pest** | `Rice_Bug` | *Leptocorisa oratorius* |
@@ -32,37 +38,45 @@ This repository provides an automated semantic reasoning system for diagnosing 1
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 RiceKG-Expert-System/
 ├── app.py                  # Flask web application & diagnosis endpoints
-├── model.py                # Ontology schema, SWRL rule definitions, and Pellet inference
-├── evaluate.py             # Evaluation script for full confusion matrix calculation
-├── test.py                 # Unit test script with sample cases
-├── dataText.csv            # Test dataset (20 field test cases with symptoms & targets)
+├── model.py                # OWL 2 ontology schema, SWRL rule definitions, and Pellet inference
+├── evaluate.py             # Multi-label evaluation with per-class confusion matrix
+├── test.py                 # Automated pytest test suite (18 test cases)
+├── dataText.csv            # Benchmark dataset (20 field test cases with symptoms & targets)
 ├── rice_ontology.owl       # Generated OWL 2 RDF/XML ontology file
-├── static/                 # CSS, stylesheets, and assets
-├── templates/              # HTML templates (Bootstrap + Jinja2)
-│   ├── index.html          # Main symptom selection form
-│   ├── result.html         # Diagnostic result display
-│   ├── layout.html         # Base template
-│   └── about.html          # Project information
 ├── requirements.txt        # Python package dependencies
+├── Procfile                # WSGI deployment configuration
+├── CITATION.cff            # Citation metadata for academic referencing
+├── LICENSE                 # MIT License
+├── static/
+│   ├── site.css            # Application stylesheet
+│   └── data.json           # Biotic threats knowledge catalog (IPM prescriptions)
+├── templates/
+│   ├── layout.html         # Base template with navigation
+│   ├── index.html          # Interactive symptom selection form
+│   ├── result.html         # Diagnostic report with IPM recommendations
+│   ├── threats.html        # Biotic threats knowledge base catalog
+│   └── about.html          # System architecture information
 └── README.md               # Documentation
 ```
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
-- Python 3.9+
-- Java Runtime Environment (JRE/JDK 11+) for Pellet Reasoner
+- **Python 3.9+**
+- **Java Runtime Environment (JRE/JDK 11+)** — Required for the Pellet DL Reasoner
+
+> **Note**: The Pellet reasoner is bundled with `owlready2` but requires a Java runtime to execute. Ensure `java` is available on your system PATH.
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/<YOUR_USERNAME>/RiceKG-Expert-System.git
+git clone https://github.com/Ariful-Furqon/RiceKG-Expert-System.git
 cd RiceKG-Expert-System
 ```
 
@@ -70,18 +84,14 @@ cd RiceKG-Expert-System
 ```bash
 pip install -r requirements.txt
 ```
-*(Or install core dependencies directly)*:
-```bash
-pip install flask owlready2
-```
 
 ---
 
-## 🧪 Usage
+## Usage
 
-### Run Unit Tests
+### Run Automated Test Suite
 ```bash
-python test.py
+python -m pytest test.py -v
 ```
 
 ### Run Benchmark Evaluation (Confusion Matrix)
@@ -97,7 +107,7 @@ Open your browser and navigate to: `http://127.0.0.1:5000/`
 
 ---
 
-## 📊 Evaluation Results
+## Evaluation Results
 
 Benchmark evaluation on 20 multi-label field test instances:
 
@@ -111,6 +121,22 @@ Benchmark evaluation on 20 multi-label field test instances:
 
 ---
 
-## 📄 Citation & License
+## Citation
 
-This project is licensed under the MIT License.
+If you use this software in your research, please cite:
+
+```bibtex
+@software{furqon2026ricekg,
+  author    = {Furqon, Ariful},
+  title     = {{RiceKG}: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Pest and Disease Diagnosis},
+  year      = {2026},
+  url       = {https://github.com/Ariful-Furqon/RiceKG-Expert-System},
+  license   = {MIT}
+}
+```
+
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.

@@ -36,7 +36,7 @@
             </a>
           </li>
           <li>
-            <a href="{{ url_for('turtle') }}" class="nav-link-item {% if request.endpoint == 'turtle' %}active{% endif %}">
+            <a href="{{ url_for('threat_catalog') }}" class="nav-link-item {% if request.endpoint == 'threat_catalog' %}active{% endif %}">
               <i class="fa-solid fa-book-medical"></i> Biotic Threats
             </a>
           </li>
@@ -64,7 +64,7 @@
         </div>
         <div class="footer-links">
           <a href="{{ url_for('index_page') }}" class="footer-link">Diagnosis</a>
-          <a href="{{ url_for('turtle') }}" class="footer-link">Knowledge Base</a>
+          <a href="{{ url_for('threat_catalog') }}" class="footer-link">Knowledge Base</a>
           <a href="{{ url_for('about') }}" class="footer-link">Architecture</a>
           <a href="https://github.com/Ariful-Furqon/RiceKG-Expert-System" target="_blank" class="footer-link">
             <i class="fa-brands fa-github"></i> GitHub
