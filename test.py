@@ -1,13 +1,3 @@
-"""
-Automated Test Suite for RiceKG Diagnostic Expert System.
-
-Verifies SWRL rule inference correctness for all 10 target biotic threats
-using the Pellet DL reasoner via owlready2.
-
-Usage:
-    python -m pytest test.py -v
-"""
-
 import pytest
 import model
 

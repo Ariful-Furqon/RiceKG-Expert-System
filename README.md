@@ -39,34 +39,6 @@ This repository provides an automated semantic reasoning system for diagnosing *
 
 ---
 
-## Repository Structure
-
-```
-RiceKG-Expert-System/
-├── app.py                  # Flask web application & diagnosis endpoints
-├── model.py                # OWL 2 ontology schema, SWRL rule definitions, and Pellet inference
-├── evaluate.py             # Multi-label evaluation with per-class confusion matrix
-├── test.py                 # Automated pytest test suite (18 test cases)
-├── dataText.csv            # Benchmark dataset (80 stratified field test cases)
-├── rice_ontology.owl       # OWL 2 RDF/XML domain ontology file
-├── requirements.txt        # Python package dependencies
-├── Procfile                # WSGI deployment configuration
-├── CITATION.cff            # Citation metadata for academic referencing
-├── LICENSE                 # MIT License
-├── static/
-│   ├── site.css            # Application stylesheet
-│   └── data.json           # Biotic threats knowledge catalog (IPM prescriptions)
-├── templates/
-│   ├── layout.html         # Base template with navigation
-│   ├── index.html          # Interactive symptom selection form
-│   ├── result.html         # Diagnostic report with IPM recommendations
-│   ├── threats.html        # Biotic threats knowledge base catalog
-│   └── about.html          # System architecture information
-└── README.md               # Documentation
-```
-
----
-
 ## Installation & Setup
 
 ### Prerequisites
@@ -146,24 +118,6 @@ Benchmark evaluation on **80 stratified multi-label test instances** across 6 ev
 | Rice_Grassy_Stunt | 7 | 0 | 1 | 72 | 100.0% | 87.5% | 93.3% |
 | Rice_Tungro_Virus | 7 | 0 | 1 | 72 | 100.0% | 87.5% | 93.3% |
 | **TOTAL (Micro Avg)** | **76** | **2** | **4** | **718** | **97.4%** | **95.0%** | **96.2%** |
-
----
-
-## Citation
-
-If you use this software in your research, please cite:
-
-```bibtex
-@software{furqon2026ricekg,
-  author    = {Furqon, Ariful},
-  title     = {{RiceKG}: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Pest and Disease Diagnosis},
-  year      = {2026},
-  url       = {https://github.com/Ariful-Furqon/RiceKG-Expert-System},
-  license   = {MIT}
-}
-```
-
----
 
 ## License
 

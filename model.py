@@ -1,7 +1,3 @@
-"""
-Rice Pest and Disease Diagnostic Model based on Ontology and SWRL Rules.
-"""
-
 import os
 import uuid
 from owlready2 import *

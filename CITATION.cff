@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Furqon
     given-names: Ariful
-    affiliation: "Department of Information Technology, Faculty of Computer Science, Universitas Jember"
+    affiliation: "Department of Informatics, Faculty of Computer Science, Universitas Jember"
 repository-code: "https://github.com/Ariful-Furqon/RiceKG-Expert-System"
 license: MIT
 keywords:
@@ -27,7 +27,7 @@ preferred-citation:
   type: article
   authors:
     - family-names: Furqon
-      given-names: Ariful
-      affiliation: "Department of Information Technology, Faculty of Computer Science, Universitas Jember"
+      given-names: Muhammad Ariful
+      affiliation: "Department of Informatics, Faculty of Computer Science, Universitas Jember"
   title: "RiceKG: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Pest and Disease Diagnosis"
   year: 2026

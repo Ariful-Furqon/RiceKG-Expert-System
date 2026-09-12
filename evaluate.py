@@ -1,8 +1,3 @@
-"""
-Evaluation Script for Rice Pest and Disease Diagnostic Expert System.
-Calculates multi-label Confusion Matrix (TP, FP, FN, TN), Precision, Recall, F1-Score, and Accuracy.
-"""
-
 import os
 import csv
 from collections import defaultdict
