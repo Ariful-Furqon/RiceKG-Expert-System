@@ -52,7 +52,8 @@ class TestP01SubsumptionResolution:
         gh_relax = next((d for d in out_relaxed if d["threat"] == "Grasshopper"), None)
         assert gh_relax is not None
         assert gh_relax["grade"] == "suspected"
-        assert gh_relax["confidence"] == 0.7
+        assert gh_relax["confidence"] == 0.9714
+        assert gh_relax["antecedent_coverage"] == round(2 / 6, 4)
         assert "SWRL-R01" not in gh_relax["fired_rules"]
         assert "SWRL-R11" in gh_relax["fired_rules"]
         assert len(gh_relax["missing_symptoms"]) == 4
@@ -82,7 +83,8 @@ class TestP01SubsumptionResolution:
         rb_relax = next((d for d in out_relaxed if d["threat"] == "Rice_Blast"), None)
         assert rb_relax is not None
         assert rb_relax["grade"] == "suspected"
-        assert rb_relax["confidence"] == 0.7
+        assert rb_relax["confidence"] == 0.9714
+        assert rb_relax["antecedent_coverage"] == round(2 / 4, 4)
         assert "SWRL-R08" not in rb_relax["fired_rules"]
         assert "SWRL-R18" in rb_relax["fired_rules"]
         assert "Uniform_Field_Infection" in rb_relax["missing_symptoms"]

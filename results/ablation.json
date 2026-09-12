@@ -1,0 +1,81 @@
+{
+  "total_benchmark_cases": 80,
+  "generated_at": "2026-09-12T13:24:12Z",
+  "results": [
+    {
+      "variant": "full",
+      "name": "RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)",
+      "exact_acc": 92.5,
+      "multi_acc": 99.25,
+      "precision": 97.44,
+      "recall": 95.0,
+      "f1": 96.2,
+      "tp": 76,
+      "fp": 2,
+      "fn": 4,
+      "tn": 718,
+      "mean_latency_ms": 520.76,
+      "p95_latency_ms": 579.41
+    },
+    {
+      "variant": "tier1_only",
+      "name": "Ablation: Tier 1 Canonical Only (Pellet DL)",
+      "exact_acc": 32.5,
+      "multi_acc": 91.0,
+      "precision": 100.0,
+      "recall": 10.0,
+      "f1": 18.18,
+      "tp": 8,
+      "fp": 0,
+      "fn": 72,
+      "tn": 720,
+      "mean_latency_ms": 515.57,
+      "p95_latency_ms": 574.25
+    },
+    {
+      "variant": "tier2_only",
+      "name": "Ablation: Tier 2 Relaxed Only (Pellet DL)",
+      "exact_acc": 92.5,
+      "multi_acc": 99.25,
+      "precision": 97.44,
+      "recall": 95.0,
+      "f1": 96.2,
+      "tp": 76,
+      "fp": 2,
+      "fn": 4,
+      "tn": 718,
+      "mean_latency_ms": 502.42,
+      "p95_latency_ms": 530.42
+    },
+    {
+      "variant": "flat_rules",
+      "name": "Ablation: Flat Rules Unstratified (Pellet DL)",
+      "exact_acc": 92.5,
+      "multi_acc": 99.25,
+      "precision": 97.44,
+      "recall": 95.0,
+      "f1": 96.2,
+      "tp": 76,
+      "fp": 2,
+      "fn": 4,
+      "tn": 718,
+      "mean_latency_ms": 503.51,
+      "p95_latency_ms": 514.83
+    },
+    {
+      "variant": "no_reasoner",
+      "name": "Ablation: No Reasoner (Pure Python Set-Matching)",
+      "exact_acc": 92.5,
+      "multi_acc": 99.25,
+      "precision": 97.44,
+      "recall": 95.0,
+      "f1": 96.2,
+      "tp": 76,
+      "fp": 2,
+      "fn": 4,
+      "tn": 718,
+      "mean_latency_ms": 0.0,
+      "p95_latency_ms": 0.0
+    }
+  ]
+}

@@ -36,8 +36,12 @@ jobs:
 
       - name: Run automated pytest test suite
         run: |
-          python -m pytest test.py -v
+          python -m pytest tests/ test.py -v
 
       - name: Run benchmark evaluation suite
         run: |
           python evaluate.py
+
+      - name: Run ablation study suite
+        run: |
+          python ablation.py
