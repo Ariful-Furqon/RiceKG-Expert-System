@@ -1,7 +1,3 @@
-"""
-Flask Web Application for RiceKG: Rice Pest and Disease Diagnostic Expert System.
-"""
-
 import os
 import json
 import time
