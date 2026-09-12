@@ -73,7 +73,7 @@ def run_evaluation():
     false_positives_log = []
 
     for item in dataset:
-        predicted = model.predict_diseases(item["symptoms"])
+        predicted = model.predict_diseases_flat(item["symptoms"])
         predicted_set = set(predicted)
         expected_set = set(item["expected"])
 

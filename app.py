@@ -2,7 +2,7 @@ import os
 import json
 import time
 from flask import Flask, request, render_template, redirect, url_for, jsonify
-from model import predict_diseases, explain_diagnoses, SWRL_RULES_METADATA
+from model import predict_diseases, predict_diseases_flat, explain_diagnoses, SWRL_RULES_METADATA
 
 app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -183,7 +183,9 @@ def diagnose():
         selected_symptoms = request.form.getlist('mycheckbox')
         print(f"[Diagnosis Request] Selected symptoms ({len(selected_symptoms)}):", selected_symptoms)
         
-        diagnosed_results = predict_diseases(selected_symptoms)
+        graded_results = predict_diseases(selected_symptoms)
+        diagnosed_results = [item["threat"] for item in graded_results]
+        grade_map = {item["threat"]: item for item in graded_results}
         elapsed_time = round(time.time() - start_time, 3)
         print(f"[Diagnosis Result] Inferred in {elapsed_time}s:", diagnosed_results)
 
@@ -200,8 +202,12 @@ def diagnose():
                         threat_info = t
                         break
 
+            item_grade = grade_map.get(diag_name, {})
             if threat_info:
                 threat_copy = dict(threat_info)
+                threat_copy["grade"] = item_grade.get("grade", "confirmed")
+                threat_copy["confidence"] = item_grade.get("confidence", 1.0)
+                threat_copy["fired_rules"] = item_grade.get("fired_rules", [])
                 threat_copy["explanation"] = explanations.get(diag_name, {})
                 enriched_diagnoses.append(threat_copy)
             else:
@@ -210,6 +216,9 @@ def diagnose():
                     "nama": diag_name.replace("_", " "),
                     "nama_latin": "Scientific identification confirmed via SWRL",
                     "kategori": "Biotic Threat",
+                    "grade": item_grade.get("grade", "confirmed"),
+                    "confidence": item_grade.get("confidence", 1.0),
+                    "fired_rules": item_grade.get("fired_rules", []),
                     "icon": "🌾",
                     "badge_class": "badge-disease",
                     "organ_target": "Rice Crop",
@@ -269,7 +278,9 @@ def api_diagnose():
         }), 400
 
     start_time = time.time()
-    diagnosed_results = predict_diseases(symptoms)
+    graded_results = predict_diseases(symptoms)
+    diagnosed_results = [item["threat"] for item in graded_results]
+    grade_map = {item["threat"]: item for item in graded_results}
     elapsed_time = round(time.time() - start_time, 3)
 
     explanations = explain_diagnoses(symptoms, diagnosed_results)
@@ -283,11 +294,15 @@ def api_diagnose():
                     threat_info = t
                     break
 
+        item_grade = grade_map.get(diag_name, {})
         item = {
             "key": diag_name,
             "name": threat_info.get("nama", diag_name.replace("_", " ")) if threat_info else diag_name,
             "scientific_name": threat_info.get("nama_latin", "Scientific ID confirmed via SWRL") if threat_info else "",
             "category": threat_info.get("kategori", "Biotic Threat") if threat_info else "Biotic Threat",
+            "grade": item_grade.get("grade", "confirmed"),
+            "confidence": item_grade.get("confidence", 1.0),
+            "fired_rules": item_grade.get("fired_rules", []),
             "target_organ": threat_info.get("organ_target", "Rice Plant") if threat_info else "Rice Plant",
             "description": threat_info.get("deskripsi", "") if threat_info else "",
             "ipm_prescriptions": threat_info.get("pengendalian_ipm", []) if threat_info else [],
