@@ -1,6 +1,6 @@
 {
   "total_benchmark_cases": 80,
-  "generated_at": "2026-09-12T13:24:12Z",
+  "generated_at": "2026-09-12T13:30:05Z",
   "results": [
     {
       "variant": "full",
@@ -14,8 +14,8 @@
       "fp": 2,
       "fn": 4,
       "tn": 718,
-      "mean_latency_ms": 520.76,
-      "p95_latency_ms": 579.41
+      "mean_latency_ms": 501.63,
+      "p95_latency_ms": 534.77
     },
     {
       "variant": "tier1_only",
@@ -29,8 +29,8 @@
       "fp": 0,
       "fn": 72,
       "tn": 720,
-      "mean_latency_ms": 515.57,
-      "p95_latency_ms": 574.25
+      "mean_latency_ms": 478.17,
+      "p95_latency_ms": 541.72
     },
     {
       "variant": "tier2_only",
@@ -44,8 +44,8 @@
       "fp": 2,
       "fn": 4,
       "tn": 718,
-      "mean_latency_ms": 502.42,
-      "p95_latency_ms": 530.42
+      "mean_latency_ms": 461.96,
+      "p95_latency_ms": 496.49
     },
     {
       "variant": "flat_rules",
@@ -59,8 +59,8 @@
       "fp": 2,
       "fn": 4,
       "tn": 718,
-      "mean_latency_ms": 503.51,
-      "p95_latency_ms": 514.83
+      "mean_latency_ms": 458.63,
+      "p95_latency_ms": 469.71
     },
     {
       "variant": "no_reasoner",

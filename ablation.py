@@ -26,29 +26,17 @@ import argparse
 import model
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_CSV = os.path.join(BASE_DIR, "dataText.csv")
+DEFAULT_SYNTHETIC = os.path.join(BASE_DIR, "data", "benchmark_synthetic.csv")
+LEGACY_CSV = os.path.join(BASE_DIR, "dataText.csv")
+DEFAULT_CSV = DEFAULT_SYNTHETIC if os.path.exists(DEFAULT_SYNTHETIC) else LEGACY_CSV
 DEFAULT_OUT_DIR = os.path.join(BASE_DIR, "results")
 ALL_CLASSES = list(model.SWRL_RULES_METADATA.keys())
 
 
 def load_benchmark(csv_path=DEFAULT_CSV):
     """Loads benchmark cases with symptom profiles and ground truth diagnoses."""
-    dataset = []
-    with open(csv_path, mode="r", encoding="utf-8-sig") as f:
-        reader = csv.reader(f)
-        header = next(reader, None)
-        for row in reader:
-            if not row or not any(field.strip() for field in row):
-                continue
-            raw_target = row[6].strip() if len(row) > 6 else ""
-            symptoms = [c.strip() for c in row[:6] if c.strip() and c.strip() != raw_target]
-            targets = [] if raw_target == "No_Diagnosis" else [t.strip() for t in raw_target.split(" and ") if t.strip()]
-            dataset.append({
-                "symptoms": symptoms,
-                "expected": targets,
-                "raw_target": raw_target
-            })
-    return dataset
+    import evaluate
+    return evaluate.load_data(csv_path)
 
 
 def predict_no_reasoner(symptoms):

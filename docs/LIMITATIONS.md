@@ -1,43 +1,46 @@
 # System Limitations & Diagnostic Architectural Findings
 
-## 1. Monotonic Description Logic Subsumption Between Tier-1 and Tier-2 Rules
+## 1. Description Logic Subsumption and Rejection of Probabilistic Calibration Claim
 
-### The Architectural Issue
-In the initial version of RiceKG, SWRL rules were stratified into:
+### The Architectural Problem
+In the initial engineering of RiceKG, SWRL rules were stratified into two layers:
 - **Tier 1 (Canonical / Pathognomonic)**: High-cardinality antecedent sets ($4 \le |S| \le 7$ symptoms).
-- **Tier 2 (Relaxed Composite)**: Low-cardinality antecedent sets ($2 \le |S| \le 3$ symptoms), where the Tier-2 antecedents formed a strict subset of the Tier-1 antecedents:
+- **Tier 2 (Relaxed Composite)**: Low-cardinality antecedent sets ($2 \le |S| \le 3$ symptoms), where the Tier-2 antecedents formed a strict subset of Tier 1:
   $$\text{Ant}(R_{\text{tier2}}) \subset \text{Ant}(R_{\text{tier1}})$$
 
-Under classical 2-valued first-order Horn-clause semantics, if both rules assert the identical predicate $\text{hasThreat}(?Rice, T)$, Tier 1 is logically redundant in terms of the diagnosis set:
+Under classical first-order Horn-clause semantics, asserting the same predicate $\text{hasThreat}(?Rice, T)$ causes Tier 1 to be logically redundant:
 $$\forall \text{Rice Sample } x, \quad \text{fires}(R_{\text{tier1}}, x) \implies \text{fires}(R_{\text{tier2}}, x)$$
-Whenever Tier 1 fires, Tier 2 has already fired; whenever Tier 1 does not fire, Tier 2 might fire. Therefore, Tier 1 never changes the set of inferred threat individuals $\{\text{Grasshopper}, \dots\}$.
+Tier 1 never altered the inferred extension of diagnosed threats beyond Tier 2 alone.
 
-### The Empirical Resolution: Confidence-Graded Inference
-To resolve this logical defect without discarding domain expert pathognomonic rules, RiceKG separates the consequents into distinct OWL object properties in a multiple inheritance hierarchy:
-- Tier 1 asserts `hasConfirmedThreat`
-- Tier 2 asserts `hasSuspectedThreat`
-- Both inherit from `hasThreat` (`hasPest` / `hasDisease`)
+### Out-of-Sample Calibration Analysis & Rejection of Calibration Claim
+To resolve this, RiceKG introduced distinct subproperties (`hasConfirmedThreat` vs `hasSuspectedThreat` ⊑ `hasThreat`). When evaluating whether this stratification yields probabilistic calibration:
 
-When measured on the benchmark dataset (`evaluate.py`):
-1. **Diagnosis Set Invariance**: Tier 1 still does not expand the set of diagnosed threats beyond Tier 2 alone. In terms of raw multi-label recall, Tier-2-only achieves identical coverage to Full (76 TP out of 80 targets).
-2. **Diagnostic Calibration and Precision**:
-   - **Tier-1 Precision@Confirmed**: **100.00%** (8 TP, 0 FP). When canonical pathognomonic criteria are met, the false discovery rate is exactly 0.00%.
-   - **Tier-2 Precision@Suspected**: **97.14%** (68 TP, 2 FP). When partial observation criteria are met, recall is dramatically expanded (+68 diagnoses), but incurs 2 false positive discoveries (Case #59 Brown Planthopper co-diagnosed as Rice Bug; Case #60 False Smut co-diagnosed as Rice Blast).
-   - **Brier Score**: Stratified confidence grading reduces multi-label probabilistic error from **0.007500** (flat binary) to **0.007429** (calibrated graded).
+1. **In-Sample Train-on-Test Flaw**: Initial internal evaluations assigned $p = 1.000$ for confirmed and $p = 0.9714$ for suspected. However, $0.9714$ was the empirical precision calculated across the entire test set ($68 / 70$). Evaluating Brier score on the same data that yielded the parameters constituted a train-on-test circularity that reported a cosmetic 0.95% reduction ($0.007500 \to 0.007429$).
+2. **Out-of-Sample Cross-Validation**: When evaluated under stratified 5-fold cross-validation where $\hat{p}(\text{confirmed})$ and $\hat{p}(\text{suspected})$ are estimated strictly on $k-1$ training folds and evaluated on held-out folds:
+   - **Out-of-Sample Brier (Flat Binary)**: `0.007500`
+   - **Out-of-Sample Brier (Stratified Graded)**: `0.007479`
+   - **Brier Reduction**: `+0.000021` (`0.28%` reduction).
+   - **Non-Parametric Bootstrap 95% Confidence Intervals** ($B = 1000$):
+     - $\hat{p}(\text{Confirmed})$: point estimate `1.0000` [95% CI: `1.0000`, `1.0000`]
+     - $\hat{p}(\text{Suspected})$: point estimate `0.9714` [95% CI: `0.9285`, `1.0000`]
+3. **Formal Rejection of Calibration Claim**: Because the 95% bootstrap CI for $\hat{p}(\text{Suspected})$ includes `1.0000` and the out-of-sample Brier reduction is functionally indistinguishable from zero ($0.000021$), **we explicitly reject the claim that SWRL rule stratification provides probabilistic calibration**. The system is a deterministic deductive reasoner, not a calibrated probabilistic classifier.
 
-### Recommendation for Manuscript Framing
-The manuscript must **not** claim that Tier 1 expands diagnostic recall. Rather, the multi-tier architecture should be framed as a **specificity vs. sensitivity trade-off mechanism**:
-- Tier 1 serves as a high-specificity pathognomonic confirmation filter (100% precision, 0% FDR).
-- Tier 2 serves as an actionable field screening filter under incomplete symptom scouting (high sensitivity, 97.14% precision).
+### True Role of Multi-Tier Stratification: Epistemic Specificity vs. Screening Sensitivity
+The valid scientific contribution of the multi-tier architecture is qualitative and epistemic, not probabilistic:
+- **Tier 1 (Pathognomonic Specificity)**: Guarantees **100.00% precision with zero false discoveries** ($FP = 0$). When all canonical symptoms are observed, the diagnosis is definitively verified.
+- **Tier 2 (Actionable Screening Sensitivity)**: Expands diagnostic recall from 10.0% to 95.0% under incomplete or early-stage field scouting, at the cost of rare false discoveries ($FP = 2$, precision $97.14\%$).
 
 ---
 
-## 2. Evaluation Set Circularity and Ceiling Effects
+## 2. Evaluation Set Circularity and Field Benchmark Independence
 
-The standard benchmark file `dataText.csv` (80 test instances) was constructed using synthetic symptom profiles derived directly from the SWRL rule antecedent definitions. 
+### The Circularity Defect of `benchmark_synthetic.csv`
+The benchmark file `data/benchmark_synthetic.csv` (80 test instances, formerly `dataText.csv`) was authored by the knowledge engineering team from the same SWRL rule antecedents that the reasoner executes:
+1. **Ceiling Bias**: Multi-label accuracy of 99.25% and exact-match accuracy of 92.50% reflect deductive rule verification, not empirical diagnostic efficacy on real-world crops.
+2. **Data Provenance Disclosure**: In accordance with scientific integrity standards, `data/README.md` classifies `benchmark_synthetic.csv` as `provenance: rule_derived`.
 
-### Implications
-1. **Ceiling Performance**: The system scores 99.25% multi-label accuracy and 92.50% exact-match accuracy because the test cases are synthetically aligned with the rule base.
-2. **Generalization Gap**: Performance on real-world field observations (where farmers observe noisy, co-infected, or atypical symptom manifestations) cannot be rigorously estimated from `dataText.csv` alone.
-3. **Remediation**: An independent, expert-annotated field dataset (`benchmark_field.csv`) must be evaluated to break this circularity (see P0-3).
-
+### Remediation: Independent Literature & Field Benchmark (`benchmark_field.csv`)
+To break evaluation circularity:
+1. **Independent Benchmark (`data/benchmark_field.csv`)**: Contains authentic, peer-reviewed case reports and IRRI Rice Doctor compendium entries ($n=15$) spanning all 10 threat classes, with complete bibliographic citations, geographical coordinates, observation dates, and ground truth verification methods (`literature_case`).
+2. **Inter-Annotator Agreement Protocol**: `analysis/agreement.py` provides Cohen's and Fleiss' $\kappa$ with bootstrap CIs for prospective multi-rater extension scouting.
+3. **Separation of Metrics**: The synthetic benchmark and independent field benchmark are evaluated separately via `evaluate.py --dataset [synthetic|field]` and are **never pooled into an aggregate score**.

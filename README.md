@@ -87,18 +87,11 @@ Open your browser and navigate to: `http://127.0.0.1:5000/`
 
 ## Evaluation Results
 
-Benchmark evaluation on **80 stratified multi-label test instances** across 6 evaluation tiers designed to stress-test the system under field symptom uncertainty:
+To prevent evaluation circularity, performance is reported separately on two distinct benchmarks with explicit provenance tracking. **Synthetic and independent cases are never pooled.**
 
-| Tier | Description | Cases |
-|---|---|---|
-| T1 | Canonical full-symptom profiles | 10 |
-| T2 | Relaxed partial-symptom profiles | 10 |
-| T3 | Multi-threat co-infections (including masking scenarios) | 18 |
-| T4 | Noisy field observations with environmental distractors | 22 |
-| T5 | Symptom under-reporting / sub-threshold observations | 8 |
-| T6 | Non-pathognomonic environmental & negative controls | 12 |
-
-### Aggregate Metrics
+### Benchmark 1: Synthetic Rule-Derived Benchmark (`data/benchmark_synthetic.csv`)
+- **Provenance**: `rule_derived` (authored to verify deductive SWRL rule firing consistency)
+- **Sample Size ($n$)**: 80 test cases across 6 diagnostic tiers (T1–T6)
 
 | Metric | Score |
 |---|---|
@@ -108,33 +101,37 @@ Benchmark evaluation on **80 stratified multi-label test instances** across 6 ev
 | **Micro-Average Recall** | **95.0%** |
 | **Micro-Average F1-Score** | **96.2%** |
 
-### Per-Class Confusion Matrix
+*Methodological Note: As documented in `docs/LIMITATIONS.md` and `data/README.md`, near-ceiling performance on this dataset reflects deductive consistency under closed-world assumptions, because cases are derived from the rule antecedents.*
 
-| Diagnosis (Class) | TP | FP | FN | TN | Precision (%) | Recall (%) | F1 (%) |
-|---|---|---|---|---|---|---|---|
-| Grasshopper | 7 | 0 | 0 | 73 | 100.0% | 100.0% | 100.0% |
-| Rice_Root_Nematode | 6 | 0 | 1 | 73 | 100.0% | 85.7% | 92.3% |
-| Rice_Stem_Borer | 9 | 0 | 0 | 71 | 100.0% | 100.0% | 100.0% |
-| Rice_Bug | 5 | 1 | 0 | 74 | 83.3% | 100.0% | 90.9% |
-| Brown_Planthopper | 7 | 0 | 0 | 73 | 100.0% | 100.0% | 100.0% |
-| Bacterial_Leaf_Blight | 9 | 0 | 0 | 71 | 100.0% | 100.0% | 100.0% |
-| False_Smut | 9 | 0 | 0 | 71 | 100.0% | 100.0% | 100.0% |
-| Rice_Blast | 10 | 1 | 1 | 68 | 90.9% | 90.9% | 90.9% |
-| Rice_Grassy_Stunt | 7 | 0 | 1 | 72 | 100.0% | 87.5% | 93.3% |
-| Rice_Tungro_Virus | 7 | 0 | 1 | 72 | 100.0% | 87.5% | 93.3% |
-| **TOTAL (Micro Avg)** | **76** | **2** | **4** | **718** | **97.4%** | **95.0%** | **96.2%** |
+### Benchmark 2: Independent Literature & Field Case Series (`data/benchmark_field.csv`)
+- **Provenance**: `expert_authored` / `literature_case` (independent published case reports and IRRI Rice Doctor diagnostic compendium)
+- **Sample Size ($n$)**: 15 independently verified cases covering all 10 threat classes, co-infections, and negative controls
 
-### Architectural Ablation Study
+| Metric | Score |
+|---|---|
+| **Multi-Label Accuracy ((TP+TN)/Total)** | **100.00%** |
+| **Exact-Match Case Accuracy** | **100.00%** |
+| **Micro-Average Precision** | **100.0%** |
+| **Micro-Average Recall** | **100.0%** |
+| **Micro-Average F1-Score** | **100.0%** |
 
-Empirical validation of the Multi-Tier SWRL rule architecture across the 80 benchmark test cases:
+*All cases cite peer-reviewed phytopathology literature or the IRRI Rice Doctor compendium with explicit geographic origin and observation metadata.*
 
-| Configuration / Model Variant | Exact Match (%) | Precision (%) | Recall (%) | F1-Score (%) | Multi-Label Acc (%) |
-|---|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Proposed Full: Tier 1 + Tier 2)** | **92.50%** | **97.4%** | **95.0%** | **96.2%** | **99.25%** |
-| *Ablation A: Tier 1 Canonical-Only (No Relaxed Rules)* | 32.50% | 100.0% | 10.0% | 18.2% | 91.00% |
-| *Ablation B: Tier 2 Relaxed-Only (No Canonical Rules)* | 92.50% | 97.4% | 95.0% | 96.2% | 99.25% |
+### Architectural & Reasoner Ablation Study
 
-> **Key Finding:** When Tier 2 relaxed composite rules are ablated (*Canonical-Only*), the system's Recall collapses from **95.0% to 10.0%** (with 72 false negatives), because strict pathognomonic rules fail to fire under partial field scouting. This empirically proves the necessity of multi-tier rule stratification for robust agricultural diagnosis under symptom uncertainty.
+Empirical validation across 5 architectural variants under Pellet DL forward-chaining reasoning (evaluated on $n=80$ benchmark cases; persistent results in `results/ablation.md`):
+
+| Variant | Exact Match (%) | Micro Prec (%) | Micro Rec (%) | Micro F1 (%) | Mean Latency (ms) | P95 Latency (ms) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **RiceKG Full (T1 + T2 Stratified, Pellet DL)** | **92.50%** | **97.4%** | **95.0%** | **96.2%** | **520.76** | **579.41** |
+| *Ablation A: Tier 1 Canonical Only (Pellet DL)* | 32.50% | 100.0% | 10.0% | 18.2% | 515.57 | 574.25 |
+| *Ablation B: Tier 2 Relaxed Only (Pellet DL)* | 92.50% | 97.4% | 95.0% | 96.2% | 502.42 | 530.42 |
+| *Ablation C: Flat Rules Unstratified (Pellet DL)* | 92.50% | 97.4% | 95.0% | 96.2% | 503.51 | 514.83 |
+| *Baseline Control: No Reasoner (Set-Matching)* | 92.50% | 97.4% | 95.0% | 96.2% | 0.00 | 0.00 |
+
+> **Key Architectural Insights**:
+> 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 95.0% to 10.0%, while guaranteeing 100% precision (0 false positives). Tier-2 expands field sensitivity under incomplete symptom observation.
+> 2. **Reasoner Engineering Trade-Off**: Pure Python set-matching executes in <0.05 ms per query, whereas Pellet DL requires ~520 ms. The DL reasoner is justified not by speed, but by ontological property subsumption (`hasConfirmedPest` ⊑ `hasConfirmedThreat`), consistency verification, and deductive derivation trees for explainable AI (XAI).
 
 ---
 
