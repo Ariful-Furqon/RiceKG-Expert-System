@@ -32,13 +32,11 @@ def load_data(csv_path):
         for row_idx, row in enumerate(reader, 2):
             if not row or not any(field.strip() for field in row):
                 continue
-            fields = [c.strip() for c in row if c.strip()]
-            if len(fields) < 2:
-                continue
 
             raw_target = row[6].strip() if len(row) > 6 else ""
-            if not raw_target and len(fields) >= 2:
-                raw_target = fields[-1].strip()
+            if not raw_target:
+                fields = [c.strip() for c in row if c.strip()]
+                raw_target = fields[-1].strip() if fields else ""
 
             if not raw_target:
                 continue
@@ -49,7 +47,11 @@ def load_data(csv_path):
                 if val and val != raw_target:
                     symptoms.append(val)
 
-            targets = [t.strip() for t in raw_target.split(" and ") if t.strip()]
+            # Handle negative test cases (no expected diagnosis)
+            if raw_target == "No_Diagnosis":
+                targets = []
+            else:
+                targets = [t.strip() for t in raw_target.split(" and ") if t.strip()]
 
             dataset.append({
                 "id": len(dataset) + 1,

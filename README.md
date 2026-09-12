@@ -46,8 +46,8 @@ RiceKG-Expert-System/
 ├── model.py                # OWL 2 ontology schema, SWRL rule definitions, and Pellet inference
 ├── evaluate.py             # Multi-label evaluation with per-class confusion matrix
 ├── test.py                 # Automated pytest test suite (18 test cases)
-├── dataText.csv            # Benchmark dataset (20 field test cases with symptoms & targets)
-├── rice_ontology.owl       # Generated OWL 2 RDF/XML ontology file
+├── dataText.csv            # Benchmark dataset (80 stratified field test cases)
+├── rice_ontology.owl       # OWL 2 RDF/XML domain ontology file
 ├── requirements.txt        # Python package dependencies
 ├── Procfile                # WSGI deployment configuration
 ├── CITATION.cff            # Citation metadata for academic referencing
@@ -109,15 +109,42 @@ Open your browser and navigate to: `http://127.0.0.1:5000/`
 
 ## Evaluation Results
 
-Benchmark evaluation on 20 multi-label field test instances:
+Benchmark evaluation on **80 stratified multi-label test instances** across 6 evaluation tiers designed to stress-test the system under field symptom uncertainty:
+
+| Tier | Description | Cases |
+|---|---|---|
+| T1 | Canonical full-symptom profiles | 10 |
+| T2 | Relaxed partial-symptom profiles | 10 |
+| T3 | Multi-threat co-infections (including masking scenarios) | 18 |
+| T4 | Noisy field observations with environmental distractors | 22 |
+| T5 | Symptom under-reporting / sub-threshold observations | 8 |
+| T6 | Non-pathognomonic environmental & negative controls | 12 |
+
+### Aggregate Metrics
 
 | Metric | Score |
 |---|---|
-| **Multi-Label Accuracy ((TP+TN)/Total)** | **99.50%** |
-| **Exact-Match Case Accuracy** | **95.00%** |
-| **Micro-Average Precision** | **100.0%** |
-| **Micro-Average Recall** | **95.7%** |
-| **Micro-Average F1-Score** | **97.8%** |
+| **Multi-Label Accuracy ((TP+TN)/Total)** | **99.25%** |
+| **Exact-Match Case Accuracy** | **92.50%** |
+| **Micro-Average Precision** | **97.4%** |
+| **Micro-Average Recall** | **95.0%** |
+| **Micro-Average F1-Score** | **96.2%** |
+
+### Per-Class Confusion Matrix
+
+| Diagnosis (Class) | TP | FP | FN | TN | Precision (%) | Recall (%) | F1 (%) |
+|---|---|---|---|---|---|---|---|
+| Grasshopper | 7 | 0 | 0 | 73 | 100.0% | 100.0% | 100.0% |
+| Rice_Root_Nematode | 6 | 0 | 1 | 73 | 100.0% | 85.7% | 92.3% |
+| Rice_Stem_Borer | 9 | 0 | 0 | 71 | 100.0% | 100.0% | 100.0% |
+| Rice_Bug | 5 | 1 | 0 | 74 | 83.3% | 100.0% | 90.9% |
+| Brown_Planthopper | 7 | 0 | 0 | 73 | 100.0% | 100.0% | 100.0% |
+| Bacterial_Leaf_Blight | 9 | 0 | 0 | 71 | 100.0% | 100.0% | 100.0% |
+| False_Smut | 9 | 0 | 0 | 71 | 100.0% | 100.0% | 100.0% |
+| Rice_Blast | 10 | 1 | 1 | 68 | 90.9% | 90.9% | 90.9% |
+| Rice_Grassy_Stunt | 7 | 0 | 1 | 72 | 100.0% | 87.5% | 93.3% |
+| Rice_Tungro_Virus | 7 | 0 | 1 | 72 | 100.0% | 87.5% | 93.3% |
+| **TOTAL (Micro Avg)** | **76** | **2** | **4** | **718** | **97.4%** | **95.0%** | **96.2%** |
 
 ---
 
