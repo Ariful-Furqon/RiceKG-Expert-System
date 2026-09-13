@@ -36,10 +36,11 @@ PEST_CLASSES = {
 }
 
 
-def load_data(csv_path):
+def load_data(csv_path, split=None):
     """
     Loads diagnostic benchmark dataset.
     Supports benchmark_augmented.csv, benchmark_field.csv, and legacy dataText.csv.
+    Optional split parameter filters by dataset split (e.g. 'dev' or 'eval').
     """
     if not os.path.exists(csv_path):
         if csv_path == DEFAULT_AUGMENTED_CSV and os.path.exists(LEGACY_CSV):
@@ -69,6 +70,7 @@ def load_data(csv_path):
 
         raw_symptom_idx = header_lower.index("raw_symptom_text") if "raw_symptom_text" in header_lower else -1
         doi_idx = header_lower.index("doi") if "doi" in header_lower else -1
+        split_idx = header_lower.index("split") if "split" in header_lower else -1
 
         for row_idx, row in enumerate(reader, 2):
             if not row or not any(field.strip() for field in row):
@@ -88,7 +90,7 @@ def load_data(csv_path):
             for col_i, col in enumerate(row[:diag_idx]):
                 if header_lower and col_i < len(header_lower):
                     col_name = header_lower[col_i]
-                    if col_name in ("case_id", "raw_symptom_text"):
+                    if col_name in ("case_id", "raw_symptom_text", "split"):
                         continue
                 val = col.strip()
                 if val and val != raw_target:
@@ -105,6 +107,10 @@ def load_data(csv_path):
             case_id = row[case_id_idx].strip() if case_id_idx >= 0 and len(row) > case_id_idx else f"CASE_{len(dataset)+1:02d}"
             raw_symptom_text = row[raw_symptom_idx].strip() if raw_symptom_idx >= 0 and len(row) > raw_symptom_idx else ""
             doi = row[doi_idx].strip() if doi_idx >= 0 and len(row) > doi_idx else ""
+            case_split = row[split_idx].strip() if split_idx >= 0 and len(row) > split_idx else "eval"
+
+            if split is not None and case_split != split:
+                continue
 
             dataset.append({
                 "id": len(dataset) + 1,
@@ -112,6 +118,7 @@ def load_data(csv_path):
                 "row_csv": row_idx,
                 "raw_symptom_text": raw_symptom_text,
                 "doi": doi,
+                "split": case_split,
                 "symptoms": symptoms,
                 "expected": targets,
                 "raw_target": raw_target,

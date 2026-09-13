@@ -1,102 +1,140 @@
 # System Limitations & Diagnostic Architectural Findings
 
-## 1. Low True-Positive Diagnostic Recall on Independent Field Cases (1/5 Cases, 20.8%)
+## 1. Ontology and Rule Remediation Did Not Improve Held-Out Diagnostic Recall
 
-On the independent, peer-reviewed literature benchmark (`data/benchmark_field.csv`, $n=32$), RiceKG
-correctly diagnoses **1 of the 5 in-scope positive disease cases**:
+P0-5 Steps 2 and 3 extended the symptom vocabulary from 45 to 54 terms and revised five Tier-2
+rules, each change justified from the phytopathology literature and documented in
+[`docs/ONTOLOGY.md`](ONTOLOGY.md). The measured outcome is a large gain on the development
+partition and **no gain on the held-out partition**.
 
-- **Positive-case recall**: **20.83%** averaged across cross-validation folds (1/5 cases resolved on the full set).
-- **Micro-averaged F1**: **29.00** [95% non-parametric bootstrap CI: 9.5, 51.6].
-- **Aggregate exact match**: 87.50% — but see Section 2; this figure is dominated by negative controls.
+| | Before Steps 2-3 | After Steps 2-3 |
+|:--|:--:|:--:|
+| **`eval` positive-case recall** | 38.33% | **35.00%** |
+| **`eval` micro-F1** | 48.00 | **40.67** [95% CI 34.8, 74.3] |
+| **`eval` aggregate exact match** | 86.97% | **86.82%** |
+| `dev` positive-case recall | 19.17% | **63.33%** |
+| `dev` micro-F1 | 24.86 | **75.14** |
+| Positive cases resolved, both partitions | 3/12 | **6/12** |
+| False positives on negative controls | 0 | **0** |
 
-Two comparisons make the result harder to dismiss. Every supervised baseline attains **0.00%**
-positive-case recall on the same cases, having at most five positive examples to learn from. The naive
-nearest-prototype matcher, which uses neither the ontology nor the DL reasoner, attains **38.33%**
-positive recall — **higher than RiceKG**. The knowledge-based architecture does not currently
-outperform a trivial symptom-count heuristic on independent cases.
+The `dev` gain is large and the held-out result is flat to slightly worse. A 63.33% versus 35.00%
+gap between the partition that was visible during the work and the partition that was not is the
+signature of overfitting to the development set, and it should be read that way even though every
+individual change was argued from published agronomy rather than from a case.
 
-### Failure causes, per case
+Against the baselines on `eval`, RiceKG exceeds the ontology-free nearest-prototype matcher by
+13.0 percentage points of exact match (Holm-adjusted $p = 0.0004$) and reaches 35.00% positive
+recall against its 17.50%. The prototype matcher nonetheless retains a marginally higher micro-F1
+(43.29 against 40.67), so the two are not cleanly separated on that measure.
 
-An earlier revision of this document attributed all five failures to vocabulary gating. That diagnosis
-was incorrect, and its cause is recorded here because it materially affected the reported numbers.
-`benchmark_field.csv` originally encoded symptoms in a descriptive snake_case namespace
-(`seed_yellowish_green_velvety_balls`) that shared **zero** terms with the ontology vocabulary
-`model.ALL_SYMPTOMS` (`Rusty_Grain_Balls`), while `benchmark_augmented.csv` matched it on all 45 terms.
-Consequently every one of the 32 field cases reached the reasoner as an empty assertion set, and the
-benchmark built in P0-3 to break evaluation circularity had never exercised the rule base at all. The
-identifiers are now normalized through `data/symptom_mapping.csv`, which resolves 9 of the 25
-descriptors to ontology terms and leaves 16 deliberately unmapped; unmapped descriptors are retained
-per case in the `unmapped_terms` column.
+### An intermediate revision was withdrawn
 
-After normalization, `results/field_failure_analysis.md` assigns each positive case one cause:
+The first attempt at `SWRL-R16` paired `Water_Soaked_Lesions` with `Bacterial_Ooze`. Both signs are
+listed for bacterial blight in Ou (1985), but neither discriminates it: bacterial exudate is a
+genus-level sign shared with *X. oryzicola*, *Burkholderia* and *Pantoea*, which is what the negative
+controls contain. That revision produced **4 false positives on the 27 negative controls**. The same
+error affected grassy stunt, where stunting with mottling is shared across rice viruses. Both rules
+were re-specified around discriminating signs — tip-and-margin lesion onset for blight, excessive
+tillering for grassy stunt — and the false positives returned to zero. The lesson is recorded here
+because listing a sign for a disease is not the same as the sign distinguishing that disease.
 
-| Case | True label | Cause |
-|:--|:--|:--|
-| FIELD_01 | `Rice_Blast` | `partial_vocabulary` |
-| FIELD_02 | `Rice_Blast` | `partial_vocabulary` |
-| FIELD_03 | `Bacterial_Leaf_Blight` | `partial_vocabulary` |
-| FIELD_04 | `Rice_Root_Nematode` | `rule_recall_failure` |
-| FIELD_05 | `False_Smut` | `resolved` |
+### Remaining failure causes across all 12 positive cases
 
-The distinction is consequential. Three cases fail because diagnostic descriptors such as bacterial ooze
-and water-soaked lesions have no ontology counterpart — these call for vocabulary extension (Section 3).
-**FIELD_04 fails although all three of its symptoms map cleanly** (`Hook_Like_Root_Swelling`,
-`Yellowing_Leaves`, `Stunted_Growth`): the Tier-2 nematode rule requires more antecedents than a field
-report supplies. That is a rule-coverage defect, and no amount of vocabulary work will fix it.
+| Cause | Count | Cases |
+|:--|:--:|:--|
+| `resolved` | 6 | FIELD_04, FIELD_05, FIELD_33, FIELD_34, FIELD_35, FIELD_36 |
+| `rule_recall_failure` | 4 | FIELD_02, FIELD_51, FIELD_52, FIELD_53 |
+| `partial_vocabulary` | 2 | FIELD_01, FIELD_03 |
 
----
-
-## 2. Benchmark Composition Imbalance and Sample Power Constraints
-
-### The 84.4% negative-control composition defect
-
-- **Total cases**: $n = 32$.
-- **Positive in-scope disease cases**: $n = 5$ (15.6%).
-- **Negative control / out-of-scope cases**: $n = 27$ (84.4%).
-
-Because 84.4% of the benchmark consists of out-of-scope pathogens (*Burkholderia glumae*,
-*Sarocladium oryzae*, *Rice stripe necrosis virus* and others), the aggregate exact match is an artifact
-of correct rejection. Reporting it without segregating positive-case recall would conceal diagnostic
-performance entirely, which is why `results/baselines.md` now reports the two in separate columns and
-`tests/test_p0_4_baselines.py` fails if the narrative stops quoting the measured positive recall.
-
-The observed specificity on negative controls is also only partly earned: a case whose descriptors are
-entirely unmapped cannot fire a rule regardless of its content, so rejection is guaranteed by
-construction rather than by discrimination.
-
-### Requirements for a properly powered field benchmark
-
-1. **Minimum detectable effect**: at $\alpha = 0.05$ and $80\%$ power, the MDE for $n=32$ is
-   $\pm 25.0$ percentage points. Smaller differences cannot be distinguished from chance, so
-   non-significant comparisons in `results/baselines.md` indicate underpowering, not equivalence.
-2. **Threat-class representation**: the 5 positive cases span 4 disease classes (2 Blast, 1 BLB,
-   1 Nematode, 1 False Smut), leaving 6 of the 10 modelled threats — including every insect pest
-   class — with no positive case at all.
-3. **Power sizing**: distinguishing a 10-15 percentage-point margin ($\text{MDE} \le \pm 12\%$) at
-   $\alpha = 0.05$ and $80\%$ power requires on the order of **15 to 20 verified positive cases per
-   threat class**, sourced through the P0-3 peer-reviewed extraction gate with verbatim symptom spans
-   and Crossref-verified citations.
+The four remaining rule failures are the two virus classes and one blast case. `Excessive_Tillering`
+and `Orange_Leaf_Discoloration` were added because the literature identifies them as the
+discriminating signs for grassy stunt and tungro, but **no descriptor in the benchmark records
+either of them**, so the revised virus rules cannot fire on the present case set. That is a
+limitation of what the source literature reports, not of the rules.
 
 ---
 
-## 3. Ontological Scope and Controlled Vocabulary Coverage Bottleneck
+## 2. The Held-Out Partition Is Now Development-Informed
 
-An explicit scientific finding of the Stage B vocabulary mapping protocol is the **Controlled Vocabulary Coverage Bottleneck**:
-- **Information Loss Across Real-World Cases**: Of the 25 distinct symptom descriptors extracted from the independent literature cases, **16 (64.0%) have no counterpart** among the ontology's 45 symptom terms and are dropped at mapping time (`data/symptom_mapping.csv`). After normalization 24 of the 32 cases (75.0%) retain at least one representable symptom, so the loss is substantial but not total.
-- **Critical Anatomical Omission (`Leaf_Sheath`)**:
-  - The RiceKG ontology defines symptoms on `Leaf`, `Panicle`, `Stem`, and `Root`, but contains **no anatomical concept for `Leaf_Sheath`**.
-  - As a direct consequence, major rice diseases such as Sheath Rot (*Sarocladium oryzae*) and Sheath Blight (*Rhizoctonia solani*) cannot be syntactically described. Lesions on the flag leaf sheath had to be mapped to general foliar `leaves_spots_infestation` or dropped.
-- **Absence of Diagnostic Panicle/Glume Lesions**:
-  - Key grain symptoms such as `Glume_Discoloration`, `Powdery_Sooty_Spore_Masses`, and `Chaffy_Empty_Spikelets` are missing.
+The field benchmark was partitioned into `dev` and `eval` so that rule and vocabulary work could be
+validated without consuming the independent evidence. **That protection has been partly spent.**
+The `eval` aggregate scores have now been observed across two rounds of rule revision within P0-5,
+and although no individual `eval` case was inspected and no change was justified by one, the
+knowledge that a revision moved the held-out number in a particular direction is itself information
+that leaked into the process.
+
+Consequently:
+
+- `eval` figures in this repository are **development-informed**, not strictly held out.
+- The manuscript must not describe the current 35.00% positive-case recall as an independent
+  estimate of diagnostic efficacy. It is an optimistic bound.
+- A genuinely independent figure requires a **fresh partition sourced after the rule base is
+  frozen**, through the P0-3 case-report gate.
+
+`results/baselines.md` carries this downgrade in its own header so the qualification travels with
+the numbers.
+
+### Composition, sourcing limits, and statistical power
+
+- Retained benchmark: 39 cases — 12 in-scope positives, 27 out-of-scope negative controls.
+  The `eval` partition holds 5 positives and 18 negative controls; `dev` holds 7 and 9.
+- P0-5 sourced 21 candidate cases and **rejected 14**: every DOI resolved against Crossref, but the
+  sources were reviews, control-efficacy trials, population-genetics studies and a caged infestation
+  experiment whose symptom text is textbook description rather than observation. Two supplied a
+  "case" each on opposite sides of the split boundary. Rejections are preserved with reasons in
+  `data/rejected_field_candidates.csv`, and `tests/test_p0_5_field.py` enforces the gate.
+- **`Grasshopper`, `Rice_Bug`, `Rice_Stem_Borer` and `Brown_Planthopper` have no positive field case.**
+  Insect pests are not published as first-report disease notes the way emerging pathogens are, so the
+  venue supplying case-grade evidence for diseases has no equivalent for pests. No claim about
+  diagnostic performance on insect pests is supported by field evidence.
+- Held-out MDE is $\pm 29.5$ percentage points ($\alpha = 0.05$, $80\%$ power); on `dev` it is
+  $\pm 35.4$. Differences below those thresholds cannot be distinguished from chance, so every
+  non-significant comparison here is underpowered rather than demonstrably equivalent.
+- Distinguishing a 10-15 point margin would require roughly **15 to 20 verified positive cases per
+  threat class**. The present benchmark is an order of magnitude short.
+
+---
+
+## 3. Residual Vocabulary Coverage Limits
+
+The P0-5 Step 2 extension closed the most serious gaps, but coverage remains partial.
+
+- Of the 25 distinct symptom descriptors extracted from the field literature, **16 now map** to an
+  ontology term and **9 remain unmapped** (`data/symptom_mapping.csv`). Before the extension the
+  split was 9 mapped and 16 unmapped.
+- The missing `Leaf_Sheath` anatomy has been added as `Leaf_Sheath_Lesions`, together with
+  `Stem_Rot_Lesions` and `Grain_Discoloration`. These three are **expressivity only**: sheath and
+  culm diseases (*Rhizoctonia solani*, *Sarocladium oryzae*) lie outside the ten modelled threats and
+  appear in the benchmark solely as negative controls. The terms let such cases be described rather
+  than silently dropped, which makes their rejection an act of discrimination instead of an artifact
+  of unmappable input. Wiring them to a modelled threat would manufacture false positives.
+- The nine still-unmapped descriptors are striping and streaking patterns, leaf bleaching, whitened
+  leaf tips, whole-leaf withering, generic leaf discoloration, generic drying, root discoloration and
+  plant malformation. Near-misses were deliberately not forced: `Yellowing_Leaf_Tips` is not
+  "whitened tips", and `Hopperburn_Drying` is planthopper-specific and cannot stand for generic drying.
+- Two terms added for their discriminating value — `Excessive_Tillering` for grassy stunt and
+  `Orange_Leaf_Discoloration` for tungro — have **no corresponding descriptor anywhere in the
+  benchmark**, so the virus rules that depend on them cannot fire on the present case set.
 
 ---
 
 ## 4. Evaluation Set Circularity of `benchmark_augmented.csv`
 
-The augmented benchmark `data/benchmark_augmented.csv` (80 test instances, formerly `dataText.csv`) was authored by the knowledge engineering team from the same SWRL rule antecedents that the reasoner executes:
-1. **Ceiling Bias**: Multi-label accuracy of 99.25% and exact-match accuracy of 92.50% reflect deductive rule verification, not empirical diagnostic efficacy on real-world crops.
-2. **Data Provenance Disclosure**: In accordance with scientific integrity standards, `data/README.md` classifies `benchmark_augmented.csv` as `provenance: rule_derived`. As stated in `data/README.md`, this set cannot be interpreted as empirical clinical or field diagnostic accuracy.
-3. **Comparative Baseline Context**: Outperforming supervised ML on `rule_derived` cases reflects cold-start inductive difficulty for ML rather than clinical superiority of RiceKG.
+`data/benchmark_augmented.csv` (80 instances, formerly `dataText.csv`) was authored from the same
+SWRL rule antecedents that the reasoner executes, and carries provenance `rule_derived`.
+
+The P0-5 rule revisions demonstrated this circularity directly rather than by argument. Revising
+five Tier-2 rules on literature grounds — without touching the benchmark — moved exact-match
+accuracy on this set from **92.50% to 60.00%** and multi-label accuracy from **99.25% to 95.12%**.
+A benchmark whose score collapses when the rules change is measuring agreement with those rules,
+not diagnostic ability. The former near-ceiling figures were never independent evidence, and the
+present lower figures are not evidence of degraded diagnosis either; both are measurements of
+consistency with whichever rule base generated the cases.
+
+The set retains one legitimate use: verifying that rule firing remains deductively consistent.
+It cannot be interpreted as empirical clinical or field diagnostic accuracy, and outperforming
+supervised ML on it reflects cold-start inductive difficulty for the learners rather than clinical
+superiority of RiceKG.
 
 ---
 

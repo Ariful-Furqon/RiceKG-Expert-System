@@ -71,7 +71,21 @@ ALL_SYMPTOMS = [
     "Blackened_Grain_Balls", "Rainy_Season_Outbreak", "Uniform_Field_Infection",
     "Slight_Panicle_Infection", "Milky_Stage_Vulnerability", "Panicle_Neck_Rot",
     "Diamond_Shaped_Lesions", "Infected_Seedlings", "Brown_Planthopper_Present",
-    "Severe_Stunting", "No_Panicle_Formation", "Green_Leafhopper_Present"
+    "Severe_Stunting", "No_Panicle_Formation", "Green_Leafhopper_Present",
+
+    # P0-5 Step 2 vocabulary extension. Each term denotes a sign that the
+    # phytopathology literature treats as diagnostically informative but that the
+    # original 45-term vocabulary could not express. Sources are recorded per term
+    # in docs/ONTOLOGY.md; none of these were chosen by inspecting benchmark cases.
+    "Water_Soaked_Lesions",      # early bacterial lesion, leaf margin/tip
+    "Bacterial_Ooze",            # bacterial exudate droplets on lesion or cut leaf
+    "Leaf_Mottling",             # mosaic/mottle pattern, virus-associated
+    "Interveinal_Chlorosis",     # chlorosis between veins, virus-associated
+    "Grain_Discoloration",       # discoloured or spotted grain
+    "Leaf_Sheath_Lesions",       # lesions on the leaf sheath (anatomy absent before)
+    "Stem_Rot_Lesions",          # rot or lodging at the culm
+    "Excessive_Tillering",       # RGSV hallmark; tungro shows the opposite
+    "Orange_Leaf_Discoloration"  # tungro hallmark, yellow-orange from the leaf tip
 ]
 
 PESTS = [
@@ -219,10 +233,11 @@ RULE_REGISTRY = [
         "threat_type": "Pest",
         "tier": "tier2",
         "name": "Relaxed Root Nematode Diagnosis",
-        "antecedents": ["Hook_Like_Root_Swelling", "Root_Knot_Swelling"],
+        "antecedents": ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves"],
         "consequent_property": "hasSuspectedPest",
         "flat_consequent_property": "hasPest",
-        "rationale": "Characteristic hook-like terminal root galling pathognomonic for Hirschmanniella oryzae."
+        "rationale": "Root galling with hooked tips accompanied by above-ground stunting and chlorosis. The previous antecedent set required two distinct gall morphologies (hook-like and knot) to be recorded simultaneously, which conflates Hirschmanniella and Meloidogyne damage and is rarely reported together.",
+        "literature": "Bridge, Plowright & Peng (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI; IRRI Rice Doctor, root-knot nematode fact sheet."
     },
     {
         "id": "SWRL-R13",
@@ -263,10 +278,11 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier2",
         "name": "Relaxed Bacterial Leaf Blight Diagnosis",
-        "antecedents": ["Yellowing_Leaf_Veins", "Uniform_Field_Infection"],
+        "antecedents": ["Water_Soaked_Lesions", "Yellowing_Leaf_Tips"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Diagnostic yellow vein discoloration with uniform field-level dispersion pattern."
+        "rationale": "Water-soaked lesions beginning at the leaf tip or margin and progressing along it. Uniform_Field_Infection described the stand rather than the plant. Bacterial_Ooze was tried and withdrawn: exudate is a genus-level sign shared with X. oryzicola, Burkholderia and Pantoea, so it cannot discriminate bacterial blight from the other bacterial diseases of rice. Tip and margin onset is the discriminating feature against the interveinal streaking of bacterial leaf streak.",
+        "literature": "Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI, pp. 61-96; IRRI Rice Doctor, bacterial blight fact sheet."
     },
     {
         "id": "SWRL-R17",
@@ -285,10 +301,11 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier2",
         "name": "Relaxed Rice Blast Diagnosis",
-        "antecedents": ["Panicle_Neck_Rot", "Diamond_Shaped_Lesions"],
+        "antecedents": ["Diamond_Shaped_Lesions", "Necrotic_Spots"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Key pathognomonic foliar spindle lesions and panicle node rot."
+        "rationale": "Diamond or spindle-shaped leaf lesions with necrotic centres. The previous antecedent set required the leaf phase and the panicle-neck phase to be present at once; these are distinct phenological phases of the same pathogen and are rarely reported together.",
+        "literature": "Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI, pp. 109-201; IRRI Rice Doctor, rice blast fact sheet."
     },
     {
         "id": "SWRL-R19",
@@ -296,10 +313,11 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier2",
         "name": "Relaxed Rice Grassy Stunt Virus Diagnosis",
-        "antecedents": ["Brown_Planthopper_Present", "Severe_Stunting"],
+        "antecedents": ["Severe_Stunting", "Excessive_Tillering"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Vector Nilaparvata lugens co-occurring with pronounced plant dwarfing."
+        "rationale": "Severe stunting together with excessive tillering. Vector presence was withdrawn because it makes diagnosis contingent on entomological sampling. Stunting with mottling was tried and withdrawn: both signs are shared across rice viruses. Excessive tillering discriminates grassy stunt from tungro, which reduces tillering.",
+        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor, rice grassy stunt fact sheet."
     },
     {
         "id": "SWRL-R20",
@@ -307,10 +325,11 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier2",
         "name": "Relaxed Rice Tungro Virus Diagnosis",
-        "antecedents": ["Green_Leafhopper_Present", "Yellowing_Leaves"],
+        "antecedents": ["Stunted_Growth", "Orange_Leaf_Discoloration"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Diagnostic yellowing of leaf blades combined with active green leafhopper transmission vector."
+        "rationale": "Stunting with the characteristic yellow-orange leaf discoloration progressing from the tip. Vector presence was withdrawn as for grassy stunt. Interveinal chlorosis was tried and withdrawn: it is shared with other rice viruses, whereas the orange cast is the tungro hallmark.",
+        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor, rice tungro fact sheet."
     },
 ]
 

@@ -2,25 +2,25 @@ field_slug,ontology_term,decision,justification
 leaves_yellowing,Yellowing_Leaves,mapped,Direct lexical and semantic identity.
 plant_stunted_short,Stunted_Growth,mapped,Direct semantic identity; both denote reduced plant height.
 roots_hook_shaped_galls,Hook_Like_Root_Swelling,mapped,Direct semantic identity; hook-shaped root gall.
-roots_nematode_cysts,Root_Knot_Swelling,mapped,Nematode cyst/knot on root; same referent in the ontology.
+roots_nematode_cysts,Root_Knot_Swelling,mapped,Nematode cyst or knot on root; same referent in the ontology.
 seed_empty_unfilled,Empty_Grains,mapped,Direct semantic identity; unfilled grain.
 seed_yellowish_green_velvety_balls,Rusty_Grain_Balls,mapped,Ontology term for the immature false-smut spore ball.
 seed_dark_green_spores_powder,Blackened_Grain_Balls,mapped,Ontology term for the mature darkened false-smut spore ball.
 leaves_necrotic_lesions,Necrotic_Spots,mapped,Direct semantic identity; necrotic leaf lesion.
 leaves_spots_infestation,Necrotic_Spots,mapped,Generic leaf spot resolves to the ontology necrotic spot class.
-leaves_bacterial_ooze_droplet,,unmapped,No ontology term denotes bacterial exudate or ooze droplets.
-leaves_water_soaked_stripes,,unmapped,Ontology has no water-soaked lesion term.
-leaves_mottling_mosaic,,unmapped,Ontology has no mottling or mosaic term.
+leaves_water_soaked_stripes,Water_Soaked_Lesions,mapped,P0-5 Step 2: term added for the early bacterial water-soaked lesion.
+leaves_bacterial_ooze_droplet,Bacterial_Ooze,mapped,P0-5 Step 2: term added for bacterial exudate droplets.
+leaves_mottling_mosaic,Leaf_Mottling,mapped,P0-5 Step 2: term added for virus-associated mottling.
+leaves_interveinal_streaks,Interveinal_Chlorosis,mapped,P0-5 Step 2: term added for interveinal chlorosis.
+seed_discoloration_spotted,Grain_Discoloration,mapped,P0-5 Step 2: term added for discoloured or spotted grain.
+leaves_sheath_blight_rot,Leaf_Sheath_Lesions,mapped,P0-5 Step 2: Leaf_Sheath anatomy added. Expressivity only; not an antecedent of any modelled threat.
+stem_rot_or_break,Stem_Rot_Lesions,mapped,P0-5 Step 2: culm rot term added. Expressivity only; not an antecedent of any modelled threat.
 leaves_drying_up_yellowish_brown,,unmapped,Hopperburn_Drying is planthopper-specific; generic drying has no term.
-leaves_interveinal_streaks,,unmapped,Yellowing_Leaf_Veins denotes vein yellowing, not interveinal streaking.
-leaves_chlorotic_stripes_streaks,,unmapped,Ontology has no striping or streaking term.
-leaves_brown_streaks_stripes,,unmapped,Ontology has no streaking term; Necrotic_Spots denotes spots, not streaks.
+leaves_chlorotic_stripes_streaks,,unmapped,Ontology models chlorosis but no striping or streaking pattern.
+leaves_brown_streaks_stripes,,unmapped,"No streaking term; Necrotic_Spots denotes spots, not streaks."
 leaves_bleached_white,,unmapped,Ontology has no leaf bleaching term.
-leaves_whitened_leaf_tips,,unmapped,Yellowing_Leaf_Tips denotes yellowing, not whitening.
+leaves_whitened_leaf_tips,,unmapped,"Yellowing_Leaf_Tips denotes yellowing, not whitening."
 leaves_withering_dead,,unmapped,Ontology has no wilting or whole-leaf death term.
-leaves_sheath_blight_rot,,unmapped,Ontology models no sheath tissue class.
 leaves_discoloration,,unmapped,Too generic to resolve; Leaf_Discoloration_Yellow is colour-specific.
-stem_rot_or_break,,unmapped,Panicle_Neck_Rot is anatomically distinct from stem rot or lodging.
-seed_discoloration_spotted,,unmapped,Ontology has no grain discoloration term.
-roots_discolored,,unmapped,Deformed_Roots denotes morphology, not colour.
+roots_discolored,,unmapped,"Deformed_Roots denotes morphology, not colour."
 plant_malformation,,unmapped,Ontology has no generic malformation term.

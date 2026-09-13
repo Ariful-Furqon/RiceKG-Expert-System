@@ -97,11 +97,13 @@ def decode_labels(vec: np.ndarray) -> List[str]:
     return [ALL_THREATS[i] for i in range(len(ALL_THREATS)) if vec[i] == 1]
 
 
-def load_and_encode_dataset(csv_path: str) -> Tuple[np.ndarray, np.ndarray, List[Dict[str, Any]]]:
+def load_and_encode_dataset(csv_path: str, split: str = None) -> Tuple[np.ndarray, np.ndarray, List[Dict[str, Any]]]:
     """Loads a benchmark CSV via evaluate.load_data() and encodes features (X) and multi-labels (Y).
+
+    `split` restricts the rows to one dataset split ('dev' or 'eval'); None uses every row.
     Returns (X, Y, raw_cases).
     """
-    cases = evaluate.load_data(csv_path)
+    cases = evaluate.load_data(csv_path, split=split)
     n = len(cases)
     X = np.zeros((n, len(SYMPTOM_ORDER)), dtype=int)
     Y = np.zeros((n, len(ALL_THREATS)), dtype=int)

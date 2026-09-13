@@ -25,15 +25,19 @@ class TestP04BaselinesEncoding:
 
     def test_symptom_vector_dimension_and_order(self):
         """Asserts encoding produces a 45-dim binary vector strictly aligned with model.ALL_SYMPTOMS."""
-        assert len(model.ALL_SYMPTOMS) == 45
-        assert len(ml_baselines.SYMPTOM_ORDER) == 45
+        # The encoder must track the ontology vocabulary, whatever its size. Pinning a
+        # literal here would make every justified ontology extension look like a defect.
+        n_symptoms = len(model.ALL_SYMPTOMS)
+        assert n_symptoms >= 45, "Vocabulary must not shrink below the original 45 terms"
+        assert len(ml_baselines.SYMPTOM_ORDER) == n_symptoms
         assert ml_baselines.SYMPTOM_ORDER == model.ALL_SYMPTOMS
+        assert len(set(model.ALL_SYMPTOMS)) == n_symptoms, "Vocabulary contains duplicates"
 
         test_symptoms = ["Brown_Nymphs", "Eggs_On_Plant", "Leaf_Chewing_Damage"]
         vec = ml_baselines.encode_symptoms(test_symptoms)
 
         assert isinstance(vec, np.ndarray)
-        assert vec.shape == (45,)
+        assert vec.shape == (n_symptoms,)
         assert vec.dtype == int
         assert np.sum(vec) == 3
 
@@ -261,9 +265,12 @@ class TestP04FieldReportingSeparation:
             content = f.read()
 
         with open(field_csv, newline="", encoding="utf-8") as f:
-            positives = [r for r in csv.DictReader(f) if r["diagnosis"] != "No_Diagnosis"]
+            positives = [
+                r for r in csv.DictReader(f)
+                if r["diagnosis"] != "No_Diagnosis" and r.get("split", "dev") == "dev"
+            ]
 
-        assert positives, "Field benchmark must contain at least one positive case"
+        assert positives, "Field benchmark must contain at least one positive case in dev split"
 
         causes = {
             "resolved",

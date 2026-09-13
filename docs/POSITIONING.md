@@ -1,9 +1,46 @@
 # Scientific Positioning: Accuracy, Explainability, and What the Evidence Supports
 
-On the independent field benchmark ([`data/benchmark_field.csv`](../data/benchmark_field.csv), *n*=32 cases of which only 5 are in-scope disease cases), RiceKG diagnoses **1 of 5 positive cases** correctly — 20.83% positive-case recall averaged across folds, micro-F1 29.00 with a 95% bootstrap CI of [9.5, 51.6]. Its aggregate exact match of 87.50% is not a diagnostic result: 27 of the 32 cases are out-of-scope negative controls on which returning `No_Diagnosis` is correct, so the aggregate figure is dominated by rejection rather than by discrimination. Every supervised baseline scores 0.00% positive-case recall on the same cases, and the naive nearest-prototype matcher — which uses no ontology and no reasoner — attains **higher** positive recall than RiceKG (38.33%). **Diagnostic efficacy on authentic field cases is not established by the present evidence.**
+On the `eval` partition of the field benchmark ([`data/benchmark_field.csv`](../data/benchmark_field.csv),
+*n*=23, of which 5 are in-scope disease cases), RiceKG attains **35.00%** positive-case recall and a
+micro-F1 of **40.67** [95% CI 34.8, 74.3]. Its aggregate exact match of 86.82% is not a diagnostic
+result: 18 of the 23 cases are out-of-scope negative controls on which returning `No_Diagnosis` is
+correct. Across both partitions RiceKG resolves **6 of 12** positive cases. **Diagnostic efficacy on
+authentic field cases is not established**, and the `eval` figures are themselves
+development-informed rather than strictly held out — see [`docs/LIMITATIONS.md`](LIMITATIONS.md)
+Section 2 — so they should be read as an optimistic bound.
 
-The 92.50% exact match on [`data/benchmark_augmented.csv`](../data/benchmark_augmented.csv) is rule-firing verification, not a comparative result. All 80 cases carry provenance `rule_derived`: they are generated from RiceKG's own Horn clauses, so the supervised baselines must infer from 40 labelled examples what RiceKG holds by construction. That margin confirms deductive consistency and must never be reported as empirical superiority over machine learning.
+The ontology and rule remediation carried out in P0-5 makes this precise. Extending the vocabulary
+from 45 to 54 terms and revising five Tier-2 rules, every change argued from published agronomy,
+raised `dev` positive recall from 19.17% to 63.33% while leaving `eval` flat to slightly lower
+(38.33% to 35.00%). A gain confined to the partition that was visible during the work is the
+signature of overfitting to development data, and it is reported here as such rather than as
+progress.
 
-What the artifact does defensibly contribute is therefore not predictive accuracy. It is **cold-start operation with zero training data**, **auditable deductive derivations** in which every diagnosis names the rules that fired and the antecedents left unmet, and **graded confidence** separating pathognomonic confirmation (`hasConfirmedThreat`) from partial-observation screening (`hasSuspectedThreat`) — a distinction that matters for responsible deployment where an incorrect pesticide recommendation carries real cost. The architectural ablation ([`results/ablation.md`](../results/ablation.md)) is equally candid: tier stratification and DL reasoning buy no accuracy over pure set-matching, and their justification rests on explainability and open-world consistency rather than on performance.
+Against baselines on `eval`, every supervised classifier remains far behind — the strongest reaches
+10.00% positive recall with at most five positive examples to learn from — and RiceKG exceeds the
+ontology-free nearest-prototype matcher by 13.0 percentage points of exact match (Holm-adjusted
+$p = 0.0004$) and by 35.00% against 17.50% on positive recall. The prototype matcher nevertheless
+holds a marginally higher micro-F1 (43.29 against 40.67), so a trivial symptom-count heuristic has
+not been cleanly beaten.
 
-Realizing that contribution in the field depends on closing two gaps documented in [`results/field_failure_analysis.md`](../results/field_failure_analysis.md) and [`docs/LIMITATIONS.md`](LIMITATIONS.md): sixteen of the twenty-five symptom descriptors extracted from peer-reviewed disease notes have no counterpart in the closed 45-term vocabulary, and at least one case fails even when all its symptoms map, because the Tier-2 rules demand more antecedents than a field report supplies.
+The 60.00% exact match now recorded on [`data/benchmark_augmented.csv`](../data/benchmark_augmented.csv)
+should not be read as degradation. That set is `rule_derived`: its cases were generated from the
+antecedents the reasoner executes, so revising those antecedents necessarily lowers agreement. The
+earlier 92.50% measured consistency with the rule base, never diagnostic ability. The collapse is the
+clearest available demonstration that the figure was circular from the start.
+
+What the artifact contributes defensibly is therefore not predictive accuracy. It is **cold-start
+operation with zero training data**, **auditable deductive derivations** in which every diagnosis
+names the rules that fired and the antecedents left unmet, and **graded confidence** separating
+pathognomonic confirmation (`hasConfirmedThreat`) from partial-observation screening
+(`hasSuspectedThreat`) — a distinction that matters wherever an incorrect pesticide recommendation
+carries real cost. The architectural ablation ([`results/ablation.md`](../results/ablation.md))
+remains candid: tier stratification and DL reasoning buy no accuracy over pure set-matching, and
+their justification rests on explainability and open-world consistency rather than performance.
+
+Two obstacles now bound what further engineering can achieve. Four of the ten modelled threats,
+including every insect pest, have no positive field case at all, because insect pests are not
+published as first-report disease notes. And the signs the literature identifies as *discriminating*
+for the two virus classes — excessive tillering for grassy stunt, orange discoloration for tungro —
+are recorded by no descriptor in the benchmark, so those rules cannot fire on the present case set.
+Both are limits of the available evidence rather than of the reasoner.

@@ -8,7 +8,8 @@ Generates:
 - results/baselines.json
 - results/baselines.md
 
-Strictly separates augmented (n=80) and independent field (n=32) evaluations.
+Strictly separates the augmented verification benchmark from the independent field benchmark,
+and reports the field benchmark's dev and held-out eval splits separately.
 """
 
 import os
@@ -72,10 +73,15 @@ def evaluate_dataset_with_fair_protocol(
     csv_path: str,
     dataset_name: str,
     random_state: int = 42,
-    n_resamples: int = 1000
+    n_resamples: int = 1000,
+    split: str = None
 ) -> Dict[str, Any]:
-    """Executes the fair-comparison 5x2-fold cross-validation protocol on a dataset."""
-    X, Y, cases = ml_baselines.load_and_encode_dataset(csv_path)
+    """Executes the fair-comparison 5x2-fold cross-validation protocol on a dataset.
+
+    `split` restricts evaluation to one dataset split ('dev' or 'eval'). The held-out
+    'eval' split is the only figure the manuscript may cite as independent.
+    """
+    X, Y, cases = ml_baselines.load_and_encode_dataset(csv_path, split=split)
     n_samples = len(cases)
     splits = ml_baselines.get_5x2_splits(X, Y, random_state=random_state)
     split_strategy = splits[0]["split_name"]
@@ -101,9 +107,9 @@ def evaluate_dataset_with_fair_protocol(
             train_budgets[name] = f"{len(splits[0]['train_indices'])} cases/fold"
 
     # Iterate through all 10 folds (5 iterations x 2 folds)
-    for split_idx, split in enumerate(splits):
-        tr_idx = split["train_indices"]
-        te_idx = split["test_indices"]
+    for fold in splits:
+        tr_idx = fold["train_indices"]
+        te_idx = fold["test_indices"]
 
         X_train, Y_train = X[tr_idx], Y[tr_idx]
         X_test, Y_test = X[te_idx], Y[te_idx]
@@ -204,6 +210,7 @@ def evaluate_dataset_with_fair_protocol(
     return {
         "dataset_name": dataset_name,
         "csv_path": csv_path,
+        "split": split or "all",
         "n_samples": n_samples,
         "n_positive": n_positive,
         "n_negative": n_negative,
@@ -216,8 +223,42 @@ def evaluate_dataset_with_fair_protocol(
     }
 
 
-def generate_markdown_report(augmented_results: Dict[str, Any], field_results: Dict[str, Any]) -> str:
+def render_dev_split_table(dev: Dict[str, Any]) -> List[str]:
+    """Compact companion table for the development split.
+
+    Development figures may inform engineering decisions but must never be cited as
+    independent evidence; the held-out eval split carries that role.
+    """
+    lines = [
+        "",
+        "### Companion: development split (not independent)",
+        "",
+        f"The `dev` split holds {dev['n_samples']} cases ({dev['n_positive']} positive, "
+        f"{dev['n_negative']} negative controls) and was visible during vocabulary and rule work. "
+        "It is reported for transparency only and must not be cited as independent evidence.",
+        "",
+        "| System / Model | Exact Match (%) | Positive Recall (%) | Micro-F1 (%) |",
+        "|:---|:---:|:---:|:---:|",
+    ]
+    for name, s in dev["system_summaries"].items():
+        marker = f"**{name}**" if name == "RiceKG (Full Proposed)" else name
+        lines.append(
+            f"| {marker} | {s['mean_exact_match']:.2f} | {s['mean_positive_recall']:.2f} "
+            f"| {s['mean_micro_f1']:.2f} |"
+        )
+    lines.append("")
+    return lines
+
+
+def generate_markdown_report(augmented_results: Dict[str, Any], field_results: Dict[str, Any],
+                             field_dev_results: Dict[str, Any] = None) -> str:
     """Generates the publication-grade Markdown comparison report."""
+    # Field benchmark composition, used by the narrative below
+    f_n = field_results["n_samples"]
+    f_pos = field_results["n_positive"]
+    f_neg = field_results["n_negative"]
+    f_rk = field_results["system_summaries"]["RiceKG (Full Proposed)"]
+
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
     lines = [
@@ -278,21 +319,21 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "",
         "---",
         "",
-        "## 2. Independent Peer-Reviewed Field Benchmark (`benchmark_field.csv`, $n=32$)",
+        f"## 2. Independent Peer-Reviewed Field Benchmark (`benchmark_field.csv`, held-out `eval` split, $n={f_n}$)",
         "",
-        f"- **Dataset Provenance**: Authentic literature case series from APS *Plant Disease* Disease Notes ($n=32$).",
+        f"- **Dataset Provenance**: Peer-reviewed observed-case reports ($n={f_n}$: {f_pos} in-scope disease "
+        f"cases, {f_neg} out-of-scope negative controls). Sources that are not case reports were excluded to "
+        "`data/rejected_field_candidates.csv` with a stated reason.",
+        "- **Independence (downgraded)**: this partition was held out during P0-5 Steps 2-3, but its "
+        "aggregate scores have now been observed across two rounds of rule revision. It is "
+        "**development-informed**, not strictly held out. See `docs/LIMITATIONS.md` Section 2. A fresh "
+        "partition is required before the manuscript cites an independent diagnostic figure.",
         f"- **Cross-Validation Split Strategy**: `{field_results['split_strategy']}`.",
         f"- **Minimum Detectable Effect (MDE)**: $\\pm${field_results['mde_analysis']['mde_percentage_proportion']:.1f}% accuracy ($\\alpha=0.05, 1-\\beta=0.80$).",
         "",
         "| System / Model | Paradigm | Training Budget | Exact Match (%) | Positive Recall (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\\Delta$ Acc [95% CI] | Cohen's $g$* |",
         "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
     ])
-
-    # Field benchmark composition, used by the narrative below
-    f_n = field_results["n_samples"]
-    f_pos = field_results["n_positive"]
-    f_neg = field_results["n_negative"]
-    f_rk = field_results["system_summaries"]["RiceKG (Full Proposed)"]
 
     # Field rows
     for name, s in field_results["system_summaries"].items():
@@ -350,13 +391,22 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         f"5. **Statistical Power & MDE**: With $n={f_n}$ and only {f_pos} positive cases, the minimum detectable effect "
         f"is $\\pm {field_results['mde_analysis']['mde_percentage_proportion']:.1f}$ percentage points. Non-significant "
         "comparisons reflect severe underpowering, not demonstrated equivalence.",
+    ])
+
+    if field_dev_results:
+        lines.extend(render_dev_split_table(field_dev_results))
+
+    aug_mde = augmented_results["mde_analysis"]["mde_percentage_proportion"]
+    field_mde = field_results["mde_analysis"]["mde_percentage_proportion"]
+    lines.extend([
         "",
         "---",
         "",
         "## 3. Statistical Power & Minimum Detectable Effect Disclosure",
         "",
-        "- **Augmented Benchmark ($n=80$)**: $\\text{MDE} = \\pm 15.8\\%$. Differences smaller than ~16 percentage points cannot be detected at $80\\%$ power.",
-        "- **Field Benchmark ($n=32$)**: $\\text{MDE} = \\pm 25.0\\%$. Differences smaller than ~25 percentage points cannot be detected at $80\\%$ power.",
+        f"- **Augmented Benchmark ($n={augmented_results['n_samples']}$)**: $\\text{{MDE}} = \\pm {aug_mde:.1f}\\%$.",
+        f"- **Field Benchmark, eval split ($n={f_n}$, {f_pos} positive cases)**: "
+        f"$\\text{{MDE}} = \\pm {field_mde:.1f}\\%$.",
         "- In accordance with AIP empirical standards, null hypothesis outcomes are disclosed as underpowered rather than equivalent.",
     ])
 
@@ -374,7 +424,10 @@ def run_all_baselines():
 
     t0 = time.time()
     augmented_res = evaluate_dataset_with_fair_protocol(augmented_csv, "Augmented Verification Benchmark", random_state=42)
-    field_res = evaluate_dataset_with_fair_protocol(field_csv, "Independent Literature Field Benchmark", random_state=42)
+    field_dev_res = evaluate_dataset_with_fair_protocol(
+        field_csv, "Independent Literature Field Benchmark (dev split)", random_state=42, split="dev")
+    field_res = evaluate_dataset_with_fair_protocol(
+        field_csv, "Independent Literature Field Benchmark (eval split)", random_state=42, split="eval")
     elapsed = time.time() - t0
 
     # Write JSON results
@@ -383,7 +436,9 @@ def run_all_baselines():
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "elapsed_seconds": round(elapsed, 2),
         "augmented_benchmark": augmented_res,
+        # `field_benchmark` is the held-out eval split: the only independent figure.
         "field_benchmark": field_res,
+        "field_benchmark_dev": field_dev_res,
     }
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(combined_json, f, indent=2)
@@ -391,7 +446,7 @@ def run_all_baselines():
 
     # Write Markdown report
     md_path = os.path.join(RESULTS_DIR, "baselines.md")
-    md_content = generate_markdown_report(augmented_res, field_res)
+    md_content = generate_markdown_report(augmented_res, field_res, field_dev_res)
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(md_content)
     print(f"[OUTPUT] Saved publication report to {md_path}")

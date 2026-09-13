@@ -35,7 +35,7 @@ baselines:
 	$(VENV_BIN)/python3 baselines/run_baselines.py
 
 failure-analysis:
-	$(VENV_BIN)/python3 analysis/field_failure_analysis.py
+	$(VENV_BIN)/python3 analysis/field_failure_analysis.py --split all
 
 check-docs:
 	$(VENV_BIN)/python3 analysis/check_readme_consistency.py

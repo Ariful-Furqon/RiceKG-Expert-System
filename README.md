@@ -113,36 +113,41 @@ To prevent evaluation circularity, performance is reported separately on two dis
 
 ### Benchmark 1: Augmented Rule-Derived Benchmark (`data/benchmark_augmented.csv`)
 - **Provenance**: `rule_derived` (authored to verify deductive SWRL rule firing consistency)
-- **Sample Size ($n$)**: 80 test cases across 6 diagnostic tiers (T1–T6)
+- **Sample Size ($n$)**: 80 test cases across 6 diagnostic tiers (T1-T6)
 
 | Metric | Score |
 |---|---|
-| **Multi-Label Accuracy ((TP+TN)/Total)** | **99.25%** |
-| **Exact-Match Case Accuracy** | **92.50%** |
-| **Micro-Average Precision** | **97.4%** |
-| **Micro-Average Recall** | **95.0%** |
-| **Micro-Average F1-Score** | **96.2%** |
+| **Multi-Label Accuracy ((TP+TN)/Total)** | **95.12%** |
+| **Exact-Match Case Accuracy** | **60.00%** |
+| **Micro-Average F1-Score** | **68.3%** |
 
-*Methodological Note: As documented in `docs/LIMITATIONS.md` and `data/README.md`, near-ceiling performance on this dataset reflects deductive consistency under closed-world assumptions, because cases are derived from the rule antecedents.*
+*Methodological Note: these figures fell from 99.25% and 92.50% when the P0-5 Tier-2 rules were
+revised on literature grounds, without the benchmark being touched. That is the point of the set,
+not a defect in it: the cases were generated from the rule antecedents, so the score measures
+agreement with whichever rule base produced them. It verifies deductive consistency and cannot be
+read as diagnostic accuracy. See [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) Section 4.*
 
 ### Benchmark 2: Independent Peer-Reviewed Literature Benchmark (`data/benchmark_field.csv`)
-- **Provenance**: `literature_case` / `lab_confirmed` (strictly drawn from primary peer-reviewed disease notes in APS *Plant Disease* "Disease Notes"; IRRI Rice Doctor explicitly excluded to avoid circularity)
-- **Sample Size ($n$)**: 32 independently verified cases (5 in-scope targets, 27 out-of-scope emerging pathogens and negative controls)
-- **Protocol**: Two-stage extraction with immutable `raw_symptom_text`, 100% verified DOIs against `api.crossref.org`, authentic collection dates/locations, `annotator_id` set to `"unassigned"` pending formal agronomist adjudication, and automated CI verification via `analysis/verify_citations.py`.
+- **Provenance**: observed-case reports only (`case_type=case_report`); candidates that were not case reports are preserved with a stated reason in [`data/rejected_field_candidates.csv`](data/rejected_field_candidates.csv).
+- **Sample Size ($n$)**: 39 verified cases — 12 in-scope positives, 27 out-of-scope negative controls.
+- **Splits**: `dev` (7 positives, 9 controls) and `eval` (5 positives, 18 controls). No source DOI appears in both.
+- **Independence (downgraded)**: `eval` aggregate scores were observed across two rounds of P0-5 rule revision, so these figures are **development-informed, not strictly held out**, and are an optimistic bound. A fresh partition sourced after the rule base is frozen is required before the manuscript cites an independent figure. See [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) Section 2.
+- **Protocol**: verbatim `raw_symptom_text`, 100% verified DOIs against `api.crossref.org`, authentic locations and dates, `annotator_id` set to `"unassigned"` pending formal agronomist adjudication, CI verification via `analysis/verify_citations.py`.
 
-| Metric | Score | Traceable File |
+| Metric (`eval`, $n=23$) | Score | Traceable File |
 |---|---|---|
-| **Positive-Case Diagnostic Recall** | **20.83%** (1/5 positive cases detected; 1 TP, 4 FN) | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
-| **Micro-Average F1-Score (Positive)** | **29.00** [95% Bootstrap CI: `9.5`, `51.6`] | [`results/baselines.json`](results/baselines.json) |
-| **Exact-Match Case Accuracy** | **87.50%** (driven by negative controls; not a diagnostic figure) | [`results/baselines.md`](results/baselines.md) |
-| **Specificity / Negative Control Rejection** | **100.0%** (27/27 out-of-scope non-target pathogens rejected) | [`results/baselines.md`](results/baselines.md) |
-| **Citation Verification Gate (CI)** | **100.0%** (32/32 Crossref HTTP 200 & title match) | `data/benchmark_field.csv` |
+| **Positive-Case Diagnostic Recall** | **35.00%** (5 in-scope cases) | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
+| **Micro-Average F1-Score (Positive)** | **40.67** [95% Bootstrap CI: `34.8`, `74.3`] | [`results/baselines.json`](results/baselines.json) |
+| **Exact-Match Case Accuracy** | **86.82%** (driven by 18 negative controls; not a diagnostic figure) | [`results/baselines.md`](results/baselines.md) |
+| **False Positives on Negative Controls** | **0 of 27** | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
+| **Minimum Detectable Effect** | **±29.5** percentage points | [`results/baselines.md`](results/baselines.md) |
 
 *Scientific Disclosure & Scope Limitations:*
-- **Low True-Positive Recall (1/5 Cases, 20.8%)**: On the only independent literature benchmark, RiceKG identifies one of five positive disease cases. Every supervised ML baseline scores 0.0% on the same cases, but the naive nearest-prototype matcher — which uses no ontology and no reasoner — scores **higher** (38.3%). Diagnostic efficacy on authentic field cases is **not established**. Per-case causes are assigned in [`results/field_failure_analysis.md`](results/field_failure_analysis.md): three cases fail on genuine vocabulary gaps, one fails on Tier-2 rule coverage despite all its symptoms mapping.
-- **Symptom Identifier Normalization**: Field symptoms were originally recorded in a namespace sharing zero terms with `model.ALL_SYMPTOMS`, so the benchmark reached the reasoner as empty input and never exercised the rule base. [`data/symptom_mapping.csv`](data/symptom_mapping.csv) resolves 9 of 25 descriptors and deliberately leaves 16 unmapped; dropped descriptors are retained per case in the `unmapped_terms` column.
-- **Negative-Control Composition Artifact**: 27 out of 32 cases (84.4%) are negative controls (out-of-scope emerging pathogens). Aggregate exact match reflects rejection of negative controls rather than clinical diagnostic capability, and that rejection is partly guaranteed by construction wherever descriptors are unmapped.
-- **Power Sizing Constraint**: With $n=32$ (and only 5 positive cases), the minimum detectable effect is $\pm 25.0\%$. Reliable multi-class sensitivity validation would require 15–20 confirmed positive cases per threat class (150–200 total), as detailed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
+- **Remediation Did Not Transfer**: P0-5 extended the vocabulary from 45 to 54 terms and revised five Tier-2 rules on literature grounds. `dev` positive recall rose 19.17% → 63.33%; `eval` moved 38.33% → 35.00%. A gain confined to the visible partition is an overfitting signature and is reported as such. Overall 6 of 12 positive cases are resolved, up from 3.
+- **A Trivial Heuristic Is Not Cleanly Beaten**: RiceKG exceeds the ontology-free nearest-prototype matcher by 13.0 points of exact match (Holm-adjusted $p = 0.0004$) and on positive recall (35.00% vs 17.50%), but that matcher holds a higher micro-F1 (43.29 vs 40.67).
+- **An Intermediate Revision Was Withdrawn**: pairing `Water_Soaked_Lesions` with `Bacterial_Ooze` for bacterial blight produced 4 false positives, because exudate is a genus-level sign shared with the *Xanthomonas oryzicola*, *Burkholderia* and *Pantoea* negative controls. Re-specifying around discriminating signs returned false positives to zero.
+- **Four Threat Classes Have No Field Case**: `Grasshopper`, `Rice_Bug`, `Rice_Stem_Borer` and `Brown_Planthopper` are unrepresented, because insect pests are not published as first-report disease notes. No field-evidenced claim is made for them.
+- **Case-Report Gate**: 14 of 21 P0-5 sourcing candidates were rejected — every DOI resolved, but the sources were reviews, efficacy trials or caged experiments whose symptom text is textbook description rather than observation. Crossref verification cannot detect this; [`tests/test_p0_5_field.py`](tests/test_p0_5_field.py) enforces it.
 
 ### Architectural & Reasoner Ablation Study
 
@@ -157,7 +162,7 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 | *Baseline Control: No Reasoner (Set-Matching)* | 92.50% | 97.4% | 95.0% | 96.2% | 0.00 | 0.00 |
 
 > **Key Architectural Insights**:
-> 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 95.0% to 10.0%, while guaranteeing 100% precision (0 false positives). Tier-2 expands field sensitivity under incomplete symptom observation.
+> 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 52.5% to 10.0%, while guaranteeing 100% precision (0 false positives). Tier-2 expands sensitivity under incomplete symptom observation, at the cost of specificity.
 > 2. **Reasoner Engineering Trade-Off**: Pure Python set-matching executes in <0.05 ms per query, whereas Pellet DL requires ~520 ms. The DL reasoner is justified not by speed, but by ontological property subsumption (`hasConfirmedPest` ⊑ `hasConfirmedThreat`), consistency verification, and deductive derivation trees for explainable AI (XAI).
 
 ### Comparative Baselines & Paired Significance Testing
@@ -165,7 +170,7 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
 
 - **Augmented Benchmark ($n=80$)**: RiceKG achieves **92.50% ± 2.24%** exact match with **zero training data**, significantly outperforming ML baselines trained on 40 cases/fold (**55.50%–63.75%**, all $p < 0.001$ after Holm–Bonferroni correction) due to 16 singleton multi-threat composites.
-- **Independent Field Benchmark ($n=32$)**: RiceKG attains **20.83%** positive-case recall against **0.00%** for every supervised baseline, but the ontology-free nearest-prototype matcher reaches **38.33%**. No comparison is significant after Holm correction; with only 5 positive cases the MDE is $\pm 25.0$ percentage points, so these are underpowered rather than equivalent.
+- **Independent Field Benchmark, `eval` ($n=23$, development-informed)**: RiceKG attains **35.00%** positive-case recall; the strongest supervised baseline reaches 10.00%. It exceeds the ontology-free nearest-prototype matcher by 13.0 points of exact match (Holm-adjusted $p = 0.0004$), though that matcher holds a higher micro-F1 (43.29 vs 40.67). With 5 positive cases and an MDE of $\pm 29.5$ percentage points the comparison remains underpowered.
 - **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
 ---

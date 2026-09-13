@@ -74,19 +74,23 @@ All 32 cases are drawn strictly from primary peer-reviewed disease notes (APS *P
 The `symptom_*` columns of this file were originally populated with descriptive snake_case slugs
 authored during Stage B extraction (for example `seed_yellowish_green_velvety_balls`). Those slugs form
 a namespace disjoint from the ontology vocabulary `model.ALL_SYMPTOMS`, which uses identifiers such as
-`Rusty_Grain_Balls`: **none of the 25 recorded descriptors matched any of the 45 ontology terms**, while
+`Rusty_Grain_Balls`: **none of the 25 recorded descriptors matched any of the then 45 ontology terms**, while
 `benchmark_augmented.csv` matched on all 45. As a result every case in this benchmark reached the
 reasoner as an empty assertion set, and the benchmark could not exercise the rule base at all.
 
 [`symptom_mapping.csv`](symptom_mapping.csv) records the resolution of each descriptor with a
 justification:
 
-- **9 descriptors mapped** to an ontology term where the semantic identity is direct
-  (`roots_hook_shaped_galls` → `Hook_Like_Root_Swelling`, `seed_empty_unfilled` → `Empty_Grains`).
-- **16 descriptors left unmapped** because the ontology models no corresponding concept (bacterial ooze,
-  water-soaked lesions, mottling/mosaic, leaf striping, sheath tissue). Near-misses were deliberately
-  *not* forced: `Yellowing_Leaf_Tips` is not "whitened tips", `Panicle_Neck_Rot` is not "stem rot", and
-  `Hopperburn_Drying` is planthopper-specific and cannot stand for generic drying.
+- **16 descriptors mapped** to an ontology term. Nine were direct semantic identities
+  (`roots_hook_shaped_galls` → `Hook_Like_Root_Swelling`, `seed_empty_unfilled` → `Empty_Grains`);
+  seven more became mappable when the P0-5 Step 2 vocabulary extension added terms for water-soaked
+  lesions, bacterial ooze, mottling, interveinal chlorosis, grain discoloration, leaf sheath lesions
+  and culm rot (see `docs/ONTOLOGY.md`).
+- **9 descriptors remain unmapped** because the ontology still models no corresponding concept —
+  striping and streaking patterns, leaf bleaching, whitened leaf tips, whole-leaf withering, generic
+  discoloration, generic drying, root discoloration and plant malformation. Near-misses were
+  deliberately *not* forced: `Yellowing_Leaf_Tips` is not "whitened tips", and `Hopperburn_Drying` is
+  planthopper-specific and cannot stand for generic drying.
 
 Unmapped descriptors are preserved per case in the `unmapped_terms` column (placed after `diagnosis` so
 the evaluation loader does not read them as symptoms), keeping the vocabulary gap auditable. The
