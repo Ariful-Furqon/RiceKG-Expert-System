@@ -1,0 +1,938 @@
+{
+  "generated_at": "2026-09-13T03:52:00.176703+00:00",
+  "elapsed_seconds": 104.7,
+  "synthetic_benchmark": {
+    "dataset_name": "Synthetic Verification Benchmark",
+    "csv_path": "/Users/ariful/Library/CloudStorage/OneDrive-UniversitasJember/Research/2026/CKE Iran/RiceKG Expert System/data/benchmark_synthetic.csv",
+    "n_samples": 80,
+    "n_folds": 10,
+    "split_strategy": "KFold(n_splits=2) [Fallback: 16 rare combinations have n=1]",
+    "train_budgets": {
+      "RiceKG (Full Proposed)": "0 cases (cold start)",
+      "Rule: Nearest Prototype": "0 cases (cold start)",
+      "Rule: Flat Single-Tier": "0 cases (cold start)",
+      "Decision Tree": "40 cases/fold",
+      "Random Forest": "40 cases/fold",
+      "Multinomial Naive Bayes": "40 cases/fold",
+      "k-NN": "40 cases/fold",
+      "Logistic Regression (OvR)": "40 cases/fold"
+    },
+    "system_summaries": {
+      "RiceKG (Full Proposed)": {
+        "paradigm": "Knowledge-Based / Semantic Web",
+        "training_budget": "0 cases (cold start)",
+        "mean_exact_match": 92.5,
+        "std_exact_match": 2.23606797749979,
+        "mean_micro_f1": 96.18810065798894,
+        "std_micro_f1": 1.1509639787041295,
+        "mean_micro_precision": 97.42160372607128,
+        "mean_micro_recall": 95.00932372434298,
+        "micro_f1_ci_95": [
+          94.7624360152251,
+          97.42931377885738
+        ],
+        "n_resamples": 1000
+      },
+      "Rule: Nearest Prototype": {
+        "paradigm": "Knowledge-Based / Semantic Web",
+        "training_budget": "0 cases (cold start)",
+        "mean_exact_match": 72.5,
+        "std_exact_match": 2.23606797749979,
+        "mean_micro_f1": 86.65033477588028,
+        "std_micro_f1": 1.3669694164347679,
+        "mean_micro_precision": 80.56938582906602,
+        "mean_micro_recall": 93.84038593698413,
+        "micro_f1_ci_95": [
+          84.48060026747227,
+          88.7156367380403
+        ],
+        "n_resamples": 1000
+      },
+      "Rule: Flat Single-Tier": {
+        "paradigm": "Knowledge-Based / Semantic Web",
+        "training_budget": "0 cases (cold start)",
+        "mean_exact_match": 92.5,
+        "std_exact_match": 2.23606797749979,
+        "mean_micro_f1": 96.18810065798894,
+        "std_micro_f1": 1.1509639787041295,
+        "mean_micro_precision": 97.42160372607128,
+        "mean_micro_recall": 95.00932372434298,
+        "micro_f1_ci_95": [
+          94.7624360152251,
+          97.42931377885738
+        ],
+        "n_resamples": 1000
+      },
+      "Decision Tree": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "40 cases/fold",
+        "mean_exact_match": 55.5,
+        "std_exact_match": 6.4031242374328485,
+        "mean_micro_f1": 72.03956220249574,
+        "std_micro_f1": 5.464437722615978,
+        "mean_micro_precision": 82.59905999561173,
+        "mean_micro_recall": 64.12181784839038,
+        "micro_f1_ci_95": [
+          68.98524629651934,
+          75.17546823760271
+        ],
+        "n_resamples": 1000
+      },
+      "Random Forest": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "40 cases/fold",
+        "mean_exact_match": 55.5,
+        "std_exact_match": 9.797958971132712,
+        "mean_micro_f1": 67.55957387858845,
+        "std_micro_f1": 8.635683000405907,
+        "mean_micro_precision": 94.5875640204728,
+        "mean_micro_recall": 53.536284247773345,
+        "micro_f1_ci_95": [
+          64.15015984454334,
+          71.26235645138053
+        ],
+        "n_resamples": 1000
+      },
+      "Multinomial Naive Bayes": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "40 cases/fold",
+        "mean_exact_match": 63.75,
+        "std_exact_match": 9.168560410446123,
+        "mean_micro_f1": 78.24122925856288,
+        "std_micro_f1": 6.894652120905701,
+        "mean_micro_precision": 69.73388849819104,
+        "mean_micro_recall": 89.62790397450217,
+        "micro_f1_ci_95": [
+          74.23759866653809,
+          81.49206962100511
+        ],
+        "n_resamples": 1000
+      },
+      "k-NN": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "40 cases/fold",
+        "mean_exact_match": 63.75,
+        "std_exact_match": 7.92543374207368,
+        "mean_micro_f1": 69.73024722760445,
+        "std_micro_f1": 6.988491782386843,
+        "mean_micro_precision": 96.84977411997873,
+        "mean_micro_recall": 54.91020155140823,
+        "micro_f1_ci_95": [
+          66.12890091415362,
+          73.71835443037975
+        ],
+        "n_resamples": 1000
+      },
+      "Logistic Regression (OvR)": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "40 cases/fold",
+        "mean_exact_match": 57.75,
+        "std_exact_match": 10.691702390171548,
+        "mean_micro_f1": 69.00661342585332,
+        "std_micro_f1": 9.097062496015154,
+        "mean_micro_precision": 96.57376060472035,
+        "mean_micro_recall": 54.657681713522535,
+        "micro_f1_ci_95": [
+          65.50511569162933,
+          72.78649607487922
+        ],
+        "n_resamples": 1000
+      }
+    },
+    "comparisons_against_ricekg": {
+      "Rule: Nearest Prototype": {
+        "mcnemar": {
+          "n_cases": 400,
+          "contingency_table": {
+            "both_correct": 285,
+            "a_only": 85,
+            "b_only": 5,
+            "neither_correct": 25
+          },
+          "total_discordant": 90,
+          "statistic": 69.34444444444445,
+          "p_value": 8.268519806999721e-17,
+          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
+          "acc_a": 92.5,
+          "acc_b": 72.5,
+          "delta_acc": 20.000000000000007,
+          "odds_ratio": 17.0,
+          "cohens_g": 0.4444444444444444
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 96.19650341525319,
+          "f1_a_ci": [
+            94.7624360152251,
+            97.42931377885738
+          ],
+          "f1_b_mean": 86.68426227174129,
+          "f1_b_ci": [
+            84.48060026747227,
+            88.7156367380403
+          ],
+          "delta_f1_mean": 9.512241143511913,
+          "delta_f1_ci": [
+            7.4829189666995,
+            11.690901719329219
+          ]
+        },
+        "holm": {
+          "original_index": 0,
+          "raw_p_value": 8.268519806999721e-17,
+          "holm_p_value": 1.6537039613999442e-16,
+          "significant": true
+        }
+      },
+      "Rule: Flat Single-Tier": {
+        "mcnemar": {
+          "n_cases": 400,
+          "contingency_table": {
+            "both_correct": 370,
+            "a_only": 0,
+            "b_only": 0,
+            "neither_correct": 30
+          },
+          "total_discordant": 0,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact (0 discordant pairs)",
+          "acc_a": 92.5,
+          "acc_b": 92.5,
+          "delta_acc": 0.0,
+          "odds_ratio": 1.0,
+          "cohens_g": 0.0
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 96.19650341525319,
+          "f1_a_ci": [
+            94.7624360152251,
+            97.42931377885738
+          ],
+          "f1_b_mean": 96.19650341525319,
+          "f1_b_ci": [
+            94.7624360152251,
+            97.42931377885738
+          ],
+          "delta_f1_mean": 0.0,
+          "delta_f1_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "holm": {
+          "original_index": 1,
+          "raw_p_value": 1.0,
+          "holm_p_value": 1.0,
+          "significant": false
+        }
+      },
+      "Decision Tree": {
+        "mcnemar": {
+          "n_cases": 400,
+          "contingency_table": {
+            "both_correct": 212,
+            "a_only": 158,
+            "b_only": 10,
+            "neither_correct": 20
+          },
+          "total_discordant": 168,
+          "statistic": 128.625,
+          "p_value": 8.192195360470325e-30,
+          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
+          "acc_a": 92.5,
+          "acc_b": 55.50000000000001,
+          "delta_acc": 37.0,
+          "odds_ratio": 15.8,
+          "cohens_g": 0.44047619047619047
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 96.19650341525319,
+          "f1_a_ci": [
+            94.7624360152251,
+            97.42931377885738
+          ],
+          "f1_b_mean": 72.12773148769809,
+          "f1_b_ci": [
+            68.98524629651934,
+            75.17546823760271
+          ],
+          "delta_f1_mean": 24.06877192755512,
+          "delta_f1_ci": [
+            20.89251177082237,
+            27.373174137609222
+          ]
+        },
+        "holm": {
+          "original_index": 2,
+          "raw_p_value": 8.192195360470325e-30,
+          "holm_p_value": 4.0960976802351626e-29,
+          "significant": true
+        }
+      },
+      "Random Forest": {
+        "mcnemar": {
+          "n_cases": 400,
+          "contingency_table": {
+            "both_correct": 218,
+            "a_only": 152,
+            "b_only": 4,
+            "neither_correct": 26
+          },
+          "total_discordant": 156,
+          "statistic": 138.51923076923077,
+          "p_value": 5.610940308193528e-32,
+          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
+          "acc_a": 92.5,
+          "acc_b": 55.50000000000001,
+          "delta_acc": 37.0,
+          "odds_ratio": 38.0,
+          "cohens_g": 0.47435897435897434
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 96.19650341525319,
+          "f1_a_ci": [
+            94.7624360152251,
+            97.42931377885738
+          ],
+          "f1_b_mean": 67.9113489808124,
+          "f1_b_ci": [
+            64.15015984454334,
+            71.26235645138053
+          ],
+          "delta_f1_mean": 28.285154434440795,
+          "delta_f1_ci": [
+            24.990195210287823,
+            32.06602504601295
+          ]
+        },
+        "holm": {
+          "original_index": 3,
+          "raw_p_value": 5.610940308193528e-32,
+          "holm_p_value": 3.927658215735469e-31,
+          "significant": true
+        }
+      },
+      "Multinomial Naive Bayes": {
+        "mcnemar": {
+          "n_cases": 400,
+          "contingency_table": {
+            "both_correct": 247,
+            "a_only": 123,
+            "b_only": 8,
+            "neither_correct": 22
+          },
+          "total_discordant": 131,
+          "statistic": 99.20610687022901,
+          "p_value": 2.2754430024762177e-23,
+          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
+          "acc_a": 92.5,
+          "acc_b": 63.74999999999999,
+          "delta_acc": 28.750000000000007,
+          "odds_ratio": 15.375,
+          "cohens_g": 0.4389312977099237
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 96.19650341525319,
+          "f1_a_ci": [
+            94.7624360152251,
+            97.42931377885738
+          ],
+          "f1_b_mean": 77.9707897597831,
+          "f1_b_ci": [
+            74.23759866653809,
+            81.49206962100511
+          ],
+          "delta_f1_mean": 18.22571365547009,
+          "delta_f1_ci": [
+            14.591912148691176,
+            21.860845220577207
+          ]
+        },
+        "holm": {
+          "original_index": 4,
+          "raw_p_value": 2.2754430024762177e-23,
+          "holm_p_value": 9.101772009904871e-23,
+          "significant": true
+        }
+      },
+      "k-NN": {
+        "mcnemar": {
+          "n_cases": 400,
+          "contingency_table": {
+            "both_correct": 247,
+            "a_only": 123,
+            "b_only": 8,
+            "neither_correct": 22
+          },
+          "total_discordant": 131,
+          "statistic": 99.20610687022901,
+          "p_value": 2.2754430024762177e-23,
+          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
+          "acc_a": 92.5,
+          "acc_b": 63.74999999999999,
+          "delta_acc": 28.750000000000007,
+          "odds_ratio": 15.375,
+          "cohens_g": 0.4389312977099237
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 96.19650341525319,
+          "f1_a_ci": [
+            94.7624360152251,
+            97.42931377885738
+          ],
+          "f1_b_mean": 70.03507751916736,
+          "f1_b_ci": [
+            66.12890091415362,
+            73.71835443037975
+          ],
+          "delta_f1_mean": 26.16142589608584,
+          "delta_f1_ci": [
+            22.33584704061555,
+            30.149990953528356
+          ]
+        },
+        "holm": {
+          "original_index": 5,
+          "raw_p_value": 2.2754430024762177e-23,
+          "holm_p_value": 9.101772009904871e-23,
+          "significant": true
+        }
+      },
+      "Logistic Regression (OvR)": {
+        "mcnemar": {
+          "n_cases": 400,
+          "contingency_table": {
+            "both_correct": 228,
+            "a_only": 142,
+            "b_only": 3,
+            "neither_correct": 27
+          },
+          "total_discordant": 145,
+          "statistic": 131.33793103448275,
+          "p_value": 2.0884766471033076e-30,
+          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
+          "acc_a": 92.5,
+          "acc_b": 57.75,
+          "delta_acc": 34.75,
+          "odds_ratio": 47.333333333333336,
+          "cohens_g": 0.47931034482758617
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 96.19650341525319,
+          "f1_a_ci": [
+            94.7624360152251,
+            97.42931377885738
+          ],
+          "f1_b_mean": 69.27364119417798,
+          "f1_b_ci": [
+            65.50511569162933,
+            72.78649607487922
+          ],
+          "delta_f1_mean": 26.92286222107521,
+          "delta_f1_ci": [
+            23.400996735236284,
+            30.7494113106626
+          ]
+        },
+        "holm": {
+          "original_index": 6,
+          "raw_p_value": 2.0884766471033076e-30,
+          "holm_p_value": 1.2530859882619846e-29,
+          "significant": true
+        }
+      }
+    },
+    "mde_analysis": {
+      "n": 80,
+      "alpha": 0.05,
+      "power": 0.8,
+      "baseline_rate": 0.85,
+      "z_alpha_half": 1.959963984540054,
+      "z_beta": 0.8416212335729143,
+      "mde_percentage_mcnemar": 17.156135638251722,
+      "mde_percentage_proportion": 15.817175523220865,
+      "disclosure": "With n=80 (alpha=0.05, power=0.80), the study can only reliably detect accuracy differences of at least +/-15.8 percentage points. Null hypothesis tests (p > 0.05) must NOT be interpreted as proof of equivalence."
+    }
+  },
+  "field_benchmark": {
+    "dataset_name": "Independent Literature Field Benchmark",
+    "csv_path": "/Users/ariful/Library/CloudStorage/OneDrive-UniversitasJember/Research/2026/CKE Iran/RiceKG Expert System/data/benchmark_field.csv",
+    "n_samples": 32,
+    "n_folds": 10,
+    "split_strategy": "KFold(n_splits=2) [Fallback: 3 rare combinations have n=1]",
+    "train_budgets": {
+      "RiceKG (Full Proposed)": "0 cases (cold start)",
+      "Rule: Nearest Prototype": "0 cases (cold start)",
+      "Rule: Flat Single-Tier": "0 cases (cold start)",
+      "Decision Tree": "16 cases/fold",
+      "Random Forest": "16 cases/fold",
+      "Multinomial Naive Bayes": "16 cases/fold",
+      "k-NN": "16 cases/fold",
+      "Logistic Regression (OvR)": "16 cases/fold"
+    },
+    "system_summaries": {
+      "RiceKG (Full Proposed)": {
+        "paradigm": "Knowledge-Based / Semantic Web",
+        "training_budget": "0 cases (cold start)",
+        "mean_exact_match": 84.375,
+        "std_exact_match": 5.038911092686593,
+        "mean_micro_f1": 0.0,
+        "std_micro_f1": 0.0,
+        "mean_micro_precision": 0.0,
+        "mean_micro_recall": 0.0,
+        "micro_f1_ci_95": [
+          0.0,
+          0.0
+        ],
+        "n_resamples": 1000
+      },
+      "Rule: Nearest Prototype": {
+        "paradigm": "Knowledge-Based / Semantic Web",
+        "training_budget": "0 cases (cold start)",
+        "mean_exact_match": 84.375,
+        "std_exact_match": 5.038911092686593,
+        "mean_micro_f1": 0.0,
+        "std_micro_f1": 0.0,
+        "mean_micro_precision": 0.0,
+        "mean_micro_recall": 0.0,
+        "micro_f1_ci_95": [
+          0.0,
+          0.0
+        ],
+        "n_resamples": 1000
+      },
+      "Rule: Flat Single-Tier": {
+        "paradigm": "Knowledge-Based / Semantic Web",
+        "training_budget": "0 cases (cold start)",
+        "mean_exact_match": 84.375,
+        "std_exact_match": 5.038911092686593,
+        "mean_micro_f1": 0.0,
+        "std_micro_f1": 0.0,
+        "mean_micro_precision": 0.0,
+        "mean_micro_recall": 0.0,
+        "micro_f1_ci_95": [
+          0.0,
+          0.0
+        ],
+        "n_resamples": 1000
+      },
+      "Decision Tree": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "16 cases/fold",
+        "mean_exact_match": 84.375,
+        "std_exact_match": 5.038911092686593,
+        "mean_micro_f1": 0.0,
+        "std_micro_f1": 0.0,
+        "mean_micro_precision": 0.0,
+        "mean_micro_recall": 0.0,
+        "micro_f1_ci_95": [
+          0.0,
+          0.0
+        ],
+        "n_resamples": 1000
+      },
+      "Random Forest": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "16 cases/fold",
+        "mean_exact_match": 84.375,
+        "std_exact_match": 5.038911092686593,
+        "mean_micro_f1": 0.0,
+        "std_micro_f1": 0.0,
+        "mean_micro_precision": 0.0,
+        "mean_micro_recall": 0.0,
+        "micro_f1_ci_95": [
+          0.0,
+          0.0
+        ],
+        "n_resamples": 1000
+      },
+      "Multinomial Naive Bayes": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "16 cases/fold",
+        "mean_exact_match": 84.375,
+        "std_exact_match": 5.038911092686593,
+        "mean_micro_f1": 0.0,
+        "std_micro_f1": 0.0,
+        "mean_micro_precision": 0.0,
+        "mean_micro_recall": 0.0,
+        "micro_f1_ci_95": [
+          0.0,
+          0.0
+        ],
+        "n_resamples": 1000
+      },
+      "k-NN": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "16 cases/fold",
+        "mean_exact_match": 66.875,
+        "std_exact_match": 33.77892279217915,
+        "mean_micro_f1": 0.0,
+        "std_micro_f1": 0.0,
+        "mean_micro_precision": 0.0,
+        "mean_micro_recall": 0.0,
+        "micro_f1_ci_95": [
+          0.0,
+          0.0
+        ],
+        "n_resamples": 1000
+      },
+      "Logistic Regression (OvR)": {
+        "paradigm": "Supervised Machine Learning",
+        "training_budget": "16 cases/fold",
+        "mean_exact_match": 84.375,
+        "std_exact_match": 5.038911092686593,
+        "mean_micro_f1": 0.0,
+        "std_micro_f1": 0.0,
+        "mean_micro_precision": 0.0,
+        "mean_micro_recall": 0.0,
+        "micro_f1_ci_95": [
+          0.0,
+          0.0
+        ],
+        "n_resamples": 1000
+      }
+    },
+    "comparisons_against_ricekg": {
+      "Rule: Nearest Prototype": {
+        "mcnemar": {
+          "n_cases": 160,
+          "contingency_table": {
+            "both_correct": 135,
+            "a_only": 0,
+            "b_only": 0,
+            "neither_correct": 25
+          },
+          "total_discordant": 0,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact (0 discordant pairs)",
+          "acc_a": 84.375,
+          "acc_b": 84.375,
+          "delta_acc": 0.0,
+          "odds_ratio": 1.0,
+          "cohens_g": 0.0
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 0.0,
+          "f1_a_ci": [
+            0.0,
+            0.0
+          ],
+          "f1_b_mean": 0.0,
+          "f1_b_ci": [
+            0.0,
+            0.0
+          ],
+          "delta_f1_mean": 0.0,
+          "delta_f1_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "holm": {
+          "original_index": 0,
+          "raw_p_value": 1.0,
+          "holm_p_value": 1.0,
+          "significant": false
+        }
+      },
+      "Rule: Flat Single-Tier": {
+        "mcnemar": {
+          "n_cases": 160,
+          "contingency_table": {
+            "both_correct": 135,
+            "a_only": 0,
+            "b_only": 0,
+            "neither_correct": 25
+          },
+          "total_discordant": 0,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact (0 discordant pairs)",
+          "acc_a": 84.375,
+          "acc_b": 84.375,
+          "delta_acc": 0.0,
+          "odds_ratio": 1.0,
+          "cohens_g": 0.0
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 0.0,
+          "f1_a_ci": [
+            0.0,
+            0.0
+          ],
+          "f1_b_mean": 0.0,
+          "f1_b_ci": [
+            0.0,
+            0.0
+          ],
+          "delta_f1_mean": 0.0,
+          "delta_f1_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "holm": {
+          "original_index": 1,
+          "raw_p_value": 1.0,
+          "holm_p_value": 1.0,
+          "significant": false
+        }
+      },
+      "Decision Tree": {
+        "mcnemar": {
+          "n_cases": 160,
+          "contingency_table": {
+            "both_correct": 135,
+            "a_only": 0,
+            "b_only": 0,
+            "neither_correct": 25
+          },
+          "total_discordant": 0,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact (0 discordant pairs)",
+          "acc_a": 84.375,
+          "acc_b": 84.375,
+          "delta_acc": 0.0,
+          "odds_ratio": 1.0,
+          "cohens_g": 0.0
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 0.0,
+          "f1_a_ci": [
+            0.0,
+            0.0
+          ],
+          "f1_b_mean": 0.0,
+          "f1_b_ci": [
+            0.0,
+            0.0
+          ],
+          "delta_f1_mean": 0.0,
+          "delta_f1_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "holm": {
+          "original_index": 2,
+          "raw_p_value": 1.0,
+          "holm_p_value": 1.0,
+          "significant": false
+        }
+      },
+      "Random Forest": {
+        "mcnemar": {
+          "n_cases": 160,
+          "contingency_table": {
+            "both_correct": 135,
+            "a_only": 0,
+            "b_only": 0,
+            "neither_correct": 25
+          },
+          "total_discordant": 0,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact (0 discordant pairs)",
+          "acc_a": 84.375,
+          "acc_b": 84.375,
+          "delta_acc": 0.0,
+          "odds_ratio": 1.0,
+          "cohens_g": 0.0
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 0.0,
+          "f1_a_ci": [
+            0.0,
+            0.0
+          ],
+          "f1_b_mean": 0.0,
+          "f1_b_ci": [
+            0.0,
+            0.0
+          ],
+          "delta_f1_mean": 0.0,
+          "delta_f1_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "holm": {
+          "original_index": 3,
+          "raw_p_value": 1.0,
+          "holm_p_value": 1.0,
+          "significant": false
+        }
+      },
+      "Multinomial Naive Bayes": {
+        "mcnemar": {
+          "n_cases": 160,
+          "contingency_table": {
+            "both_correct": 135,
+            "a_only": 0,
+            "b_only": 0,
+            "neither_correct": 25
+          },
+          "total_discordant": 0,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact (0 discordant pairs)",
+          "acc_a": 84.375,
+          "acc_b": 84.375,
+          "delta_acc": 0.0,
+          "odds_ratio": 1.0,
+          "cohens_g": 0.0
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 0.0,
+          "f1_a_ci": [
+            0.0,
+            0.0
+          ],
+          "f1_b_mean": 0.0,
+          "f1_b_ci": [
+            0.0,
+            0.0
+          ],
+          "delta_f1_mean": 0.0,
+          "delta_f1_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "holm": {
+          "original_index": 4,
+          "raw_p_value": 1.0,
+          "holm_p_value": 1.0,
+          "significant": false
+        }
+      },
+      "k-NN": {
+        "mcnemar": {
+          "n_cases": 160,
+          "contingency_table": {
+            "both_correct": 107,
+            "a_only": 28,
+            "b_only": 0,
+            "neither_correct": 25
+          },
+          "total_discordant": 28,
+          "statistic": 26.035714285714285,
+          "p_value": 3.351596306607732e-07,
+          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
+          "acc_a": 84.375,
+          "acc_b": 66.875,
+          "delta_acc": 17.500000000000004,
+          "odds_ratio": 57.0,
+          "cohens_g": 0.5
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 0.0,
+          "f1_a_ci": [
+            0.0,
+            0.0
+          ],
+          "f1_b_mean": 0.0,
+          "f1_b_ci": [
+            0.0,
+            0.0
+          ],
+          "delta_f1_mean": 0.0,
+          "delta_f1_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "holm": {
+          "original_index": 5,
+          "raw_p_value": 3.351596306607732e-07,
+          "holm_p_value": 2.3461174146254124e-06,
+          "significant": true
+        }
+      },
+      "Logistic Regression (OvR)": {
+        "mcnemar": {
+          "n_cases": 160,
+          "contingency_table": {
+            "both_correct": 135,
+            "a_only": 0,
+            "b_only": 0,
+            "neither_correct": 25
+          },
+          "total_discordant": 0,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact (0 discordant pairs)",
+          "acc_a": 84.375,
+          "acc_b": 84.375,
+          "delta_acc": 0.0,
+          "odds_ratio": 1.0,
+          "cohens_g": 0.0
+        },
+        "bootstrap": {
+          "n_resamples": 1000,
+          "ci_level": 0.95,
+          "f1_a_mean": 0.0,
+          "f1_a_ci": [
+            0.0,
+            0.0
+          ],
+          "f1_b_mean": 0.0,
+          "f1_b_ci": [
+            0.0,
+            0.0
+          ],
+          "delta_f1_mean": 0.0,
+          "delta_f1_ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "holm": {
+          "original_index": 6,
+          "raw_p_value": 1.0,
+          "holm_p_value": 1.0,
+          "significant": false
+        }
+      }
+    },
+    "mde_analysis": {
+      "n": 32,
+      "alpha": 0.05,
+      "power": 0.8,
+      "baseline_rate": 0.85,
+      "z_alpha_half": 1.959963984540054,
+      "z_beta": 0.8416212335729143,
+      "mde_percentage_mcnemar": 27.126232231831,
+      "mde_percentage_proportion": 25.009150402021717,
+      "disclosure": "With n=32 (alpha=0.05, power=0.80), the study can only reliably detect accuracy differences of at least +/-25.0 percentage points. Null hypothesis tests (p > 0.05) must NOT be interpreted as proof of equivalence."
+    }
+  }
+}

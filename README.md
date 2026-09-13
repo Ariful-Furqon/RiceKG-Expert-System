@@ -141,6 +141,14 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 > 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 95.0% to 10.0%, while guaranteeing 100% precision (0 false positives). Tier-2 expands field sensitivity under incomplete symptom observation.
 > 2. **Reasoner Engineering Trade-Off**: Pure Python set-matching executes in <0.05 ms per query, whereas Pellet DL requires ~520 ms. The DL reasoner is justified not by speed, but by ontological property subsumption (`hasConfirmedPest` ⊑ `hasConfirmedThreat`), consistency verification, and deductive derivation trees for explainable AI (XAI).
 
+### Comparative Baselines & Paired Significance Testing
+
+Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
+
+- **Synthetic Benchmark ($n=80$)**: RiceKG achieves **92.50% ± 2.24%** exact match with **zero training data**, significantly outperforming ML baselines trained on 40 cases/fold (**55.50%–63.75%**, all $p < 0.001$ after Holm–Bonferroni correction) due to 16 singleton multi-threat composites.
+- **Independent Field Benchmark ($n=32$)**: Due to controlled vocabulary gating (symptoms outside the 45-term ontology), all systems default to negative predictions, matching on the 27 negative control cases (**84.38%** exact match, $p = 1.000$).
+- **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
+
 ---
 
 ## Citation
