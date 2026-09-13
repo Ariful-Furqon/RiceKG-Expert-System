@@ -86,4 +86,12 @@ scratch/
 
 # Project-specific: Manuscript (must not be in public repo for journal review)
 RiceKG_Manuscript_Remake.md
+Response_to_Reviewers.md
+
+# Project-specific: AI instructions, prompts & task briefs
+*PROMPT*.md
+*TASK*.md
+*TASKS*.md
+AIP_REVISION_TASKS.md
+ANTIGRAVITY_PROMPT*.md
 
