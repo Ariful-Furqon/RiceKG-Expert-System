@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ricekg-expert-system"
+version = "0.2.0"
+description = "RiceKG: Multi-Tier OWL 2 DL Ontology & SWRL Expert System for Rice Pest & Disease Diagnosis"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Muhammad Ariful Furqon", email = "ariful.furqon@unej.ac.id" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "Flask>=2.3.0,<4.0.0",
+    "Owlready2>=0.40,<0.50",
+    "numpy>=1.20.0",
+    "scikit-learn>=1.0.0",
+    "scipy>=1.10.0",
+    "statsmodels>=0.14.0",
+    "gunicorn>=21.0.0; sys_platform != 'win32'",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+]
+
+[tool.setuptools]
+py-modules = ["model", "evaluate", "ablation", "app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

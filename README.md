@@ -1,7 +1,7 @@
 # RiceKG: Knowledge Graph and SWRL-Based Expert System for Rice Pest and Disease Diagnosis
 
 [![CI Evaluation](https://github.com/Ariful-Furqon/RiceKG-Expert-System/actions/workflows/ci.yml/badge.svg)](https://github.com/Ariful-Furqon/RiceKG-Expert-System/actions/workflows/ci.yml)
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Pellet Reasoner](https://img.shields.io/badge/Reasoner-Pellet%20DL-orange)](https://github.com/stardog-union/pellet)
 [![OWL 2](https://img.shields.io/badge/Ontology-OWL%202-purple)](https://www.w3.org/TR/owl2-overview/)
@@ -37,25 +37,31 @@ This repository provides an automated semantic reasoning system for diagnosing *
 | **Disease** | `Rice_Grassy_Stunt` | Rice grassy stunt virus (RGSV) |
 | **Disease** | `Rice_Tungro_Virus` | Rice tungro bacilliform & spherical virus |
 
----
-
-## Installation & Setup
+## Reproducibility & Installation
 
 ### Prerequisites
-- **Python 3.9+**
-- **Java Runtime Environment (JRE/JDK 11+)** — Required for the Pellet DL Reasoner
+- **Python >= 3.10**
+- **Java Development Kit / Runtime (JDK/JRE 11+)** — Required for the Pellet DL Reasoner (`sync_reasoner_pellet` via `owlready2`).
+  - **macOS (Homebrew)**: `brew install openjdk` (auto-detected by RiceKG)
+  - **Ubuntu/Debian**: `sudo apt-get install -y default-jre`
+  - **Windows**: Install Eclipse Temurin or Oracle JDK 11+ and add `bin` to `PATH`.
 
-> **Note**: The Pellet reasoner is bundled with `owlready2` but requires a Java runtime to execute. Ensure `java` is available on your system PATH.
+### Environment Setup
 
-### 1. Clone the Repository
+The repository provides a declarative build specification ([`pyproject.toml`](pyproject.toml)), exact dependency lockfile ([`requirements-lock.txt`](requirements-lock.txt)), and automated [`Makefile`](Makefile):
+
 ```bash
-git clone https://github.com/Ariful-Furqon/RiceKG-Expert-System.git
-cd RiceKG-Expert-System
-```
+# 1. Create virtual environment (.venv) and install exact pinned dependencies
+make install
 
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
+# 2. Run comprehensive unit and regression test suite
+make test
+
+# 3. Re-run reasoner architecture ablation experiments
+make ablate
+
+# 4. Re-run comparative ML and rule baselines with statistical significance tests
+make baselines
 ```
 
 ---

@@ -8,7 +8,45 @@ declarative registry supporting dynamic ontology construction and ablation.
 
 import os
 import uuid
+import subprocess
 from owlready2 import *
+
+def _configure_java_runtime():
+    """Auto-detect working Java executable for Pellet reasoner if default 'java' is unavailable."""
+    import owlready2
+    candidates = []
+    if "JAVA_HOME" in os.environ:
+        candidates.append(os.path.join(os.environ["JAVA_HOME"], "bin", "java"))
+    candidates.extend([
+        "/opt/homebrew/opt/openjdk/bin/java",
+        "/usr/local/opt/openjdk/bin/java",
+        "/usr/lib/jvm/default-java/bin/java",
+        "/opt/homebrew/bin/java",
+        "/usr/local/bin/java",
+        "java"
+    ])
+    app_supp = os.path.expanduser("~/Library/Application Support")
+    if os.path.isdir(app_supp):
+        candidates.extend([
+            os.path.join(app_supp, "neo4j-desktop/Application/Cache/runtime/zulu21.44.17-ca-jdk21.0.8-macosx_aarch64/zulu-21.jdk/Contents/Home/bin/java"),
+            os.path.join(app_supp, "Neo4j Desktop/Application/distributions/java/zulu17.58.21-ca-jdk17.0.15/zulu-17.jdk/Contents/Home/bin/java")
+        ])
+    for cand in candidates:
+        if not cand:
+            continue
+        if cand != "java" and not (os.path.isfile(cand) and os.access(cand, os.X_OK)):
+            continue
+        try:
+            res = subprocess.run([cand, "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=5)
+            owlready2.JAVA_EXE = cand
+            if cand != "java" and "JAVA_HOME" not in os.environ:
+                os.environ["JAVA_HOME"] = os.path.dirname(os.path.dirname(cand))
+            return cand
+        except Exception:
+            continue
+    return owlready2.JAVA_EXE
+
+_configure_java_runtime()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ONTOLOGY_PATH = os.path.join(BASE_DIR, "rice_ontology.owl")

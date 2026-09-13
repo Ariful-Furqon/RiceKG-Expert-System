@@ -5,7 +5,9 @@ Owlready2>=0.40,<0.50
 # Production WSGI Server (Linux only)
 gunicorn>=21.0.0; sys_platform != "win32"
 
-# Testing & Evaluation
+# Testing, Statistical Analysis & Evaluation
 pytest>=7.0.0
 numpy>=1.20.0
 scikit-learn>=1.0.0
+scipy>=1.10.0
+statsmodels>=0.14.0
