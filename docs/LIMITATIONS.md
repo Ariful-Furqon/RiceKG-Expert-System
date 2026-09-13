@@ -1,46 +1,88 @@
 # System Limitations & Diagnostic Architectural Findings
 
-## 1. Zero True-Positive Diagnostic Recall on Independent Field Cases (0/5 Cases, 0.0% Recall)
+## 1. Low True-Positive Diagnostic Recall on Independent Field Cases (1/5 Cases, 20.8%)
 
-On the independent, peer-reviewed literature benchmark (`data/benchmark_field.csv`, $n=32$), RiceKG achieves **0 out of 5 true positives** on confirmed positive disease cases:
-- **Positive-Case Diagnostic Recall**: **0.0%** ($0/5$ cases correctly diagnosed).
-- **Micro-Averaged F1-Score**: **0.00** [95% non-parametric bootstrap CI: `0.0`, `0.0`].
-- **Micro-Precision / Micro-Recall**: **0.0% / 0.0%** across all positive instances.
+On the independent, peer-reviewed literature benchmark (`data/benchmark_field.csv`, $n=32$), RiceKG
+correctly diagnoses **1 of the 5 in-scope positive disease cases**:
 
-### Diagnostic Failure Diagnosis: Closed-Vocabulary Gating
-As comprehensively analyzed per-case in [`results/field_failure_analysis.md`](../results/field_failure_analysis.md), the 0/5 failure across all positive field cases is attributable to **vocabulary gating**, not deductive rule failure:
-- In all 5 positive cases (`FIELD_01` and `FIELD_02` Rice Blast, `FIELD_03` Bacterial Leaf Blight, `FIELD_04` Rice Root Nematode, `FIELD_05` False Smut), the clinical symptoms extracted verbatim from APS *Plant Disease* Disease Notes could not be mapped into RiceKG's closed 45-term controlled vocabulary (`model.ALL_SYMPTOMS`).
-- Because no input symptoms mapped to ontology terms, the 45-dimensional binary feature vector was all-zeros for every case. The DL reasoner received an empty symptom assertion set, preventing both Tier-1 canonical and Tier-2 relaxed Horn clauses from activating.
-- Consequently, the reasoner deterministically output `No_Diagnosis` (all-zeros).
-- **Critical Distinction**: The system's rules are not logically unsound, but they are inaccessible in real-world clinical contexts without an intervening flexible semantic translation or open-vocabulary mapping layer. Diagnostic efficacy on independent field cases is **currently unproven**.
+- **Positive-case recall**: **20.83%** averaged across cross-validation folds (1/5 cases resolved on the full set).
+- **Micro-averaged F1**: **29.00** [95% non-parametric bootstrap CI: 9.5, 51.6].
+- **Aggregate exact match**: 87.50% — but see Section 2; this figure is dominated by negative controls.
+
+Two comparisons make the result harder to dismiss. Every supervised baseline attains **0.00%**
+positive-case recall on the same cases, having at most five positive examples to learn from. The naive
+nearest-prototype matcher, which uses neither the ontology nor the DL reasoner, attains **38.33%**
+positive recall — **higher than RiceKG**. The knowledge-based architecture does not currently
+outperform a trivial symptom-count heuristic on independent cases.
+
+### Failure causes, per case
+
+An earlier revision of this document attributed all five failures to vocabulary gating. That diagnosis
+was incorrect, and its cause is recorded here because it materially affected the reported numbers.
+`benchmark_field.csv` originally encoded symptoms in a descriptive snake_case namespace
+(`seed_yellowish_green_velvety_balls`) that shared **zero** terms with the ontology vocabulary
+`model.ALL_SYMPTOMS` (`Rusty_Grain_Balls`), while `benchmark_synthetic.csv` matched it on all 45 terms.
+Consequently every one of the 32 field cases reached the reasoner as an empty assertion set, and the
+benchmark built in P0-3 to break evaluation circularity had never exercised the rule base at all. The
+identifiers are now normalized through `data/symptom_mapping.csv`, which resolves 9 of the 25
+descriptors to ontology terms and leaves 16 deliberately unmapped; unmapped descriptors are retained
+per case in the `unmapped_terms` column.
+
+After normalization, `results/field_failure_analysis.md` assigns each positive case one cause:
+
+| Case | True label | Cause |
+|:--|:--|:--|
+| FIELD_01 | `Rice_Blast` | `partial_vocabulary` |
+| FIELD_02 | `Rice_Blast` | `partial_vocabulary` |
+| FIELD_03 | `Bacterial_Leaf_Blight` | `partial_vocabulary` |
+| FIELD_04 | `Rice_Root_Nematode` | `rule_recall_failure` |
+| FIELD_05 | `False_Smut` | `resolved` |
+
+The distinction is consequential. Three cases fail because diagnostic descriptors such as bacterial ooze
+and water-soaked lesions have no ontology counterpart — these call for vocabulary extension (Section 3).
+**FIELD_04 fails although all three of its symptoms map cleanly** (`Hook_Like_Root_Swelling`,
+`Yellowing_Leaves`, `Stunted_Growth`): the Tier-2 nematode rule requires more antecedents than a field
+report supplies. That is a rule-coverage defect, and no amount of vocabulary work will fix it.
 
 ---
 
 ## 2. Benchmark Composition Imbalance and Sample Power Constraints
 
-### The 84.4% Negative Control Composition Defect
-A major design limitation of the P0-3 independent benchmark (`data/benchmark_field.csv`) is its extreme class imbalance:
-- **Total Cases**: $n = 32$.
-- **Positive In-Scope Disease Cases**: $n = 5$ (15.6%).
-- **Negative Control / Out-of-Scope Pathogen Cases**: $n = 27$ (84.4%).
+### The 84.4% negative-control composition defect
 
-Because 84.4% of the benchmark consists of negative controls (confirmed emerging pathogens outside the 10 modeled classes, such as *Burkholderia glumae*, *Sarocladium oryzae*, and *Rice stripe necrosis virus*), the reported **84.38% aggregate exact match is an artifact of negative-control rejection**. Defaulting to `No_Diagnosis` correctly matches 27/27 negative controls while simultaneously failing on 5/5 positive disease cases. Reporting aggregate exact match without segregating positive-case recall conceals complete diagnostic failure on actual disease targets.
+- **Total cases**: $n = 32$.
+- **Positive in-scope disease cases**: $n = 5$ (15.6%).
+- **Negative control / out-of-scope cases**: $n = 27$ (84.4%).
 
-### Requirements for a Properly Powered Field Benchmark
-The current field sample ($n=32$) is severely underpowered:
-1. **Minimum Detectable Effect (MDE)**: At $\alpha = 0.05$ and $80\%$ statistical power ($1 - \beta = 0.80$), the MDE for $n=32$ is $\pm 25.0$ percentage points. Differences smaller than 25% cannot be distinguished from chance.
-2. **Threat-Class Representation**: With only 5 positive cases distributed across 4 disease classes (2 Blast, 1 BLB, 1 Nematode, 1 False Smut) and 0 cases for the remaining 6 threat classes (including all 5 insect pest classes), the benchmark barely evaluates diagnostic multi-class discrimination.
-3. **Power Sizing for Reliable Field Validation**:
-   - To reliably evaluate multi-threat diagnostic sensitivity and distinguish a 10–15 percentage-point performance margin ($\text{MDE} \le \pm 12\%$) at $\alpha = 0.05$ and $80\%$ power, a field benchmark requires at least **15 to 20 verified positive cases per threat class**.
-   - Across all 10 threat classes, this requires **150 to 200 positive field cases**, evaluated against a balanced set of negative controls.
-4. **Data Sourcing Constraint**: Expanding this benchmark requires labor-intensive extraction from peer-reviewed literature through the Stage A/B extraction protocol (verbatim symptom text, Crossref DOIs, laboratory confirmation). Sourcing authentic positive cases across under-reported pest classes remains an open domain curation challenge; per AIP hard constraints, cases cannot and will not be fabricated.
+Because 84.4% of the benchmark consists of out-of-scope pathogens (*Burkholderia glumae*,
+*Sarocladium oryzae*, *Rice stripe necrosis virus* and others), the aggregate exact match is an artifact
+of correct rejection. Reporting it without segregating positive-case recall would conceal diagnostic
+performance entirely, which is why `results/baselines.md` now reports the two in separate columns and
+`tests/test_p0_4_baselines.py` fails if the narrative stops quoting the measured positive recall.
+
+The observed specificity on negative controls is also only partly earned: a case whose descriptors are
+entirely unmapped cannot fire a rule regardless of its content, so rejection is guaranteed by
+construction rather than by discrimination.
+
+### Requirements for a properly powered field benchmark
+
+1. **Minimum detectable effect**: at $\alpha = 0.05$ and $80\%$ power, the MDE for $n=32$ is
+   $\pm 25.0$ percentage points. Smaller differences cannot be distinguished from chance, so
+   non-significant comparisons in `results/baselines.md` indicate underpowering, not equivalence.
+2. **Threat-class representation**: the 5 positive cases span 4 disease classes (2 Blast, 1 BLB,
+   1 Nematode, 1 False Smut), leaving 6 of the 10 modelled threats — including every insect pest
+   class — with no positive case at all.
+3. **Power sizing**: distinguishing a 10-15 percentage-point margin ($\text{MDE} \le \pm 12\%$) at
+   $\alpha = 0.05$ and $80\%$ power requires on the order of **15 to 20 verified positive cases per
+   threat class**, sourced through the P0-3 peer-reviewed extraction gate with verbatim symptom spans
+   and Crossref-verified citations.
 
 ---
 
 ## 3. Ontological Scope and Controlled Vocabulary Coverage Bottleneck
 
 An explicit scientific finding of the Stage B vocabulary mapping protocol is the **Controlled Vocabulary Coverage Bottleneck**:
-- **Information Loss Across Real-World Cases**: For all 32 independent cases (100.0%), the authoring literature reported diagnostic clinical manifestations that **could not be represented** within the ontology's 45 symptom terms.
+- **Information Loss Across Real-World Cases**: Of the 25 distinct symptom descriptors extracted from the independent literature cases, **16 (64.0%) have no counterpart** among the ontology's 45 symptom terms and are dropped at mapping time (`data/symptom_mapping.csv`). After normalization 24 of the 32 cases (75.0%) retain at least one representable symptom, so the loss is substantial but not total.
 - **Critical Anatomical Omission (`Leaf_Sheath`)**:
   - The RiceKG ontology defines symptoms on `Leaf`, `Panicle`, `Stem`, and `Root`, but contains **no anatomical concept for `Leaf_Sheath`**.
   - As a direct consequence, major rice diseases such as Sheath Rot (*Sarocladium oryzae*) and Sheath Blight (*Rhizoctonia solani*) cannot be syntactically described. Lesions on the flag leaf sheath had to be mapped to general foliar `leaves_spots_infestation` or dropped.

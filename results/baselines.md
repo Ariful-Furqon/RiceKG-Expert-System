@@ -1,6 +1,6 @@
 # Comparative Baseline Evaluation & Paired Significance Testing
 
-> **Generated**: 2026-09-13 04:23:01 UTC  
+> **Generated**: 2026-09-13 04:47:31 UTC  
 > **Methodology**: 5x2-fold Cross-Validation (Dietterich 1998 paired protocol), paired McNemar exact-match tests, non-parametric bootstrap 95% CIs (B=1,000 resamples), and Holm–Bonferroni FWER step-down correction.
 
 ---
@@ -39,22 +39,23 @@
 
 | System / Model | Paradigm | Training Budget | Exact Match (%) | Positive Recall (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\Delta$ Acc [95% CI] | Cohen's $g$* |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **84.38 ± 5.04** | **0.00 ± 0.00 (0/5)** | **0.00 ± 0.00** | **[0.0, 0.0]** | — | — | Baseline Reference | — |
-| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
-| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
-| Decision Tree | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
-| Random Forest | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
-| Multinomial Naive Bayes | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
-| k-NN | Supervised Machine Learning | 16 cases/fold | 66.88 ± 33.78 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **< 0.001*** | +17.5% [11.6, 23.4] | +0.50 |
-| Logistic Regression (OvR) | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **87.50 ± 5.59** | **20.83 ± 22.13** | **29.00 ± 30.04** | **[9.5, 51.6]** | — | — | Baseline Reference | — |
+| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 84.38 ± 3.12 | 38.33 ± 15.00 | 41.71 ± 15.05 | [25.6, 61.3] | 0.3018 | **0.6035** | +3.1% [-1.6, 7.8] | +0.17 |
+| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 87.50 ± 5.59 | 20.83 ± 22.13 | 29.00 ± 30.04 | [9.5, 51.6] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| Decision Tree | Supervised Machine Learning | 16 cases/fold | 83.12 ± 4.88 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0156 | **0.1094** | +4.4% [1.2, 7.5] | +0.50 |
+| Random Forest | Supervised Machine Learning | 16 cases/fold | 83.12 ± 4.88 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0156 | **0.1094** | +4.4% [1.2, 7.5] | +0.50 |
+| Multinomial Naive Bayes | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0625 | **0.2500** | +3.1% [0.4, 5.8] | +0.50 |
+| k-NN | Supervised Machine Learning | 16 cases/fold | 83.12 ± 4.88 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0156 | **0.1094** | +4.4% [1.2, 7.5] | +0.50 |
+| Logistic Regression (OvR) | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0625 | **0.2500** | +3.1% [0.4, 5.8] | +0.50 |
 
-*Note: Exact Match (84.38%) is driven entirely by correctly predicting No_Diagnosis on 27/27 negative control cases. Positive-case recall is 0.00% (0/5) across all systems due to closed-vocabulary gating. Risk Difference (\Delta Acc) is reported with paired Wald 95% CI. Cohen's g is bounded on $[-0.50, +0.50]$.*
+*Note: Aggregate exact match is dominated by the 27/32 negative control cases (84.4% of the benchmark), on which returning `No_Diagnosis` is correct. Positive-case recall over the 5 in-scope disease cases is reported separately and is the diagnostically meaningful column. Risk Difference (\Delta Acc) is reported with paired Wald 95% CI. Cohen's g is bounded on $[-0.50, +0.50]$ and saturates; read the Risk Difference for magnitude.*
 
 ### Key Findings (Independent Field Benchmark)
-1. **Zero Positive-Case Diagnostic Recall (0/5 Cases, 0.0%)**: On the only independent benchmark in the repository, RiceKG and all comparative baselines identify **0 out of 5** actual disease cases (0.0% positive recall, micro-F1 0.00, 95% CI [0.0, 0.0]). The system's true-positive rate on authentic field cases is zero.
-2. **Vocabulary Gating Mechanism**: As diagnosed per-case in `results/field_failure_analysis.md`, the failure on all 5 positive cases is caused by vocabulary gating rather than rule reasoning failure: verbatim symptom descriptors from peer-reviewed literature fail to map into the closed 45-term vocabulary, feeding empty feature vectors (all zeros) to the reasoner.
-3. **Negative Control Artifact**: The aggregate exact match of 84.38% (27/32) results exclusively from correctly predicting `No_Diagnosis` on the 27 negative controls (out-of-scope emerging pathogens). Sourcing 84.4% negative controls heavily masks diagnostic failure when reporting aggregate accuracy alone.
-4. **Statistical Power & MDE**: With $n=32$ (and only 5 positive cases), the minimum detectable effect is $\pm 25.0$ percentage points. The lack of statistically significant difference between RiceKG and ML baselines ($p=1.000$) reflects an unmapped input bottleneck and severe underpowering, rather than empirical equivalence.
+1. **Positive-Case Recall Is the Binding Constraint**: On the only independent benchmark in the repository, RiceKG attains 20.83% positive-case recall over 5 in-scope disease cases (micro-F1 29.00, 95% CI [9.5, 51.6]), against an aggregate exact match of 87.50%. Diagnostic efficacy on authentic field cases remains largely unproven.
+2. **Every Supervised Baseline Scores Zero on Positive Cases**: All five ML classifiers attain 0.00% positive-case recall, having at most 5 positive training examples split across folds. Their aggregate accuracy is produced solely by predicting the majority `No_Diagnosis` class.
+3. **Residual Failures Are Now Separable**: Following identifier normalization against `model.ALL_SYMPTOMS` (see `data/symptom_mapping.csv`), the remaining errors split into genuine vocabulary gaps — literature descriptors such as bacterial ooze and water-soaked lesions that the 45-term vocabulary does not model — and true Tier-2 rule-recall failures on partially observed cases. `results/field_failure_analysis.md` assigns a cause to each case.
+4. **Negative Control Artifact**: 27 of 32 cases (84.4%) are out-of-scope emerging pathogens. Reporting aggregate exact match alone would conceal positive-case performance entirely, which is why the two are separated above.
+5. **Statistical Power & MDE**: With $n=32$ and only 5 positive cases, the minimum detectable effect is $\pm 25.0$ percentage points. Non-significant comparisons reflect severe underpowering, not demonstrated equivalence.
 
 ---
 

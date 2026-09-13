@@ -217,8 +217,12 @@ class TestP04FieldReportingSeparation:
         assert "mean_positive_recall" in ricekg_summary, (
             "results/baselines.json must contain 'mean_positive_recall'"
         )
-        assert ricekg_summary["mean_positive_recall"] == 0.0
         assert ricekg_summary["mean_exact_match"] > 80.0
+
+        # Benchmark composition must be recorded, so the negative-control share of the
+        # aggregate figure can always be reconstructed from the results file alone.
+        assert field_data["n_positive"] + field_data["n_negative"] == field_data["n_samples"]
+        assert field_data["n_positive"] > 0
 
         # Strict inequality: aggregate accuracy must NOT equal positive recall
         assert ricekg_summary["mean_positive_recall"] != ricekg_summary["mean_exact_match"], (
@@ -230,25 +234,51 @@ class TestP04FieldReportingSeparation:
 
         # Markdown table must have explicit Positive Recall column for field benchmark
         assert "Positive Recall (%)" in md_content
-        assert "0.00 ± 0.00 (0/5)" in md_content
-        assert "Zero Positive-Case Diagnostic Recall (0/5 Cases, 0.0%)" in md_content
 
-    def test_field_failure_analysis_file_diagnoses_all_five_cases(self):
-        """Asserts results/field_failure_analysis.md exists and documents all 5 cases
-        with the assigned cause 'Vocabulary gating'.
+        # The narrative must quote the measured positive-case recall, not an aggregate
+        # figure and not a hand-written constant. This fails if the prose goes stale.
+        assert f"{ricekg_summary['mean_positive_recall']:.2f}% positive-case recall" in md_content, (
+            "results/baselines.md must state the measured positive-case recall verbatim"
+        )
+        assert f"{field_data['n_positive']} in-scope disease cases" in md_content
+
+    def test_field_failure_analysis_assigns_a_cause_to_every_positive_case(self):
+        """Every positive field case must carry exactly one assigned failure cause.
+
+        The cause is whatever the reasoner run produces; this test fixes the
+        requirement that a cause be assigned and named from the declared taxonomy,
+        not which cause any particular case receives.
         """
+        import csv
         import os
 
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         analysis_path = os.path.join(base_dir, "results", "field_failure_analysis.md")
+        field_csv = os.path.join(base_dir, "data", "benchmark_field.csv")
         assert os.path.exists(analysis_path), f"Missing {analysis_path}"
 
         with open(analysis_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        for case_id in ["FIELD_01", "FIELD_02", "FIELD_03", "FIELD_04", "FIELD_05"]:
+        with open(field_csv, newline="", encoding="utf-8") as f:
+            positives = [r for r in csv.DictReader(f) if r["diagnosis"] != "No_Diagnosis"]
+
+        assert positives, "Field benchmark must contain at least one positive case"
+
+        causes = {
+            "resolved",
+            "vocabulary_gating",
+            "partial_vocabulary",
+            "rule_recall_failure",
+            "misfire",
+        }
+
+        for row in positives:
+            case_id = row["case_id"]
             assert case_id in content, f"Missing case {case_id} in {analysis_path}"
 
-        assert content.count("Vocabulary gating") >= 5, (
-            "All 5 positive cases must be diagnosed as 'Vocabulary gating'"
+        assigned = sum(content.count(f"**`{c}`**") for c in causes)
+        assert assigned >= len(positives), (
+            f"Expected a declared failure cause for each of the {len(positives)} positive "
+            f"cases, found {assigned}"
         )

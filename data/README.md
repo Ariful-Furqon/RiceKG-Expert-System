@@ -69,6 +69,30 @@ All 32 cases are drawn strictly from primary peer-reviewed disease notes (APS *P
   - Emerging nematode threats (*Aphelenchoides besseyi*, *Heterodera elachista*)
   - Evaluated as true negative controls (`diagnosis: No_Diagnosis`).
 
+### Symptom Identifier Normalization (`symptom_mapping.csv`)
+
+The `symptom_*` columns of this file were originally populated with descriptive snake_case slugs
+authored during Stage B extraction (for example `seed_yellowish_green_velvety_balls`). Those slugs form
+a namespace disjoint from the ontology vocabulary `model.ALL_SYMPTOMS`, which uses identifiers such as
+`Rusty_Grain_Balls`: **none of the 25 recorded descriptors matched any of the 45 ontology terms**, while
+`benchmark_synthetic.csv` matched on all 45. As a result every case in this benchmark reached the
+reasoner as an empty assertion set, and the benchmark could not exercise the rule base at all.
+
+[`symptom_mapping.csv`](symptom_mapping.csv) records the resolution of each descriptor with a
+justification:
+
+- **9 descriptors mapped** to an ontology term where the semantic identity is direct
+  (`roots_hook_shaped_galls` → `Hook_Like_Root_Swelling`, `seed_empty_unfilled` → `Empty_Grains`).
+- **16 descriptors left unmapped** because the ontology models no corresponding concept (bacterial ooze,
+  water-soaked lesions, mottling/mosaic, leaf striping, sheath tissue). Near-misses were deliberately
+  *not* forced: `Yellowing_Leaf_Tips` is not "whitened tips", `Panicle_Neck_Rot` is not "stem rot", and
+  `Hopperburn_Drying` is planthopper-specific and cannot stand for generic drying.
+
+Unmapped descriptors are preserved per case in the `unmapped_terms` column (placed after `diagnosis` so
+the evaluation loader does not read them as symptoms), keeping the vocabulary gap auditable. The
+verbatim `raw_symptom_text` column is unchanged, so source provenance is unaffected by this
+normalization.
+
 ---
 
 ## 3. Usage in Evaluation Pipeline

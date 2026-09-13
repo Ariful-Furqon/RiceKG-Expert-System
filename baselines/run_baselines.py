@@ -198,10 +198,15 @@ def evaluate_dataset_with_fair_protocol(
             "n_resamples": n_resamples,
         }
 
+    n_positive = int(sum(1 for c in cases if c["expected"]))
+    n_negative = int(n_samples - n_positive)
+
     return {
         "dataset_name": dataset_name,
         "csv_path": csv_path,
         "n_samples": n_samples,
+        "n_positive": n_positive,
+        "n_negative": n_negative,
         "n_folds": len(splits),
         "split_strategy": split_strategy,
         "train_budgets": train_budgets,
@@ -283,10 +288,18 @@ def generate_markdown_report(synthetic_results: Dict[str, Any], field_results: D
         "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
     ])
 
+    # Field benchmark composition, used by the narrative below
+    f_n = field_results["n_samples"]
+    f_pos = field_results["n_positive"]
+    f_neg = field_results["n_negative"]
+    f_rk = field_results["system_summaries"]["RiceKG (Full Proposed)"]
+
     # Field rows
     for name, s in field_results["system_summaries"].items():
         em_str = f"{s['mean_exact_match']:.2f} ± {s['std_exact_match']:.2f}"
-        pos_rec_str = f"{s['mean_positive_recall']:.2f} ± {s['std_positive_recall']:.2f} (0/5)" if s['mean_positive_recall'] == 0 else f"{s['mean_positive_recall']:.2f} ± {s['std_positive_recall']:.2f}"
+        pos_rec_str = f"{s['mean_positive_recall']:.2f} ± {s['std_positive_recall']:.2f}"
+        if s["mean_positive_recall"] == 0:
+            pos_rec_str += f" (0/{field_results['n_positive']})"
         f1_str = f"{s['mean_micro_f1']:.2f} ± {s['std_micro_f1']:.2f}"
         ci_str = f"[{s['micro_f1_ci_95'][0]:.1f}, {s['micro_f1_ci_95'][1]:.1f}]"
 
@@ -311,15 +324,32 @@ def generate_markdown_report(synthetic_results: Dict[str, Any], field_results: D
 
     lines.extend([
         "",
-        "*Note: Exact Match (84.38%) is driven entirely by correctly predicting No_Diagnosis on 27/27 negative control cases. "
-        "Positive-case recall is 0.00% (0/5) across all systems due to closed-vocabulary gating. "
-        "Risk Difference (\\Delta Acc) is reported with paired Wald 95% CI. Cohen's g is bounded on $[-0.50, +0.50]$.*",
+        f"*Note: Aggregate exact match is dominated by the {f_neg}/{f_n} negative control cases "
+        f"({100.0 * f_neg / f_n:.1f}% of the benchmark), on which returning `No_Diagnosis` is correct. "
+        f"Positive-case recall over the {f_pos} in-scope disease cases is reported separately and is the "
+        "diagnostically meaningful column. Risk Difference (\\Delta Acc) is reported with paired Wald 95% CI. "
+        "Cohen's g is bounded on $[-0.50, +0.50]$ and saturates; read the Risk Difference for magnitude.*",
         "",
         "### Key Findings (Independent Field Benchmark)",
-        "1. **Zero Positive-Case Diagnostic Recall (0/5 Cases, 0.0%)**: On the only independent benchmark in the repository, RiceKG and all comparative baselines identify **0 out of 5** actual disease cases (0.0% positive recall, micro-F1 0.00, 95% CI [0.0, 0.0]). The system's true-positive rate on authentic field cases is zero.",
-        "2. **Vocabulary Gating Mechanism**: As diagnosed per-case in `results/field_failure_analysis.md`, the failure on all 5 positive cases is caused by vocabulary gating rather than rule reasoning failure: verbatim symptom descriptors from peer-reviewed literature fail to map into the closed 45-term vocabulary, feeding empty feature vectors (all zeros) to the reasoner.",
-        "3. **Negative Control Artifact**: The aggregate exact match of 84.38% (27/32) results exclusively from correctly predicting `No_Diagnosis` on the 27 negative controls (out-of-scope emerging pathogens). Sourcing 84.4% negative controls heavily masks diagnostic failure when reporting aggregate accuracy alone.",
-        "4. **Statistical Power & MDE**: With $n=32$ (and only 5 positive cases), the minimum detectable effect is $\\pm 25.0$ percentage points. The lack of statistically significant difference between RiceKG and ML baselines ($p=1.000$) reflects an unmapped input bottleneck and severe underpowering, rather than empirical equivalence.",
+        f"1. **Positive-Case Recall Is the Binding Constraint**: On the only independent benchmark in the repository, "
+        f"RiceKG attains {f_rk['mean_positive_recall']:.2f}% positive-case recall over {f_pos} in-scope disease cases "
+        f"(micro-F1 {f_rk['mean_micro_f1']:.2f}, 95% CI [{f_rk['micro_f1_ci_95'][0]:.1f}, {f_rk['micro_f1_ci_95'][1]:.1f}]), "
+        f"against an aggregate exact match of {f_rk['mean_exact_match']:.2f}%. Diagnostic efficacy on authentic field "
+        "cases remains largely unproven.",
+        f"2. **Every Supervised Baseline Scores Zero on Positive Cases**: All five ML classifiers attain 0.00% "
+        f"positive-case recall, having at most {f_pos} positive training examples split across folds. Their aggregate "
+        "accuracy is produced solely by predicting the majority `No_Diagnosis` class.",
+        "3. **Residual Failures Are Now Separable**: Following identifier normalization against `model.ALL_SYMPTOMS` "
+        "(see `data/symptom_mapping.csv`), the remaining errors split into genuine vocabulary gaps — literature "
+        "descriptors such as bacterial ooze and water-soaked lesions that the 45-term vocabulary does not model — and "
+        "true Tier-2 rule-recall failures on partially observed cases. `results/field_failure_analysis.md` assigns a "
+        "cause to each case.",
+        f"4. **Negative Control Artifact**: {f_neg} of {f_n} cases ({100.0 * f_neg / f_n:.1f}%) are out-of-scope "
+        "emerging pathogens. Reporting aggregate exact match alone would conceal positive-case performance entirely, "
+        "which is why the two are separated above.",
+        f"5. **Statistical Power & MDE**: With $n={f_n}$ and only {f_pos} positive cases, the minimum detectable effect "
+        f"is $\\pm {field_results['mde_analysis']['mde_percentage_proportion']:.1f}$ percentage points. Non-significant "
+        "comparisons reflect severe underpowering, not demonstrated equivalence.",
         "",
         "---",
         "",

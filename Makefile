@@ -5,7 +5,7 @@ VENV_BIN ?= $(VENV)/bin
 # Include standard Homebrew / JVM paths in execution PATH
 export PATH := /opt/homebrew/opt/openjdk/bin:/usr/local/opt/openjdk/bin:$(PATH)
 
-.PHONY: help install test ablate baselines clean
+.PHONY: help install test ablate baselines failure-analysis clean
 
 help:
 	@echo "RiceKG Expert System - Makefile commands"
@@ -13,6 +13,7 @@ help:
 	@echo "  make test       - Run test suite with pytest"
 	@echo "  make ablate     - Run reasoner ablation experiments"
 	@echo "  make baselines  - Run comparative ML and rule baselines"
+	@echo "  make failure-analysis - Regenerate per-case field failure diagnosis"
 	@echo "  make clean      - Remove virtual environment and cached artifacts"
 
 install:
@@ -30,6 +31,9 @@ ablate:
 
 baselines:
 	$(VENV_BIN)/python3 baselines/run_baselines.py
+
+failure-analysis:
+	$(VENV_BIN)/python3 analysis/field_failure_analysis.py
 
 clean:
 	rm -rf $(VENV) build/ dist/ *.egg-info .pytest_cache/ __pycache__ */__pycache__

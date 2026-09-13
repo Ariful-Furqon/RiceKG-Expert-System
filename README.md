@@ -116,15 +116,16 @@ To prevent evaluation circularity, performance is reported separately on two dis
 
 | Metric | Score | Traceable File |
 |---|---|---|
-| **Positive-Case Diagnostic Recall** | **0.0%** (0/5 positive cases detected; 0 TP, 5 FN) | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
-| **Micro-Average F1-Score (Positive)** | **0.00** [95% Bootstrap CI: `0.0`, `0.0`] | [`results/baselines.json`](results/baselines.json) |
-| **Exact-Match Case Accuracy** | **84.38%** (27/32 cases, driven by negative controls) | [`results/baselines.md`](results/baselines.md) |
+| **Positive-Case Diagnostic Recall** | **20.83%** (1/5 positive cases detected; 1 TP, 4 FN) | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
+| **Micro-Average F1-Score (Positive)** | **29.00** [95% Bootstrap CI: `9.5`, `51.6`] | [`results/baselines.json`](results/baselines.json) |
+| **Exact-Match Case Accuracy** | **87.50%** (driven by negative controls; not a diagnostic figure) | [`results/baselines.md`](results/baselines.md) |
 | **Specificity / Negative Control Rejection** | **100.0%** (27/27 out-of-scope non-target pathogens rejected) | [`results/baselines.md`](results/baselines.md) |
 | **Citation Verification Gate (CI)** | **100.0%** (32/32 Crossref HTTP 200 & title match) | `data/benchmark_field.csv` |
 
 *Scientific Disclosure & Scope Limitations:*
-- **Zero True-Positive Recall (0/5 Cases, 0.0%)**: On the only independent literature benchmark, RiceKG fails to identify every positive disease case. As diagnosed per-case in [`results/field_failure_analysis.md`](results/field_failure_analysis.md), this failure is caused by **vocabulary gating**: real-world literature symptom descriptors do not map into RiceKG's closed 45-term vocabulary (`model.ALL_SYMPTOMS`), feeding all-zero vectors to the reasoner.
-- **Negative-Control Composition Artifact**: 27 out of 32 cases (84.4%) are negative controls (out-of-scope emerging pathogens). Aggregate exact match (84.38%) reflects rejection of negative controls rather than clinical diagnostic capability.
+- **Low True-Positive Recall (1/5 Cases, 20.8%)**: On the only independent literature benchmark, RiceKG identifies one of five positive disease cases. Every supervised ML baseline scores 0.0% on the same cases, but the naive nearest-prototype matcher — which uses no ontology and no reasoner — scores **higher** (38.3%). Diagnostic efficacy on authentic field cases is **not established**. Per-case causes are assigned in [`results/field_failure_analysis.md`](results/field_failure_analysis.md): three cases fail on genuine vocabulary gaps, one fails on Tier-2 rule coverage despite all its symptoms mapping.
+- **Symptom Identifier Normalization**: Field symptoms were originally recorded in a namespace sharing zero terms with `model.ALL_SYMPTOMS`, so the benchmark reached the reasoner as empty input and never exercised the rule base. [`data/symptom_mapping.csv`](data/symptom_mapping.csv) resolves 9 of 25 descriptors and deliberately leaves 16 unmapped; dropped descriptors are retained per case in the `unmapped_terms` column.
+- **Negative-Control Composition Artifact**: 27 out of 32 cases (84.4%) are negative controls (out-of-scope emerging pathogens). Aggregate exact match reflects rejection of negative controls rather than clinical diagnostic capability, and that rejection is partly guaranteed by construction wherever descriptors are unmapped.
 - **Power Sizing Constraint**: With $n=32$ (and only 5 positive cases), the minimum detectable effect is $\pm 25.0\%$. Reliable multi-class sensitivity validation would require 15–20 confirmed positive cases per threat class (150–200 total), as detailed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
 ### Architectural & Reasoner Ablation Study
@@ -148,7 +149,7 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
 
 - **Synthetic Benchmark ($n=80$)**: RiceKG achieves **92.50% ± 2.24%** exact match with **zero training data**, significantly outperforming ML baselines trained on 40 cases/fold (**55.50%–63.75%**, all $p < 0.001$ after Holm–Bonferroni correction) due to 16 singleton multi-threat composites.
-- **Independent Field Benchmark ($n=32$)**: Due to controlled vocabulary gating (symptoms outside the 45-term ontology), all systems default to negative predictions, matching on the 27 negative control cases (**84.38%** exact match, $p = 1.000$).
+- **Independent Field Benchmark ($n=32$)**: RiceKG attains **20.83%** positive-case recall against **0.00%** for every supervised baseline, but the ontology-free nearest-prototype matcher reaches **38.33%**. No comparison is significant after Holm correction; with only 5 positive cases the MDE is $\pm 25.0$ percentage points, so these are underpowered rather than equivalent.
 - **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
 ---
