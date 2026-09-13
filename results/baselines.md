@@ -1,6 +1,6 @@
 # Comparative Baseline Evaluation & Paired Significance Testing
 
-> **Generated**: 2026-09-13 03:52:00 UTC  
+> **Generated**: 2026-09-13 04:23:01 UTC  
 > **Methodology**: 5x2-fold Cross-Validation (Dietterich 1998 paired protocol), paired McNemar exact-match tests, non-parametric bootstrap 95% CIs (B=1,000 resamples), and Holm–Bonferroni FWER step-down correction.
 
 ---
@@ -11,22 +11,23 @@
 - **Cross-Validation Split Strategy**: `KFold(n_splits=2) [Fallback: 16 rare combinations have n=1]`.
 - **Minimum Detectable Effect (MDE)**: $\pm$15.8% accuracy ($\alpha=0.05, 1-\beta=0.80$).
 
-| System / Model | Paradigm | Training Budget | Exact Match (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Effect Size ($\Delta$ Acc / Cohen's $g$) |
-|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **92.50 ± 2.24** | **96.19 ± 1.15** | **[94.8, 97.4]** | — | — | Baseline Reference |
-| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 72.50 ± 2.24 | 86.65 ± 1.37 | [84.5, 88.7] | < 0.001 | **< 0.001*** | +20.0% (g=+0.44) |
-| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 92.50 ± 2.24 | 96.19 ± 1.15 | [94.8, 97.4] | 1.0000 | **1.0000** | +0.0% (g=+0.00) |
-| Decision Tree | Supervised Machine Learning | 40 cases/fold | 55.50 ± 6.40 | 72.04 ± 5.46 | [69.0, 75.2] | < 0.001 | **< 0.001*** | +37.0% (g=+0.44) |
-| Random Forest | Supervised Machine Learning | 40 cases/fold | 55.50 ± 9.80 | 67.56 ± 8.64 | [64.2, 71.3] | < 0.001 | **< 0.001*** | +37.0% (g=+0.47) |
-| Multinomial Naive Bayes | Supervised Machine Learning | 40 cases/fold | 63.75 ± 9.17 | 78.24 ± 6.89 | [74.2, 81.5] | < 0.001 | **< 0.001*** | +28.8% (g=+0.44) |
-| k-NN | Supervised Machine Learning | 40 cases/fold | 63.75 ± 7.93 | 69.73 ± 6.99 | [66.1, 73.7] | < 0.001 | **< 0.001*** | +28.8% (g=+0.44) |
-| Logistic Regression (OvR) | Supervised Machine Learning | 40 cases/fold | 57.75 ± 10.69 | 69.01 ± 9.10 | [65.5, 72.8] | < 0.001 | **< 0.001*** | +34.8% (g=+0.48) |
+| System / Model | Paradigm | Training Budget | Exact Match (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\Delta$ Acc [95% CI] | Cohen's $g$* |
+|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **92.50 ± 2.24** | **96.19 ± 1.15** | **[94.8, 97.4]** | — | — | Baseline Reference | — |
+| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 72.50 ± 2.24 | 86.65 ± 1.37 | [84.5, 88.7] | < 0.001 | **< 0.001*** | +20.0% [15.8, 24.2] | +0.44 |
+| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 92.50 ± 2.24 | 96.19 ± 1.15 | [94.8, 97.4] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| Decision Tree | Supervised Machine Learning | 40 cases/fold | 55.50 ± 6.40 | 72.04 ± 5.46 | [69.0, 75.2] | < 0.001 | **< 0.001*** | +37.0% [31.8, 42.2] | +0.44 |
+| Random Forest | Supervised Machine Learning | 40 cases/fold | 55.50 ± 9.80 | 67.56 ± 8.64 | [64.2, 71.3] | < 0.001 | **< 0.001*** | +37.0% [32.1, 41.9] | +0.47 |
+| Multinomial Naive Bayes | Supervised Machine Learning | 40 cases/fold | 63.75 ± 9.17 | 78.24 ± 6.89 | [74.2, 81.5] | < 0.001 | **< 0.001*** | +28.8% [23.9, 33.6] | +0.44 |
+| k-NN | Supervised Machine Learning | 40 cases/fold | 63.75 ± 7.93 | 69.73 ± 6.99 | [66.1, 73.7] | < 0.001 | **< 0.001*** | +28.8% [23.9, 33.6] | +0.44 |
+| Logistic Regression (OvR) | Supervised Machine Learning | 40 cases/fold | 57.75 ± 10.69 | 69.01 ± 9.10 | [65.5, 72.8] | < 0.001 | **< 0.001*** | +34.8% [29.9, 39.6] | +0.48 |
 
-*Note: Asterisk (\*) indicates statistically significant difference vs RiceKG after Holm-Bonferroni correction ($\alpha = 0.05$). Positive $\Delta$ Acc indicates RiceKG outperforms the baseline.*
+*Note: Asterisk (\*) on Holm-Adj p indicates statistically significant difference vs RiceKG after Holm–Bonferroni correction ($\alpha = 0.05$). Risk Difference ($\Delta$ Acc) is reported as percentage-point difference with paired Wald 95% confidence interval. Cohen's g is bounded on $[-0.50, +0.50]$ (defined as $g = b/(b+c) - 0.5$); values near $+0.50$ indicate that the ceiling of the statistic has been reached due to near-zero errors by RiceKG on discordant pairs ($c \approx 0$), rather than an unbounded magnitude.*
 
 ### Key Findings (Synthetic Benchmark)
-1. **Cold-Start Asymmetry**: Supervised ML models trained on 40 cases/fold achieve 55.50% to 63.75% exact match because 16 rare multi-threat combinations appear only once. RiceKG requires **zero training data** and achieves 92.50% exact match ($p < 0.001$ across all ML baselines).
-2. **Rule Stratification Identity**: The unstratified single-tier rule baseline (*Flat Single-Tier*) achieves identical numerical accuracy to Full RiceKG on this benchmark, corroborating the P0-2 ablation finding that tier stratification provides clinical specificity/screening grading rather than an empirical accuracy bump.
+1. **Rule-Derived Verification Only**: All 80 cases in `benchmark_synthetic.csv` have provenance `rule_derived`, constructed from RiceKG's own Horn clauses. Outperforming ML on cases generated from internal rules verifies deductive consistency, but does not establish empirical diagnostic superiority over supervised learning.
+2. **Cold-Start Sample Efficiency**: Supervised ML models trained on 40 cases/fold achieve 55.50% to 63.75% exact match because 16 rare multi-threat combinations appear only once. RiceKG requires **zero training data** and executes deterministic symbolic inference.
+3. **Rule Stratification Identity**: The unstratified single-tier rule baseline (*Flat Single-Tier*) achieves identical numerical accuracy to Full RiceKG on this benchmark, confirming the P0-2 ablation finding that tier stratification provides clinical specificity/screening grading rather than an accuracy improvement.
 
 ---
 
@@ -36,21 +37,24 @@
 - **Cross-Validation Split Strategy**: `KFold(n_splits=2) [Fallback: 3 rare combinations have n=1]`.
 - **Minimum Detectable Effect (MDE)**: $\pm$25.0% accuracy ($\alpha=0.05, 1-\beta=0.80$).
 
-| System / Model | Paradigm | Training Budget | Exact Match (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Effect Size ($\Delta$ Acc / Cohen's $g$) |
-|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **84.38 ± 5.04** | **0.00 ± 0.00** | **[0.0, 0.0]** | — | — | Baseline Reference |
-| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 84.38 ± 5.04 | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% (g=+0.00) |
-| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 84.38 ± 5.04 | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% (g=+0.00) |
-| Decision Tree | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% (g=+0.00) |
-| Random Forest | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% (g=+0.00) |
-| Multinomial Naive Bayes | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% (g=+0.00) |
-| k-NN | Supervised Machine Learning | 16 cases/fold | 66.88 ± 33.78 | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **< 0.001*** | +17.5% (g=+0.50) |
-| Logistic Regression (OvR) | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% (g=+0.00) |
+| System / Model | Paradigm | Training Budget | Exact Match (%) | Positive Recall (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\Delta$ Acc [95% CI] | Cohen's $g$* |
+|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **84.38 ± 5.04** | **0.00 ± 0.00 (0/5)** | **0.00 ± 0.00** | **[0.0, 0.0]** | — | — | Baseline Reference | — |
+| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| Decision Tree | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| Random Forest | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| Multinomial Naive Bayes | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| k-NN | Supervised Machine Learning | 16 cases/fold | 66.88 ± 33.78 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **< 0.001*** | +17.5% [11.6, 23.4] | +0.50 |
+| Logistic Regression (OvR) | Supervised Machine Learning | 16 cases/fold | 84.38 ± 5.04 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+
+*Note: Exact Match (84.38%) is driven entirely by correctly predicting No_Diagnosis on 27/27 negative control cases. Positive-case recall is 0.00% (0/5) across all systems due to closed-vocabulary gating. Risk Difference (\Delta Acc) is reported with paired Wald 95% CI. Cohen's g is bounded on $[-0.50, +0.50]$.*
 
 ### Key Findings (Independent Field Benchmark)
-1. **Controlled Vocabulary Bottleneck**: As documented in `docs/LIMITATIONS.md`, authentic literature cases describe traits outside the closed 45-symptom vocabulary. When symptoms fail to map, both RiceKG and the ML classifiers default to `No_Diagnosis` (all zeros).
-2. **Negative Control Specificity**: All systems achieve 84.38% exact match on the field benchmark because 27 of the 32 cases are true negative controls (out-of-scope emerging pathogens correctly rejected).
-3. **Statistical Equivalence vs Power**: With $n=32$, the minimum detectable effect is $\pm 25.0$ percentage points. The lack of statistically significant difference between RiceKG and ML baselines ($p=1.000$) reflects vocabulary gating rather than proof of true parity.
+1. **Zero Positive-Case Diagnostic Recall (0/5 Cases, 0.0%)**: On the only independent benchmark in the repository, RiceKG and all comparative baselines identify **0 out of 5** actual disease cases (0.0% positive recall, micro-F1 0.00, 95% CI [0.0, 0.0]). The system's true-positive rate on authentic field cases is zero.
+2. **Vocabulary Gating Mechanism**: As diagnosed per-case in `results/field_failure_analysis.md`, the failure on all 5 positive cases is caused by vocabulary gating rather than rule reasoning failure: verbatim symptom descriptors from peer-reviewed literature fail to map into the closed 45-term vocabulary, feeding empty feature vectors (all zeros) to the reasoner.
+3. **Negative Control Artifact**: The aggregate exact match of 84.38% (27/32) results exclusively from correctly predicting `No_Diagnosis` on the 27 negative controls (out-of-scope emerging pathogens). Sourcing 84.4% negative controls heavily masks diagnostic failure when reporting aggregate accuracy alone.
+4. **Statistical Power & MDE**: With $n=32$ (and only 5 positive cases), the minimum detectable effect is $\pm 25.0$ percentage points. The lack of statistically significant difference between RiceKG and ML baselines ($p=1.000$) reflects an unmapped input bottleneck and severe underpowering, rather than empirical equivalence.
 
 ---
 

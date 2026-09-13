@@ -176,6 +176,8 @@ def evaluate_dataset_with_fair_protocol(
         f1_vals = [f["micro_f1"] for f in fold_metrics[name]]
         prec_vals = [f["micro_precision"] for f in fold_metrics[name]]
         rec_vals = [f["micro_recall"] for f in fold_metrics[name]]
+        pos_rec_vals = [f.get("positive_case_recall", f["micro_recall"]) for f in fold_metrics[name]]
+        neg_acc_vals = [f.get("negative_control_accuracy", 100.0) for f in fold_metrics[name]]
 
         boot_f1_ci = ricekg_boot["f1_a_ci"] if name == "RiceKG (Full Proposed)" else comparisons[name]["bootstrap"]["f1_b_ci"]
 
@@ -184,6 +186,10 @@ def evaluate_dataset_with_fair_protocol(
             "training_budget": train_budgets[name],
             "mean_exact_match": float(np.mean(em_vals)),
             "std_exact_match": float(np.std(em_vals)),
+            "mean_positive_recall": float(np.mean(pos_rec_vals)),
+            "std_positive_recall": float(np.std(pos_rec_vals)),
+            "mean_negative_control_acc": float(np.mean(neg_acc_vals)),
+            "std_negative_control_acc": float(np.std(neg_acc_vals)),
             "mean_micro_f1": float(np.mean(f1_vals)),
             "std_micro_f1": float(np.std(f1_vals)),
             "mean_micro_precision": float(np.mean(prec_vals)),
@@ -225,8 +231,8 @@ def generate_markdown_report(synthetic_results: Dict[str, Any], field_results: D
         f"- **Cross-Validation Split Strategy**: `{synthetic_results['split_strategy']}`.",
         f"- **Minimum Detectable Effect (MDE)**: $\\pm${synthetic_results['mde_analysis']['mde_percentage_proportion']:.1f}% accuracy ($\\alpha=0.05, 1-\\beta=0.80$).",
         "",
-        "| System / Model | Paradigm | Training Budget | Exact Match (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Effect Size ($\\Delta$ Acc / Cohen's $g$) |",
-        "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
+        "| System / Model | Paradigm | Training Budget | Exact Match (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\\Delta$ Acc [95% CI] | Cohen's $g$* |",
+        "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
     ]
 
     # Synthetic rows
@@ -236,30 +242,34 @@ def generate_markdown_report(synthetic_results: Dict[str, Any], field_results: D
         ci_str = f"[{s['micro_f1_ci_95'][0]:.1f}, {s['micro_f1_ci_95'][1]:.1f}]"
 
         if name == "RiceKG (Full Proposed)":
-            row = f"| **{name}** | {s['paradigm']} | **{s['training_budget']}** | **{em_str}** | **{f1_str}** | **{ci_str}** | — | — | Baseline Reference |"
+            row = f"| **{name}** | {s['paradigm']} | **{s['training_budget']}** | **{em_str}** | **{f1_str}** | **{ci_str}** | — | — | Baseline Reference | — |"
         else:
             comp = synthetic_results["comparisons_against_ricekg"][name]
             raw_p = comp["mcnemar"]["p_value"]
             holm_p = comp["holm"]["holm_p_value"]
             delta_acc = comp["mcnemar"]["delta_acc"]
+            delta_ci = comp["mcnemar"].get("delta_acc_ci", [delta_acc, delta_acc])
             g = comp["mcnemar"]["cohens_g"]
 
             raw_p_str = "< 0.001" if raw_p < 0.001 else f"{raw_p:.4f}"
             holm_p_str = "< 0.001" if holm_p < 0.001 else f"{holm_p:.4f}"
             sig_marker = "*" if comp["holm"]["significant"] else ""
-            effect_str = f"+{delta_acc:.1f}% (g={g:+.2f})" if delta_acc >= 0 else f"{delta_acc:.1f}% (g={g:+.2f})"
+            risk_str = f"+{delta_acc:.1f}% [{delta_ci[0]:.1f}, {delta_ci[1]:.1f}]" if delta_acc >= 0 else f"{delta_acc:.1f}% [{delta_ci[0]:.1f}, {delta_ci[1]:.1f}]"
+            g_str = f"{g:+.2f}"
 
-            row = f"| {name} | {s['paradigm']} | {s['training_budget']} | {em_str} | {f1_str} | {ci_str} | {raw_p_str} | **{holm_p_str}{sig_marker}** | {effect_str} |"
+            row = f"| {name} | {s['paradigm']} | {s['training_budget']} | {em_str} | {f1_str} | {ci_str} | {raw_p_str} | **{holm_p_str}{sig_marker}** | {risk_str} | {g_str} |"
         lines.append(row)
 
     lines.extend([
         "",
-        "*Note: Asterisk (\\*) indicates statistically significant difference vs RiceKG after Holm-Bonferroni correction ($\\alpha = 0.05$). "
-        "Positive $\\Delta$ Acc indicates RiceKG outperforms the baseline.*",
+        "*Note: Asterisk (\\*) on Holm-Adj p indicates statistically significant difference vs RiceKG after Holm–Bonferroni correction ($\\alpha = 0.05$). "
+        "Risk Difference ($\\Delta$ Acc) is reported as percentage-point difference with paired Wald 95% confidence interval. "
+        "Cohen's g is bounded on $[-0.50, +0.50]$ (defined as $g = b/(b+c) - 0.5$); values near $+0.50$ indicate that the ceiling of the statistic has been reached due to near-zero errors by RiceKG on discordant pairs ($c \\approx 0$), rather than an unbounded magnitude.*",
         "",
         "### Key Findings (Synthetic Benchmark)",
-        "1. **Cold-Start Asymmetry**: Supervised ML models trained on 40 cases/fold achieve 55.50% to 63.75% exact match because 16 rare multi-threat combinations appear only once. RiceKG requires **zero training data** and achieves 92.50% exact match ($p < 0.001$ across all ML baselines).",
-        "2. **Rule Stratification Identity**: The unstratified single-tier rule baseline (*Flat Single-Tier*) achieves identical numerical accuracy to Full RiceKG on this benchmark, corroborating the P0-2 ablation finding that tier stratification provides clinical specificity/screening grading rather than an empirical accuracy bump.",
+        "1. **Rule-Derived Verification Only**: All 80 cases in `benchmark_synthetic.csv` have provenance `rule_derived`, constructed from RiceKG's own Horn clauses. Outperforming ML on cases generated from internal rules verifies deductive consistency, but does not establish empirical diagnostic superiority over supervised learning.",
+        "2. **Cold-Start Sample Efficiency**: Supervised ML models trained on 40 cases/fold achieve 55.50% to 63.75% exact match because 16 rare multi-threat combinations appear only once. RiceKG requires **zero training data** and executes deterministic symbolic inference.",
+        "3. **Rule Stratification Identity**: The unstratified single-tier rule baseline (*Flat Single-Tier*) achieves identical numerical accuracy to Full RiceKG on this benchmark, confirming the P0-2 ablation finding that tier stratification provides clinical specificity/screening grading rather than an accuracy improvement.",
         "",
         "---",
         "",
@@ -269,39 +279,47 @@ def generate_markdown_report(synthetic_results: Dict[str, Any], field_results: D
         f"- **Cross-Validation Split Strategy**: `{field_results['split_strategy']}`.",
         f"- **Minimum Detectable Effect (MDE)**: $\\pm${field_results['mde_analysis']['mde_percentage_proportion']:.1f}% accuracy ($\\alpha=0.05, 1-\\beta=0.80$).",
         "",
-        "| System / Model | Paradigm | Training Budget | Exact Match (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Effect Size ($\Delta$ Acc / Cohen's $g$) |",
-        "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
+        "| System / Model | Paradigm | Training Budget | Exact Match (%) | Positive Recall (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\\Delta$ Acc [95% CI] | Cohen's $g$* |",
+        "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
     ])
 
     # Field rows
     for name, s in field_results["system_summaries"].items():
         em_str = f"{s['mean_exact_match']:.2f} ± {s['std_exact_match']:.2f}"
+        pos_rec_str = f"{s['mean_positive_recall']:.2f} ± {s['std_positive_recall']:.2f} (0/5)" if s['mean_positive_recall'] == 0 else f"{s['mean_positive_recall']:.2f} ± {s['std_positive_recall']:.2f}"
         f1_str = f"{s['mean_micro_f1']:.2f} ± {s['std_micro_f1']:.2f}"
         ci_str = f"[{s['micro_f1_ci_95'][0]:.1f}, {s['micro_f1_ci_95'][1]:.1f}]"
 
         if name == "RiceKG (Full Proposed)":
-            row = f"| **{name}** | {s['paradigm']} | **{s['training_budget']}** | **{em_str}** | **{f1_str}** | **{ci_str}** | — | — | Baseline Reference |"
+            row = f"| **{name}** | {s['paradigm']} | **{s['training_budget']}** | **{em_str}** | **{pos_rec_str}** | **{f1_str}** | **{ci_str}** | — | — | Baseline Reference | — |"
         else:
             comp = field_results["comparisons_against_ricekg"][name]
             raw_p = comp["mcnemar"]["p_value"]
             holm_p = comp["holm"]["holm_p_value"]
             delta_acc = comp["mcnemar"]["delta_acc"]
+            delta_ci = comp["mcnemar"].get("delta_acc_ci", [delta_acc, delta_acc])
             g = comp["mcnemar"]["cohens_g"]
 
             raw_p_str = "< 0.001" if raw_p < 0.001 else f"{raw_p:.4f}"
             holm_p_str = "< 0.001" if holm_p < 0.001 else f"{holm_p:.4f}"
             sig_marker = "*" if comp["holm"]["significant"] else ""
-            effect_str = f"+{delta_acc:.1f}% (g={g:+.2f})" if delta_acc >= 0 else f"{delta_acc:.1f}% (g={g:+.2f})"
+            risk_str = f"+{delta_acc:.1f}% [{delta_ci[0]:.1f}, {delta_ci[1]:.1f}]" if delta_acc >= 0 else f"{delta_acc:.1f}% [{delta_ci[0]:.1f}, {delta_ci[1]:.1f}]"
+            g_str = f"{g:+.2f}"
 
-            row = f"| {name} | {s['paradigm']} | {s['training_budget']} | {em_str} | {f1_str} | {ci_str} | {raw_p_str} | **{holm_p_str}{sig_marker}** | {effect_str} |"
+            row = f"| {name} | {s['paradigm']} | {s['training_budget']} | {em_str} | {pos_rec_str} | {f1_str} | {ci_str} | {raw_p_str} | **{holm_p_str}{sig_marker}** | {risk_str} | {g_str} |"
         lines.append(row)
 
     lines.extend([
         "",
+        "*Note: Exact Match (84.38%) is driven entirely by correctly predicting No_Diagnosis on 27/27 negative control cases. "
+        "Positive-case recall is 0.00% (0/5) across all systems due to closed-vocabulary gating. "
+        "Risk Difference (\\Delta Acc) is reported with paired Wald 95% CI. Cohen's g is bounded on $[-0.50, +0.50]$.*",
+        "",
         "### Key Findings (Independent Field Benchmark)",
-        "1. **Controlled Vocabulary Bottleneck**: As documented in `docs/LIMITATIONS.md`, authentic literature cases describe traits outside the closed 45-symptom vocabulary. When symptoms fail to map, both RiceKG and the ML classifiers default to `No_Diagnosis` (all zeros).",
-        "2. **Negative Control Specificity**: All systems achieve 84.38% exact match on the field benchmark because 27 of the 32 cases are true negative controls (out-of-scope emerging pathogens correctly rejected).",
-        "3. **Statistical Equivalence vs Power**: With $n=32$, the minimum detectable effect is $\\pm 25.0$ percentage points. The lack of statistically significant difference between RiceKG and ML baselines ($p=1.000$) reflects vocabulary gating rather than proof of true parity.",
+        "1. **Zero Positive-Case Diagnostic Recall (0/5 Cases, 0.0%)**: On the only independent benchmark in the repository, RiceKG and all comparative baselines identify **0 out of 5** actual disease cases (0.0% positive recall, micro-F1 0.00, 95% CI [0.0, 0.0]). The system's true-positive rate on authentic field cases is zero.",
+        "2. **Vocabulary Gating Mechanism**: As diagnosed per-case in `results/field_failure_analysis.md`, the failure on all 5 positive cases is caused by vocabulary gating rather than rule reasoning failure: verbatim symptom descriptors from peer-reviewed literature fail to map into the closed 45-term vocabulary, feeding empty feature vectors (all zeros) to the reasoner.",
+        "3. **Negative Control Artifact**: The aggregate exact match of 84.38% (27/32) results exclusively from correctly predicting `No_Diagnosis` on the 27 negative controls (out-of-scope emerging pathogens). Sourcing 84.4% negative controls heavily masks diagnostic failure when reporting aggregate accuracy alone.",
+        "4. **Statistical Power & MDE**: With $n=32$ (and only 5 positive cases), the minimum detectable effect is $\\pm 25.0$ percentage points. The lack of statistically significant difference between RiceKG and ML baselines ($p=1.000$) reflects an unmapped input bottleneck and severe underpowering, rather than empirical equivalence.",
         "",
         "---",
         "",

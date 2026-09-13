@@ -152,3 +152,103 @@ class TestP04SignificanceTesting:
         assert 10.0 <= mde80["mde_percentage_proportion"] <= 20.0
         assert 20.0 <= mde32["mde_percentage_proportion"] <= 35.0
         assert mde32["mde_percentage_proportion"] > mde80["mde_percentage_proportion"]
+
+
+class TestP04FieldReportingSeparation:
+    """Verifies that the field benchmark evaluation strictly reports positive-case recall
+    separately from overall exact match, preventing aggregate accuracy from masking
+    the 0/5 true-positive finding.
+    """
+
+    def test_multilabel_metrics_separates_positive_recall_from_exact_match(self):
+        """Asserts compute_multilabel_metrics segregates positive recall (0.0%)
+        from negative-control-driven aggregate exact match (84.38%).
+        """
+        # 32 cases: 5 positive cases (indices 0-4), 27 negative controls (indices 5-31)
+        y_true = np.zeros((32, 10), dtype=int)
+        y_true[0, 0] = 1
+        y_true[1, 1] = 1
+        y_true[2, 2] = 1
+        y_true[3, 3] = 1
+        y_true[4, 4] = 1
+
+        # All-zero predictions (as produced by RiceKG under vocabulary gating)
+        y_pred = np.zeros((32, 10), dtype=int)
+
+        metrics = ml_baselines.compute_multilabel_metrics(y_true, y_pred)
+
+        assert metrics["positive_cases_count"] == 5
+        assert metrics["positive_cases_correct"] == 0
+        assert metrics["positive_case_recall"] == 0.0, "Positive case recall must be 0.0%"
+
+        assert metrics["negative_cases_count"] == 27
+        assert metrics["negative_cases_correct"] == 27
+        assert metrics["negative_control_accuracy"] == 100.0
+
+        # Exact match is 27/32 = 84.375%
+        assert np.isclose(metrics["exact_match"], 84.375)
+
+        # CRITICAL ASSERTION: positive_case_recall must NOT equal aggregate exact_match
+        assert metrics["positive_case_recall"] != metrics["exact_match"], (
+            "Aggregate exact match (84.38%) must not stand in for positive recall (0.0%)!"
+        )
+
+    def test_field_results_report_positive_recall_distinctly(self):
+        """Asserts results/baselines.json and results/baselines.md distinctly publish
+        positive-case recall and do not allow aggregate accuracy to stand in for positive recall.
+        """
+        import os
+        import json
+
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        json_path = os.path.join(base_dir, "results", "baselines.json")
+        md_path = os.path.join(base_dir, "results", "baselines.md")
+
+        assert os.path.exists(json_path), f"Missing {json_path}"
+        assert os.path.exists(md_path), f"Missing {md_path}"
+
+        with open(json_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        field_data = data["field_benchmark"]
+        ricekg_summary = field_data["system_summaries"]["RiceKG (Full Proposed)"]
+
+        # Ensure positive recall is tracked explicitly in JSON summary
+        assert "mean_positive_recall" in ricekg_summary, (
+            "results/baselines.json must contain 'mean_positive_recall'"
+        )
+        assert ricekg_summary["mean_positive_recall"] == 0.0
+        assert ricekg_summary["mean_exact_match"] > 80.0
+
+        # Strict inequality: aggregate accuracy must NOT equal positive recall
+        assert ricekg_summary["mean_positive_recall"] != ricekg_summary["mean_exact_match"], (
+            "Aggregate exact match cannot stand in for positive recall!"
+        )
+
+        with open(md_path, "r", encoding="utf-8") as f:
+            md_content = f.read()
+
+        # Markdown table must have explicit Positive Recall column for field benchmark
+        assert "Positive Recall (%)" in md_content
+        assert "0.00 ± 0.00 (0/5)" in md_content
+        assert "Zero Positive-Case Diagnostic Recall (0/5 Cases, 0.0%)" in md_content
+
+    def test_field_failure_analysis_file_diagnoses_all_five_cases(self):
+        """Asserts results/field_failure_analysis.md exists and documents all 5 cases
+        with the assigned cause 'Vocabulary gating'.
+        """
+        import os
+
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        analysis_path = os.path.join(base_dir, "results", "field_failure_analysis.md")
+        assert os.path.exists(analysis_path), f"Missing {analysis_path}"
+
+        with open(analysis_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        for case_id in ["FIELD_01", "FIELD_02", "FIELD_03", "FIELD_04", "FIELD_05"]:
+            assert case_id in content, f"Missing case {case_id} in {analysis_path}"
+
+        assert content.count("Vocabulary gating") >= 5, (
+            "All 5 positive cases must be diagnosed as 'Vocabulary gating'"
+        )

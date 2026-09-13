@@ -114,16 +114,18 @@ To prevent evaluation circularity, performance is reported separately on two dis
 - **Sample Size ($n$)**: 32 independently verified cases (5 in-scope targets, 27 out-of-scope emerging pathogens and negative controls)
 - **Protocol**: Two-stage extraction with immutable `raw_symptom_text`, 100% verified DOIs against `api.crossref.org`, authentic collection dates/locations, `annotator_id` set to `"unassigned"` pending formal agronomist adjudication, and automated CI verification via `analysis/verify_citations.py`.
 
-| Metric | Score |
-|---|---|
-| **Multi-Label Accuracy ((TP+TN)/Total)** | **98.44%** |
-| **Exact-Match Case Accuracy** | **84.38%** (27/32 cases) |
-| **Specificity / Negative Control Rejection** | **100.0%** (27/27 out-of-scope non-target pathogens rejected) |
-| **Citation Verification Gate (CI)** | **100.0%** (32/32 Crossref HTTP 200 & title match) |
+| Metric | Score | Traceable File |
+|---|---|---|
+| **Positive-Case Diagnostic Recall** | **0.0%** (0/5 positive cases detected; 0 TP, 5 FN) | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
+| **Micro-Average F1-Score (Positive)** | **0.00** [95% Bootstrap CI: `0.0`, `0.0`] | [`results/baselines.json`](results/baselines.json) |
+| **Exact-Match Case Accuracy** | **84.38%** (27/32 cases, driven by negative controls) | [`results/baselines.md`](results/baselines.md) |
+| **Specificity / Negative Control Rejection** | **100.0%** (27/27 out-of-scope non-target pathogens rejected) | [`results/baselines.md`](results/baselines.md) |
+| **Citation Verification Gate (CI)** | **100.0%** (32/32 Crossref HTTP 200 & title match) | `data/benchmark_field.csv` |
 
 *Scientific Disclosure & Scope Limitations:*
-- **Controlled Vocabulary Coverage Bottleneck**: Real-world literature cases contained clinical traits outside the 45-term vocabulary. The ontology lacks `Leaf_Sheath` (cannot express Sheath Rot/Sheath Blight), abiotic signatures (`Leaf_Rolling`, `Bronzing`, `Marginal_Scorch`), and grain lesions (`Glume_Discoloration`, `Powdery_Sooty_Spore_Masses`).
-- **Deductive Horn-Clause Specificity**: Out-of-scope emerging pathogens generated 0 false positives because closed-world SWRL rules require strict conjunctions. In-scope cases under preliminary uncurated symptom mappings yielded `No diagnosis inferred`, perfectly illustrating the need for complete Stage B multi-rater agronomic adjudication.
+- **Zero True-Positive Recall (0/5 Cases, 0.0%)**: On the only independent literature benchmark, RiceKG fails to identify every positive disease case. As diagnosed per-case in [`results/field_failure_analysis.md`](results/field_failure_analysis.md), this failure is caused by **vocabulary gating**: real-world literature symptom descriptors do not map into RiceKG's closed 45-term vocabulary (`model.ALL_SYMPTOMS`), feeding all-zero vectors to the reasoner.
+- **Negative-Control Composition Artifact**: 27 out of 32 cases (84.4%) are negative controls (out-of-scope emerging pathogens). Aggregate exact match (84.38%) reflects rejection of negative controls rather than clinical diagnostic capability.
+- **Power Sizing Constraint**: With $n=32$ (and only 5 positive cases), the minimum detectable effect is $\pm 25.0\%$. Reliable multi-class sensitivity validation would require 15–20 confirmed positive cases per threat class (150–200 total), as detailed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
 ### Architectural & Reasoner Ablation Study
 

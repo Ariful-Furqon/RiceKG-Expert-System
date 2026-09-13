@@ -1,6 +1,64 @@
 # System Limitations & Diagnostic Architectural Findings
 
-## 1. Description Logic Subsumption and Rejection of Probabilistic Calibration Claim
+## 1. Zero True-Positive Diagnostic Recall on Independent Field Cases (0/5 Cases, 0.0% Recall)
+
+On the independent, peer-reviewed literature benchmark (`data/benchmark_field.csv`, $n=32$), RiceKG achieves **0 out of 5 true positives** on confirmed positive disease cases:
+- **Positive-Case Diagnostic Recall**: **0.0%** ($0/5$ cases correctly diagnosed).
+- **Micro-Averaged F1-Score**: **0.00** [95% non-parametric bootstrap CI: `0.0`, `0.0`].
+- **Micro-Precision / Micro-Recall**: **0.0% / 0.0%** across all positive instances.
+
+### Diagnostic Failure Diagnosis: Closed-Vocabulary Gating
+As comprehensively analyzed per-case in [`results/field_failure_analysis.md`](../results/field_failure_analysis.md), the 0/5 failure across all positive field cases is attributable to **vocabulary gating**, not deductive rule failure:
+- In all 5 positive cases (`FIELD_01` and `FIELD_02` Rice Blast, `FIELD_03` Bacterial Leaf Blight, `FIELD_04` Rice Root Nematode, `FIELD_05` False Smut), the clinical symptoms extracted verbatim from APS *Plant Disease* Disease Notes could not be mapped into RiceKG's closed 45-term controlled vocabulary (`model.ALL_SYMPTOMS`).
+- Because no input symptoms mapped to ontology terms, the 45-dimensional binary feature vector was all-zeros for every case. The DL reasoner received an empty symptom assertion set, preventing both Tier-1 canonical and Tier-2 relaxed Horn clauses from activating.
+- Consequently, the reasoner deterministically output `No_Diagnosis` (all-zeros).
+- **Critical Distinction**: The system's rules are not logically unsound, but they are inaccessible in real-world clinical contexts without an intervening flexible semantic translation or open-vocabulary mapping layer. Diagnostic efficacy on independent field cases is **currently unproven**.
+
+---
+
+## 2. Benchmark Composition Imbalance and Sample Power Constraints
+
+### The 84.4% Negative Control Composition Defect
+A major design limitation of the P0-3 independent benchmark (`data/benchmark_field.csv`) is its extreme class imbalance:
+- **Total Cases**: $n = 32$.
+- **Positive In-Scope Disease Cases**: $n = 5$ (15.6%).
+- **Negative Control / Out-of-Scope Pathogen Cases**: $n = 27$ (84.4%).
+
+Because 84.4% of the benchmark consists of negative controls (confirmed emerging pathogens outside the 10 modeled classes, such as *Burkholderia glumae*, *Sarocladium oryzae*, and *Rice stripe necrosis virus*), the reported **84.38% aggregate exact match is an artifact of negative-control rejection**. Defaulting to `No_Diagnosis` correctly matches 27/27 negative controls while simultaneously failing on 5/5 positive disease cases. Reporting aggregate exact match without segregating positive-case recall conceals complete diagnostic failure on actual disease targets.
+
+### Requirements for a Properly Powered Field Benchmark
+The current field sample ($n=32$) is severely underpowered:
+1. **Minimum Detectable Effect (MDE)**: At $\alpha = 0.05$ and $80\%$ statistical power ($1 - \beta = 0.80$), the MDE for $n=32$ is $\pm 25.0$ percentage points. Differences smaller than 25% cannot be distinguished from chance.
+2. **Threat-Class Representation**: With only 5 positive cases distributed across 4 disease classes (2 Blast, 1 BLB, 1 Nematode, 1 False Smut) and 0 cases for the remaining 6 threat classes (including all 5 insect pest classes), the benchmark barely evaluates diagnostic multi-class discrimination.
+3. **Power Sizing for Reliable Field Validation**:
+   - To reliably evaluate multi-threat diagnostic sensitivity and distinguish a 10–15 percentage-point performance margin ($\text{MDE} \le \pm 12\%$) at $\alpha = 0.05$ and $80\%$ power, a field benchmark requires at least **15 to 20 verified positive cases per threat class**.
+   - Across all 10 threat classes, this requires **150 to 200 positive field cases**, evaluated against a balanced set of negative controls.
+4. **Data Sourcing Constraint**: Expanding this benchmark requires labor-intensive extraction from peer-reviewed literature through the Stage A/B extraction protocol (verbatim symptom text, Crossref DOIs, laboratory confirmation). Sourcing authentic positive cases across under-reported pest classes remains an open domain curation challenge; per AIP hard constraints, cases cannot and will not be fabricated.
+
+---
+
+## 3. Ontological Scope and Controlled Vocabulary Coverage Bottleneck
+
+An explicit scientific finding of the Stage B vocabulary mapping protocol is the **Controlled Vocabulary Coverage Bottleneck**:
+- **Information Loss Across Real-World Cases**: For all 32 independent cases (100.0%), the authoring literature reported diagnostic clinical manifestations that **could not be represented** within the ontology's 45 symptom terms.
+- **Critical Anatomical Omission (`Leaf_Sheath`)**:
+  - The RiceKG ontology defines symptoms on `Leaf`, `Panicle`, `Stem`, and `Root`, but contains **no anatomical concept for `Leaf_Sheath`**.
+  - As a direct consequence, major rice diseases such as Sheath Rot (*Sarocladium oryzae*) and Sheath Blight (*Rhizoctonia solani*) cannot be syntactically described. Lesions on the flag leaf sheath had to be mapped to general foliar `leaves_spots_infestation` or dropped.
+- **Absence of Diagnostic Panicle/Glume Lesions**:
+  - Key grain symptoms such as `Glume_Discoloration`, `Powdery_Sooty_Spore_Masses`, and `Chaffy_Empty_Spikelets` are missing.
+
+---
+
+## 4. Evaluation Set Circularity of `benchmark_synthetic.csv`
+
+The synthetic benchmark `data/benchmark_synthetic.csv` (80 test instances, formerly `dataText.csv`) was authored by the knowledge engineering team from the same SWRL rule antecedents that the reasoner executes:
+1. **Ceiling Bias**: Multi-label accuracy of 99.25% and exact-match accuracy of 92.50% reflect deductive rule verification, not empirical diagnostic efficacy on real-world crops.
+2. **Data Provenance Disclosure**: In accordance with scientific integrity standards, `data/README.md` classifies `benchmark_synthetic.csv` as `provenance: rule_derived`. As stated in `data/README.md`, this set cannot be interpreted as empirical clinical or field diagnostic accuracy.
+3. **Comparative Baseline Context**: Outperforming supervised ML on `rule_derived` cases reflects cold-start inductive difficulty for ML rather than clinical superiority of RiceKG.
+
+---
+
+## 5. Description Logic Subsumption and Rejection of Probabilistic Calibration Claim
 
 ### The Architectural Problem
 In the initial engineering of RiceKG, SWRL rules were stratified into two layers:
@@ -29,58 +87,3 @@ To resolve this, RiceKG introduced distinct subproperties (`hasConfirmedThreat` 
 The valid scientific contribution of the multi-tier architecture is qualitative and epistemic, not probabilistic:
 - **Tier 1 (Pathognomonic Specificity)**: Guarantees **100.00% precision with zero false discoveries** ($FP = 0$). When all canonical symptoms are observed, the diagnosis is definitively verified.
 - **Tier 2 (Actionable Screening Sensitivity)**: Expands diagnostic recall from 10.0% to 95.0% under incomplete or early-stage field scouting, at the cost of rare false discoveries ($FP = 2$, precision $97.14\%$).
-
----
-
-## 2. Evaluation Set Circularity and Independent Field Benchmark Reconstruction
-
-### The Circularity Defect of `benchmark_synthetic.csv`
-The initial benchmark file `data/benchmark_synthetic.csv` (80 test instances, formerly `dataText.csv`) was authored by the knowledge engineering team from the same SWRL rule antecedents that the reasoner executes:
-1. **Ceiling Bias**: Multi-label accuracy of 99.25% and exact-match accuracy of 92.50% reflect deductive rule verification, not empirical diagnostic efficacy on real-world crops.
-2. **Data Provenance Disclosure**: In accordance with scientific integrity standards, `data/README.md` classifies `benchmark_synthetic.csv` as `provenance: rule_derived`.
-
-### Remediation: Rebuilding `benchmark_field.csv` from Peer-Reviewed Disease Notes
-To eliminate circularity, `data/benchmark_field.csv` was completely reconstructed ($n=32$) from primary peer-reviewed phytopathology case literature:
-- **Primary Sources**: APS *Plant Disease* ("Disease Notes" section), BSPP *New Disease Reports*, and peer-reviewed journals (*Crop Protection*, *Insects*, *Plant and Soil*, *Field Crops Research*).
-- **Exclusion of IRRI Rice Doctor**: Because the ontology's 45 controlled vocabulary terms were historically derived from IRRI Rice Doctor diagnostic profiles, sourcing independent test cases from IRRI would perpetuate vocabulary and definition circularity. Sourcing was strictly restricted to primary phytopathology literature with laboratory-confirmed pathogen identification (PCR, sequencing, pathogenicity tests, microscopic spore morphology).
-- **Mandatory Two-Stage Protocol**:
-  - **Stage A (Data Extraction & Provenance Audit)**: Each case records the `raw_symptom_text` copied **verbatim** from the original publication, alongside the authentic `location`, `observation_date`, `ground_truth_method` (`lab_confirmed` / `literature_case`), `citation`, and verified `doi`. No symptom columns were filled during this stage. No dates, locations, or DOIs were fabricated.
-  - **Stage B (Controlled Vocabulary Mapping)**: `raw_symptom_text` was mapped into the 45-term controlled vocabulary independently without inspecting SWRL rule definitions or `model.py` code. The verbatim `raw_symptom_text` remains in the CSV as an immutable audit trail.
-- **Benchmark Sample Composition** ($n=32$):
-  - **In-Scope Target Threats** ($n=5$, 15.6%): Sourced strictly from verified *Plant Disease* Disease Notes (Rice Blast, Bacterial Leaf Blight, False Smut, Rice Root Nematode).
-  - **Out-of-Scope Pathogens & Emerging Threat Negative Controls** ($n=27$, 84.4%): Confirmed phytopathogenic first reports outside the 10 modeled classes (*Burkholderia glumae*, *Burkholderia gladioli*, *Sarocladium oryzae*, *Xanthomonas sacchari*, *Xanthomonas oryzae pv. oryzicola*, *Dickeya zeae*, *Pantoea agglomerans*, *Pantoea ananatis*, *Fusarium andiyazi*, *Alternaria gaisen*, *Alternaria arborescens*, *Cochliobolus lunatus*, *Rice stripe necrosis virus*, *Rice yellow mottle virus*, *Rice stripe virus*, *Aphelenchoides besseyi*, *Heterodera elachista*, *Mycovellosiella oryzae*, *Acidovorax avenae*), assigned ground-truth `No_Diagnosis`.
-  - **Annotator Status**: `annotator_id` is set to `"unassigned"` pending formal agronomist multi-rater trial.
-
----
-
-## 3. Ontological Scope and Controlled Vocabulary Coverage Bottleneck
-
-An explicit scientific finding of the Stage B vocabulary mapping protocol is the **Controlled Vocabulary Coverage Bottleneck**:
-- **Information Loss Across Real-World Cases**: For all 32 independent cases (100.0%), the authoring literature reported diagnostic clinical manifestations that **could not be represented** within the ontology's 45 symptom terms.
-- **Critical Anatomical Omission (`Leaf_Sheath`)**:
-  - The RiceKG ontology defines symptoms on `Leaf`, `Panicle`, `Stem`, and `Root`, but contains **no anatomical concept for `Leaf_Sheath`**.
-  - As a direct consequence, major rice diseases such as Sheath Rot (*Sarocladium oryzae*) and Sheath Blight (*Rhizoctonia solani*) cannot be syntactically described. Lesions on the flag leaf sheath had to be mapped to general foliar `leaves_spots_infestation` or dropped.
-- **Absence of Diagnostic Panicle/Glume Lesions**:
-  - Key grain symptoms such as `Glume_Discoloration`, `Powdery_Sooty_Spore_Masses`, and `Chaffy_Empty_Spikelets` are missing.
-
----
-
-## 4. Field Performance, Sampling Bias, and Deductive Specificity Gating
-
-When evaluated on the independent peer-reviewed benchmark (`benchmark_field.csv`, $n=32$) using Pellet DL reasoner:
-- **Multi-Label Accuracy**: **98.44%**
-- **Exact-Match Case Accuracy**: **84.38%** (27/32 cases)
-- **Specificity / Negative Control Rejection**: **100.0%** (27/27 out-of-scope non-target pathogens rejected as `No_Diagnosis`, producing 0 false positives).
-- **In-Scope Sensitivity**: In-scope cases require canonical combinations under strict closed-world Horn clauses. Under preliminary uncurated draft symptom mappings, canonical rules did not fire, yielding `No diagnosis inferred`, perfectly highlighting the need for complete Stage B multi-rater agronomic adjudication.
-
----
-
-## 5. Out-of-Sample Calibration and Multi-Tier Stratification Findings
-
-As evaluated via stratified 5-fold cross-validation (`evaluate.py --dataset field` and `evaluate.py --dataset synthetic`):
-- **Out-of-Sample Calibration Metrics**:
-  - Stratified k-fold cross-validation demonstrated that empirical precision estimates for Tier-1 Confirmed and Tier-2 Suspected rules exhibit wide bootstrap 95% confidence intervals when evaluated out-of-sample.
-  - The out-of-sample Brier score change between graded probabilities and flat binary baseline is negligible (+0.000000, 0.00%).
-- **Methodological Conclusion**:
-  - Multi-tier stratification provides **no statistically significant probabilistic calibration improvement** over flat binary reasoning when evaluated strictly out-of-sample.
-  - Its value in RiceKG is **purely qualitative and clinical** (pathognomonic specificity for Tier 1 vs screening sensitivity for Tier 2), rather than serving as a calibrated Bayesian posterior confidence score. This limitation is explicitly disclosed to avoid misleading clinical confidence claims.

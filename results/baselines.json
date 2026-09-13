@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-13T03:52:00.176703+00:00",
-  "elapsed_seconds": 104.7,
+  "generated_at": "2026-09-13T04:23:01.198238+00:00",
+  "elapsed_seconds": 124.76,
   "synthetic_benchmark": {
     "dataset_name": "Synthetic Verification Benchmark",
     "csv_path": "/Users/ariful/Library/CloudStorage/OneDrive-UniversitasJember/Research/2026/CKE Iran/RiceKG Expert System/data/benchmark_synthetic.csv",
@@ -23,6 +23,10 @@
         "training_budget": "0 cases (cold start)",
         "mean_exact_match": 92.5,
         "std_exact_match": 2.23606797749979,
+        "mean_positive_recall": 90.25342456731909,
+        "std_positive_recall": 3.046033154317568,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 96.18810065798894,
         "std_micro_f1": 1.1509639787041295,
         "mean_micro_precision": 97.42160372607128,
@@ -38,6 +42,10 @@
         "training_budget": "0 cases (cold start)",
         "mean_exact_match": 72.5,
         "std_exact_match": 2.23606797749979,
+        "mean_positive_recall": 72.526931148635,
+        "std_positive_recall": 2.4537646051589763,
+        "mean_negative_control_acc": 73.41558441558442,
+        "std_negative_control_acc": 10.074913826320536,
         "mean_micro_f1": 86.65033477588028,
         "std_micro_f1": 1.3669694164347679,
         "mean_micro_precision": 80.56938582906602,
@@ -53,6 +61,10 @@
         "training_budget": "0 cases (cold start)",
         "mean_exact_match": 92.5,
         "std_exact_match": 2.23606797749979,
+        "mean_positive_recall": 90.25342456731909,
+        "std_positive_recall": 3.046033154317568,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 96.18810065798894,
         "std_micro_f1": 1.1509639787041295,
         "mean_micro_precision": 97.42160372607128,
@@ -68,6 +80,10 @@
         "training_budget": "40 cases/fold",
         "mean_exact_match": 55.5,
         "std_exact_match": 6.4031242374328485,
+        "mean_positive_recall": 49.142136008008215,
+        "std_positive_recall": 7.959413715318438,
+        "mean_negative_control_acc": 77.74891774891776,
+        "std_negative_control_acc": 9.086738890972923,
         "mean_micro_f1": 72.03956220249574,
         "std_micro_f1": 5.464437722615978,
         "mean_micro_precision": 82.59905999561173,
@@ -83,6 +99,10 @@
         "training_budget": "40 cases/fold",
         "mean_exact_match": 55.5,
         "std_exact_match": 9.797958971132712,
+        "mean_positive_recall": 44.09267735307289,
+        "std_positive_recall": 11.094349725325268,
+        "mean_negative_control_acc": 96.9047619047619,
+        "std_negative_control_acc": 6.213327786047565,
         "mean_micro_f1": 67.55957387858845,
         "std_micro_f1": 8.635683000405907,
         "mean_micro_precision": 94.5875640204728,
@@ -98,6 +118,10 @@
         "training_budget": "40 cases/fold",
         "mean_exact_match": 63.75,
         "std_exact_match": 9.168560410446123,
+        "mean_positive_recall": 63.25577621330664,
+        "std_positive_recall": 11.14012153675377,
+        "mean_negative_control_acc": 66.81601731601731,
+        "std_negative_control_acc": 19.754093229546175,
         "mean_micro_f1": 78.24122925856288,
         "std_micro_f1": 6.894652120905701,
         "mean_micro_precision": 69.73388849819104,
@@ -113,6 +137,10 @@
         "training_budget": "40 cases/fold",
         "mean_exact_match": 63.75,
         "std_exact_match": 7.92543374207368,
+        "mean_positive_recall": 53.6782009825874,
+        "std_positive_recall": 9.250694364724485,
+        "mean_negative_control_acc": 98.75,
+        "std_negative_control_acc": 3.75,
         "mean_micro_f1": 69.73024722760445,
         "std_micro_f1": 6.988491782386843,
         "mean_micro_precision": 96.84977411997873,
@@ -128,6 +156,10 @@
         "training_budget": "40 cases/fold",
         "mean_exact_match": 57.75,
         "std_exact_match": 10.691702390171548,
+        "mean_positive_recall": 46.28869541547026,
+        "std_positive_recall": 12.146291566700382,
+        "mean_negative_control_acc": 99.16666666666666,
+        "std_negative_control_acc": 2.5000000000000027,
         "mean_micro_f1": 69.00661342585332,
         "std_micro_f1": 9.097062496015154,
         "mean_micro_precision": 96.57376060472035,
@@ -156,6 +188,10 @@
           "acc_a": 92.5,
           "acc_b": 72.5,
           "delta_acc": 20.000000000000007,
+          "delta_acc_ci": [
+            15.784938073324394,
+            24.215061926675617
+          ],
           "odds_ratio": 17.0,
           "cohens_g": 0.4444444444444444
         },
@@ -201,6 +237,10 @@
           "acc_a": 92.5,
           "acc_b": 92.5,
           "delta_acc": 0.0,
+          "delta_acc_ci": [
+            0.0,
+            0.0
+          ],
           "odds_ratio": 1.0,
           "cohens_g": 0.0
         },
@@ -246,6 +286,10 @@
           "acc_a": 92.5,
           "acc_b": 55.50000000000001,
           "delta_acc": 37.0,
+          "delta_acc_ci": [
+            31.785795860971426,
+            42.214204139028574
+          ],
           "odds_ratio": 15.8,
           "cohens_g": 0.44047619047619047
         },
@@ -291,6 +335,10 @@
           "acc_a": 92.5,
           "acc_b": 55.50000000000001,
           "delta_acc": 37.0,
+          "delta_acc_ci": [
+            32.06980419375233,
+            41.93019580624767
+          ],
           "odds_ratio": 38.0,
           "cohens_g": 0.47435897435897434
         },
@@ -336,6 +384,10 @@
           "acc_a": 92.5,
           "acc_b": 63.74999999999999,
           "delta_acc": 28.750000000000007,
+          "delta_acc_ci": [
+            23.900883629130654,
+            33.59911637086937
+          ],
           "odds_ratio": 15.375,
           "cohens_g": 0.4389312977099237
         },
@@ -381,6 +433,10 @@
           "acc_a": 92.5,
           "acc_b": 63.74999999999999,
           "delta_acc": 28.750000000000007,
+          "delta_acc_ci": [
+            23.900883629130654,
+            33.59911637086937
+          ],
           "odds_ratio": 15.375,
           "cohens_g": 0.4389312977099237
         },
@@ -426,6 +482,10 @@
           "acc_a": 92.5,
           "acc_b": 57.75,
           "delta_acc": 34.75,
+          "delta_acc_ci": [
+            29.93167907672918,
+            39.568320923270825
+          ],
           "odds_ratio": 47.333333333333336,
           "cohens_g": 0.47931034482758617
         },
@@ -490,6 +550,10 @@
         "training_budget": "0 cases (cold start)",
         "mean_exact_match": 84.375,
         "std_exact_match": 5.038911092686593,
+        "mean_positive_recall": 0.0,
+        "std_positive_recall": 0.0,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 0.0,
         "std_micro_f1": 0.0,
         "mean_micro_precision": 0.0,
@@ -505,6 +569,10 @@
         "training_budget": "0 cases (cold start)",
         "mean_exact_match": 84.375,
         "std_exact_match": 5.038911092686593,
+        "mean_positive_recall": 0.0,
+        "std_positive_recall": 0.0,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 0.0,
         "std_micro_f1": 0.0,
         "mean_micro_precision": 0.0,
@@ -520,6 +588,10 @@
         "training_budget": "0 cases (cold start)",
         "mean_exact_match": 84.375,
         "std_exact_match": 5.038911092686593,
+        "mean_positive_recall": 0.0,
+        "std_positive_recall": 0.0,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 0.0,
         "std_micro_f1": 0.0,
         "mean_micro_precision": 0.0,
@@ -535,6 +607,10 @@
         "training_budget": "16 cases/fold",
         "mean_exact_match": 84.375,
         "std_exact_match": 5.038911092686593,
+        "mean_positive_recall": 0.0,
+        "std_positive_recall": 0.0,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 0.0,
         "std_micro_f1": 0.0,
         "mean_micro_precision": 0.0,
@@ -550,6 +626,10 @@
         "training_budget": "16 cases/fold",
         "mean_exact_match": 84.375,
         "std_exact_match": 5.038911092686593,
+        "mean_positive_recall": 0.0,
+        "std_positive_recall": 0.0,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 0.0,
         "std_micro_f1": 0.0,
         "mean_micro_precision": 0.0,
@@ -565,6 +645,10 @@
         "training_budget": "16 cases/fold",
         "mean_exact_match": 84.375,
         "std_exact_match": 5.038911092686593,
+        "mean_positive_recall": 0.0,
+        "std_positive_recall": 0.0,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 0.0,
         "std_micro_f1": 0.0,
         "mean_micro_precision": 0.0,
@@ -580,6 +664,10 @@
         "training_budget": "16 cases/fold",
         "mean_exact_match": 66.875,
         "std_exact_match": 33.77892279217915,
+        "mean_positive_recall": 0.0,
+        "std_positive_recall": 0.0,
+        "mean_negative_control_acc": 80.0,
+        "std_negative_control_acc": 40.0,
         "mean_micro_f1": 0.0,
         "std_micro_f1": 0.0,
         "mean_micro_precision": 0.0,
@@ -595,6 +683,10 @@
         "training_budget": "16 cases/fold",
         "mean_exact_match": 84.375,
         "std_exact_match": 5.038911092686593,
+        "mean_positive_recall": 0.0,
+        "std_positive_recall": 0.0,
+        "mean_negative_control_acc": 100.0,
+        "std_negative_control_acc": 0.0,
         "mean_micro_f1": 0.0,
         "std_micro_f1": 0.0,
         "mean_micro_precision": 0.0,
@@ -623,6 +715,10 @@
           "acc_a": 84.375,
           "acc_b": 84.375,
           "delta_acc": 0.0,
+          "delta_acc_ci": [
+            0.0,
+            0.0
+          ],
           "odds_ratio": 1.0,
           "cohens_g": 0.0
         },
@@ -668,6 +764,10 @@
           "acc_a": 84.375,
           "acc_b": 84.375,
           "delta_acc": 0.0,
+          "delta_acc_ci": [
+            0.0,
+            0.0
+          ],
           "odds_ratio": 1.0,
           "cohens_g": 0.0
         },
@@ -713,6 +813,10 @@
           "acc_a": 84.375,
           "acc_b": 84.375,
           "delta_acc": 0.0,
+          "delta_acc_ci": [
+            0.0,
+            0.0
+          ],
           "odds_ratio": 1.0,
           "cohens_g": 0.0
         },
@@ -758,6 +862,10 @@
           "acc_a": 84.375,
           "acc_b": 84.375,
           "delta_acc": 0.0,
+          "delta_acc_ci": [
+            0.0,
+            0.0
+          ],
           "odds_ratio": 1.0,
           "cohens_g": 0.0
         },
@@ -803,6 +911,10 @@
           "acc_a": 84.375,
           "acc_b": 84.375,
           "delta_acc": 0.0,
+          "delta_acc_ci": [
+            0.0,
+            0.0
+          ],
           "odds_ratio": 1.0,
           "cohens_g": 0.0
         },
@@ -848,6 +960,10 @@
           "acc_a": 84.375,
           "acc_b": 66.875,
           "delta_acc": 17.500000000000004,
+          "delta_acc_ci": [
+            11.612456915031782,
+            23.387543084968225
+          ],
           "odds_ratio": 57.0,
           "cohens_g": 0.5
         },
@@ -893,6 +1009,10 @@
           "acc_a": 84.375,
           "acc_b": 84.375,
           "delta_acc": 0.0,
+          "delta_acc_ci": [
+            0.0,
+            0.0
+          ],
           "odds_ratio": 1.0,
           "cohens_g": 0.0
         },

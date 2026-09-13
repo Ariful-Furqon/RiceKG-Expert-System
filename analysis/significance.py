@@ -61,10 +61,20 @@ def compute_mcnemar_test(y_true: np.ndarray, y_pred_a: np.ndarray, y_pred_b: np.
         p_value = float(stats.chi2.sf(statistic, df=1))
         method = "McNemar Chi-Square with Edwards Continuity Correction"
 
-    # Effect sizes
+    # Effect sizes: Risk Difference (Delta Acc) with paired Wald 95% CI
     acc_a = (a + b) / n if n > 0 else 0.0
     acc_b = (a + c) / n if n > 0 else 0.0
     delta_acc = acc_a - acc_b
+
+    # Paired Wald variance for difference of proportions:
+    # Var(d) = ((b + c) - (b - c)^2 / n) / n^2
+    var_d = ((b + c) - ((b - c) ** 2) / n) / (n ** 2) if n > 0 else 0.0
+    se_d = float(np.sqrt(max(0.0, var_d)))
+    z_crit = 1.959963984540054
+    delta_acc_ci = (
+        float(max(-100.0, (delta_acc - z_crit * se_d) * 100.0)),
+        float(min(100.0, (delta_acc + z_crit * se_d) * 100.0))
+    )
 
     # Odds Ratio with Haldane-Anscombe 0.5 continuity correction if c == 0
     if c == 0 and b == 0:
@@ -75,7 +85,7 @@ def compute_mcnemar_test(y_true: np.ndarray, y_pred_a: np.ndarray, y_pred_b: np.
         odds_ratio = float(b / c)
 
     # Cohen's g: effect size for paired proportions, g = (b / (b+c)) - 0.5
-    # Ranges [-0.5, +0.5]. |g| < 0.05 negligible, 0.05-0.15 small, 0.15-0.25 medium, >0.25 large.
+    # Bounded strictly on [-0.5, +0.5]. Bounded ceiling at +0.5 when c = 0.
     cohens_g = float((b / total_discordant) - 0.5) if total_discordant > 0 else 0.0
 
     return {
@@ -88,6 +98,7 @@ def compute_mcnemar_test(y_true: np.ndarray, y_pred_a: np.ndarray, y_pred_b: np.
         "acc_a": acc_a * 100.0,
         "acc_b": acc_b * 100.0,
         "delta_acc": delta_acc * 100.0,
+        "delta_acc_ci": delta_acc_ci,
         "odds_ratio": odds_ratio,
         "cohens_g": cohens_g,
     }

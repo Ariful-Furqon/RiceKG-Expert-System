@@ -187,8 +187,25 @@ def compute_multilabel_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[s
     micro_rec = (tp / (tp + fn) * 100.0) if (tp + fn) > 0 else 0.0
     micro_f1 = (2 * micro_prec * micro_rec / (micro_prec + micro_rec)) if (micro_prec + micro_rec) > 0 else 0.0
 
+    # Separate positive cases (>=1 true threat) from negative controls (0 true threats, No_Diagnosis)
+    pos_mask = np.sum(y_true, axis=1) > 0
+    pos_cases_count = int(np.sum(pos_mask))
+    neg_cases_count = int(np.sum(~pos_mask))
+
+    pos_correct = int(np.sum(exact_matches[pos_mask])) if pos_cases_count > 0 else 0
+    pos_recall = float(pos_correct / pos_cases_count * 100.0) if pos_cases_count > 0 else 0.0
+
+    neg_correct = int(np.sum(exact_matches[~pos_mask])) if neg_cases_count > 0 else 0
+    neg_accuracy = float(neg_correct / neg_cases_count * 100.0) if neg_cases_count > 0 else 0.0
+
     return {
         "exact_match": float(exact_match_acc),
+        "positive_cases_count": pos_cases_count,
+        "positive_cases_correct": pos_correct,
+        "positive_case_recall": float(pos_recall),
+        "negative_cases_count": neg_cases_count,
+        "negative_cases_correct": neg_correct,
+        "negative_control_accuracy": float(neg_accuracy),
         "micro_precision": float(micro_prec),
         "micro_recall": float(micro_rec),
         "micro_f1": float(micro_f1),
