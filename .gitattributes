@@ -1,0 +1,13 @@
+# Normalize all text files to LF in the repository and in the working tree.
+# Prevents CRLF churn when files round-trip through OneDrive/Windows.
+* text=auto eol=lf
+
+# Binary / non-text assets: never touch
+*.owl   text eol=lf
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.pdf   binary
+*.xlsx  binary
+*.zip   binary
