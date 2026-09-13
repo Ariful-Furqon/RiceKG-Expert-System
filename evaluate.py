@@ -10,7 +10,7 @@ from sklearn.linear_model import LinearRegression
 import model
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_SYNTHETIC_CSV = os.path.join(BASE_DIR, "data", "benchmark_synthetic.csv")
+DEFAULT_AUGMENTED_CSV = os.path.join(BASE_DIR, "data", "benchmark_augmented.csv")
 LEGACY_CSV = os.path.join(BASE_DIR, "dataText.csv")
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
 
@@ -39,10 +39,10 @@ PEST_CLASSES = {
 def load_data(csv_path):
     """
     Loads diagnostic benchmark dataset.
-    Supports benchmark_synthetic.csv, benchmark_field.csv, and legacy dataText.csv.
+    Supports benchmark_augmented.csv, benchmark_field.csv, and legacy dataText.csv.
     """
     if not os.path.exists(csv_path):
-        if csv_path == DEFAULT_SYNTHETIC_CSV and os.path.exists(LEGACY_CSV):
+        if csv_path == DEFAULT_AUGMENTED_CSV and os.path.exists(LEGACY_CSV):
             csv_path = LEGACY_CSV
         else:
             raise FileNotFoundError(f"Dataset file not found: {csv_path}")
@@ -121,12 +121,12 @@ def load_data(csv_path):
     return dataset
 
 
-def run_evaluation(csv_path=None, dataset_name="synthetic"):
+def run_evaluation(csv_path=None, dataset_name="augmented"):
     if csv_path is None:
         if dataset_name == "field":
             csv_path = FIELD_CSV
         else:
-            csv_path = DEFAULT_SYNTHETIC_CSV if os.path.exists(DEFAULT_SYNTHETIC_CSV) else LEGACY_CSV
+            csv_path = DEFAULT_AUGMENTED_CSV if os.path.exists(DEFAULT_AUGMENTED_CSV) else LEGACY_CSV
 
     print("=" * 80)
     print("PERFORMANCE EVALUATION: RICE PEST & DISEASE DIAGNOSTIC EXPERT SYSTEM (SWRL)")
@@ -444,8 +444,8 @@ def run_evaluation(csv_path=None, dataset_name="synthetic"):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate RiceKG expert system with out-of-sample calibration.")
-    parser.add_argument("--dataset", choices=["synthetic", "field"], default="synthetic",
-                        help="Benchmark dataset to evaluate (synthetic or field).")
+    parser.add_argument("--dataset", choices=["augmented", "field"], default="augmented",
+                        help="Benchmark dataset to evaluate (augmented or field).")
     parser.add_argument("--csv-path", default=None, help="Explicit path to benchmark CSV file.")
     args = parser.parse_args()
 

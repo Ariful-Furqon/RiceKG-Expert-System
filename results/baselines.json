@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-13T04:47:31.019696+00:00",
-  "elapsed_seconds": 111.38,
-  "synthetic_benchmark": {
-    "dataset_name": "Synthetic Verification Benchmark",
-    "csv_path": "/Users/ariful/Library/CloudStorage/OneDrive-UniversitasJember/Research/2026/CKE Iran/RiceKG Expert System/data/benchmark_synthetic.csv",
+  "generated_at": "2026-09-13T04:58:45.424236+00:00",
+  "elapsed_seconds": 100.66,
+  "augmented_benchmark": {
+    "dataset_name": "Augmented Verification Benchmark",
+    "csv_path": "/Users/ariful/Library/CloudStorage/OneDrive-UniversitasJember/Research/2026/CKE Iran/RiceKG Expert System/data/benchmark_augmented.csv",
     "n_samples": 80,
     "n_positive": 62,
     "n_negative": 18,

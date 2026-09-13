@@ -1,17 +1,17 @@
 # RiceKG Reasoner Architecture Ablation Study
 
-**Evaluated on**: `benchmark_synthetic.csv` (80 cases)
-**Generated**: 2026-09-12 14:38:44 UTC
+**Evaluated on**: `benchmark_augmented.csv` (80 cases)
+**Generated**: 2026-09-13 04:57:02 UTC
 
 ## Comparative Architecture Performance
 
 | Variant | Exact Match Acc | Micro Precision | Micro Recall | Micro F1 | Mean Latency | P95 Latency |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)** | 92.50% | 97.4% | 95.0% | 96.2% | 518.92 ms | 555.66 ms |
-| **Ablation: Tier 1 Canonical Only (Pellet DL)** | 32.50% | 100.0% | 10.0% | 18.2% | 490.18 ms | 545.47 ms |
-| **Ablation: Tier 2 Relaxed Only (Pellet DL)** | 92.50% | 97.4% | 95.0% | 96.2% | 491.50 ms | 515.12 ms |
-| **Ablation: Flat Rules Unstratified (Pellet DL)** | 92.50% | 97.4% | 95.0% | 96.2% | 506.87 ms | 532.43 ms |
-| **Ablation: No Reasoner (Pure Python Set-Matching)** | 92.50% | 97.4% | 95.0% | 96.2% | 0.00 ms | 0.01 ms |
+| **RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)** | 92.50% | 97.4% | 95.0% | 96.2% | 446.80 ms | 648.20 ms |
+| **Ablation: Tier 1 Canonical Only (Pellet DL)** | 32.50% | 100.0% | 10.0% | 18.2% | 473.08 ms | 627.27 ms |
+| **Ablation: Tier 2 Relaxed Only (Pellet DL)** | 92.50% | 97.4% | 95.0% | 96.2% | 497.27 ms | 774.26 ms |
+| **Ablation: Flat Rules Unstratified (Pellet DL)** | 92.50% | 97.4% | 95.0% | 96.2% | 513.25 ms | 648.13 ms |
+| **Ablation: No Reasoner (Pure Python Set-Matching)** | 92.50% | 97.4% | 95.0% | 96.2% | 0.01 ms | 0.01 ms |
 
 ## Architectural Trade-off Analysis
 

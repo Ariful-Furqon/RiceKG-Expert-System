@@ -93,9 +93,9 @@ Open your browser and navigate to: `http://127.0.0.1:5000/`
 
 ## Evaluation Results
 
-To prevent evaluation circularity, performance is reported separately on two distinct benchmarks with explicit provenance tracking. **Synthetic and independent cases are never pooled.**
+To prevent evaluation circularity, performance is reported separately on two distinct benchmarks with explicit provenance tracking. **Augmented and independent cases are never pooled.**
 
-### Benchmark 1: Synthetic Rule-Derived Benchmark (`data/benchmark_synthetic.csv`)
+### Benchmark 1: Augmented Rule-Derived Benchmark (`data/benchmark_augmented.csv`)
 - **Provenance**: `rule_derived` (authored to verify deductive SWRL rule firing consistency)
 - **Sample Size ($n$)**: 80 test cases across 6 diagnostic tiers (T1–T6)
 
@@ -148,7 +148,7 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 
 Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
 
-- **Synthetic Benchmark ($n=80$)**: RiceKG achieves **92.50% ± 2.24%** exact match with **zero training data**, significantly outperforming ML baselines trained on 40 cases/fold (**55.50%–63.75%**, all $p < 0.001$ after Holm–Bonferroni correction) due to 16 singleton multi-threat composites.
+- **Augmented Benchmark ($n=80$)**: RiceKG achieves **92.50% ± 2.24%** exact match with **zero training data**, significantly outperforming ML baselines trained on 40 cases/fold (**55.50%–63.75%**, all $p < 0.001$ after Holm–Bonferroni correction) due to 16 singleton multi-threat composites.
 - **Independent Field Benchmark ($n=32$)**: RiceKG attains **20.83%** positive-case recall against **0.00%** for every supervised baseline, but the ontology-free nearest-prototype matcher reaches **38.33%**. No comparison is significant after Holm correction; with only 5 positive cases the MDE is $\pm 25.0$ percentage points, so these are underpowered rather than equivalent.
 - **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 

@@ -21,7 +21,7 @@ An earlier revision of this document attributed all five failures to vocabulary 
 was incorrect, and its cause is recorded here because it materially affected the reported numbers.
 `benchmark_field.csv` originally encoded symptoms in a descriptive snake_case namespace
 (`seed_yellowish_green_velvety_balls`) that shared **zero** terms with the ontology vocabulary
-`model.ALL_SYMPTOMS` (`Rusty_Grain_Balls`), while `benchmark_synthetic.csv` matched it on all 45 terms.
+`model.ALL_SYMPTOMS` (`Rusty_Grain_Balls`), while `benchmark_augmented.csv` matched it on all 45 terms.
 Consequently every one of the 32 field cases reached the reasoner as an empty assertion set, and the
 benchmark built in P0-3 to break evaluation circularity had never exercised the rule base at all. The
 identifiers are now normalized through `data/symptom_mapping.csv`, which resolves 9 of the 25
@@ -91,11 +91,11 @@ An explicit scientific finding of the Stage B vocabulary mapping protocol is the
 
 ---
 
-## 4. Evaluation Set Circularity of `benchmark_synthetic.csv`
+## 4. Evaluation Set Circularity of `benchmark_augmented.csv`
 
-The synthetic benchmark `data/benchmark_synthetic.csv` (80 test instances, formerly `dataText.csv`) was authored by the knowledge engineering team from the same SWRL rule antecedents that the reasoner executes:
+The augmented benchmark `data/benchmark_augmented.csv` (80 test instances, formerly `dataText.csv`) was authored by the knowledge engineering team from the same SWRL rule antecedents that the reasoner executes:
 1. **Ceiling Bias**: Multi-label accuracy of 99.25% and exact-match accuracy of 92.50% reflect deductive rule verification, not empirical diagnostic efficacy on real-world crops.
-2. **Data Provenance Disclosure**: In accordance with scientific integrity standards, `data/README.md` classifies `benchmark_synthetic.csv` as `provenance: rule_derived`. As stated in `data/README.md`, this set cannot be interpreted as empirical clinical or field diagnostic accuracy.
+2. **Data Provenance Disclosure**: In accordance with scientific integrity standards, `data/README.md` classifies `benchmark_augmented.csv` as `provenance: rule_derived`. As stated in `data/README.md`, this set cannot be interpreted as empirical clinical or field diagnostic accuracy.
 3. **Comparative Baseline Context**: Outperforming supervised ML on `rule_derived` cases reflects cold-start inductive difficulty for ML rather than clinical superiority of RiceKG.
 
 ---

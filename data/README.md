@@ -4,10 +4,10 @@ This directory contains benchmark datasets used for evaluating the RiceKG expert
 
 ---
 
-## 1. Synthetic Rule-Derived Benchmark (`benchmark_synthetic.csv`)
+## 1. Augmented Rule-Derived Benchmark (`benchmark_augmented.csv`)
 
 ### Overview
-- **File**: `data/benchmark_synthetic.csv` (formerly `dataText.csv`)
+- **File**: `data/benchmark_augmented.csv` (formerly `dataText.csv`)
 - **Sample Size ($n$)**: 80 test cases
 - **Provenance**: `rule_derived`
 - **Authorship**: Knowledge engineering team during SWRL rule base authoring.
@@ -20,14 +20,14 @@ The 80 cases are partitioned into six diagnostic tiers:
 |---|:---:|---|---|:---:|
 | **T1: Canonical Single Threats** | 1–10 | Full pathognomonic profiles ($4 \le \|S\| \le 6$) | Exactly matches the antecedent clauses of Tier-1 SWRL rules `SWRL-R01` to `SWRL-R10`. | 10 (1 per threat) |
 | **T2: Relaxed Single Threats** | 11–20 | Partial symptom profiles ($2 \le \|S\| \le 3$) | Exactly matches the minimal antecedent clauses of Tier-2 SWRL rules `SWRL-R11` to `SWRL-R20`. | 10 (1 per threat) |
-| **T3: Co-infection Pairs** | 21–38 | Simultaneous multi-threat infections | Synthetic union of disjoint antecedent subsets from two distinct threats (e.g. Bacterial Leaf Blight + Rice Blast). | 18 |
+| **T3: Co-infection Pairs** | 21–38 | Simultaneous multi-threat infections | Augmented union of disjoint antecedent subsets from two distinct threats (e.g. Bacterial Leaf Blight + Rice Blast). | 18 |
 | **T4: Noise & Distractor Cases** | 39–48 | Single threats with non-diagnostic noise | Threat antecedents perturbed with unspecific environmental symptoms (e.g. `Rainy_Season_Outbreak`, `Plant_Yellowing`). | 10 |
 | **T5: Partial Symptom Variants** | 49–60 | Incomplete combinations | Partial subsets of canonical antecedents with varying symptom counts. | 12 |
 | **T6: Negative Controls** | 61–80 | Non-diagnostic / Insufficient evidence | Isolated symptoms (e.g. single symptom `Severed_Panicles` or general background traits) where no rule should fire (`No_Diagnosis`). | 20 |
 
 ### Methodological Disclosure & Circularity
 > [!IMPORTANT]
-> As disclosed in `docs/LIMITATIONS.md`, **`benchmark_synthetic.csv` is rule-derived**. Evaluating an expert system on cases generated from its own Horn-clause rules guarantees near-ceiling performance (99.25% multi-label accuracy, 92.50% exact-match accuracy) by construction. It verifies rule firing consistency and deductive completeness, but **cannot be interpreted as empirical clinical or field diagnostic accuracy**.
+> As disclosed in `docs/LIMITATIONS.md`, **`benchmark_augmented.csv` is rule-derived**. Evaluating an expert system on cases generated from its own Horn-clause rules guarantees near-ceiling performance (99.25% multi-label accuracy, 92.50% exact-match accuracy) by construction. It verifies rule firing consistency and deductive completeness, but **cannot be interpreted as empirical clinical or field diagnostic accuracy**.
 
 ---
 
@@ -75,7 +75,7 @@ The `symptom_*` columns of this file were originally populated with descriptive 
 authored during Stage B extraction (for example `seed_yellowish_green_velvety_balls`). Those slugs form
 a namespace disjoint from the ontology vocabulary `model.ALL_SYMPTOMS`, which uses identifiers such as
 `Rusty_Grain_Balls`: **none of the 25 recorded descriptors matched any of the 45 ontology terms**, while
-`benchmark_synthetic.csv` matched on all 45. As a result every case in this benchmark reached the
+`benchmark_augmented.csv` matched on all 45. As a result every case in this benchmark reached the
 reasoner as an empty assertion set, and the benchmark could not exercise the rule base at all.
 
 [`symptom_mapping.csv`](symptom_mapping.csv) records the resolution of each descriptor with a
@@ -100,8 +100,8 @@ normalization.
 The evaluation script (`evaluate.py`) supports separate dataset evaluation via `--dataset`:
 
 ```bash
-# Evaluate synthetic verification benchmark
-python evaluate.py --dataset synthetic
+# Evaluate augmented verification benchmark
+python evaluate.py --dataset augmented
 
 # Evaluate independent field/literature benchmark
 python evaluate.py --dataset field
@@ -110,5 +110,5 @@ python evaluate.py --dataset field
 python evaluate.py --csv-path data/custom_eval.csv
 ```
 
-Synthetic and independent metrics are **never pooled into a single composite accuracy score**.
+Augmented and independent metrics are **never pooled into a single composite accuracy score**.
 

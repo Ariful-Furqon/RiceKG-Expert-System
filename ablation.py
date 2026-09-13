@@ -26,9 +26,9 @@ import argparse
 import model
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_SYNTHETIC = os.path.join(BASE_DIR, "data", "benchmark_synthetic.csv")
+DEFAULT_AUGMENTED = os.path.join(BASE_DIR, "data", "benchmark_augmented.csv")
 LEGACY_CSV = os.path.join(BASE_DIR, "dataText.csv")
-DEFAULT_CSV = DEFAULT_SYNTHETIC if os.path.exists(DEFAULT_SYNTHETIC) else LEGACY_CSV
+DEFAULT_CSV = DEFAULT_AUGMENTED if os.path.exists(DEFAULT_AUGMENTED) else LEGACY_CSV
 DEFAULT_OUT_DIR = os.path.join(BASE_DIR, "results")
 ALL_CLASSES = list(model.SWRL_RULES_METADATA.keys())
 
