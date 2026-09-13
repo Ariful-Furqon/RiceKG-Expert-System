@@ -1,6 +1,6 @@
 {
   "total_benchmark_cases": 80,
-  "generated_at": "2026-09-13T04:57:02Z",
+  "generated_at": "2026-09-13T05:06:48Z",
   "results": [
     {
       "variant": "full",
@@ -14,8 +14,8 @@
       "fp": 2,
       "fn": 4,
       "tn": 718,
-      "mean_latency_ms": 446.8,
-      "p95_latency_ms": 648.2
+      "mean_latency_ms": 514.68,
+      "p95_latency_ms": 679.37
     },
     {
       "variant": "tier1_only",
@@ -29,8 +29,8 @@
       "fp": 0,
       "fn": 72,
       "tn": 720,
-      "mean_latency_ms": 473.08,
-      "p95_latency_ms": 627.27
+      "mean_latency_ms": 526.48,
+      "p95_latency_ms": 725.53
     },
     {
       "variant": "tier2_only",
@@ -44,8 +44,8 @@
       "fp": 2,
       "fn": 4,
       "tn": 718,
-      "mean_latency_ms": 497.27,
-      "p95_latency_ms": 774.26
+      "mean_latency_ms": 470.52,
+      "p95_latency_ms": 616.17
     },
     {
       "variant": "flat_rules",
@@ -59,8 +59,8 @@
       "fp": 2,
       "fn": 4,
       "tn": 718,
-      "mean_latency_ms": 513.25,
-      "p95_latency_ms": 648.13
+      "mean_latency_ms": 418.77,
+      "p95_latency_ms": 452.86
     },
     {
       "variant": "no_reasoner",
@@ -74,7 +74,7 @@
       "fp": 2,
       "fn": 4,
       "tn": 718,
-      "mean_latency_ms": 0.01,
+      "mean_latency_ms": 0.02,
       "p95_latency_ms": 0.01
     }
   ]

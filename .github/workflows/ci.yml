@@ -49,3 +49,22 @@ jobs:
       - name: Run ablation study suite
         run: |
           python ablation.py
+
+      - name: Run comparative baselines and significance tests
+        run: |
+          python baselines/run_baselines.py
+
+      - name: Regenerate per-case field failure diagnosis
+        run: |
+          python analysis/field_failure_analysis.py
+
+      - name: Verify documentation figures match results/
+        run: |
+          python analysis/check_readme_consistency.py
+
+      - name: Upload regenerated results for reviewer inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-python-${{ matrix.python-version }}
+          path: results/

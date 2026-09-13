@@ -1,6 +1,6 @@
 # Comparative Baseline Evaluation & Paired Significance Testing
 
-> **Generated**: 2026-09-13 04:58:45 UTC  
+> **Generated**: 2026-09-13 05:08:32 UTC  
 > **Methodology**: 5x2-fold Cross-Validation (Dietterich 1998 paired protocol), paired McNemar exact-match tests, non-parametric bootstrap 95% CIs (B=1,000 resamples), and Holm–Bonferroni FWER step-down correction.
 
 ---
