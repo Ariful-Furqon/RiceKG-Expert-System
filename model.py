@@ -88,6 +88,13 @@ ALL_SYMPTOMS = [
     "Orange_Leaf_Discoloration"  # tungro hallmark, yellow-orange from the leaf tip
 ]
 
+# Minimum Tier-2 antecedent coverage at which a non-firing rule is surfaced as a
+# `possible` diagnosis. Strict Horn-clause matching returns nothing when a single
+# antecedent is unobserved, which discards strong partial evidence; P0-1 specified an
+# ordinal grade set {confirmed, probable, possible} that was never implemented.
+# Calibrated on the field benchmark `dev` split only — see docs/ONTOLOGY.md.
+POSSIBLE_COVERAGE_THRESHOLD = 0.5
+
 PESTS = [
     "Grasshopper", "Rice_Root_Nematode", "Rice_Stem_Borer",
     "Rice_Bug", "Brown_Planthopper"
@@ -481,7 +488,7 @@ Rice_Tungro_Virus = getattr(onto, "Rice_Tungro_Virus", None)
 # Pellet DL Reasoning Engine
 # =========================================================================
 
-def predict_diseases(symptoms, flat=False, onto=None):
+def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
     """
     Infers rice pests and diseases using SWRL reasoning with confidence-graded output.
 
@@ -492,6 +499,10 @@ def predict_diseases(symptoms, flat=False, onto=None):
     :param symptoms: List of symptom identifier strings (English).
     :param flat: If True, returns List[str] of threat names for backwards compatibility.
     :param onto: Optional owlready2.Ontology instance (defaults to global module ontology).
+    :param include_possible: When True, also surface threats whose Tier-2 antecedent
+        coverage reaches POSSIBLE_COVERAGE_THRESHOLD but whose rule did not fire, graded
+        `possible`. Off by default so that the v1 API and predict_diseases_flat keep
+        their existing behaviour exactly.
     :return: List of dicts (or List[str] if flat=True).
     """
     target_onto = onto if onto is not None else globals()["onto"]
@@ -558,8 +569,34 @@ def predict_diseases(symptoms, flat=False, onto=None):
                 "missing_symptoms": missing
             })
 
+        if include_possible:
+            # Strict subset matching yields nothing when one antecedent is unobserved.
+            # Score the Tier-2 rules that did not fire and surface the strongest partial
+            # evidence as a weaker grade, keeping the matched and unmet antecedents visible
+            # so the derivation stays auditable.
+            for t_name, meta in SWRL_RULES_METADATA.items():
+                if t_name in all_threat_names:
+                    continue
+                t2_ants = meta.get("tier2", {}).get("antecedents", [])
+                if not t2_ants:
+                    continue
+                matched = [s for s in t2_ants if s in input_symptom_set]
+                coverage = round(len(matched) / len(t2_ants), 4)
+                if coverage < POSSIBLE_COVERAGE_THRESHOLD or not matched:
+                    continue
+                results.append({
+                    "threat": t_name,
+                    "grade": "possible",
+                    "confidence": round(0.5 * coverage, 4),
+                    "antecedent_coverage": coverage,
+                    "fired_rules": [],
+                    "matched_symptoms": matched,
+                    "missing_symptoms": [s for s in t2_ants if s not in input_symptom_set]
+                })
+
         # Rank: confirmed first, then antecedent coverage desc, then name
-        results.sort(key=lambda x: (1 if x["grade"] == "confirmed" else 0, x["antecedent_coverage"], x["threat"]), reverse=True)
+        grade_rank = {"confirmed": 3, "unstratified": 2, "suspected": 2, "possible": 1}
+        results.sort(key=lambda x: (grade_rank.get(x["grade"], 0), x["antecedent_coverage"], x["threat"]), reverse=True)
 
         if flat:
             return [item["threat"] for item in results]

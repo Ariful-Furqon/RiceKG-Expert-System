@@ -14,8 +14,8 @@ An ontology-driven expert system leveraging **Web Ontology Language (OWL 2)** an
 
 This repository provides an automated semantic reasoning system for diagnosing **10 major rice biotic threats** (5 destructive insect pests and 5 prevalent phytopathogenic diseases). The system integrates:
 
-- **Ontology (OWL 2)**: Formal TBox/ABox conceptualization of rice entities, symptoms, pests, diseases, and treatment management.
-- **Multi-Tier SWRL Rules**: 20 deterministic forward-chaining rules (Tier 1 canonical + Tier 2 relaxed partial-symptom rules) linking combinations of phenotypic symptoms to specific diagnoses.
+- **Ontology (OWL 2)**: Formal TBox/ABox conceptualization of rice entities, symptoms, pests and diseases. A `ControlTreatment` class is declared but **unpopulated** — treatment advice lives in `static/data.json` for the web interface and is not part of the knowledge graph (competency question `CQ08`).
+- **Multi-Tier SWRL Rules**: 20 deterministic forward-chaining rules over 54 symptom terms (Tier 1 canonical + Tier 2 relaxed partial-symptom rules), linking combinations of phenotypic symptoms to graded diagnoses. Rule rationale and literature sources: [`docs/ONTOLOGY.md`](docs/ONTOLOGY.md).
 - **Pellet DL Reasoner (`owlready2`)**: Java-based Tableau description logic reasoner executing property assertion and multi-label diagnosis.
 - **Flask Web Interface**: Interactive web interface for symptom selection and diagnostic reasoning.
 - **Multi-Label Evaluation Suite**: Automated script computing per-class Confusion Matrix metrics (TP, FP, FN, TN, Precision, Recall, F1, Accuracy).
@@ -79,6 +79,7 @@ them drifts from the regenerated data.
 | Benchmark 2 (independent field) and baseline comparison | `make baselines` | [`results/baselines.md`](results/baselines.md), [`results/baselines.json`](results/baselines.json) |
 | Per-case field failure diagnosis | `make failure-analysis` | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
 | Documentation consistency gate | `make check-docs` | exit status |
+| Ontology competency questions | `make competency` | [`docs/COMPETENCY_QUESTIONS.md`](docs/COMPETENCY_QUESTIONS.md) |
 
 ---
 
@@ -104,6 +105,18 @@ python ablation.py
 python app.py
 ```
 Open your browser and navigate to: `http://127.0.0.1:5000/`
+
+---
+
+## Research Framing
+
+| Document | Covers |
+|---|---|
+| [`docs/DSR_MAPPING.md`](docs/DSR_MAPPING.md) | Design Science Research positioning: Peffers DSRM activities, Hevner's seven guidelines, and where the artefact falls short of each. |
+| [`docs/COMPETENCY_QUESTIONS.md`](docs/COMPETENCY_QUESTIONS.md) | 16 competency questions (Grüninger & Fox) with the SPARQL that answers each — 13 satisfied, 3 recorded gaps. |
+| [`docs/SOCIOTECHNICAL_FRAMING.md`](docs/SOCIOTECHNICAL_FRAMING.md) | The extension knowledge chain, SECI externalisation, low-connectivity policy implications, and liability for an incorrect recommendation. |
+| [`docs/ONTOLOGY.md`](docs/ONTOLOGY.md) | Vocabulary and rule change rationale with literature sources, including a revision that was withdrawn. |
+| [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) | What the evidence does not support. |
 
 ---
 

@@ -45,6 +45,7 @@ def precompute_rule_predictions(cases: List[Dict[str, Any]]) -> Dict[str, np.nda
     flat_onto = rule_baselines.get_flat_ontology()
 
     ricekg_preds = np.zeros((n, len(ml_baselines.ALL_THREATS)), dtype=int)
+    possible_preds = np.zeros((n, len(ml_baselines.ALL_THREATS)), dtype=int)
     proto_preds = np.zeros((n, len(ml_baselines.ALL_THREATS)), dtype=int)
     flat_preds = np.zeros((n, len(ml_baselines.ALL_THREATS)), dtype=int)
 
@@ -53,6 +54,11 @@ def precompute_rule_predictions(cases: List[Dict[str, Any]]) -> Dict[str, np.nda
         r_out = model.predict_diseases(c["symptoms"])
         r_threats = [p["threat"] for p in r_out]
         ricekg_preds[i] = ml_baselines.encode_labels(r_threats)
+
+        # Same reasoner, partial-match operating point: Tier-2 rules that did not fire but
+        # whose antecedent coverage clears the threshold are surfaced as `possible`.
+        p_out = model.predict_diseases(c["symptoms"], include_possible=True)
+        possible_preds[i] = ml_baselines.encode_labels([p["threat"] for p in p_out])
 
         # Nearest Prototype
         p_threats = rule_baselines.predict_nearest_prototype(c["symptoms"])
@@ -64,6 +70,7 @@ def precompute_rule_predictions(cases: List[Dict[str, Any]]) -> Dict[str, np.nda
 
     return {
         "RiceKG (Full Proposed)": ricekg_preds,
+        "RiceKG (Full + Possible)": possible_preds,
         "Rule: Nearest Prototype": proto_preds,
         "Rule: Flat Single-Tier": flat_preds,
     }
@@ -92,7 +99,8 @@ def evaluate_dataset_with_fair_protocol(
 
     # ML model configurations
     ml_names = list(ml_baselines.get_ml_models().keys())
-    all_system_names = ["RiceKG (Full Proposed)", "Rule: Nearest Prototype", "Rule: Flat Single-Tier"] + ml_names
+    all_system_names = ["RiceKG (Full Proposed)", "RiceKG (Full + Possible)",
+                        "Rule: Nearest Prototype", "Rule: Flat Single-Tier"] + ml_names
 
     # Data structures for tracking fold metrics and pooled test predictions
     fold_metrics = {name: [] for name in all_system_names}
@@ -115,7 +123,8 @@ def evaluate_dataset_with_fair_protocol(
         X_test, Y_test = X[te_idx], Y[te_idx]
 
         # 1. Knowledge-based systems evaluated on test split
-        for kb_name in ["RiceKG (Full Proposed)", "Rule: Nearest Prototype", "Rule: Flat Single-Tier"]:
+        for kb_name in ["RiceKG (Full Proposed)", "RiceKG (Full + Possible)",
+                        "Rule: Nearest Prototype", "Rule: Flat Single-Tier"]:
             pred_slice = kb_predictions[kb_name][te_idx]
             metrics = ml_baselines.compute_multilabel_metrics(Y_test, pred_slice)
             fold_metrics[kb_name].append(metrics)
