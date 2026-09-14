@@ -55,7 +55,11 @@ def rmtree(path: Path, attempts: int = 5) -> None:
         if not path.exists():
             return
         try:
-            shutil.rmtree(path, onexc=on_error)
+            # `onexc` only exists on Python 3.12+; `onerror` is deprecated there.
+            if sys.version_info >= (3, 12):
+                shutil.rmtree(path, onexc=on_error)
+            else:
+                shutil.rmtree(path, onerror=on_error)
             return
         except PermissionError:
             if attempt == attempts - 1:
