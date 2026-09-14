@@ -13,6 +13,7 @@ and reports the field benchmark's dev and held-out eval splits separately.
 """
 
 import os
+import pathlib
 import sys
 import json
 import time
@@ -25,6 +26,18 @@ from typing import Dict, Any, List
 warnings.filterwarnings("ignore", category=UserWarning)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def _repo_relative(path: str) -> str:
+    """Return `path` relative to the repository root with POSIX separators.
+
+    Absolute paths leak the author's username and institution into
+    results/*.json, which breaks double-blind anonymisation.
+    """
+    try:
+        return pathlib.PurePath(os.path.relpath(path, BASE_DIR)).as_posix()
+    except ValueError:
+        return os.path.basename(path)
+
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
@@ -218,7 +231,7 @@ def evaluate_dataset_with_fair_protocol(
 
     return {
         "dataset_name": dataset_name,
-        "csv_path": csv_path,
+        "csv_path": _repo_relative(csv_path),
         "split": split or "all",
         "n_samples": n_samples,
         "n_positive": n_positive,
@@ -456,7 +469,7 @@ def run_all_baselines():
 
     # Write Markdown report
     md_path = os.path.join(RESULTS_DIR, "baselines.md")
-    md_content = generate_markdown_report(augmented_res, field_res, field_dev_res)
+    md_content = generate_markdown_report(synthetic_res, field_res, field_dev_res)
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(md_content)
     print(f"[OUTPUT] Saved publication report to {md_path}")

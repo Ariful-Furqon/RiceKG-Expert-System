@@ -17,6 +17,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import hashlib
 import textwrap
 from datetime import datetime, timezone
 from pathlib import Path
@@ -312,8 +313,38 @@ def build_index() -> str:
     return header + body + "\n".join(footer_parts) + "\n"
 
 
+HASH_PREFIX = "<!-- content-sha256: "
+
+
+def strip_hash_line(content: str) -> str:
+    """Return `content` with the content-sha256 comment removed."""
+    return "".join(
+        line for line in content.splitlines(keepends=True)
+        if not line.startswith(HASH_PREFIX)
+    )
+
+
+def stamp_hash(content: str) -> str:
+    """Insert a content-sha256 comment computed over the unstamped content."""
+    body = strip_hash_line(content)
+    digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+    lines = body.splitlines(keepends=True)
+    lines.insert(1, HASH_PREFIX + digest + " -->\n")
+    return "".join(lines)
+
+
+def verify_hash(content: str) -> bool:
+    """True when the embedded content-sha256 matches the rest of the file."""
+    stamped = [l for l in content.splitlines() if l.startswith(HASH_PREFIX)]
+    if len(stamped) != 1:
+        return False
+    recorded = stamped[0][len(HASH_PREFIX):].rstrip(" ->").strip()
+    actual = hashlib.sha256(strip_hash_line(content).encode("utf-8")).hexdigest()
+    return recorded == actual
+
+
 def main() -> int:
-    content = build_index()
+    content = stamp_hash(build_index())
     OUTPUT.write_text(content, encoding="utf-8")
     print(f"Written: {OUTPUT.relative_to(BASE_DIR)}")
     return 0

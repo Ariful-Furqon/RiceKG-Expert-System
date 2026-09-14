@@ -1,0 +1,66 @@
+{
+  "_comment": [
+    "Substitution and verification rules for the double-blind review bundle.",
+    "This file is EXCLUDED from the bundle: it necessarily contains the",
+    "identifiers it exists to remove. Ordering matters — longer, more specific",
+    "patterns must precede shorter ones, and the bare-surname catch-all must",
+    "come last."
+  ],
+  "exclude_from_bundle": [
+    "analysis/anon_rules.json",
+    "analysis/build_anon_bundle.py",
+    "docs/ANONYMISATION.md"
+  ],
+  "substitutions": [
+    ["furqon2026ricekg", "anonymous2026ricekg"],
+    ["ariful.furqon@unej.ac.id", "ricekg-review@anonymous.invalid"],
+    ["Ariful-Furqon/RiceKG-Expert-System", "ANONYMISED/ANONYMISED"],
+    ["github.com/Ariful-Furqon", "github.com/ANONYMISED"],
+    ["Furqon, Muhammad Ariful", "ANONYMISED"],
+    ["Furqon, Ariful", "ANONYMISED"],
+    ["Muhammad Ariful Furqon", "ANONYMISED"],
+    ["Muhammad Ariful", "ANONYMISED"],
+    ["Ariful Furqon", "ANONYMISED"],
+    ["family-names: Furqon", "family-names: ANONYMISED"],
+    ["given-names: Muhammad Ariful", "given-names: ANONYMISED"],
+    ["given-names: Ariful", "given-names: ANONYMISED"],
+    ["Lembaga Penelitian dan Pengabdian kepada Masyarakat (LP2M)", "[Ethics body withheld for review]"],
+    ["LP2M", "[Ethics body withheld for review]"],
+    ["Universitas Jember (UNEJ)", "[Institution withheld for review]"],
+    ["Universitas Jember", "[Institution withheld for review]"],
+    ["UNEJ", "[Institution withheld for review]"],
+    ["Jember, Jawa Timur, Indonesia", "[Location withheld for review]"],
+    ["Jember, Indonesia", "[Location withheld for review]"],
+    ["Jember", "[Location withheld for review]"],
+    ["Dinas Pertanian", "[Regional agriculture office withheld for review]"],
+    ["Penyuluh Pertanian Lapangan / PPL", "field agricultural extension officers"],
+    ["Ariful-Furqon", "ANONYMISED"],
+    ["Furqon", "ANONYMISED"],
+    ["Ariful", "ANONYMISED"],
+    ["ariful", "anonymised"],
+    ["furqon", "anonymised"]
+  ],
+  "deny_list": [
+    "Furqon",
+    "furqon",
+    "Ariful",
+    "ariful",
+    "unej.ac.id",
+    "UNEJ",
+    "Universitas Jember",
+    "Jember",
+    "LP2M",
+    "Dinas Pertanian",
+    "/Users/",
+    "OneDrive",
+    "CloudStorage"
+  ],
+  "text_extensions": [
+    ".md", ".py", ".cff", ".yml", ".yaml", ".txt", ".csv", ".json",
+    ".rst", ".html", ".toml", ".cfg", ".ini", ".owl", ".owx", ".css",
+    ".js", ".sh", ".lock", ".in", ".bib", ".tex"
+  ],
+  "text_filenames": [
+    "Makefile", "Procfile", "LICENSE", "Dockerfile", ".gitignore", ".gitattributes"
+  ]
+}

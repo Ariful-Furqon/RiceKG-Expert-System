@@ -20,6 +20,7 @@ to KFold when multi-label combination counts are < 2.
 """
 
 import os
+import pathlib
 import sys
 import numpy as np
 from typing import List, Dict, Any, Tuple, Optional
@@ -33,6 +34,18 @@ from sklearn.model_selection import KFold
 
 # Ensure repository root is in path
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def _repo_relative(path: str) -> str:
+    """Return `path` relative to the repository root with POSIX separators.
+
+    Absolute paths leak the author's username and institution into
+    results/*.json, which breaks double-blind anonymisation.
+    """
+    try:
+        return pathlib.PurePath(os.path.relpath(path, BASE_DIR)).as_posix()
+    except ValueError:
+        return os.path.basename(path)
+
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
@@ -277,7 +290,7 @@ def evaluate_ml_baselines(csv_path: str, random_state: int = 42) -> Dict[str, An
         }
 
     return {
-        "csv_path": csv_path,
+        "csv_path": _repo_relative(csv_path),
         "n_samples": len(X),
         "n_features": X.shape[1],
         "n_classes": Y.shape[1],

@@ -25,33 +25,69 @@ procedure after acceptance.
 | `analysis/verify_citations.py` line 49 | Crossref `User-Agent` contains `ariful.furqon@unej.ac.id` | Replaced by `ricekg-review@anonymous.invalid` |
 | `docs/ETHICS.md` lines 5–7 | Institution name (Universitas Jember), ethics committee name | Replaced by `[Institution name withheld for review]` |
 | Git commit history | Author name and email in every commit | Squashed to a single anonymous commit |
+| `pyproject.toml` line 13 | `authors` name and email | Replaced by `ANONYMISED` |
+| `README.md` BibTeX block | Citation key `furqon2026ricekg` and `author = {Furqon, ...}` | Key and author replaced |
+| `results/baselines.json` | Previously embedded an absolute path carrying username and institution | Writer now stores repo-relative paths |
+| `.gitattributes` | Comment named the cloud-sync provider | Reworded |
 
 If new files are added that contain any of the following strings, they must
 be added to this table before the next submission:
 
-- `Furqon` / `Ariful` / `ariful`
-- `Universitas Jember` / `UNEJ` / `unej`
-- `github.com/Ariful-Furqon`
-- Any institutional email address
+The authoritative list is `deny_list` in `analysis/anon_rules.json`. It is
+enforced automatically, so this table is documentation rather than the control.
+A new file containing an author name, institution, place name, institutional
+email, GitHub path, or absolute filesystem path will fail the build.
 
 ---
 
-## 2. `make anon-bundle` — What It Does
+## 2. Building the bundle
 
-Running `make anon-bundle` produces a subdirectory `anon_bundle/` in the
-repository root (excluded from git via `.gitignore`). It does **not**
-modify the working repository.
+```bash
+python analysis/build_anon_bundle.py        # or: make anon-bundle
+```
 
-Steps performed by the Makefile target:
+Pure Python — neither `make` nor `rsync` is required, so this runs on Windows
+Git Bash as well as CI. The bundle is written to `anon_bundle/ricekg-review/`
+(excluded from git via `.gitignore`). The working repository is never modified;
+`tests/test_anon_bundle.py::test_working_tree_is_untouched` asserts this.
 
-1. Copy the entire working tree to `anon_bundle/ricekg-review/`, excluding
-   `.git/`, `anon_bundle/`, and any file listed in `.gitignore`.
-2. Apply text replacements (see Section 1) to every affected file.
-3. Run `git init` in `anon_bundle/ricekg-review/`, add all files, and
-   create a single commit authored as `Anonymous Reviewer <review@anonymous.invalid>`
-   with a neutral commit message `Initial submission`.
-4. Print the path to the bundle directory and remind the user to upload it
-   to an anonymous review host.
+Steps:
+
+1. Collect the tracked files via `git ls-files`, which honours `.gitignore`
+   and never sees `.git/`, `.venv/`, `scratch/`, or the task briefs.
+2. Copy them, skipping the entries in `exclude_from_bundle`
+   (`analysis/anon_rules.json`, `analysis/build_anon_bundle.py`, and this
+   document) — the anonymisation tooling necessarily contains the identifiers
+   it exists to remove, so it must not travel with the bundle.
+3. Apply the substitution rules to every text file.
+4. `git init` and commit once as `Anonymous <review@anonymous.invalid>` with
+   the message `Initial submission`, so the authored history does not ship.
+5. **Verify**: scan every file in the finished bundle, and every path, against
+   the deny list. Any hit deletes the bundle and exits non-zero.
+
+### Why step 5 is the important one
+
+Substitution rules only remove the leaks somebody thought of. Before the
+deny-list scan existed, seven identifiers survived a bundle build that looked
+successful, including `pyproject.toml` untouched in full (its extension was
+missing from the file filter) and an absolute path inside
+`results/baselines.json` that carried both username and institution.
+
+A bundle that cannot be verified is not produced. If the scan fires, add a rule
+to `analysis/anon_rules.json` and rebuild — never ship past a warning.
+
+### Editing the rules
+
+`analysis/anon_rules.json` holds three lists:
+
+- `substitutions` — ordered pairs; **order matters**. Longer, more specific
+  patterns first; the bare-surname catch-all last. (`Furqon, Muhammad Ariful`
+  must precede `Muhammad Ariful`, or the surname is left stranded — this was a
+  real defect, and `test_substitution_order_removes_bare_surname` guards it.)
+- `deny_list` — terms the finished bundle must not contain anywhere.
+- `text_extensions` / `text_filenames` — which files get substituted. **Add new
+  text formats here**; anything absent is copied byte-for-byte and will only be
+  caught by the deny-list scan.
 
 The bundle can then be uploaded to:
 - [anonymous.4open.science](https://anonymous.4open.science/) (GitHub-based anonymous hosting)
@@ -80,24 +116,16 @@ The bundle can then be uploaded to:
 
 ---
 
-## 4. Grep Commands for Pre-Submission Audit
+## 4. Pre-submission audit
 
-Run these from the repository root to catch any newly added deanonymising
-text before generating the bundle:
+The deny-list scan in the builder is the audit; it runs on every build and in
+CI. To run it alone against an existing bundle:
 
 ```bash
-# Author name variants
-grep -rI --include="*.py" --include="*.md" --include="*.cff" --include="*.yml" \
-  -e "Furqon" -e "Ariful" -e "ariful" .
-
-# Institution name
-grep -rI --include="*.py" --include="*.md" --include="*.cff" --include="*.yml" \
-  -e "Universitas Jember" -e "UNEJ" -e "unej.ac.id" .
-
-# GitHub URL
-grep -rI --include="*.py" --include="*.md" --include="*.cff" --include="*.yml" \
-  -e "Ariful-Furqon" .
+python -c "import sys; sys.path.insert(0,'analysis'); import build_anon_bundle as b; from pathlib import Path; v=b.verify(Path('anon_bundle/ricekg-review'), b.load_rules()); print('
+'.join(v) or 'clean')"
 ```
 
-If any match appears in a file not already listed in Section 1, add it to
-the table before running `make anon-bundle`.
+If a match appears, add a substitution rule to `analysis/anon_rules.json` and
+rebuild. Do not edit the bundle by hand — the next build would overwrite it and
+the leak would return.

@@ -63,44 +63,7 @@ reproduce: ablate baselines failure-analysis competency results-index check-docs
 ANON_DIR := anon_bundle/ricekg-review
 
 anon-bundle:
-	@echo "Building anonymised review bundle in $(ANON_DIR)/ ..."
-	@rm -rf anon_bundle
-	@mkdir -p $(ANON_DIR)
-	@rsync -a --exclude='.git' --exclude='anon_bundle' \
-	       --exclude='__pycache__' --exclude='*.pyc' \
-	       --exclude='.venv' --exclude='*.egg-info' \
-	       --filter=':- .gitignore' \
-	       . $(ANON_DIR)/
-	# Substitute identifying strings in text files
-	@find $(ANON_DIR) -type f \( -name "*.md" -o -name "*.py" -o -name "*.cff" \
-	       -o -name "*.yml" -o -name "*.yaml" -o -name "*.txt" -o -name "*.csv" \
-	       -o -name "*.json" -o -name "*.rst" -o -name "*.html" \) | \
-	  xargs sed -i \
-	    -e 's/Furqon, Ariful/ANONYMISED/g' \
-	    -e 's/Muhammad Ariful/ANONYMISED/g' \
-	    -e 's/Ariful Furqon/ANONYMISED/g' \
-	    -e 's/ariful\.furqon@unej\.ac\.id/ricekg-review@anonymous.invalid/g' \
-	    -e 's/Ariful-Furqon\/RiceKG-Expert-System/ANONYMISED\/ANONYMISED/g' \
-	    -e 's/github\.com\/Ariful-Furqon/github.com\/ANONYMISED/g' \
-	    -e 's/Universitas Jember (UNEJ)/[Institution name withheld for review]/g' \
-	    -e 's/Universitas Jember/[Institution name withheld for review]/g' \
-	    -e 's/UNEJ/[Institution withheld]/g' \
-	    -e 's/Lembaga Penelitian dan Pengabdian kepada Masyarakat (LP2M)/[Ethics body withheld]/g' \
-	    -e 's/family-names: Furqon/family-names: ANONYMISED/g' \
-	    -e 's/given-names: Ariful/given-names: ANONYMISED/g' \
-	    -e 's/given-names: Muhammad Ariful/given-names: ANONYMISED/g' \
-	    -e 's|affiliation: "Department of Informatics.*"|affiliation: "ANONYMISED"|g'
-	# Squash git history to a single anonymous commit
-	@cd $(ANON_DIR) && git init -q && git add -A && \
-	  GIT_AUTHOR_NAME="Anonymous" \
-	  GIT_AUTHOR_EMAIL="review@anonymous.invalid" \
-	  GIT_COMMITTER_NAME="Anonymous" \
-	  GIT_COMMITTER_EMAIL="review@anonymous.invalid" \
-	  git commit -q -m "Initial submission"
-	@echo ""
-	@echo "Bundle created: $(ANON_DIR)/"
-	@echo "Upload to anonymous.4open.science or a restricted Zenodo deposit."
-	@echo "See docs/ANONYMISATION.md for the release procedure after acceptance."
+	@$(PYTHON) analysis/build_anon_bundle.py --out $(ANON_DIR)
 
 clean:
 	rm -rf $(VENV) build/ dist/ *.egg-info .pytest_cache/ __pycache__ */__pycache__

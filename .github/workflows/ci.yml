@@ -74,6 +74,10 @@ jobs:
         run: |
           python analysis/check_readme_consistency.py
 
+      - name: Verify anonymised review bundle is free of author identifiers
+        run: |
+          python analysis/build_anon_bundle.py --no-git --quiet
+
       - name: Upload regenerated results for reviewer inspection
         if: always()
         uses: actions/upload-artifact@v4

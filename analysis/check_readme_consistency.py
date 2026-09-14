@@ -95,11 +95,23 @@ def check_results_index() -> list[str]:
         )
         return errs
     with open(RESULTS_INDEX, encoding="utf-8") as fh:
-        first_line = fh.readline().strip()
-    if _GENERATED_MARKER not in first_line:
+        content = fh.read()
+    if _GENERATED_MARKER not in content.splitlines()[0]:
         errs.append(
             "  docs/RESULTS_INDEX.md does not contain the generated-file header on line 1; "
             "it may have been hand-edited or regenerated incorrectly. "
+            "Run `python analysis/build_results_index.py` to regenerate."
+        )
+        return errs
+    # The header carries a sha256 over the rest of the file, so any hand edit
+    # anywhere in the document is detected, not just removal of the header.
+    sys.path.insert(0, os.path.join(BASE_DIR, "analysis"))
+    import build_results_index
+
+    if not build_results_index.verify_hash(content):
+        errs.append(
+            "  docs/RESULTS_INDEX.md content does not match its embedded content-sha256; "
+            "it was hand-edited or is stale. "
             "Run `python analysis/build_results_index.py` to regenerate."
         )
     return errs

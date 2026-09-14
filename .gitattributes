@@ -1,5 +1,5 @@
 # Normalize all text files to LF in the repository and in the working tree.
-# Prevents CRLF churn when files round-trip through OneDrive/Windows.
+# Prevents CRLF churn when files round-trip through cloud sync on Windows.
 * text=auto eol=lf
 
 # Binary / non-text assets: never touch
