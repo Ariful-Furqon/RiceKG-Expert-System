@@ -1,4 +1,4 @@
-# RiceKG: Knowledge Graph and SWRL-Based Expert System for Rice Pest and Disease Diagnosis
+# RiceKG: Knowledge Graph and SWRL-Based Expert System for Rice Disease Diagnosis
 
 [![CI Evaluation](https://github.com/Ariful-Furqon/RiceKG-Expert-System/actions/workflows/ci.yml/badge.svg)](https://github.com/Ariful-Furqon/RiceKG-Expert-System/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
@@ -6,36 +6,35 @@
 [![Pellet Reasoner](https://img.shields.io/badge/Reasoner-Pellet%20DL-orange)](https://github.com/stardog-union/pellet)
 [![OWL 2](https://img.shields.io/badge/Ontology-OWL%202-purple)](https://www.w3.org/TR/owl2-overview/)
 
-An ontology-driven expert system leveraging **Web Ontology Language (OWL 2)** and **Semantic Web Rule Language (SWRL)** with the **Pellet DL reasoner** for diagnosing rice pests and diseases based on observed field symptoms.
+An ontology-driven expert system leveraging **Web Ontology Language (OWL 2)** and **Semantic Web Rule Language (SWRL)** with the **Pellet DL reasoner** for diagnosing rice diseases and parasitic nematodes based on observed field symptoms.
 
 ---
 
 ## Overview
 
-This repository provides an automated semantic reasoning system for diagnosing **10 major rice biotic threats** (5 destructive insect pests and 5 prevalent phytopathogenic diseases). The system integrates:
+This repository provides an automated semantic reasoning system for diagnosing **6 evidence-backed rice biotic threats** (5 prevalent phytopathogenic diseases and 1 parasitic nematode pest, each independently validated by peer-reviewed field reports). Insect pest damage is handled through an explicit out-of-scope differential gate. The system integrates:
 
-- **Ontology (OWL 2)**: Formal TBox/ABox conceptualization of rice entities, symptoms, pests and diseases. A `ControlTreatment` class is declared but **unpopulated** — treatment advice lives in `static/data.json` for the web interface and is not part of the knowledge graph (competency question `CQ08`).
-- **Multi-Tier SWRL Rules**: 20 deterministic forward-chaining rules over 54 symptom terms (Tier 1 canonical + Tier 2 relaxed partial-symptom rules), linking combinations of phenotypic symptoms to graded diagnoses. Rule rationale and literature sources: [`docs/ONTOLOGY.md`](docs/ONTOLOGY.md).
+- **Ontology (OWL 2)**: Formal TBox/ABox conceptualization of rice entities, symptoms, pathogens and parasitic nematodes. A `ControlTreatment` class is declared but **unpopulated** — treatment advice lives in `static/data.json` for the web interface and is not part of the knowledge graph (competency question `CQ08`).
+- **Multi-Tier SWRL Rules**: 12 deterministic forward-chaining rules over 54 symptom terms (Tier 1 canonical + Tier 2 relaxed partial-symptom rules), linking combinations of phenotypic symptoms to graded diagnoses. Rule rationale and literature sources: [`docs/ONTOLOGY.md`](docs/ONTOLOGY.md).
 - **Pellet DL Reasoner (`owlready2`)**: Java-based Tableau description logic reasoner executing property assertion and multi-label diagnosis.
 - **Flask Web Interface**: Interactive web interface for symptom selection and diagnostic reasoning.
 - **Multi-Label Evaluation Suite**: Automated script computing per-class Confusion Matrix metrics (TP, FP, FN, TN, Precision, Recall, F1, Accuracy).
 
 ---
 
-## Diagnosed Pests & Diseases
+## Diagnosed Diseases & In-Scope Threats
 
-| Type | Name | Scientific / Common Identifier |
-|---|---|---|
-| **Pest** | `Grasshopper` | *Oxya chinensis* |
-| **Pest** | `Rice_Root_Nematode` | *Hirschmanniella oryzae* |
-| **Pest** | `Rice_Stem_Borer` | *Scirpophaga incertulas* |
-| **Pest** | `Rice_Bug` | *Leptocorisa oratorius* |
-| **Pest** | `Brown_Planthopper` | *Nilaparvata lugens* |
-| **Disease** | `Bacterial_Leaf_Blight` | *Xanthomonas oryzae* pv. *oryzae* |
-| **Disease** | `False_Smut` | *Ustilaginoidea virens* |
-| **Disease** | `Rice_Blast` | *Magnaporthe oryzae* / *Pyricularia oryzae* |
-| **Disease** | `Rice_Grassy_Stunt` | Rice grassy stunt virus (RGSV) |
-| **Disease** | `Rice_Tungro_Virus` | Rice tungro bacilliform & spherical virus |
+| Type | Name | Scientific / Common Identifier | Independent Field Positives |
+|---|---|---|:---:|
+| **Disease** | `Bacterial_Leaf_Blight` | *Xanthomonas oryzae* pv. *oryzae* | 3 |
+| **Disease** | `False_Smut` | *Ustilaginoidea virens* | 1 |
+| **Disease** | `Rice_Blast` | *Magnaporthe oryzae* / *Pyricularia oryzae* | 2 |
+| **Disease** | `Rice_Grassy_Stunt` | Rice grassy stunt virus (RGSV) | 1 |
+| **Disease** | `Rice_Tungro_Virus` | Rice tungro bacilliform & spherical virus | 2 |
+| **Pest** | `Rice_Root_Nematode` | *Meloidogyne graminicola* | 3 |
+
+> [!NOTE]
+> Four insect pest classes (`Grasshopper`, `Rice_Stem_Borer`, `Rice_Bug`, `Brown_Planthopper`) were excluded from the diagnostic scope because peer-reviewed case report literature reports pathogens, leaving insect pests with zero empirical field reports. Their 21 damage symptoms are retained as an out-of-scope vocabulary (`InsectDamageSign`), and vector sightings (`Brown_Planthopper_Present`, `Green_Leafhopper_Present`) are retained as viral antecedents. When no in-scope rule fires and at least two distinct insect-specific signs are observed (`model.INSECT_SPECIFIC_SIGNS`: the insect itself, its eggs, or a feeding mechanism), the system returns an explicit out-of-scope differential response. Signs shared with pathogens or abiotic stress (`Plant_Yellowing`, `Empty_Grains`, …) never trigger it.
 
 ## Reproducibility & Installation
 
@@ -157,32 +156,30 @@ read as diagnostic accuracy. See [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) Se
 - **Remediation Did Not Transfer**: P0-5 extended the vocabulary from 45 to 54 terms and revised five Tier-2 rules on literature grounds. `dev` positive recall rose 19.17% → 63.33%; `eval` moved 38.33% → 35.00%. A gain confined to the visible partition is an overfitting signature and is reported as such. Overall 6 of 12 positive cases are resolved, up from 3.
 - **A Trivial Heuristic Is Not Cleanly Beaten**: RiceKG exceeds the ontology-free nearest-prototype matcher by 13.0 points of exact match (Holm-adjusted $p = 0.0004$) and on positive recall (35.00% vs 17.50%), but that matcher holds a higher micro-F1 (43.29 vs 40.67).
 - **An Intermediate Revision Was Withdrawn**: pairing `Water_Soaked_Lesions` with `Bacterial_Ooze` for bacterial blight produced 4 false positives, because exudate is a genus-level sign shared with the *Xanthomonas oryzicola*, *Burkholderia* and *Pantoea* negative controls. Re-specifying around discriminating signs returned false positives to zero.
-- **Four Threat Classes Have No Field Case**: `Grasshopper`, `Rice_Bug`, `Rice_Stem_Borer` and `Brown_Planthopper` are unrepresented, because insect pests are not published as first-report disease notes. No field-evidenced claim is made for them.
+- **Insect Pests Are Out of Scope, Not Validated**: `Grasshopper`, `Rice_Bug`, `Rice_Stem_Borer` and `Brown_Planthopper` were removed from the diagnostic scope because insect pests are not published as first-report disease notes, so no field case exists for them. The out-of-scope insect response is exercised only on rule-derived controls.
 - **Case-Report Gate**: 14 of 21 P0-5 sourcing candidates were rejected — every DOI resolved, but the sources were reviews, efficacy trials or caged experiments whose symptom text is textbook description rather than observation. Crossref verification cannot detect this; [`tests/test_p0_5_field.py`](tests/test_p0_5_field.py) enforces it.
 
 ### Architectural & Reasoner Ablation Study
 
-Empirical validation across 5 architectural variants under Pellet DL forward-chaining reasoning (evaluated on $n=80$ benchmark cases; persistent results in `results/ablation.md`):
+Empirical validation across 5 architectural variants under Pellet DL forward-chaining reasoning (evaluated on $n=73$ benchmark cases; persistent results in `results/ablation.md`):
 
-| Variant | Exact Match (%) | Micro Prec (%) | Micro Rec (%) | Micro F1 (%) | Mean Latency (ms) | P95 Latency (ms) |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| Variant | Exact Match (%) | Micro Prec (%) | Micro Rec (%) | Micro F1 (%) | Mean Latency (ms) | P95 Latency (ms) |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)** | **60.00%** | **97.7%** | **52.5%** | **68.3%** | **455.22** | **586.02** |
-| *Ablation A: Tier 1 Canonical Only (Pellet DL)* | 32.50% | 100.0% | 10.0% | 18.2% | 437.22 | 549.21 |
-| *Ablation B: Tier 2 Relaxed Only (Pellet DL)* | 55.00% | 97.4% | 47.5% | 63.9% | 439.45 | 506.19 |
-| *Ablation C: Flat Rules Unstratified (Pellet DL)* | 60.00% | 97.7% | 52.5% | 68.3% | 432.40 | 495.60 |
-| *Baseline Control: No Reasoner (Set-Matching)* | 60.00% | 97.7% | 52.5% | 68.3% | 0.02 | 0.01 |
+| Variant | Exact Match (%) | Multi-Label Acc (%) | Micro Prec (%) | Micro Rec (%) | Micro F1 (%) | Mean Latency (ms) | P95 Latency (ms) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)** | **64.38%** | **92.47%** | **100.0%** | **26.7%** | **42.1%** | **502.13** | **573.79** |
+| *Ablation A: Tier 1 Canonical Only (Pellet DL)* | 58.90% | 91.10% | 100.0% | 13.3% | 23.5% | 486.26 | 549.78 |
+| *Ablation B: Tier 2 Relaxed Only (Pellet DL)* | 58.90% | 91.55% | 100.0% | 17.8% | 30.2% | 476.87 | 526.50 |
+| *Ablation C: Flat Rules Unstratified (Pellet DL)* | 64.38% | 92.47% | 100.0% | 26.7% | 42.1% | 495.37 | 545.35 |
+| *Baseline Control: No Reasoner (Set-Matching)* | 64.38% | 92.47% | 100.0% | 26.7% | 42.1% | 0.00 | 0.00 |
 
 > **Key Architectural Insights**:
-> 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 52.5% to 10.0%, while guaranteeing 100% precision (0 false positives). Tier-2 expands sensitivity under incomplete symptom observation, at the cost of specificity.
+> 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 26.7% to 13.3%, while maintaining 100% precision (0 false positives). Tier-2 expands sensitivity under incomplete symptom observation, at the cost of specificity.
 > 2. **Reasoner Engineering Trade-Off**: Pure Python set-matching executes in <0.05 ms per query, whereas Pellet DL requires ~520 ms. The DL reasoner is justified not by speed, but by ontological property subsumption (`hasConfirmedPest` ⊑ `hasConfirmedThreat`), consistency verification, and deductive derivation trees for explainable AI (XAI).
 
 ### Comparative Baselines & Paired Significance Testing
 
 Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
 
-- **Deductive Verification Suite ($n=80$)**: RiceKG achieves **60.00% ± 6.52%** exact match (micro-F1 **68.30% ± 3.41%**) with **zero training data**. The ontology-free Nearest Prototype baseline outperforms RiceKG on exact match (**72.50% ± 2.24%**, Holm-adjusted $p = 0.0030$), while five supervised ML baselines trained on 40 cases/fold reach **52.25%–63.75%** exact match with none showing statistically significant difference from RiceKG after Holm–Bonferroni correction (Holm-adjusted $p = 0.1024$ to $1.0000$).
+- **Deductive Verification Suite ($n=73$)**: RiceKG achieves **64.38% ± 1.80%** exact match (micro-F1 **40.84% ± 9.80%**) with **zero training data**. The ontology-free Nearest Prototype baseline outperforms RiceKG on exact match (**86.28% ± 4.30%**, Holm-adjusted $p < 0.001$), while five supervised ML baselines trained on 36 cases/fold reach **71.21%–76.98%** exact match (Holm-adjusted $p < 0.001$ to $0.0187$).
 - **Independent Field Benchmark, `eval` ($n=23$, development-informed)**: RiceKG attains **35.00%** positive-case recall (micro-F1 **40.67%**, 95% CI [34.8, 74.3]), exceeding the ontology-free nearest-prototype matcher by 13.0 points of exact match (**86.82%** vs 73.94%, Holm-adjusted $p = 0.0004$), though that matcher holds a slightly higher micro-F1 (43.29 vs 40.67). Under 5×2-fold cross-validation within `eval`, the strongest supervised baseline reaches 10.00% (with remaining ML models at 0.00%); *however, as documented in `results/baselines.md` and `results/learning_curve.md`, this 0/5 result is an artifact of severe class sparsity in 11-case CV training folds (which contain zero examples of viral classes), not evidence of ML weakness*. When trained on the external `dev` split ($n=16$) and tested on `eval` (learning-curve Pool B), ML models reach up to 40.0% positive recall. With 5 positive cases and an MDE of $\pm 29.5$ percentage points, comparisons remain underpowered.
 - **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
@@ -196,7 +193,7 @@ If you use this software in your research, please cite:
 ```bibtex
 @software{furqon2026ricekg,
   author    = {Furqon, Muhammad Ariful},
-  title     = {{RiceKG}: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Pest and Disease Diagnosis Under Symptom Uncertainty},
+  title     = {{RiceKG}: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Disease Diagnosis Under Symptom Uncertainty},
   year      = {2026},
   url       = {https://github.com/Ariful-Furqon/RiceKG-Expert-System},
   license   = {MIT}

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software in your research, please cite it as below."
-title: "RiceKG: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Pest and Disease Diagnosis"
+title: "RiceKG: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Disease Diagnosis"
 type: software
 authors:
   - family-names: Furqon
@@ -13,23 +13,22 @@ keywords:
   - owl-ontology
   - swrl-rules
   - expert-system
-  - rice-pest-disease
+  - rice-disease
   - pellet-reasoner
   - smart-agriculture
   - explainable-ai
 abstract: >-
   An explainable semantic knowledge graph and multi-tier SWRL reasoning
-  system for rice biotic stressor diagnosis. The framework formalizes
-  10 major biotic threats (5 pests and 5 diseases), 54 phenotypic symptoms,
-  and 20 SWRL inference rules using OWL 2 Description Logic with the Pellet
-  DL reasoner. Treatment recommendations are outside the current scope of
-  the knowledge graph; the ControlTreatment class is declared but not
-  populated. No prescriptive integrated pest management (IPM) claim is made.
+  system for rice disease diagnosis. The framework formalizes 6 evidence-backed
+  biotic threats (5 phytopathogenic diseases plus 1 plant-parasitic nematode),
+  54 phenotypic symptoms, and 12 SWRL inference rules across two confidence tiers
+  using OWL 2 Description Logic with the Pellet DL reasoner. Insect damage signs
+  are recognized via an explicit out-of-scope differential response.
 preferred-citation:
   type: article
   authors:
     - family-names: Furqon
       given-names: Muhammad Ariful
       affiliation: "Department of Informatics, Faculty of Computer Science, Universitas Jember"
-  title: "RiceKG: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Pest and Disease Diagnosis"
+  title: "RiceKG: Knowledge Graph and Semantic Web Rule Language-Based Expert System for Rice Disease Diagnosis"
   year: 2026

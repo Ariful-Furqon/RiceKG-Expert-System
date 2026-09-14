@@ -13,7 +13,7 @@ Namespace: `http://www.semanticweb.org/ontologies/rice_pest_disease.owl#`
 |:--|:--|:--|
 | `CQ01` | Which phenotypic symptoms does the ontology model? | satisfied |
 | `CQ02` | Which biotic threats does the ontology model? | satisfied |
-| `CQ03` | Which of the modelled threats are insect pests? | satisfied |
+| `CQ03` | Which of the modelled threats are pests (after the insect scope cut, the plant-parasitic nematode)? | satisfied |
 | `CQ04` | Which of the modelled threats are pathogen-caused diseases? | satisfied |
 | `CQ05` | Is every pest and every disease also classified as a threat? | satisfied |
 | `CQ06` | Does the ontology distinguish a confirmed diagnosis from a suspected one? | satisfied |
@@ -50,7 +50,7 @@ Rule antecedents live inside SWRL `Imp` bodies and in `model.RULE_REGISTRY`. The
 
 - **Status**: satisfied
 - **Scenario**: schema only (no sample)
-- **Result**: `54`
+- **Result**: `33`
 
 ```sparql
 PREFIX : <http://www.semanticweb.org/ontologies/rice_pest_disease.owl#>
@@ -62,7 +62,7 @@ SELECT (COUNT(DISTINCT ?s) AS ?n) WHERE { ?s a :Symptom . }
 
 - **Status**: satisfied
 - **Scenario**: schema only (no sample)
-- **Result**: `10`
+- **Result**: `6`
 
 ```sparql
 PREFIX : <http://www.semanticweb.org/ontologies/rice_pest_disease.owl#>
@@ -70,11 +70,11 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT (COUNT(DISTINCT ?t) AS ?n) WHERE { ?t a/rdfs:subClassOf* :Threat . }
 ```
 
-### CQ03 — Which of the modelled threats are insect pests?
+### CQ03 — Which of the modelled threats are pests (after the insect scope cut, the plant-parasitic nematode)?
 
 - **Status**: satisfied
 - **Scenario**: schema only (no sample)
-- **Result**: 5 result(s): `Grasshopper`, `Rice_Root_Nematode`, `Rice_Stem_Borer`, `Rice_Bug`, `Brown_Planthopper`
+- **Result**: 1 result(s): `Rice_Root_Nematode`
 
 ```sparql
 PREFIX : <http://www.semanticweb.org/ontologies/rice_pest_disease.owl#>
@@ -98,7 +98,7 @@ SELECT ?d WHERE { ?d a :Disease . }
 
 - **Status**: satisfied
 - **Scenario**: schema only (no sample)
-- **Result**: `10`
+- **Result**: `6`
 
 ```sparql
 PREFIX : <http://www.semanticweb.org/ontologies/rice_pest_disease.owl#>

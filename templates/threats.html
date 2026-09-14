@@ -8,9 +8,9 @@
     <div class="hero-badge-pill">
       <i class="fa-solid fa-book-bookmark"></i> Rice Biotic Threat Ontology Catalog
     </div>
-    <h1 class="hero-title">Target Rice Pests & Pathogenic Diseases</h1>
+    <h1 class="hero-title">Target Rice Diseases & Reference Pests</h1>
     <p class="hero-subtitle">
-      Formalized domain knowledge of 10 destructive rice biotic stressors, phenotypic symptom profiles, target organs, and actionable IPM treatment prescriptions.
+      Formalized domain knowledge of 6 evidence-backed rice disease and nematode classes with independent field cases, alongside 4 reference insect pest profiles outside the diagnostic scope.
     </p>
   </div>
 </section>
@@ -26,76 +26,155 @@
         type="text" 
         id="threatSearch" 
         class="symptom-search-input" 
-        placeholder="Filter biotic threats (e.g. 'Stem Borer', 'Bacterial', 'Blast', 'Virus')..." 
+        placeholder="Filter biotic threats (e.g. 'Bacterial', 'Blast', 'Smut', 'Nematode')..." 
         autocomplete="off"
       />
     </div>
     <div class="toolbar-actions">
       <div class="selected-counter-badge" style="background: var(--primary-light);">
-        <span>{{ threats|length }}</span> Threats Formalized
+        <span>6</span> Diagnosable Classes &bull; <span>4</span> Reference Pests
       </div>
     </div>
   </div>
 
-  <!-- Threats Grid -->
-  <div class="catalog-grid" id="threatGrid">
-    {% for threat in threats %}
-    <div class="catalog-card threat-item">
-      <div>
-        <!-- Card Header -->
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-          <div style="font-size: 2.2rem; line-height: 1;">{{ threat.icon }}</div>
-          <span class="{{ threat.badge_class }}">{{ threat.kategori }}</span>
-        </div>
+  <!-- In-Scope Diagnosable Section -->
+  <div style="margin-bottom: 2.5rem;">
+    <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 8px;">
+      <i class="fa-solid fa-circle-check" style="color: var(--primary);"></i> In-Scope Diagnosable Threats (6 Classes)
+    </h2>
+    <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem;">
+      Pathogenic diseases and parasitic nematodes grounded in peer-reviewed independent field case reports and evaluated with two-tier SWRL rules.
+    </p>
 
-        <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 4px;">
-          {{ threat.nama }}
-        </h3>
-        <div style="font-style: italic; color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem;">
-          {{ threat.nama_latin }}
-        </div>
+    <div class="catalog-grid" id="threatGridInScope">
+      {% for threat in threats if threat.diagnostic_scope != 'outside_scope' %}
+      <div class="catalog-card threat-item">
+        <div>
+          <!-- Card Header -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <div style="font-size: 2.2rem; line-height: 1;">{{ threat.icon }}</div>
+            <span class="{{ threat.badge_class }}">{{ threat.kategori }}</span>
+          </div>
 
-        <!-- Target Organ -->
-        <div style="background: var(--light-bg); padding: 8px 12px; border-radius: var(--radius-sm); margin-bottom: 1rem; border: 1px solid var(--border);">
-          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700;">Target Plant Part</div>
-          <div style="font-size: 0.88rem; font-weight: 600; color: var(--dark);">{{ threat.organ_target }}</div>
-        </div>
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 4px;">
+            {{ threat.nama }}
+          </h3>
+          <div style="font-style: italic; color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem;">
+            {{ threat.nama_latin }}
+          </div>
 
-        <!-- Description -->
-        <p style="font-size: 0.88rem; color: var(--slate); line-height: 1.5; margin-bottom: 1.25rem;">
-          {{ threat.deskripsi }}
-        </p>
+          <!-- Target Organ -->
+          <div style="background: var(--light-bg); padding: 8px 12px; border-radius: var(--radius-sm); margin-bottom: 1rem; border: 1px solid var(--border);">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700;">Target Plant Part</div>
+            <div style="font-size: 0.88rem; font-weight: 600; color: var(--dark);">{{ threat.organ_target }}</div>
+          </div>
 
-        <!-- Key Symptoms Chips -->
-        <div style="margin-bottom: 1.25rem;">
-          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px;">Key Diagnostic Manifestations</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-            {% for sym in threat.gejala_kunci %}
-            <span style="background: #e2e8f0; color: var(--slate); font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 12px;">
-              {{ sym }}
-            </span>
-            {% endfor %}
+          <!-- Description -->
+          <p style="font-size: 0.88rem; color: var(--slate); line-height: 1.5; margin-bottom: 1.25rem;">
+            {{ threat.deskripsi }}
+          </p>
+
+          <!-- Key Symptoms Chips -->
+          <div style="margin-bottom: 1.25rem;">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px;">Key Diagnostic Manifestations</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              {% for sym in threat.gejala_kunci %}
+              <span style="background: #e2e8f0; color: var(--slate); font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 12px;">
+                {{ sym }}
+              </span>
+              {% endfor %}
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Prescriptive IPM Actions -->
-      <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: auto;">
-        <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--primary-dark); font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-          <i class="fa-solid fa-shield-halved"></i> Prescriptive IPM Treatment
+        <!-- Reference management measures (web copy; not part of the knowledge graph) -->
+        <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: auto;">
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--primary-dark); font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-book-open"></i> Reference Management Measures
+          </div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px;">
+            {% for ipm in threat.pengendalian_ipm %}
+            <li style="font-size: 0.82rem; color: #166534; display: flex; align-items: flex-start; gap: 8px;">
+              <i class="fa-solid fa-check" style="margin-top: 3px; font-size: 11px; flex-shrink: 0; color: var(--primary);"></i>
+              <span>{{ ipm }}</span>
+            </li>
+            {% endfor %}
+          </ul>
         </div>
-        <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px;">
-          {% for ipm in threat.pengendalian_ipm %}
-          <li style="font-size: 0.82rem; color: #166534; display: flex; align-items: flex-start; gap: 8px;">
-            <i class="fa-solid fa-check" style="margin-top: 3px; font-size: 11px; flex-shrink: 0; color: var(--primary);"></i>
-            <span>{{ ipm }}</span>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
 
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
+  </div>
+
+  <!-- Outside Diagnostic Scope Section -->
+  <div style="margin-top: 2rem; margin-bottom: 2rem; border-top: 2px dashed var(--border); padding-top: 2rem;">
+    <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--slate); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 8px;">
+      <i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b;"></i> Insect Pests (Outside Automated Diagnostic Scope)
+    </h2>
+    <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem;">
+      Chewing and sap-sucking insect pests retained in ontology vocabulary for vector tracking and differential out-of-scope identification. Diagnostic scope was narrowed because peer-reviewed case report literature reports pathogens, leaving insects without empirical field backing.
+    </p>
+
+    <div class="catalog-grid" id="threatGridOutsideScope">
+      {% for threat in threats if threat.diagnostic_scope == 'outside_scope' %}
+      <div class="catalog-card threat-item" style="opacity: 0.9; background: #f8fafc; border-color: #cbd5e1;">
+        <div>
+          <!-- Card Header -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <div style="font-size: 2.2rem; line-height: 1;">{{ threat.icon }}</div>
+            <span style="background: #e2e8f0; color: #475569; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">Outside Scope</span>
+          </div>
+
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 4px;">
+            {{ threat.nama }}
+          </h3>
+          <div style="font-style: italic; color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem;">
+            {{ threat.nama_latin }}
+          </div>
+
+          <!-- Target Organ -->
+          <div style="background: white; padding: 8px 12px; border-radius: var(--radius-sm); margin-bottom: 1rem; border: 1px solid var(--border);">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700;">Target Plant Part</div>
+            <div style="font-size: 0.88rem; font-weight: 600; color: var(--dark);">{{ threat.organ_target }}</div>
+          </div>
+
+          <!-- Description -->
+          <p style="font-size: 0.88rem; color: var(--slate); line-height: 1.5; margin-bottom: 1.25rem;">
+            {{ threat.deskripsi }}
+          </p>
+
+          <!-- Key Symptoms Chips -->
+          <div style="margin-bottom: 1.25rem;">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px;">Associated Symptoms (Out-of-Scope Signs)</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              {% for sym in threat.gejala_kunci %}
+              <span style="background: #e2e8f0; color: var(--slate); font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 12px;">
+                {{ sym }}
+              </span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Reference management measures (web copy; not part of the knowledge graph) -->
+        <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: auto;">
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--slate); font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-book-open"></i> Reference Management Measures
+          </div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px;">
+            {% for ipm in threat.pengendalian_ipm %}
+            <li style="font-size: 0.82rem; color: #475569; display: flex; align-items: flex-start; gap: 8px;">
+              <i class="fa-solid fa-circle-dot" style="margin-top: 4px; font-size: 8px; flex-shrink: 0; color: var(--muted);"></i>
+              <span>{{ ipm }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
   </div>
 
   <!-- Bottom CTA -->

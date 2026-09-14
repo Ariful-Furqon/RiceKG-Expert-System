@@ -35,7 +35,7 @@ class TestDerivationTrace:
         assert "candidate_rules_by_threat" in trace
         assert "evaluated_rules_trace" in trace
 
-        assert trace["summary"]["total_rules_evaluated"] == 20
+        assert trace["summary"]["total_rules_evaluated"] == len(model.RULE_REGISTRY)
         assert trace["summary"]["fired_rules_count"] >= 1
         assert "Rice_Blast" in trace["proof_trees"]
 
@@ -102,7 +102,7 @@ class TestP16ApiV2Endpoints:
         assert "proof_trees" in data
         assert "fired_rules" in data
         assert "all_candidate_rules" in data
-        assert len(data["all_candidate_rules"]) == 20
+        assert len(data["all_candidate_rules"]) == len(model.RULE_REGISTRY)
 
         # Verify enriched diagnoses contain complete derivation trace
         blb_diag = next((d for d in data["diagnoses"] if d["key"] == "Bacterial_Leaf_Blight"), None)

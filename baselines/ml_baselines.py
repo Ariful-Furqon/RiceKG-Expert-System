@@ -80,20 +80,22 @@ def decode_symptoms(vec: np.ndarray) -> List[str]:
 
 
 def encode_labels(raw_target: Any) -> np.ndarray:
-    """Encodes a diagnosis target string or list into a 10-dimensional binary vector.
-    'No_Diagnosis' or empty input produces an all-zero vector (not an 11th class).
+    """Encodes a diagnosis target string or list into a binary vector over ALL_THREATS.
+    'No_Diagnosis', 'insect damage, out of scope', or empty input produces an all-zero vector.
     Multiple threats joined by ' and ' are each marked with 1.
     """
     vec = np.zeros(len(ALL_THREATS), dtype=int)
     if not raw_target:
         return vec
 
+    out_of_scope_sentinels = {"No_Diagnosis", model.INSECT_OUT_OF_SCOPE_TARGET}
+
     if isinstance(raw_target, str):
-        if raw_target.strip() == "No_Diagnosis":
+        if raw_target.strip() in out_of_scope_sentinels:
             return vec
         threats = [t.strip() for t in raw_target.split(" and ") if t.strip()]
     elif isinstance(raw_target, (list, tuple, set)):
-        threats = [t.strip() for t in raw_target if t.strip() and t.strip() != "No_Diagnosis"]
+        threats = [t.strip() for t in raw_target if t.strip() and t.strip() not in out_of_scope_sentinels]
     else:
         return vec
 

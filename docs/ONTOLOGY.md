@@ -147,9 +147,58 @@ defensible and they are not the same claim:
 unchanged. A `possible` diagnosis is a prompt to look further or to escalate, never a basis
 for treatment.
 
+## Part 5 Diagnostic Scope Narrowing (10 Classes → 6 Evidence-Backed Classes)
+
+### Rationale
+Four of the ten previously diagnosable classes (`Grasshopper`, `Rice_Stem_Borer`, `Rice_Bug`, `Brown_Planthopper`) possessed **zero independent field cases** in peer-reviewed literature. The primary evidence pipeline for RiceKG relies on peer-reviewed *First Report* disease notes in plant pathology journals (e.g. *Plant Disease*, *New Disease Reports*), which document plant pathogens and nematodes rather than insect pests. In accordance with `docs/LIMITATIONS.md`, maintaining diagnostic claims over insect classes rested entirely on deductive circularity over synthetic rules with zero empirical grounding.
+
+### The Scope Cut
+The diagnostic scope was narrowed to six evidence-backed classes (five phytopathogenic diseases and one parasitic nematode):
+1. `Bacterial_Leaf_Blight` (3 field positives)
+2. `Rice_Root_Nematode` (3 field positives)
+3. `Rice_Blast` (2 field positives)
+4. `Rice_Tungro_Virus` (2 field positives)
+5. `False_Smut` (1 field positive)
+6. `Rice_Grassy_Stunt` (1 field positive)
+
+### Scope Constraints & Architectural Rules
+1. **`Rice_Root_Nematode` is Retained**: Although categorized under `Pest` in the ontology, *Meloidogyne graminicola* has three independently verified peer-reviewed field cases. The cut excludes the four *insect* classes only.
+2. **Planthopper and Leafhopper Retained as Vectors**: `Brown_Planthopper_Present` and `Green_Leafhopper_Present` remain in the ontology vocabulary and rule antecedents for `Rice_Grassy_Stunt` and `Rice_Tungro_Virus` respectively. The insects cease to be diagnosable outputs, but remain valid entomological vector evidence.
+3. **Surviving Rule IDs Preserved**: The eight insect rules were removed:
+   - Tier 1: `SWRL-R01`, `SWRL-R03`, `SWRL-R04`, `SWRL-R05`
+   - Tier 2: `SWRL-R11`, `SWRL-R13`, `SWRL-R14`, `SWRL-R15`
+   The twelve surviving rules retain their original identifiers (`SWRL-R02`, `R06`–`R10`, `R12`, `R16`–`R20`) to prevent breaking cross-references across `docs/` and `results/`.
+4. **Twenty-One Insect Signs Retained as Out-of-Scope Vocabulary**: The 21 insect-associated symptoms (those used only by the removed insect rules) were reclassified under `OutOfScopeSign` and `InsectDamageSign`. If no in-scope rule fires and the query contains at least two distinct *insect-specific* signs, the system returns an explicit differential response: *"consistent with insect damage, which is outside the diagnostic scope of this system"*, rather than a silent uninformative `No_Diagnosis`.
+   - **Specific vs. non-specific signs.** Only 14 of the 21 terms count toward the gate (`model.INSECT_SPECIFIC_SIGNS`): the insect itself (`Adult_Insects_Present`, `Nymphs_Present`, `Brown_Nymphs`, `Yellow_Nymphs`), its eggs (`Eggs_On_Plant`), and feeding mechanisms that no pathogen reproduces (`Frass_In_Stem`, `Bore_Holes_In_Stem`, `Hopperburn_Drying`, `Circular_Hopperburn_Patches`, `Blackened_Feeding_Punctures`, `Leaf_Margin_Sap_Sucking`, `Leaf_Chewing_Damage`, `Broad_Leaf_Damage`, `Severed_Panicles`). The other seven (`Plant_Yellowing`, `Localized_Leaf_Yellowing`, `Empty_Grains`, `Rotten_Panicles`, `Deadheart_Seedling`, `Easily_Pulled_Tillers`, `Random_Feeding_Pattern`) are also produced by pathogens, nematodes, nutrient deficiency or abiotic stress. They are kept in the vocabulary but never count as insect evidence.
+   - **Why two signs.** Two is the evidentiary minimum of the removed Tier-2 insect rules (`SWRL-R11`, `R13` and `R15` each required two antecedents). It keeps the single-sign negative controls in the verification suite (`Severed_Panicles` alone, `Frass_In_Stem` alone) as `No_Diagnosis`.
+   - **Correction.** The first implementation of this gate fired on *any one* of the 21 terms. That labelled `Plant_Yellowing` alone, a nitrogen-deficiency presentation, as insect damage. It also produced out-of-scope responses on field cases FIELD_02 (`Rice_Blast`), FIELD_51 (`Rice_Tungro_Virus`) and three *Burkholderia* negative controls (FIELD_15, 18, 22), all of which carry only non-specific signs. The threshold was set on the agronomic distinction above, before the pipeline was re-run; `tests/test_insect_out_of_scope.py` pins it.
+5. **Zero Loss on Field Benchmark**: Exactly 0 of the 39 cases in `data/benchmark_field.csv` diagnose an insect class; 100% of the empirical field evidence is preserved untouched.
+
+### Moved-Figures Table (Pre-Part 5 vs Post-Part 5)
+
+| Metric / Dimension | Pre-Part 5 (10 Classes) | Post-Part 5 (6 Classes) | Agronomic & Methodological Cause |
+|---|:---:|:---:|---|
+| **Class-Level Field Coverage** | 6 / 10 (60.0%) | **6 / 6 (100.0%)** | Four ungrounded insect classes removed; all 6 retained classes have independent peer-reviewed field cases. |
+| **Diagnosable Classes** | 10 | **6** | 4 insect classes removed; 5 diseases + 1 nematode retained. |
+| **Surviving SWRL Rules** | 20 | **12** | 8 insect rules deleted; 6 Tier-1 and 6 Tier-2 rules survive with original IDs. |
+| **Verification Suite Sample Size ($n$)** | 80 cases | **73 cases** | 26 insect-referencing cases adjudicated: 19 converted to out-of-scope controls, 7 co-infections removed. |
+| **Field Benchmark Sample Size ($n$)** | 39 cases | **39 cases** | Zero-loss property: 0 field cases diagnosed insects; 100% empirical data preserved. |
+| **Verification Exact Match (Ablation Full)** | 60.00% | **64.38%** | Case mix changed from 80 cases to 73 cases with 19 out-of-scope controls. Not an algorithmic gain. (The first Part 5 run reported 50.68%; that figure came from the over-broad insect gate, corrected in point 4 above.) |
+| **Verification Multi-Label Acc (Ablation Full)** | 96.25% | **92.47%** | Reflects altered denominator and class count (6 vs 10 classes) over 73 cases. |
+| **Verification Micro-Recall (Ablation Full)** | 52.50% | **26.67%** | Fewer disease rule firings across the re-stratified verification suite. |
+| **Verification Micro-F1 (Ablation Full)** | 68.30% | **42.11%** | Harmonic mean shift following revised verification suite composition. |
+| **Verification 5x2-CV Exact Match (RiceKG)** | 60.00 ± 6.52% | **64.38 ± 1.80%** | Altered fold partitioning over $n=73$ cases with 18 negative/out-of-scope controls. |
+| **Field `eval` Positive-Case Recall (RiceKG)** | 35.00 ± 36.86% | **35.00 ± 36.86%** | Exactly identical; field benchmark is untouched by insect scope cut. |
+| **Field `eval` Exact Match (RiceKG)** | 86.82 ± 7.26% | **86.82 ± 7.26%** | Exactly identical; field benchmark evaluation unchanged. |
+| **Field `eval` Micro-F1 (RiceKG)** | 40.67 ± 41.36% | **40.67 ± 41.36%** | Exactly identical; zero empirical loss on field eval split. |
+| **Competency Questions** | 13 satisfied, 3 gaps | **13 satisfied, 3 gaps** | CQ08 (ControlTreatment), CQ09 (confidence in OWL), CQ10 (antecedents in OWL) remain open for Part 4. |
+
+> [!NOTE]
+> Any shift in aggregate accuracy on `verification_suite.csv` reflects the smaller, differently-composed case mix (73 cases, 6 classes, 19 out-of-scope controls) rather than algorithmic improvement or degradation.
+
 ## Invariants
 
-- Ten Tier-1 and ten Tier-2 rules; `tests/test_p0_2_ablation.py` enforces the counts.
-- `ml_baselines.SYMPTOM_ORDER` tracks `model.ALL_SYMPTOMS`; `tests/test_p0_4_baselines.py`
-  enforces the correspondence without pinning a vocabulary size.
+- Six Tier-1 and six Tier-2 rules (12 surviving rules); `tests/test_p0_2_ablation.py` enforces the counts.
+- `ml_baselines.SYMPTOM_ORDER` tracks `model.ALL_SYMPTOMS`; `tests/test_p0_4_baselines.py` enforces the correspondence without pinning a vocabulary size.
 - Every revised rule carries a `literature` field in `RULE_REGISTRY` naming its source.
+- Surviving rule IDs (`SWRL-R02`, `SWRL-R06`–`SWRL-R10`, `SWRL-R12`, `SWRL-R16`–`SWRL-R20`) are strictly preserved.

@@ -48,6 +48,8 @@ def predict_no_reasoner(symptoms):
     for rule in model.RULE_REGISTRY:
         if all(ant in s_set for ant in rule["antecedents"]):
             diagnoses.add(rule["threat"])
+    if not diagnoses and model.insect_damage_evidence(s_set):
+        diagnoses.add(model.INSECT_OUT_OF_SCOPE_TARGET)
     return sorted(diagnoses)
 
 

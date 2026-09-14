@@ -81,6 +81,10 @@ def predict_nearest_prototype(symptoms: List[str], min_overlap: int = 2, min_jac
         if scores[best_threat]["overlap"] >= min_overlap:
             diagnoses.append(best_threat)
 
+    # If still no diagnosis, check if symptoms indicate out-of-scope insect damage
+    if not diagnoses and model.insect_damage_evidence(obs_set):
+        return [model.INSECT_OUT_OF_SCOPE_TARGET]
+
     return sorted(diagnoses)
 
 

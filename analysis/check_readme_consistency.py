@@ -58,6 +58,8 @@ def required_figures():
          [README]),
         ("ablation multi-label accuracy", f"{full['multi_acc']:.2f}",
          [README]),
+        ("ablation exact match", f"{full['exact_acc']:.2f}%",
+         [README]),
     ]
     return checks
 
@@ -81,7 +83,49 @@ def scan_for_stale_metrics(text: str, filename: str) -> list:
     if "99.25% multi-label accuracy, 92.50% exact-match" in text and "guarantees" in text:
         failures.append(f"  {filename}: quotes obsolete pre-P0-5 ceiling claim")
 
+    # 4. Pre-Part-5 scope claims: the system no longer diagnoses insect pests
+    for pattern in STALE_SCOPE_PATTERNS:
+        if re.search(pattern, text, re.IGNORECASE):
+            failures.append(f"  {filename}: quotes pre-Part-5 scope claim matching /{pattern}/")
+
     return failures
+
+
+STALE_SCOPE_PATTERNS = [
+    r"Four Threat Classes Have No Field Case",
+    r"10 major biotic threats",
+    r"5 pests and 5 diseases",
+    r"Rice Pest (and|&) Disease Diagnosis",
+]
+
+FIELD_FAILURE_MD = os.path.join(BASE_DIR, "results", "field_failure_analysis.md")
+
+
+def negative_control_false_positives() -> tuple[int, int]:
+    """Read (false positives, negative controls) from the generated failure analysis."""
+    import re
+    with open(FIELD_FAILURE_MD, encoding="utf-8") as fh:
+        text = fh.read()
+    m = re.search(r"(\d+) of (\d+) negative controls produced a false positive", text)
+    if m:
+        return int(m.group(1)), int(m.group(2))
+    m = re.search(r"None of the (\d+) out-of-scope negative controls produced a false positive", text)
+    if m:
+        return 0, int(m.group(1))
+    raise ValueError("results/field_failure_analysis.md has no negative-control summary line")
+
+
+def check_false_positive_claim(readme_text: str) -> list[str]:
+    """README's 'False Positives on Negative Controls' row must match the failure analysis."""
+    import re
+    fp, n = negative_control_false_positives()
+    m = re.search(r"False Positives on Negative Controls\*\*\s*\|\s*\*\*(\d+) of (\d+)\*\*", readme_text)
+    if not m:
+        return ["  README.md: 'False Positives on Negative Controls' row not found"]
+    if (int(m.group(1)), int(m.group(2))) != (fp, n):
+        return [f"  README.md: quotes {m.group(1)} of {m.group(2)} negative-control false positives; "
+                f"results/field_failure_analysis.md reports {fp} of {n}"]
+    return []
 
 
 RESULTS_INDEX = os.path.join(BASE_DIR, "docs", "RESULTS_INDEX.md")
@@ -145,6 +189,12 @@ def main():
         stale_errs = scan_for_stale_metrics(text, rel)
         if stale_errs:
             failures.extend(stale_errs)
+
+    fp_errs = check_false_positive_claim(contents[README])
+    if fp_errs:
+        failures.extend(fp_errs)
+    else:
+        print("  OK  README.md: negative-control false positives match field failure analysis")
 
     # Check RESULTS_INDEX freshness
     index_errs = check_results_index()

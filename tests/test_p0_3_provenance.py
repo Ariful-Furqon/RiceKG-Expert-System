@@ -14,7 +14,7 @@ def test_verification_suite_provenance():
     assert os.path.exists(path), f"Verification suite not found at {path}"
 
     data = evaluate.load_data(path)
-    assert len(data) == 80, f"Expected 80 cases, got {len(data)}"
+    assert len(data) == 73, f"Expected 73 cases, got {len(data)}"
     for item in data:
         assert item["provenance"] == "rule_derived", f"Case {item['case_id']} must have provenance 'rule_derived'"
 

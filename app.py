@@ -117,13 +117,13 @@ for t in THREAT_CATALOG:
 # Benchmark Preset Field Scenarios for Rapid Reviewer Demonstration
 BENCHMARK_SCENARIOS = [
     {
-        "id": "scenario_stem_borer",
-        "title": "Rice Stem Borer",
-        "category": "Insect Pest (Tier 1/2)",
+        "id": "scenario_nematode",
+        "title": "Rice Root Nematode",
+        "category": "Endoparasitic Nematode (Tier 1/2)",
         "badge_class": "badge-pest",
-        "icon": "🐛",
-        "description": "Culm boring, internal larval frass, and characteristic empty whiteheads.",
-        "symptoms": ["Frass_In_Stem", "Bore_Holes_In_Stem", "Whitehead_Empty_Panicles"]
+        "icon": "🪱",
+        "description": "Characteristic hook-like terminal root swelling, root galls, and vegetative stunting.",
+        "symptoms": ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves"]
     },
     {
         "id": "scenario_blb",
@@ -144,13 +144,13 @@ BENCHMARK_SCENARIOS = [
         "symptoms": ["Yellowing_Leaf_Veins", "Uniform_Field_Infection", "Panicle_Neck_Rot", "Diamond_Shaped_Lesions"]
     },
     {
-        "id": "scenario_uncertainty",
-        "title": "Symptom Uncertainty (Sub-Threshold)",
-        "category": "Incomplete Scouting",
-        "badge_class": "badge-pest",
-        "icon": "🔍",
-        "description": "Foliar chlorosis without observing GLH vector (evaluates uncertainty threshold).",
-        "symptoms": ["Yellowing_Leaves", "Necrotic_Spots", "Plant_Yellowing", "Stunted_Growth"]
+        "id": "scenario_insect_damage",
+        "title": "Insect Damage (Out of Scope)",
+        "category": "Differential Diagnosis Gate",
+        "badge_class": "badge-neutral",
+        "icon": "🦗",
+        "description": "Defoliation and severed panicles; triggers explicit out-of-scope differential response.",
+        "symptoms": ["Severed_Panicles", "Leaf_Chewing_Damage"]
     },
     {
         "id": "scenario_negative",
@@ -158,7 +158,7 @@ BENCHMARK_SCENARIOS = [
         "category": "Physiological Chlorosis",
         "badge_class": "badge-disease",
         "icon": "🌱",
-        "description": "General nitrogen deficiency symptoms (no biotic SWRL rule should fire).",
+        "description": "General nitrogen deficiency symptoms (no biotic SWRL rule and no insect gate should fire).",
         "symptoms": ["Plant_Yellowing", "Yellowing_Leaf_Tips"]
     }
 ]
@@ -264,7 +264,7 @@ def api_diagnose():
     """
     REST API endpoint for RiceKG automated diagnosis.
     Accepts JSON: {"symptoms": ["Symptom_1", "Symptom_2", ...]}
-    Returns JSON with inferred biotic threats, XAI proof traces, and IPM prescriptions.
+    Returns JSON with inferred biotic threats, XAI proof traces, and reference management measures.
     """
     data = request.get_json(silent=True)
     if not data or "symptoms" not in data:

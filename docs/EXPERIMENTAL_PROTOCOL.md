@@ -14,25 +14,35 @@ and is intended to be stable across rule revisions; the companion file
 
 ## 1. Knowledge Base Construction
 
-### 1.1 Ontology scope and the ten threat classes
+### 1.1 Ontology scope and the six diagnosable classes
 
-The knowledge base models ten rice biotic stressors that are (a)
+The knowledge base diagnoses six rice disease classes that are (a)
 agronomically significant across South-East and South Asian production
 systems, (b) diagnosable from plant-level visual signs without laboratory
-access, and (c) documented with discriminating symptom descriptions in the
-primary phytopathological literature. The ten classes are divided into five
-fungal/bacterial/viral/nematode pathogens and five insect pests:
+access, (c) documented with discriminating symptom descriptions in the
+primary phytopathological literature, and (d) represented by at least one
+independent peer-reviewed field case (Section 2). The six are five
+pathogen-caused diseases and one plant-parasitic nematode:
 
-**Pathogen threats**: Bacterial\_Leaf\_Blight (*Xanthomonas oryzae* pv.
-*oryzae*), False\_Smut (*Ustilaginoidea virens*), Rice\_Blast
-(*Magnaporthe oryzae*), Rice\_Grassy\_Stunt (Rice grassy stunt virus),
-Rice\_Root\_Nematode (*Meloidogyne* spp. / *Hirschmanniella* spp.),
-Rice\_Tungro\_Virus (Rice tungro bacilliform virus + Rice tungro spherical
-virus).
+Bacterial\_Leaf\_Blight (*Xanthomonas oryzae* pv. *oryzae*), False\_Smut
+(*Ustilaginoidea virens*), Rice\_Blast (*Magnaporthe oryzae*),
+Rice\_Grassy\_Stunt (Rice grassy stunt virus), Rice\_Tungro\_Virus (Rice
+tungro bacilliform virus + Rice tungro spherical virus), and
+Rice\_Root\_Nematode (*Meloidogyne graminicola*, the species in every field
+case for this class).
 
-**Insect pest threats**: Brown\_Planthopper (*Nilaparvata lugens*),
-Grasshopper (*Oxya* spp.), Rice\_Bug (*Leptocorisa* spp.),
-Rice\_Stem\_Borer (*Scirpophaga* spp. / *Chilo* spp.).
+**Scope narrowing.** The knowledge base originally also diagnosed four insect
+pests (Brown\_Planthopper, Grasshopper, Rice\_Bug, Rice\_Stem\_Borer). They
+were removed from the diagnostic scope because the evidence pipeline of
+Section 2 cannot supply field cases for them (see `docs/ONTOLOGY.md`, Part 5).
+Their damage vocabulary is retained: when no in-scope rule fires and at least
+two distinct insect-specific signs (the organism, its eggs, or a feeding
+mechanism no pathogen reproduces) are observed, the system returns an explicit
+"insect damage, outside diagnostic scope" response rather than a silent
+`No_Diagnosis`. Non-specific signs shared with pathogens or abiotic stress,
+such as general yellowing or empty grains, never trigger that response. The
+planthopper and leafhopper remain in the vocabulary as vector sightings for
+the two viral diseases.
 
 Threats outside this set — *Rhizoctonia solani* (sheath blight),
 *Sarocladium oryzae* (sheath rot), nutrient deficiencies, abiotic stress
@@ -42,12 +52,12 @@ Threats outside this set — *Rhizoctonia solani* (sheath blight),
 
 The initial 45-term symptom vocabulary was derived from domain literature
 (Ou 1985; Hibino 1996; Bridge et al. 2005) and targeted the original ten
-threat classes. Following a structured audit of field-sourced case reports
+threat classes, including the four insect classes later removed from scope. Following a structured audit of field-sourced case reports
 (Section 2), nine additional terms were added in two rounds to close the
 most consequential coverage gaps. The extension is documented in full in
 `docs/ONTOLOGY.md` with per-term source citations. Six of the nine added
 terms are *expressivity-only* (not wired into any inference rule) because
-they denote symptoms of threats outside the ten modelled classes; wiring
+they denote symptoms of threats outside the modelled classes; wiring
 them would manufacture false positives. Three terms were added as rule
 antecedents: `Water_Soaked_Lesions`, `Excessive_Tillering`, and
 `Orange_Leaf_Discoloration`.
@@ -75,7 +85,9 @@ contribution is *epistemic* (distinguishing confirmed from suspected
 findings) rather than *probabilistic* (see Section 5 and
 `docs/LIMITATIONS.md` Section 5 for the calibration rejection).
 
-Ten Tier-1 and ten Tier-2 rules are registered in `model.RULE_REGISTRY`.
+Six Tier-1 and six Tier-2 rules, one of each per diagnosable class, are
+registered in `model.RULE_REGISTRY`. The eight rules of the removed insect
+classes were deleted without renumbering the survivors.
 `tests/test_p0_2_ablation.py` enforces these counts as a CI invariant, so
 a future rule addition or deletion will break the build rather than
 propagate silently.
@@ -135,10 +147,11 @@ journals. The following source types are explicitly excluded:
 - Sources where the diagnosis was stated but no symptom sentence was
   observed and can be pointed to
 
-The same restriction excludes all four insect pest classes from the field
-benchmark: insect pests are managed as persistent population densities and
-are not published as first-report disease notes. No claim about diagnostic
-performance on insect pests is supported by field evidence.
+The same restriction yields no field case for any insect pest: insect pests
+are managed as persistent population densities and are not published as
+first-report disease notes. This is why the four insect classes were removed
+from the diagnostic scope (Section 1.1) rather than evaluated on
+rule-derived cases alone.
 
 Rejected candidates are preserved with per-row stated reasons in
 `data/rejected_field_candidates.csv`. The gate is enforced by
@@ -204,7 +217,7 @@ are reported:
 
 - **Positive-case recall**: the fraction of ground-truth labels recovered
   across in-scope positive cases (those whose truth set is non-empty and
-  whose true class falls within the ten modelled threats). This is the
+  whose true class falls within the six diagnosable classes). This is the
   headline metric because it measures whether the system actually identifies
   the threat.
 - **Exact match**: the fraction of cases for which the predicted label set
@@ -328,11 +341,12 @@ The learning-curve experiment uses two training pools:
 
 ### 6.2 Training budgets
 
-Pool A budgets: 5, 10, 20, 40, 80 cases.
+Pool A budgets: 5, 10, 20, 40 cases, each kept only if smaller than the
+pool, followed by the full pool size as the terminal budget.
 Pool B budgets: 2, 4, 8, 16 cases.
 
-At the terminal Pool A budget of eighty, the only possible subsample is
-the full pool, so all draws are identical and the training-subsample
+At the terminal Pool A budget, the only possible subsample is the full
+pool, so all draws are identical and the training-subsample
 variance collapses to zero. This is noted in `results/learning_curve.md`
 and must not be presented as if it were a regular confidence interval.
 
@@ -378,9 +392,9 @@ cross-references are given here:
   figures should be read as an optimistic bound rather than an independent
   estimate. A fresh held-out partition, sourced after the rule base is
   frozen, is required for a genuinely independent estimate.
-- **Four insect pest classes have no positive field evidence** (Section 2):
-  no claim about diagnostic performance on insect pests is supported by
-  field data.
+- **Insect pests are outside the diagnostic scope** (Section 1.1): the
+  system makes no diagnostic claim about them. Its out-of-scope insect
+  response is exercised only on rule-derived controls, never on field cases.
 - **The verification suite is circular** (Section 4): it measures
   deductive consistency with the rule base, not diagnostic ability.
 - **Vocabulary coverage is partial** (Section 3): nine symptom descriptors

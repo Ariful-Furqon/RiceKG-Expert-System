@@ -446,6 +446,7 @@ def run_learning_curve_for_pool(
         "pool_name": pool_name,
         "pool_source_desc": pool_source_desc,
         "pool_size": len(X_pool),
+        "pool_n_positive": int(np.sum(np.asarray(Y_pool).sum(axis=1) > 0)),
         "test_set_size": len(X_test),
         "test_set_label": test_set_label,
         "budgets": budgets,
@@ -516,6 +517,18 @@ def generate_markdown_report(
     pool_b_res: Dict[str, Any]
 ) -> str:
     """Generates the comprehensive research report for results/learning_curve.md."""
+    b_a_max = max(pool_a_res["budgets"])
+    b_b_max = max(pool_b_res["budgets"])
+
+    # Index directly: a missing runtime reference must fail loudly, never fall back to a literal.
+    zs_refs = pool_a_res["zero_shot_references"]
+    rk_ref = zs_refs["RiceKG (Full Proposed)"]
+    rk_cv_ref = rk_ref["cv_positive_recall"]
+    rk_pt_ref = rk_ref["runtime_positive_recall"]
+    rk_ci_ref = rk_ref["positive_recall_ci_95"]
+    flat_cv_ref = zs_refs["Rule: Flat Single-Tier"]["cv_positive_recall"]
+    proto_cv_ref = zs_refs["Rule: Nearest Prototype"]["cv_positive_recall"]
+
     lines = [
         "# Cold-Start Learning-Curve Evaluation: Sample Efficiency vs. Knowledge Base",
         "",
@@ -531,18 +544,18 @@ def generate_markdown_report(
         "",
         "### Headline Finding",
         "",
-        "> **No supervised baseline exceeded the zero-shot knowledge base at any training budget available in this study under the test-set uncertainty criterion** (up to $N=80$ rule-derived cases in Pool A, and $N=16$ real field cases in Pool B).",
+        f"> **No supervised baseline exceeded the zero-shot knowledge base at any training budget available in this study under the test-set uncertainty criterion** (up to $N={b_a_max}$ rule-derived cases in Pool A, and $N={b_b_max}$ real field cases in Pool B).",
         ">",
-        "> While several supervised models achieve point means above the 35.00% reference at larger budgets, **every paired difference 95% bootstrap confidence interval spans zero**. With only 5 positive test cases ($\\Delta = 0.20$ quantisation step) and a minimum detectable effect size of $\\pm 29.5\\%$, supervised ML cannot be asserted as statistically superior to the zero-shot symbolic knowledge base on field data.",
+        "> While several supervised models achieve point means above the reference at larger budgets, **every paired difference 95% bootstrap confidence interval spans zero**. With only 5 positive test cases ($\\Delta = 0.20$ quantisation step) and a wide confidence interval, supervised ML cannot be asserted as statistically superior to the zero-shot symbolic knowledge base on field data.",
         "",
         "---",
         "",
-        "## 2. Quantitative Results: Pool A (Rule-Derived Cases, $N \\in [5, 80]$)",
+        f"## 2. Quantitative Results: Pool A (Rule-Derived Cases, $N \\in [{min(pool_a_res['budgets'])}, {b_a_max}]$)",
         "",
-        "Training cases drawn from `data/verification_suite.csv` ($n=80$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n=23$).",
+        f"Training cases drawn from `data/verification_suite.csv` ($n={pool_a_res['pool_size']}$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n={pool_a_res['test_set_size']}$).",
         "",
-        "| Model | N=5 | N=10 | N=20 | N=40 | N=80 | Crossover Budget $N^*$ | First Non-Zero $N$ |",
-        "|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
+        "| " + " | ".join(["Model"] + [f"N={b}" for b in pool_a_res["budgets"]] + ["Crossover Budget $N^*$", "First Non-Zero $N$"]) + " |",
+        "|:---|" + "|".join([":---:" for _ in pool_a_res["budgets"]]) + "|:---:|:---:|",
     ]
 
     for m_name in pool_a_res["crossover_analysis"].keys():
@@ -553,22 +566,22 @@ def generate_markdown_report(
             t_ci = m_stat["test_set_ci_95"]
             row.append(f"{mean_v:.1f}% [{t_ci[0]:.0f}, {t_ci[1]:.0f}]")
         cov_info = pool_a_res["crossover_analysis"][m_name]
-        row.append(str(cov_info["crossover_budget"]) if cov_info["crossover_budget"] else "None (≤ 80)")
+        row.append(str(cov_info["crossover_budget"]) if cov_info["crossover_budget"] else f"None (≤ {b_a_max})")
         row.append(str(cov_info["first_positive_recall_budget"]) if cov_info["first_positive_recall_budget"] else "Never")
         lines.append("| " + " | ".join(row) + " |")
 
     lines.extend([
         "",
-        "*Zero-shot references on same eval set*: **RiceKG Full Proposed** = **35.00%** (5x2 CV) / **40.0%** runtime point recall [95% CI 0.0, 80.0]; **Nearest Prototype** = **17.50%**; **Flat Single-Tier** = **35.00%**.",
+        f"*Zero-shot references on same eval set*: **RiceKG Full Proposed** = **{rk_cv_ref:.2f}%** (5x2 CV) / **{rk_pt_ref:.1f}%** runtime point recall [95% CI {rk_ci_ref[0]:.1f}, {rk_ci_ref[1]:.1f}]; **Nearest Prototype** = **{proto_cv_ref:.2f}%**; **Flat Single-Tier** = **{flat_cv_ref:.2f}%**.",
         "",
         "---",
         "",
-        "## 3. Quantitative Results: Pool B (Real Field Cases from `dev` split, $N \\in [2, 16]$)",
+        f"## 3. Quantitative Results: Pool B (Real Field Cases from `dev` split, $N \\in [{min(pool_b_res['budgets'])}, {b_b_max}]$)",
         "",
-        "Training cases drawn from the independent field `dev` split of `data/benchmark_field.csv` ($n=16$: 7 positives, 9 controls). Evaluated on the held-out field `eval` split ($n=23$).",
+        f"Training cases drawn from the independent field `dev` split of `data/benchmark_field.csv` ($n={pool_b_res['pool_size']}$: {pool_b_res['pool_n_positive']} positives, {pool_b_res['pool_size'] - pool_b_res['pool_n_positive']} controls). Evaluated on the held-out field `eval` split ($n={pool_b_res['test_set_size']}$).",
         "",
-        "| Model | N=2 | N=4 | N=8 | N=16 | Crossover Budget $N^*$ | First Non-Zero $N$ |",
-        "|:---|:---:|:---:|:---:|:---:|:---:|:---:|",
+        "| " + " | ".join(["Model"] + [f"N={b}" for b in pool_b_res["budgets"]] + ["Crossover Budget $N^*$", "First Non-Zero $N$"]) + " |",
+        "|:---|" + "|".join([":---:" for _ in pool_b_res["budgets"]]) + "|:---:|:---:|",
     ])
 
     for m_name in pool_b_res["crossover_analysis"].keys():
@@ -579,7 +592,7 @@ def generate_markdown_report(
             t_ci = m_stat["test_set_ci_95"]
             row.append(f"{mean_v:.1f}% [{t_ci[0]:.0f}, {t_ci[1]:.0f}]")
         cov_info = pool_b_res["crossover_analysis"][m_name]
-        row.append(str(cov_info["crossover_budget"]) if cov_info["crossover_budget"] else "None (≤ 16)")
+        row.append(str(cov_info["crossover_budget"]) if cov_info["crossover_budget"] else f"None (≤ {b_b_max})")
         row.append(str(cov_info["first_positive_recall_budget"]) if cov_info["first_positive_recall_budget"] else "Never")
         lines.append("| " + " | ".join(row) + " |")
 
@@ -654,7 +667,7 @@ def main():
     X_pool_a, Y_pool_a, cases_pool_a = ml_baselines.load_and_encode_dataset(VERIFICATION_CSV)
     X_pool_b, Y_pool_b, cases_pool_b = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="dev")
 
-    budgets_a = [5, 10, 20, 40, 80]
+    budgets_a = [b for b in [5, 10, 20, 40] if b < len(cases_pool_a)] + [len(cases_pool_a)]
     budgets_b = [2, 4, 8, 16]
 
     res_a, res_b = None, None

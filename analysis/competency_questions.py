@@ -38,8 +38,8 @@ SCENARIOS = {
     "canonical_blast": lambda: _antecedents("SWRL-R08"),
     # A partial (Tier-2 only) observation for false smut.
     "partial_smut": lambda: _antecedents("SWRL-R17"),
-    # Two threats observed at once: canonical false smut plus relaxed stem borer.
-    "co_infection": lambda: _antecedents("SWRL-R07") + _antecedents("SWRL-R13"),
+    # Two threats observed at once: canonical false smut plus relaxed rice blast.
+    "co_infection": lambda: _antecedents("SWRL-R07") + _antecedents("SWRL-R18"),
     # No observation at all.
     "empty": lambda: [],
 }
@@ -55,7 +55,7 @@ QUESTIONS = [
          sparql="SELECT (COUNT(DISTINCT ?t) AS ?n) WHERE { ?t a/rdfs:subClassOf* :Threat . }",
          expect="count_positive"),
     dict(id="CQ03", scenario=None, status="satisfied",
-         question="Which of the modelled threats are insect pests?",
+         question="Which of the modelled threats are pests (after the insect scope cut, the plant-parasitic nematode)?",
          sparql="SELECT ?p WHERE { ?p a :Pest . }",
          expect="rows_positive"),
     dict(id="CQ04", scenario=None, status="satisfied",

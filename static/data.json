@@ -1,33 +1,9 @@
 [
   {
     "id": "1",
-    "key": "Grasshopper",
-    "nama": "Grasshopper (Belalang)",
-    "nama_latin": "Oxya chinensis",
-    "kategori": "Insect Pest",
-    "organ_target": "Foliage, Leaf blade, Panicles",
-    "icon": "🦗",
-    "badge_class": "badge-pest",
-    "gejala_kunci": [
-      "Brown Nymphs",
-      "Yellow Nymphs",
-      "Eggs On Plant",
-      "Broad Leaf Damage",
-      "Severed Panicles",
-      "Leaf Chewing Damage"
-    ],
-    "deskripsi": "Grasshoppers are voracious chewing defoliators that feed on rice leaves and sever developing panicles, causing dramatic reduction in photosynthetic leaf area and unfilled grains.",
-    "pengendalian_ipm": [
-      "Biological control utilizing entomopathogenic fungus Metarhizium anisopliae.",
-      "Botanical neem-based repellent or bio-pesticide foliar spray.",
-      "Deployment of nocturnal light traps along field borders to catch adults."
-    ]
-  },
-  {
-    "id": "2",
     "key": "Rice_Root_Nematode",
     "nama": "Rice Root Nematode (Nematoda Akar)",
-    "nama_latin": "Hirschmanniella oryzae",
+    "nama_latin": "Meloidogyne graminicola",
     "kategori": "Endoparasitic Nematode",
     "organ_target": "Root System",
     "icon": "🪱",
@@ -45,80 +21,11 @@
       "Intermittent field drying and drainage to disrupt aquatic nematode movement.",
       "Crop rotation with non-host leguminous or cover crops.",
       "Application of bio-nematicides or targeted Fluopyram treatments."
-    ]
-  },
-  {
-    "id": "3",
-    "key": "Rice_Stem_Borer",
-    "nama": "Rice Stem Borer (Penggerek Batang)",
-    "nama_latin": "Scirpophaga incertulas",
-    "kategori": "Insect Pest (Lepidoptera)",
-    "organ_target": "Culm, Tillers, Panicles",
-    "icon": "🐛",
-    "badge_class": "badge-pest",
-    "gejala_kunci": [
-      "Frass In Stem",
-      "Bore Holes In Stem",
-      "Deadheart Seedling",
-      "Easily Pulled Tillers",
-      "Whitehead Empty Panicles"
     ],
-    "deskripsi": "Larvae bore into the central culm, severing vascular bundles. Causes 'Deadheart' (drying of central whorl) in vegetative stage and 'Whitehead' (empty, bleached panicles) during reproductive stage.",
-    "pengendalian_ipm": [
-      "Field release of Trichogramma japonicum egg parasitoids.",
-      "Installation of synthetic sex pheromone delta traps to disrupt mating.",
-      "Application of systemic chlorantraniliprole at peak egg hatching."
-    ]
+    "diagnostic_scope": "in_scope"
   },
   {
-    "id": "4",
-    "key": "Rice_Bug",
-    "nama": "Rice Bug (Walang Sangit)",
-    "nama_latin": "Leptocorisa oratorius",
-    "kategori": "Insect Pest (Hemiptera)",
-    "organ_target": "Milk-stage Grains, Panicles",
-    "icon": "🪲",
-    "badge_class": "badge-pest",
-    "gejala_kunci": [
-      "Leaf Margin Sap Sucking",
-      "Rotten Panicles",
-      "Random Feeding Pattern",
-      "Empty Grains",
-      "Nymphs Present",
-      "Adult Insects Present"
-    ],
-    "deskripsi": "Adults and nymphs insert piercing-sucking stylets into milky developing rice grains, extracting liquid endosperm and causing empty, chalky, or shriveled grains with pungent odor.",
-    "pengendalian_ipm": [
-      "Synchronous community planting within a 2-3 week window.",
-      "Frequent weeding of surrounding gramineous grasses harboring alternative hosts.",
-      "Application of entomopathogenic fungus Beauveria bassiana or odor bait traps."
-    ]
-  },
-  {
-    "id": "5",
-    "key": "Brown_Planthopper",
-    "nama": "Brown Planthopper (Wereng Batang Cokelat)",
-    "nama_latin": "Nilaparvata lugens",
-    "kategori": "Insect Pest & Viral Vector",
-    "organ_target": "Stem base, Phloem sap",
-    "icon": "🦟",
-    "badge_class": "badge-pest",
-    "gejala_kunci": [
-      "Hopperburn Drying",
-      "Circular Hopperburn Patches",
-      "Blackened Feeding Punctures",
-      "Plant Yellowing",
-      "Brown Planthopper Present"
-    ],
-    "deskripsi": "Phloem-feeding sap suckers congregating at plant bases. Causes 'Hopperburn' (extensive circular patches of wilting and drying) and acts as the vector for Rice Grassy Stunt Virus (RGSV).",
-    "pengendalian_ipm": [
-      "Conservation of natural predatory mirid bugs (Cyrtorhinus lividipennis) and spiders.",
-      "Avoidance of excessive nitrogenous fertilizer application.",
-      "Cultivation of resistant rice varieties carrying Bph gene complexes."
-    ]
-  },
-  {
-    "id": "6",
+    "id": "2",
     "key": "Bacterial_Leaf_Blight",
     "nama": "Bacterial Leaf Blight (Hawar Daun Bakteri)",
     "nama_latin": "Xanthomonas oryzae pv. oryzae",
@@ -138,10 +45,11 @@
       "Balanced NPK fertilization; avoiding excess urea during high humidity.",
       "Application of copper-based bactericides or validamycin during early lesion emergence.",
       "Adoption of certified blight-resistant cultivars (e.g. Inpari 32)."
-    ]
+    ],
+    "diagnostic_scope": "in_scope"
   },
   {
-    "id": "7",
+    "id": "3",
     "key": "False_Smut",
     "nama": "False Smut (Penyakit Gosong Palsu)",
     "nama_latin": "Ustilaginoidea virens",
@@ -161,10 +69,11 @@
       "Preventive foliar spraying of copper oxychloride or azoxystrobin at late booting stage.",
       "Utilization of certified pathogen-free seeds treated with seed dressers.",
       "Controlled field irrigation to reduce continuous canopy humidity during heading."
-    ]
+    ],
+    "diagnostic_scope": "in_scope"
   },
   {
-    "id": "8",
+    "id": "4",
     "key": "Rice_Blast",
     "nama": "Rice Blast (Penyakit Blas)",
     "nama_latin": "Magnaporthe oryzae",
@@ -183,10 +92,11 @@
       "Targeted application of tricyclazole, isoprothiolane, or trifloxystrobin at heading.",
       "Application of soluble silica fertilizer to reinforce epidermal cell walls.",
       "Utilization of multi-line resistant varieties and seed disinfection."
-    ]
+    ],
+    "diagnostic_scope": "in_scope"
   },
   {
-    "id": "9",
+    "id": "5",
     "key": "Rice_Grassy_Stunt",
     "nama": "Rice Grassy Stunt (Kerdil Rumput)",
     "nama_latin": "Rice Grassy Stunt Virus (RGSV)",
@@ -206,10 +116,11 @@
       "Strict population suppression of brown planthopper (BPH) vectors.",
       "Immediate rouging and burying of infected plants exhibiting grassy clumps.",
       "Synchronous planting and adherence to a 1-month crop-free fallow period."
-    ]
+    ],
+    "diagnostic_scope": "in_scope"
   },
   {
-    "id": "10",
+    "id": "6",
     "key": "Rice_Tungro_Virus",
     "nama": "Rice Tungro Virus (Penyakit Tungro)",
     "nama_latin": "Rice Tungro Virus (RTV: RTSV + RTBV)",
@@ -229,6 +140,105 @@
       "Targeted management of green leafhopper (GLH) vectors using systemic insecticides or neem oil.",
       "Cultivation of tungro-resistant rice cultivars (e.g. Inpari 36, Inpari 37 Lanrang).",
       "Synchronous community planting and adjusting the planting calendar to avoid peak vector flights."
-    ]
+    ],
+    "diagnostic_scope": "in_scope"
+  },
+  {
+    "id": "7",
+    "key": "Grasshopper",
+    "nama": "Grasshopper (Belalang)",
+    "nama_latin": "Oxya chinensis",
+    "kategori": "Insect Pest (Outside Diagnostic Scope)",
+    "organ_target": "Foliage, Leaf blade, Panicles",
+    "icon": "🦗",
+    "badge_class": "badge-neutral",
+    "gejala_kunci": [
+      "Brown Nymphs",
+      "Yellow Nymphs",
+      "Eggs On Plant",
+      "Broad Leaf Damage",
+      "Severed Panicles",
+      "Leaf Chewing Damage"
+    ],
+    "deskripsi": "Grasshoppers are voracious chewing defoliators that feed on rice leaves and sever developing panicles, causing dramatic reduction in photosynthetic leaf area and unfilled grains. [Note: This insect pest is outside the automated diagnostic scope of RiceKG; symptoms are handled as out-of-scope controls.]",
+    "pengendalian_ipm": [
+      "Biological control utilizing entomopathogenic fungus Metarhizium anisopliae.",
+      "Botanical neem-based repellent or bio-pesticide foliar spray.",
+      "Deployment of nocturnal light traps along field borders to catch adults."
+    ],
+    "diagnostic_scope": "outside_scope"
+  },
+  {
+    "id": "8",
+    "key": "Rice_Stem_Borer",
+    "nama": "Rice Stem Borer (Penggerek Batang)",
+    "nama_latin": "Scirpophaga incertulas",
+    "kategori": "Insect Pest (Outside Diagnostic Scope)",
+    "organ_target": "Culm, Tillers, Panicles",
+    "icon": "🐛",
+    "badge_class": "badge-neutral",
+    "gejala_kunci": [
+      "Frass In Stem",
+      "Bore Holes In Stem",
+      "Deadheart Seedling",
+      "Easily Pulled Tillers",
+      "Whitehead Empty Panicles"
+    ],
+    "deskripsi": "Larvae bore into the central culm, severing vascular bundles. Causes 'Deadheart' (drying of central whorl) in vegetative stage and 'Whitehead' (empty, bleached panicles) during reproductive stage. [Note: This insect pest is outside the automated diagnostic scope of RiceKG; symptoms are handled as out-of-scope controls.]",
+    "pengendalian_ipm": [
+      "Field release of Trichogramma japonicum egg parasitoids.",
+      "Installation of synthetic sex pheromone delta traps to disrupt mating.",
+      "Application of systemic chlorantraniliprole at peak egg hatching."
+    ],
+    "diagnostic_scope": "outside_scope"
+  },
+  {
+    "id": "9",
+    "key": "Rice_Bug",
+    "nama": "Rice Bug (Walang Sangit)",
+    "nama_latin": "Leptocorisa oratorius",
+    "kategori": "Insect Pest (Outside Diagnostic Scope)",
+    "organ_target": "Milk-stage Grains, Panicles",
+    "icon": "🪲",
+    "badge_class": "badge-neutral",
+    "gejala_kunci": [
+      "Leaf Margin Sap Sucking",
+      "Rotten Panicles",
+      "Random Feeding Pattern",
+      "Empty Grains",
+      "Nymphs Present",
+      "Adult Insects Present"
+    ],
+    "deskripsi": "Adults and nymphs insert piercing-sucking stylets into milky developing rice grains, extracting liquid endosperm and causing empty, chalky, or shriveled grains with pungent odor. [Note: This insect pest is outside the automated diagnostic scope of RiceKG; symptoms are handled as out-of-scope controls.]",
+    "pengendalian_ipm": [
+      "Synchronous community planting within a 2-3 week window.",
+      "Frequent weeding of surrounding gramineous grasses harboring alternative hosts.",
+      "Application of entomopathogenic fungus Beauveria bassiana or odor bait traps."
+    ],
+    "diagnostic_scope": "outside_scope"
+  },
+  {
+    "id": "10",
+    "key": "Brown_Planthopper",
+    "nama": "Brown Planthopper (Wereng Batang Cokelat)",
+    "nama_latin": "Nilaparvata lugens",
+    "kategori": "Insect Pest (Outside Diagnostic Scope)",
+    "organ_target": "Stem base, Phloem sap",
+    "icon": "🦟",
+    "badge_class": "badge-neutral",
+    "gejala_kunci": [
+      "Hopperburn Drying",
+      "Circular Hopperburn Patches",
+      "Blackened Feeding Punctures",
+      "Plant Yellowing",
+      "Brown Planthopper Present"
+    ],
+    "deskripsi": "Phloem-feeding sap suckers congregating at plant bases. Causes 'Hopperburn' (extensive circular patches of wilting and drying) and acts as the vector for Rice Grassy Stunt Virus (RGSV). [Note: This insect pest is outside the automated diagnostic scope of RiceKG; symptoms are handled as out-of-scope controls.]",
+    "pengendalian_ipm": [
+      "Conservation of natural predatory mirid bugs (Cyrtorhinus lividipennis) and spiders.",
+      "Avoidance of excessive nitrogenous fertilizer application.",
+      "Cultivation of resistant rice varieties carrying Bph gene complexes."
+    ],
+    "diagnostic_scope": "outside_scope"
   }
 ]

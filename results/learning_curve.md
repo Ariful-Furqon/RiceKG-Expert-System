@@ -1,6 +1,6 @@
 # Cold-Start Learning-Curve Evaluation: Sample Efficiency vs. Knowledge Base
 
-> **Generated**: 2026-09-14 06:32:52 UTC  
+> **Generated**: 2026-09-14 07:44:38 UTC  
 > **Target Venue**: *Inteligencia Artificial* (IBERAMIA)  
 > **Evaluation Protocol**: Fixed held-out test set (`data/benchmark_field.csv`, `eval` split, $n=23$: 5 positives, 18 negative controls). $R=200$ stratified resamples without replacement per budget; reported with dual uncertainty decomposition (training-subsample variance across draws and test-set sampling variance via non-parametric paired bootstrap over the test cases, $B=1,000$).
 
@@ -12,23 +12,23 @@ This experiment quantifies the sample efficiency of RiceKG's zero-shot symbolic 
 
 ### Headline Finding
 
-> **No supervised baseline exceeded the zero-shot knowledge base at any training budget available in this study under the test-set uncertainty criterion** (up to $N=80$ rule-derived cases in Pool A, and $N=16$ real field cases in Pool B).
+> **No supervised baseline exceeded the zero-shot knowledge base at any training budget available in this study under the test-set uncertainty criterion** (up to $N=73$ rule-derived cases in Pool A, and $N=16$ real field cases in Pool B).
 >
-> While several supervised models achieve point means above the 35.00% reference at larger budgets, **every paired difference 95% bootstrap confidence interval spans zero**. With only 5 positive test cases ($\Delta = 0.20$ quantisation step) and a minimum detectable effect size of $\pm 29.5\%$, supervised ML cannot be asserted as statistically superior to the zero-shot symbolic knowledge base on field data.
+> While several supervised models achieve point means above the reference at larger budgets, **every paired difference 95% bootstrap confidence interval spans zero**. With only 5 positive test cases ($\Delta = 0.20$ quantisation step) and a wide confidence interval, supervised ML cannot be asserted as statistically superior to the zero-shot symbolic knowledge base on field data.
 
 ---
 
-## 2. Quantitative Results: Pool A (Rule-Derived Cases, $N \in [5, 80]$)
+## 2. Quantitative Results: Pool A (Rule-Derived Cases, $N \in [5, 73]$)
 
-Training cases drawn from `data/verification_suite.csv` ($n=80$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n=23$).
+Training cases drawn from `data/verification_suite.csv` ($n=73$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n=23$).
 
-| Model | N=5 | N=10 | N=20 | N=40 | N=80 | Crossover Budget $N^*$ | First Non-Zero $N$ |
+| Model | N=5 | N=10 | N=20 | N=40 | N=73 | Crossover Budget $N^*$ | First Non-Zero $N$ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Decision Tree** | 13.0% [7, 18] | 24.3% [16, 33] | 31.1% [14, 50] | 37.5% [15, 66] | 40.2% [10, 70] | None (≤ 80) | 5 |
-| **Random Forest** | 6.9% [3, 11] | 15.2% [3, 28] | 22.8% [4, 45] | 39.7% [11, 72] | 47.7% [13, 82] | None (≤ 80) | 5 |
-| **Multinomial Naive Bayes** | 14.2% [7, 21] | 24.5% [10, 38] | 36.6% [15, 60] | 43.8% [16, 74] | 20.0% [0, 60] | None (≤ 80) | 5 |
-| **k-NN** | 4.5% [4, 6] | 17.5% [7, 27] | 32.0% [8, 59] | 52.6% [22, 85] | 60.0% [20, 100] | None (≤ 80) | 5 |
-| **Logistic Regression (OvR)** | 6.2% [2, 10] | 16.0% [4, 29] | 24.8% [5, 50] | 38.9% [9, 74] | 60.0% [20, 100] | None (≤ 80) | 5 |
+| **Decision Tree** | 12.5% [8, 18] | 28.6% [13, 43] | 35.2% [16, 58] | 41.7% [16, 72] | 40.9% [10, 71] | None (≤ 73) | 5 |
+| **Random Forest** | 6.8% [2, 12] | 19.2% [3, 35] | 27.4% [5, 51] | 40.8% [11, 76] | 45.3% [10, 80] | None (≤ 73) | 5 |
+| **Multinomial Naive Bayes** | 16.2% [9, 23] | 29.7% [11, 48] | 41.4% [18, 65] | 42.9% [16, 76] | 20.0% [0, 60] | None (≤ 73) | 5 |
+| **k-NN** | 4.6% [2, 8] | 21.9% [6, 38] | 40.1% [12, 69] | 49.3% [19, 84] | 60.0% [20, 100] | None (≤ 73) | 5 |
+| **Logistic Regression (OvR)** | 8.0% [4, 12] | 22.1% [6, 38] | 28.5% [4, 56] | 36.8% [1, 73] | 40.0% [0, 80] | None (≤ 73) | 5 |
 
 *Zero-shot references on same eval set*: **RiceKG Full Proposed** = **35.00%** (5x2 CV) / **40.0%** runtime point recall [95% CI 0.0, 80.0]; **Nearest Prototype** = **17.50%**; **Flat Single-Tier** = **35.00%**.
 
@@ -44,7 +44,7 @@ Training cases drawn from the independent field `dev` split of `data/benchmark_f
 | **Random Forest** | 9.7% [0, 20] | 34.3% [0, 74] | 31.2% [0, 71] | 40.0% [0, 80] | None (≤ 16) | 2 |
 | **Multinomial Naive Bayes** | 9.9% [0, 20] | 25.4% [0, 60] | 8.5% [0, 19] | 20.0% [0, 60] | None (≤ 16) | 2 |
 | **k-NN** | 0.4% [0, 1] | 0.0% [0, 0] | 9.3% [0, 19] | 40.0% [0, 80] | None (≤ 16) | 2 |
-| **Logistic Regression (OvR)** | 8.5% [0, 18] | 0.0% [0, 0] | 6.4% [0, 16] | 0.0% [0, 0] | None (≤ 16) | 2 |
+| **Logistic Regression (OvR)** | 8.8% [0, 19] | 35.6% [0, 76] | 19.0% [0, 47] | 20.0% [0, 60] | None (≤ 16) | 2 |
 
 ---
 

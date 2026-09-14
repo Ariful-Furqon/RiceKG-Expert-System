@@ -12,30 +12,10 @@ def get_rule_antecedents(rule_id: str) -> list:
 class TestCanonicalDiagnoses:
     """Tests that canonical (Tier 1) full-symptom profiles produce correct diagnoses."""
 
-    def test_grasshopper(self):
-        symptoms = get_rule_antecedents("SWRL-R01")
-        result = model.predict_diseases_flat(symptoms)
-        assert "Grasshopper" in result
-
     def test_rice_root_nematode(self):
         symptoms = get_rule_antecedents("SWRL-R02")
         result = model.predict_diseases_flat(symptoms)
         assert "Rice_Root_Nematode" in result
-
-    def test_rice_stem_borer(self):
-        symptoms = get_rule_antecedents("SWRL-R03")
-        result = model.predict_diseases_flat(symptoms)
-        assert "Rice_Stem_Borer" in result
-
-    def test_rice_bug(self):
-        symptoms = get_rule_antecedents("SWRL-R04")
-        result = model.predict_diseases_flat(symptoms)
-        assert "Rice_Bug" in result
-
-    def test_brown_planthopper(self):
-        symptoms = get_rule_antecedents("SWRL-R05")
-        result = model.predict_diseases_flat(symptoms)
-        assert "Brown_Planthopper" in result
 
     def test_bacterial_leaf_blight(self):
         symptoms = get_rule_antecedents("SWRL-R06")
@@ -66,25 +46,30 @@ class TestCanonicalDiagnoses:
 class TestRelaxedRules:
     """Tests that Tier 2 relaxed (partial-symptom) rules also fire correctly."""
 
-    def test_grasshopper_relaxed(self):
-        symptoms = get_rule_antecedents("SWRL-R11")
+    def test_rice_root_nematode_relaxed(self):
+        symptoms = get_rule_antecedents("SWRL-R12")
         result = model.predict_diseases_flat(symptoms)
-        assert "Grasshopper" in result
-
-    def test_stem_borer_relaxed(self):
-        symptoms = get_rule_antecedents("SWRL-R13")
-        result = model.predict_diseases_flat(symptoms)
-        assert "Rice_Stem_Borer" in result
+        assert "Rice_Root_Nematode" in result
 
     def test_bacterial_leaf_blight_relaxed(self):
         symptoms = get_rule_antecedents("SWRL-R16")
         result = model.predict_diseases_flat(symptoms)
         assert "Bacterial_Leaf_Blight" in result
 
+    def test_false_smut_relaxed(self):
+        symptoms = get_rule_antecedents("SWRL-R17")
+        result = model.predict_diseases_flat(symptoms)
+        assert "False_Smut" in result
+
     def test_rice_blast_relaxed(self):
         symptoms = get_rule_antecedents("SWRL-R18")
         result = model.predict_diseases_flat(symptoms)
         assert "Rice_Blast" in result
+
+    def test_rice_grassy_stunt_relaxed(self):
+        symptoms = get_rule_antecedents("SWRL-R19")
+        result = model.predict_diseases_flat(symptoms)
+        assert "Rice_Grassy_Stunt" in result
 
     def test_tungro_virus_relaxed(self):
         symptoms = get_rule_antecedents("SWRL-R20")
@@ -104,5 +89,5 @@ class TestEdgeCases:
         assert isinstance(result, list)
 
     def test_whitespace_symptom_ignored(self):
-        result = model.predict_diseases_flat(["", "  ", "Frass_In_Stem", "Bore_Holes_In_Stem"])
-        assert "Rice_Stem_Borer" in result
+        result = model.predict_diseases_flat(["", "  ", "Rusty_Grain_Balls", "Blackened_Grain_Balls"])
+        assert "False_Smut" in result

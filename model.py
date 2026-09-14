@@ -88,6 +88,48 @@ ALL_SYMPTOMS = [
     "Orange_Leaf_Discoloration"  # tungro hallmark, yellow-orange from the leaf tip
 ]
 
+# 21 phenotypic symptoms associated specifically with insect damage.
+# Retained in the ontology vocabulary (subclassed under OutOfScopeSign / InsectDamageSign)
+# so the system provides an explicit differential out-of-scope response rather than a
+# silent No_Diagnosis.
+INSECT_DAMAGE_SIGNS = [
+    "Adult_Insects_Present", "Blackened_Feeding_Punctures", "Bore_Holes_In_Stem",
+    "Broad_Leaf_Damage", "Brown_Nymphs", "Circular_Hopperburn_Patches", "Deadheart_Seedling",
+    "Easily_Pulled_Tillers", "Eggs_On_Plant", "Empty_Grains", "Frass_In_Stem", "Hopperburn_Drying",
+    "Leaf_Chewing_Damage", "Leaf_Margin_Sap_Sucking", "Localized_Leaf_Yellowing", "Nymphs_Present",
+    "Plant_Yellowing", "Random_Feeding_Pattern", "Rotten_Panicles", "Severed_Panicles", "Yellow_Nymphs"
+]
+
+# The subset of INSECT_DAMAGE_SIGNS that only an insect produces: the organism itself, its
+# eggs, or a feeding mechanism no pathogen reproduces. The remaining seven terms
+# (Plant_Yellowing, Localized_Leaf_Yellowing, Empty_Grains, Rotten_Panicles,
+# Deadheart_Seedling, Easily_Pulled_Tillers, Random_Feeding_Pattern) are also produced by
+# in-scope and out-of-scope pathogens, nutrient deficiency or abiotic stress, so they never
+# count as evidence of insect damage on their own.
+INSECT_SPECIFIC_SIGNS = [
+    "Adult_Insects_Present", "Nymphs_Present", "Brown_Nymphs", "Yellow_Nymphs", "Eggs_On_Plant",
+    "Frass_In_Stem", "Bore_Holes_In_Stem", "Hopperburn_Drying", "Circular_Hopperburn_Patches",
+    "Blackened_Feeding_Punctures", "Leaf_Margin_Sap_Sucking", "Leaf_Chewing_Damage",
+    "Broad_Leaf_Damage", "Severed_Panicles",
+]
+
+# Distinct insect-specific signs required before the out-of-scope response is returned.
+# Two matches the evidentiary minimum of the removed Tier-2 insect rules (SWRL-R11, R13, R15
+# each required two), so a single isolated sign stays a No_Diagnosis negative control.
+INSECT_GATE_MIN_SIGNS = 2
+
+INSECT_OUT_OF_SCOPE_RESPONSE = (
+    "consistent with insect damage, which is outside the diagnostic scope of this system"
+)
+INSECT_OUT_OF_SCOPE_TARGET = "insect damage, out of scope"
+
+
+def insect_damage_evidence(symptoms):
+    """Return the sorted insect-specific signs in `symptoms` if they meet the gate, else []."""
+    matched = sorted(set(symptoms) & set(INSECT_SPECIFIC_SIGNS))
+    return matched if len(matched) >= INSECT_GATE_MIN_SIGNS else []
+
+
 # Minimum Tier-2 antecedent coverage at which a non-firing rule is surfaced as a
 # `possible` diagnosis. Strict Horn-clause matching returns nothing when a single
 # antecedent is unobserved, which discards strong partial evidence; P0-1 specified an
@@ -95,9 +137,10 @@ ALL_SYMPTOMS = [
 # Calibrated on the field benchmark `dev` split only — see docs/ONTOLOGY.md.
 POSSIBLE_COVERAGE_THRESHOLD = 0.5
 
+# Diagnosable scope narrowed to 6 evidence-backed classes with independent field cases.
+# Rice_Root_Nematode is retained as an in-scope parasitic nematode pest.
 PESTS = [
-    "Grasshopper", "Rice_Root_Nematode", "Rice_Stem_Borer",
-    "Rice_Bug", "Brown_Planthopper"
+    "Rice_Root_Nematode"
 ]
 
 DISEASES = [
@@ -105,21 +148,12 @@ DISEASES = [
     "Rice_Grassy_Stunt", "Rice_Tungro_Virus"
 ]
 
+ALL_DIAGNOSES = PESTS + DISEASES
+
 RULE_REGISTRY = [
     # ---------------------------------------------------------------------
     # Tier 1: Canonical Pathognomonic Rules (High Specificity, 100% Precision)
     # ---------------------------------------------------------------------
-    {
-        "id": "SWRL-R01",
-        "threat": "Grasshopper",
-        "threat_type": "Pest",
-        "tier": "tier1",
-        "name": "Canonical Grasshopper Diagnosis",
-        "antecedents": ["Brown_Nymphs", "Yellow_Nymphs", "Eggs_On_Plant", "Broad_Leaf_Damage", "Severed_Panicles", "Leaf_Chewing_Damage"],
-        "consequent_property": "hasConfirmedPest",
-        "flat_consequent_property": "hasPest",
-        "rationale": "Comprehensive detection of nymph stages, egg deposition, and foliar defoliation."
-    },
     {
         "id": "SWRL-R02",
         "threat": "Rice_Root_Nematode",
@@ -130,39 +164,6 @@ RULE_REGISTRY = [
         "consequent_property": "hasConfirmedPest",
         "flat_consequent_property": "hasPest",
         "rationale": "Full root galling morphology, cortical necrosis, and secondary vegetative stunting."
-    },
-    {
-        "id": "SWRL-R03",
-        "threat": "Rice_Stem_Borer",
-        "threat_type": "Pest",
-        "tier": "tier1",
-        "name": "Canonical Rice Stem Borer Diagnosis",
-        "antecedents": ["Frass_In_Stem", "Bore_Holes_In_Stem", "Deadheart_Seedling", "Easily_Pulled_Tillers", "Whitehead_Empty_Panicles"],
-        "consequent_property": "hasConfirmedPest",
-        "flat_consequent_property": "hasPest",
-        "rationale": "Vegetative deadhearts and generative whiteheads accompanied by larval culm boring and frass."
-    },
-    {
-        "id": "SWRL-R04",
-        "threat": "Rice_Bug",
-        "threat_type": "Pest",
-        "tier": "tier1",
-        "name": "Canonical Rice Bug Diagnosis",
-        "antecedents": ["Nymphs_Present", "Adult_Insects_Present", "Leaf_Margin_Sap_Sucking", "Rotten_Panicles", "Random_Feeding_Pattern", "Localized_Leaf_Yellowing", "Empty_Grains"],
-        "consequent_property": "hasConfirmedPest",
-        "flat_consequent_property": "hasPest",
-        "rationale": "Simultaneous observation of feeding puncture marks, empty chalky grains, and active insect stages."
-    },
-    {
-        "id": "SWRL-R05",
-        "threat": "Brown_Planthopper",
-        "threat_type": "Pest",
-        "tier": "tier1",
-        "name": "Canonical Brown Planthopper Diagnosis",
-        "antecedents": ["Nymphs_Present", "Adult_Insects_Present", "Plant_Yellowing", "Hopperburn_Drying", "Circular_Hopperburn_Patches", "Blackened_Feeding_Punctures", "Empty_Grains"],
-        "consequent_property": "hasConfirmedPest",
-        "flat_consequent_property": "hasPest",
-        "rationale": "Classic circular hopperburn dying patches and dense colonies on basal tillers."
     },
     {
         "id": "SWRL-R06",
@@ -224,17 +225,6 @@ RULE_REGISTRY = [
     # Tier 2: Relaxed Composite Rules (High Sensitivity, Partial Scouting)
     # ---------------------------------------------------------------------
     {
-        "id": "SWRL-R11",
-        "threat": "Grasshopper",
-        "threat_type": "Pest",
-        "tier": "tier2",
-        "name": "Relaxed Grasshopper Diagnosis",
-        "antecedents": ["Severed_Panicles", "Leaf_Chewing_Damage"],
-        "consequent_property": "hasSuspectedPest",
-        "flat_consequent_property": "hasPest",
-        "rationale": "Sufficient mechanical chewing damage and severed panicle heads observed under partial field scouting."
-    },
-    {
         "id": "SWRL-R12",
         "threat": "Rice_Root_Nematode",
         "threat_type": "Pest",
@@ -245,39 +235,6 @@ RULE_REGISTRY = [
         "flat_consequent_property": "hasPest",
         "rationale": "Root galling with hooked tips accompanied by above-ground stunting and chlorosis. The previous antecedent set required two distinct gall morphologies (hook-like and knot) to be recorded simultaneously, which conflates Hirschmanniella and Meloidogyne damage and is rarely reported together.",
         "literature": "Bridge, Plowright & Peng (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI; IRRI Rice Doctor, root-knot nematode fact sheet."
-    },
-    {
-        "id": "SWRL-R13",
-        "threat": "Rice_Stem_Borer",
-        "threat_type": "Pest",
-        "tier": "tier2",
-        "name": "Relaxed Stem Borer Diagnosis",
-        "antecedents": ["Frass_In_Stem", "Bore_Holes_In_Stem"],
-        "consequent_property": "hasSuspectedPest",
-        "flat_consequent_property": "hasPest",
-        "rationale": "Direct morphological evidence of stem bore entrance holes and internal larval frass."
-    },
-    {
-        "id": "SWRL-R14",
-        "threat": "Rice_Bug",
-        "threat_type": "Pest",
-        "tier": "tier2",
-        "name": "Relaxed Rice Bug Diagnosis",
-        "antecedents": ["Nymphs_Present", "Adult_Insects_Present", "Empty_Grains"],
-        "consequent_property": "hasSuspectedPest",
-        "flat_consequent_property": "hasPest",
-        "rationale": "High population density of Leptocorisa oratorius active during grain filling stage causing empty grains."
-    },
-    {
-        "id": "SWRL-R15",
-        "threat": "Brown_Planthopper",
-        "threat_type": "Pest",
-        "tier": "tier2",
-        "name": "Relaxed Brown Planthopper Diagnosis",
-        "antecedents": ["Hopperburn_Drying", "Circular_Hopperburn_Patches"],
-        "consequent_property": "hasSuspectedPest",
-        "flat_consequent_property": "hasPest",
-        "rationale": "Rapid circular desiccation patches in field caused by intensive sap extraction."
     },
     {
         "id": "SWRL-R16",
@@ -403,6 +360,12 @@ def build_ontology(enabled_tiers=None, flat_consequents=False, world=None):
         class ControlTreatment(Thing):
             namespace = onto
 
+        class OutOfScopeSign(Symptom):
+            namespace = onto
+
+        class InsectDamageSign(OutOfScopeSign):
+            namespace = onto
+
         # Object Properties hierarchy
         class hasSymptom(Rice >> Symptom):
             domain = [Rice]
@@ -444,9 +407,13 @@ def build_ontology(enabled_tiers=None, flat_consequents=False, world=None):
             domain = [Rice]
             range = [Disease]
 
-        # Instantiate all known symptom individuals
+        # Instantiate all known symptom individuals.
+        # The 21 insect-only terms are typed as InsectDamageSign (subclass of Symptom).
         for s_name in ALL_SYMPTOMS:
-            Symptom(s_name, namespace=onto)
+            if s_name in INSECT_DAMAGE_SIGNS:
+                InsectDamageSign(s_name, namespace=onto)
+            else:
+                Symptom(s_name, namespace=onto)
 
         # Instantiate all threat individuals
         for p_name in PESTS:
@@ -594,8 +561,23 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
                     "missing_symptoms": [s for s in t2_ants if s not in input_symptom_set]
                 })
 
+        # If no in-scope threats diagnosed, check if observed symptoms indicate out-of-scope insect damage
+        if not results:
+            insect_matched = insect_damage_evidence(input_symptom_set)
+            if insect_matched:
+                results.append({
+                    "threat": INSECT_OUT_OF_SCOPE_TARGET,
+                    "grade": "out_of_scope",
+                    "confidence": 0.0,
+                    "antecedent_coverage": 0.0,
+                    "fired_rules": [],
+                    "matched_symptoms": insect_matched,
+                    "missing_symptoms": [],
+                    "message": INSECT_OUT_OF_SCOPE_RESPONSE
+                })
+
         # Rank: confirmed first, then antecedent coverage desc, then name
-        grade_rank = {"confirmed": 3, "unstratified": 2, "suspected": 2, "possible": 1}
+        grade_rank = {"confirmed": 3, "unstratified": 2, "suspected": 2, "possible": 1, "out_of_scope": 0}
         results.sort(key=lambda x: (grade_rank.get(x["grade"], 0), x["antecedent_coverage"], x["threat"]), reverse=True)
 
         if flat:
@@ -809,6 +791,19 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
         meta = SWRL_RULES_METADATA.get(threat_key)
 
         if not meta:
+            if threat_key == INSECT_OUT_OF_SCOPE_TARGET or (diag_dict and diag_dict.get("grade") == "out_of_scope"):
+                explanations[threat_key] = {
+                    "rule_id": "OUT-OF-SCOPE-INSECT",
+                    "name": "Insect Damage (Outside Diagnostic Scope)",
+                    "tier": "Scope Boundary Assessment",
+                    "tier_badge": "tier-relaxed",
+                    "formula": f"≥{INSECT_GATE_MIN_SIGNS} distinct insect-specific signs ∧ no in-scope rule fires → OutOfScope(?Rice)",
+                    "rationale": INSECT_OUT_OF_SCOPE_RESPONSE,
+                    "antecedents_status": [{"symptom": s, "symptom_name": s.replace("_", " "), "observed": True} for s in insect_damage_evidence(selected_symptoms)],
+                    "proof_tree": proof_tree
+                }
+                continue
+
             explanations[threat_key] = {
                 "rule_id": "SWRL-GENERIC",
                 "name": f"Deductive Rule for {threat_key.replace('_', ' ')}",

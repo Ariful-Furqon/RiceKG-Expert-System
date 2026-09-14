@@ -53,5 +53,23 @@ def test_guard_catches_stale_line_185_claim():
     assert "92.50%" in errs[0]
 
 
+def test_guard_catches_stale_scope_claims():
+    """Pre-Part-5 text claiming insect classes are diagnosed must be flagged."""
+    fixture_text = (
+        "- **Four Threat Classes Have No Field Case**: `Grasshopper` ... are unrepresented.\n"
+        "title = {Expert System for Rice Pest and Disease Diagnosis}\n"
+    )
+    errs = checker.scan_for_stale_metrics(fixture_text, "README.md")
+    assert len(errs) == 2
+
+
+def test_guard_catches_false_positive_drift(monkeypatch):
+    """README quoting 0 false positives while the failure analysis reports 3 must fail."""
+    monkeypatch.setattr(checker, "negative_control_false_positives", lambda: (3, 27))
+    stale = "| **False Positives on Negative Controls** | **0 of 27** | [link] |"
+    assert checker.check_false_positive_claim(stale)
+    assert not checker.check_false_positive_claim(stale.replace("0 of 27", "3 of 27"))
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

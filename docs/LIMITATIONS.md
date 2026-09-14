@@ -93,9 +93,9 @@ the numbers.
 - Distinguishing a 10-15 point margin would require roughly **15 to 20 verified positive cases per
   threat class**. The present benchmark is an order of magnitude short.
 
-### Per-Class Field Coverage Analysis
+### Per-Class Field Coverage Analysis (6/6 In-Scope Coverage)
 
-The table below summarizes independent empirical validation coverage across all 10 threat classes modeled in RiceKG:
+The table below summarizes independent empirical validation coverage across the 6 in-scope biotic threat classes modeled in RiceKG following the Part 5 scope narrowing:
 
 | Threat Class | Category | Independent Field Cases ($n$) | Partition Split | Field Case IDs | Empirical Validation Status |
 |:---|:---|:---:|:---:|:---|:---:|
@@ -105,18 +105,13 @@ The table below summarizes independent empirical validation coverage across all 
 | **Rice Grassy Stunt** | Pathogen (Virus) | 1 | 0 eval, 1 dev | FIELD_53 | Evaluated ($n=1$) |
 | **Rice Root Nematode** | Pathogen (Nematode) | 3 | 2 eval, 1 dev | FIELD_03, FIELD_05, FIELD_36 | Evaluated ($n=3$) |
 | **Rice Tungro Virus** | Pathogen (Virus) | 2 | 0 eval, 2 dev | FIELD_51, FIELD_52 | Evaluated ($n=2$) |
-| **Grasshopper** | Insect Pest | **0** | — | None | **ZERO Independent Cases** |
-| **Rice Stem Borer** | Insect Pest | **0** | — | None | **ZERO Independent Cases** |
-| **Rice Bug** | Insect Pest | **0** | — | None | **ZERO Independent Cases** |
-| **Brown Planthopper** | Insect Pest | **0** | — | None | **ZERO Independent Cases** |
 | *Out-of-Scope Negative Controls* | Pathogen Mimics | 27 | 18 eval, 9 dev | FIELD_06–32, FIELD_37–50 | Evaluated (Specificity) |
+| *Excluded Insect Classes (Reference Only)* | Insect Pests | 0 | — | Excluded from scope | Outside Diagnostic Scope |
 
 **Key Coverage Takeaways**:
-1. **Validation Scope Strictly Restricted to Pathogens**: Independent validation covers **strictly the 6 pathogen classes** (bacterial, fungal, viral, and nematode threats) and out-of-scope negative controls. **All 4 insect pest classes (`Grasshopper`, `Rice_Stem_Borer`, `Rice_Bug`, and `Brown_Planthopper`) have ZERO independent field cases**. Any reported diagnostic accuracy for insect pests rests entirely on deductive consistency over rule-derived synthetic cases, with zero empirical field grounding.
-2. **Structural Sourcing Bottleneck**: Endemic agricultural pests are managed by field agronomists as persistent population densities rather than novel clinical outbreaks. Consequently, phytopathology "first-report" literature (such as APS *Plant Disease* Disease Notes and BSPP *New Disease Reports*) publishes emerging pathogens almost exclusively, completely omitting insect pests.
-3. **Actionable Sourcing Channels for Extension**: Sourcing independent field cases for the 4 pest classes requires moving beyond scholarly journals to:
-   - **Pest Surveillance & Early Warning Bulletins**: Periodic bulletins from agricultural agencies (e.g., FAO Locust Watch and Stem Borer alerts, regional plant protection surveillance bulletins by the Indonesian Directorate of Food Crop Protection / BPTP, or IRRI regional pest monitors);
-   - **Agricultural Extension Plant-Protection Reports**: Field diagnostic intake sheets and clinical extension records from university diagnostic clinics and extension bureaus, where farmer field inquiries record verified observation dates, localized damage symptoms, and confirmed insect pest identifications.
+1. **100% In-Scope Empirical Coverage (6/6 Classes)**: With the diagnostic scope narrowed to exclude insect pests, **every single in-scope threat class (6/6, 100%) possesses independent empirical field backing** in `data/benchmark_field.csv`.
+2. **Resolution of the Structural Sourcing Bottleneck**: Four insect pest classes (`Grasshopper`, `Rice_Stem_Borer`, `Rice_Bug`, `Brown_Planthopper`) were excluded from the automated diagnostic scope because phytopathology first-report disease notes report pathogens, leaving insect pests with zero empirical field reports. Rather than asserting diagnostic competence unsupported by literature evidence, the system reclassifies their 21 symptoms as out-of-scope vocabulary (`InsectDamageSign`), providing an informative differential response (*"consistent with insect damage, which is outside the diagnostic scope of this system"*). The response requires at least two distinct insect-specific signs (`model.INSECT_SPECIFIC_SIGNS`); signs shared with pathogens or abiotic stress never trigger it. It has been exercised only on rule-derived controls, so its field reliability is unmeasured.
+3. **Vector Sightings Retained**: Vector presence terms (`Brown_Planthopper_Present` and `Green_Leafhopper_Present`) remain in the ontology as supporting observational antecedents for the viral diseases they transmit (`Rice_Grassy_Stunt` and `Rice_Tungro_Virus`).
 
 ---
 

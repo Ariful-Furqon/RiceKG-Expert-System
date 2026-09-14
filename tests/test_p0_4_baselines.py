@@ -51,15 +51,17 @@ class TestP04BaselinesEncoding:
         assert set(decoded) == set(test_symptoms)
 
     def test_no_diagnosis_maps_to_all_zeros(self):
-        """Asserts 'No_Diagnosis' produces an all-zero label vector of length 10."""
-        assert len(ml_baselines.ALL_THREATS) == 10
+        """Asserts 'No_Diagnosis' produces an all-zero label vector of length 6."""
+        assert len(ml_baselines.ALL_THREATS) == 6
 
         vec_sentinel = ml_baselines.encode_labels("No_Diagnosis")
+        vec_oos = ml_baselines.encode_labels("insect damage, out of scope")
         vec_empty_str = ml_baselines.encode_labels("")
         vec_empty_list = ml_baselines.encode_labels([])
 
-        assert vec_sentinel.shape == (10,)
+        assert vec_sentinel.shape == (6,)
         assert np.all(vec_sentinel == 0), "No_Diagnosis must encode to all-zeros"
+        assert np.all(vec_oos == 0), "insect damage, out of scope must encode to all-zeros"
         assert np.all(vec_empty_str == 0)
         assert np.all(vec_empty_list == 0)
 

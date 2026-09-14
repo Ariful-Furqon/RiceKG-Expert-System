@@ -1,27 +1,27 @@
 # Comparative Baseline Evaluation & Paired Significance Testing
 
-> **Generated**: 2026-09-14 06:13:29 UTC  
+> **Generated**: 2026-09-14 07:42:24 UTC  
 > **Methodology**: 5x2-fold Cross-Validation (Dietterich 1998 paired protocol), paired McNemar exact-match tests, non-parametric bootstrap 95% CIs (B=1,000 resamples), and Holm–Bonferroni FWER step-down correction.
 
 ---
 
-## 1. Deductive Verification Suite (`verification_suite.csv`, $n=80$)
+## 1. Deductive Verification Suite (`verification_suite.csv`, $n=73$)
 
-- **Dataset Provenance**: Rule-derived cases ($n=80$, multi-threat composites).
-- **Cross-Validation Split Strategy**: `KFold(n_splits=2) [Fallback: 16 rare combinations have n=1]`.
-- **Minimum Detectable Effect (MDE)**: $\pm$15.8% accuracy ($\alpha=0.05, 1-\beta=0.80$).
+- **Dataset Provenance**: Rule-derived cases ($n=73$, multi-threat composites).
+- **Cross-Validation Split Strategy**: `KFold(n_splits=2) [Fallback: 7 rare combinations have n=1]`.
+- **Minimum Detectable Effect (MDE)**: $\pm$16.6% accuracy ($\alpha=0.05, 1-\beta=0.80$).
 
 | System / Model | Paradigm | Training Budget | Exact Match (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\Delta$ Acc [95% CI] | Cohen's $g$* |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **60.00 ± 6.52** | **68.30 ± 3.41** | **[64.2, 72.4]** | — | — | Baseline Reference | — |
-| RiceKG (Full + Possible) | Knowledge-Based / Semantic Web | 0 cases (cold start) | 61.25 ± 5.84 | 77.27 ± 3.13 | [74.3, 80.2] | 0.6963 | **1.0000** | -1.3% [-6.3, 3.8] | -0.02 |
-| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 72.50 ± 2.24 | 86.65 ± 1.37 | [84.5, 88.7] | < 0.001 | **0.0030*** | -12.5% [-19.1, -5.9] | -0.13 |
-| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 60.00 ± 6.52 | 68.30 ± 3.41 | [64.2, 72.4] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
-| Decision Tree | Supervised Machine Learning | 40 cases/fold | 52.25 ± 10.27 | 69.39 ± 7.51 | [66.1, 72.4] | 0.0146 | **0.1024** | +7.8% [1.8, 13.7] | +0.10 |
-| Random Forest | Supervised Machine Learning | 40 cases/fold | 55.25 ± 9.58 | 67.07 ± 8.04 | [63.8, 70.8] | 0.1046 | **0.6275** | +4.7% [-0.7, 10.2] | +0.08 |
-| Multinomial Naive Bayes | Supervised Machine Learning | 40 cases/fold | 63.25 ± 10.07 | 77.44 ± 8.31 | [73.1, 80.7] | 0.3671 | **1.0000** | -3.2% [-9.8, 3.3] | -0.04 |
-| k-NN | Supervised Machine Learning | 40 cases/fold | 63.50 ± 6.91 | 69.50 ± 6.45 | [65.8, 73.7] | 0.2234 | **1.0000** | -3.5% [-8.7, 1.7] | -0.06 |
-| Logistic Regression (OvR) | Supervised Machine Learning | 40 cases/fold | 57.75 ± 10.69 | 69.01 ± 9.10 | [65.5, 72.8] | 0.4671 | **1.0000** | +2.2% [-3.1, 7.6] | +0.04 |
+| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **64.38 ± 1.80** | **40.84 ± 9.80** | **[34.1, 49.3]** | — | — | Baseline Reference | — |
+| RiceKG (Full + Possible) | Knowledge-Based / Semantic Web | 0 cases (cold start) | 68.48 ± 5.73 | 68.40 ± 4.77 | [63.7, 72.0] | 0.1060 | **0.2119** | -4.1% [-8.7, 0.5] | -0.10 |
+| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 86.28 ± 4.30 | 90.00 ± 2.32 | [87.3, 92.1] | < 0.001 | **< 0.001*** | -21.9% [-27.6, -16.2] | -0.31 |
+| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 64.38 ± 1.80 | 40.84 ± 9.80 | [34.1, 49.3] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| Decision Tree | Supervised Machine Learning | 36 cases/fold | 71.21 ± 6.65 | 71.07 ± 8.50 | [67.2, 75.3] | 0.0062 | **0.0187*** | -6.8% [-11.5, -2.2] | -0.16 |
+| Random Forest | Supervised Machine Learning | 36 cases/fold | 75.59 ± 7.47 | 71.25 ± 9.42 | [66.9, 76.2] | < 0.001 | **< 0.001*** | -11.2% [-15.9, -6.6] | -0.26 |
+| Multinomial Naive Bayes | Supervised Machine Learning | 36 cases/fold | 75.65 ± 7.11 | 73.30 ± 10.01 | [66.7, 78.1] | < 0.001 | **< 0.001*** | -11.2% [-17.0, -5.5] | -0.17 |
+| k-NN | Supervised Machine Learning | 36 cases/fold | 77.25 ± 5.98 | 73.66 ± 7.90 | [69.3, 78.3] | < 0.001 | **< 0.001*** | -12.9% [-17.6, -8.1] | -0.28 |
+| Logistic Regression (OvR) | Supervised Machine Learning | 36 cases/fold | 74.51 ± 7.02 | 68.03 ± 10.54 | [63.7, 73.9] | < 0.001 | **< 0.001*** | -10.1% [-14.7, -5.6] | -0.25 |
 
 *Note: Asterisk (\*) on Holm-Adj p indicates statistically significant difference vs RiceKG after Holm–Bonferroni correction ($\alpha = 0.05$). Risk Difference ($\Delta$ Acc) is reported as percentage-point difference with paired Wald 95% confidence interval. Cohen's g is bounded on $[-0.50, +0.50]$ (defined as $g = b/(b+c) - 0.5$); values near $+0.50$ indicate that the ceiling of the statistic has been reached due to near-zero errors by RiceKG on discordant pairs ($c \approx 0$), rather than an unbounded magnitude.*
 
@@ -74,13 +74,13 @@ The `dev` split holds 16 cases (7 positive, 9 negative controls) and was visible
 | Random Forest | 62.50 | 29.17 | 35.52 |
 | Multinomial Naive Bayes | 56.25 | 0.00 | 0.00 |
 | k-NN | 47.50 | 0.00 | 0.00 |
-| Logistic Regression (OvR) | 56.25 | 0.00 | 0.00 |
+| Logistic Regression (OvR) | 58.75 | 18.33 | 19.67 |
 
 
 ---
 
 ## 3. Statistical Power & Minimum Detectable Effect Disclosure
 
-- **Verification Suite ($n=80$)**: $\text{MDE} = \pm 15.8\%$.
+- **Verification Suite ($n=73$)**: $\text{MDE} = \pm 16.6\%$.
 - **Field Benchmark, eval split ($n=23$, 5 positive cases)**: $\text{MDE} = \pm 29.5\%$.
 - In accordance with AIP empirical standards, null hypothesis outcomes are disclosed as underpowered rather than equivalent.

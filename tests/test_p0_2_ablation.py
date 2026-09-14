@@ -24,23 +24,23 @@ class TestP02AblationArchitecture:
         """P0-2 Acceptance Criterion:
 
         A test asserts that build_ontology(enabled_tiers={'tier1'})
-        contains exactly 10 Imp() instances.
+        contains exactly 6 Imp() instances.
         """
         onto_t1 = model.build_ontology(enabled_tiers={"tier1"})
         rules = list(onto_t1.rules())
-        assert len(rules) == 10
+        assert len(rules) == 6
         assert all(isinstance(r, owlready2.swrl.Imp) for r in rules)
 
     def test_build_ontology_tier2_only_rule_count(self):
         onto_t2 = model.build_ontology(enabled_tiers={"tier2"})
         rules = list(onto_t2.rules())
-        assert len(rules) == 10
+        assert len(rules) == 6
         assert all(isinstance(r, owlready2.swrl.Imp) for r in rules)
 
     def test_build_ontology_full_rule_count(self):
         onto_full = model.build_ontology(enabled_tiers={"tier1", "tier2"})
         rules = list(onto_full.rules())
-        assert len(rules) == 20
+        assert len(rules) == 12
         assert all(isinstance(r, owlready2.swrl.Imp) for r in rules)
 
     def test_isolated_world_no_cross_contamination(self):
@@ -52,36 +52,36 @@ class TestP02AblationArchitecture:
         onto_full = model.build_ontology(enabled_tiers={"tier1", "tier2"})
 
         assert onto_t1.world is not onto_full.world
-        assert len(list(onto_t1.rules())) == 10
-        assert len(list(onto_full.rules())) == 20
+        assert len(list(onto_t1.rules())) == 6
+        assert len(list(onto_full.rules())) == 12
 
     def test_no_reasoner_set_matching_baseline(self):
         """Tests the pure-Python set-matching control baseline."""
         canonical_symptoms = [
-            "Brown_Nymphs", "Yellow_Nymphs", "Eggs_On_Plant",
-            "Broad_Leaf_Damage", "Severed_Panicles", "Leaf_Chewing_Damage"
+            "Rusty_Grain_Balls", "Blackened_Grain_Balls", "Uniform_Field_Infection",
+            "Rainy_Season_Outbreak", "Slight_Panicle_Infection", "Milky_Stage_Vulnerability"
         ]
         relaxed_symptoms = [
-            "Severed_Panicles", "Leaf_Chewing_Damage"
+            "Rusty_Grain_Balls", "Blackened_Grain_Balls"
         ]
 
         preds_canon = ablation.predict_no_reasoner(canonical_symptoms)
         preds_relax = ablation.predict_no_reasoner(relaxed_symptoms)
 
-        assert "Grasshopper" in preds_canon
-        assert "Grasshopper" in preds_relax
+        assert "False_Smut" in preds_canon
+        assert "False_Smut" in preds_relax
 
     def test_pellet_inference_on_ablated_ontology(self):
         """Tests that Pellet DL reasoning executes correctly on an ablated ontology world."""
         onto_t1 = model.build_ontology(enabled_tiers={"tier1"})
-        relaxed_symptoms = ["Severed_Panicles", "Leaf_Chewing_Damage"]
+        relaxed_symptoms = ["Rusty_Grain_Balls", "Blackened_Grain_Balls"]
 
-        # In Tier 1 only, relaxed symptoms must NOT trigger Grasshopper diagnosis
+        # In Tier 1 only, relaxed symptoms must NOT trigger False_Smut diagnosis
         preds_t1 = model.predict_diseases_flat(relaxed_symptoms, onto=onto_t1)
-        assert "Grasshopper" not in preds_t1
+        assert "False_Smut" not in preds_t1
 
-        # In Full model, relaxed symptoms DO trigger Grasshopper diagnosis
+        # In Full model, relaxed symptoms DO trigger False_Smut diagnosis
         onto_full = model.build_ontology(enabled_tiers={"tier1", "tier2"})
         preds_full = model.predict_diseases_flat(relaxed_symptoms, onto=onto_full)
-        assert "Grasshopper" in preds_full
+        assert "False_Smut" in preds_full
 

@@ -15,11 +15,7 @@ DEFAULT_VERIFICATION_CSV = DEFAULT_VERIFICATION_CSV  # alias for backwards compa
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
 
 ALL_DIAGNOSES = [
-    "Grasshopper",
     "Rice_Root_Nematode",
-    "Rice_Stem_Borer",
-    "Rice_Bug",
-    "Brown_Planthopper",
     "Bacterial_Leaf_Blight",
     "False_Smut",
     "Rice_Blast",
@@ -28,11 +24,7 @@ ALL_DIAGNOSES = [
 ]
 
 PEST_CLASSES = {
-    "Grasshopper",
     "Rice_Root_Nematode",
-    "Rice_Stem_Borer",
-    "Rice_Bug",
-    "Brown_Planthopper",
 }
 
 
@@ -93,9 +85,11 @@ def load_data(csv_path, split=None):
                 if val and val != raw_target:
                     symptoms.append(val)
 
-            # Handle negative test cases (no expected diagnosis)
+            # Handle negative test cases and out-of-scope controls
             if raw_target == "No_Diagnosis":
                 targets = []
+            elif raw_target == model.INSECT_OUT_OF_SCOPE_TARGET:
+                targets = [model.INSECT_OUT_OF_SCOPE_TARGET]
             else:
                 targets = [t.strip() for t in raw_target.split(" and ") if t.strip()]
 
