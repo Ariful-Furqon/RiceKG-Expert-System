@@ -5,7 +5,7 @@
 
 ---
 
-## 1. Augmented Verification Benchmark (`benchmark_augmented.csv`, $n=80$)
+## 1. Synthetic Verification Benchmark (`benchmark_synthetic.csv`, $n=80$)
 
 - **Dataset Provenance**: Rule-derived cases ($n=80$, multi-threat composites).
 - **Cross-Validation Split Strategy**: `KFold(n_splits=2) [Fallback: 16 rare combinations have n=1]`.
@@ -25,8 +25,8 @@
 
 *Note: Asterisk (\*) on Holm-Adj p indicates statistically significant difference vs RiceKG after Holm–Bonferroni correction ($\alpha = 0.05$). Risk Difference ($\Delta$ Acc) is reported as percentage-point difference with paired Wald 95% confidence interval. Cohen's g is bounded on $[-0.50, +0.50]$ (defined as $g = b/(b+c) - 0.5$); values near $+0.50$ indicate that the ceiling of the statistic has been reached due to near-zero errors by RiceKG on discordant pairs ($c \approx 0$), rather than an unbounded magnitude.*
 
-### Key Findings (Augmented Benchmark)
-1. **Rule-Derived Verification Only**: All 80 cases in `benchmark_augmented.csv` have provenance `rule_derived`, constructed from RiceKG's own Horn clauses. Outperforming ML on cases generated from internal rules verifies deductive consistency, but does not establish empirical diagnostic superiority over supervised learning.
+### Key Findings (Synthetic Benchmark)
+1. **Rule-Derived Verification Only**: All 80 cases in `benchmark_synthetic.csv` have provenance `rule_derived`, constructed from RiceKG's own Horn clauses. Outperforming ML on cases generated from internal rules verifies deductive consistency, but does not establish empirical diagnostic superiority over supervised learning.
 2. **Cold-Start Sample Efficiency**: Supervised ML models trained on 40 cases/fold achieve 55.50% to 63.75% exact match because 16 rare multi-threat combinations appear only once. RiceKG requires **zero training data** and executes deterministic symbolic inference.
 3. **Rule Stratification Identity**: The unstratified single-tier rule baseline (*Flat Single-Tier*) achieves identical numerical accuracy to Full RiceKG on this benchmark, confirming the P0-2 ablation finding that tier stratification provides clinical specificity/screening grading rather than an accuracy improvement.
 
@@ -81,6 +81,6 @@ The `dev` split holds 16 cases (7 positive, 9 negative controls) and was visible
 
 ## 3. Statistical Power & Minimum Detectable Effect Disclosure
 
-- **Augmented Benchmark ($n=80$)**: $\text{MDE} = \pm 15.8\%$.
+- **Synthetic Benchmark ($n=80$)**: $\text{MDE} = \pm 15.8\%$.
 - **Field Benchmark, eval split ($n=23$, 5 positive cases)**: $\text{MDE} = \pm 29.5\%$.
 - In accordance with AIP empirical standards, null hypothesis outcomes are disclosed as underpowered rather than equivalent.

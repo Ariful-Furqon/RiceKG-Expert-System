@@ -23,7 +23,7 @@ $p = 0.0004$) and by 35.00% against 17.50% on positive recall. The prototype mat
 holds a marginally higher micro-F1 (43.29 against 40.67), so a trivial symptom-count heuristic has
 not been cleanly beaten.
 
-The 60.00% exact match now recorded on [`data/benchmark_augmented.csv`](../data/benchmark_augmented.csv)
+The 60.00% exact match now recorded on [`data/benchmark_synthetic.csv`](../data/benchmark_synthetic.csv)
 should not be read as degradation. That set is `rule_derived`: its cases were generated from the
 antecedents the reasoner executes, so revising those antecedents necessarily lowers agreement. The
 earlier 92.50% measured consistency with the rule base, never diagnostic ability. The collapse is the

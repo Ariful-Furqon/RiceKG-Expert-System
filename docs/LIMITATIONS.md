@@ -93,6 +93,31 @@ the numbers.
 - Distinguishing a 10-15 point margin would require roughly **15 to 20 verified positive cases per
   threat class**. The present benchmark is an order of magnitude short.
 
+### Per-Class Field Coverage Analysis
+
+The table below summarizes independent empirical validation coverage across all 10 threat classes modeled in RiceKG:
+
+| Threat Class | Category | Independent Field Cases ($n$) | Partition Split | Field Case IDs | Empirical Validation Status |
+|:---|:---|:---:|:---:|:---|:---:|
+| **Bacterial Leaf Blight** | Pathogen (Bacterium) | 3 | 1 eval, 2 dev | FIELD_01, FIELD_33, FIELD_34 | Evaluated ($n=3$) |
+| **False Smut** | Pathogen (Fungus) | 1 | 1 eval, 0 dev | FIELD_04 | Evaluated ($n=1$) |
+| **Rice Blast** | Pathogen (Fungus) | 2 | 1 eval, 1 dev | FIELD_02, FIELD_35 | Evaluated ($n=2$) |
+| **Rice Grassy Stunt** | Pathogen (Virus) | 1 | 0 eval, 1 dev | FIELD_53 | Evaluated ($n=1$) |
+| **Rice Root Nematode** | Pathogen (Nematode) | 3 | 2 eval, 1 dev | FIELD_03, FIELD_05, FIELD_36 | Evaluated ($n=3$) |
+| **Rice Tungro Virus** | Pathogen (Virus) | 2 | 0 eval, 2 dev | FIELD_51, FIELD_52 | Evaluated ($n=2$) |
+| **Grasshopper** | Insect Pest | **0** | — | None | **ZERO Independent Cases** |
+| **Rice Stem Borer** | Insect Pest | **0** | — | None | **ZERO Independent Cases** |
+| **Rice Bug** | Insect Pest | **0** | — | None | **ZERO Independent Cases** |
+| **Brown Planthopper** | Insect Pest | **0** | — | None | **ZERO Independent Cases** |
+| *Out-of-Scope Negative Controls* | Pathogen Mimics | 27 | 18 eval, 9 dev | FIELD_06–32, FIELD_37–50 | Evaluated (Specificity) |
+
+**Key Coverage Takeaways**:
+1. **Validation Scope Strictly Restricted to Pathogens**: Independent validation covers **strictly the 6 pathogen classes** (bacterial, fungal, viral, and nematode threats) and out-of-scope negative controls. **All 4 insect pest classes (`Grasshopper`, `Rice_Stem_Borer`, `Rice_Bug`, and `Brown_Planthopper`) have ZERO independent field cases**. Any reported diagnostic accuracy for insect pests rests entirely on deductive consistency over rule-derived synthetic cases, with zero empirical field grounding.
+2. **Structural Sourcing Bottleneck**: Endemic agricultural pests are managed by field agronomists as persistent population densities rather than novel clinical outbreaks. Consequently, phytopathology "first-report" literature (such as APS *Plant Disease* Disease Notes and BSPP *New Disease Reports*) publishes emerging pathogens almost exclusively, completely omitting insect pests.
+3. **Actionable Sourcing Channels for Extension**: Sourcing independent field cases for the 4 pest classes requires moving beyond scholarly journals to:
+   - **Pest Surveillance & Early Warning Bulletins**: Periodic bulletins from agricultural agencies (e.g., FAO Locust Watch and Stem Borer alerts, regional plant protection surveillance bulletins by the Indonesian Directorate of Food Crop Protection / BPTP, or IRRI regional pest monitors);
+   - **Agricultural Extension Plant-Protection Reports**: Field diagnostic intake sheets and clinical extension records from university diagnostic clinics and extension bureaus, where farmer field inquiries record verified observation dates, localized damage symptoms, and confirmed insect pest identifications.
+
 ---
 
 ## 3. Residual Vocabulary Coverage Limits
@@ -118,9 +143,9 @@ The P0-5 Step 2 extension closed the most serious gaps, but coverage remains par
 
 ---
 
-## 4. Evaluation Set Circularity of `benchmark_augmented.csv`
+## 4. Evaluation Set Circularity of `benchmark_synthetic.csv`
 
-`data/benchmark_augmented.csv` (80 instances, formerly `dataText.csv`) was authored from the same
+`data/benchmark_synthetic.csv` (80 instances, formerly `benchmark_augmented.csv` / `dataText.csv`) was authored from the same
 SWRL rule antecedents that the reasoner executes, and carries provenance `rule_derived`.
 
 The P0-5 rule revisions demonstrated this circularity directly rather than by argument. Revising

@@ -4,10 +4,10 @@ This directory contains benchmark datasets used for evaluating the RiceKG expert
 
 ---
 
-## 1. Augmented Rule-Derived Benchmark (`benchmark_augmented.csv`)
+## 1. Synthetic Rule-Derived Benchmark (`benchmark_synthetic.csv`)
 
 ### Overview
-- **File**: `data/benchmark_augmented.csv` (formerly `dataText.csv`)
+- **File**: `data/benchmark_synthetic.csv` (formerly `benchmark_augmented.csv` / `dataText.csv`)
 - **Sample Size ($n$)**: 80 test cases
 - **Provenance**: `rule_derived`
 - **Authorship**: Knowledge engineering team during SWRL rule base authoring.
@@ -27,7 +27,7 @@ The 80 cases are partitioned into six diagnostic tiers:
 
 ### Methodological Disclosure & Circularity
 > [!IMPORTANT]
-> As disclosed in `docs/LIMITATIONS.md`, **`benchmark_augmented.csv` is rule-derived**. Evaluating an expert system on cases generated from its own Horn-clause rules guarantees near-ceiling performance (99.25% multi-label accuracy, 92.50% exact-match accuracy) by construction. It verifies rule firing consistency and deductive completeness, but **cannot be interpreted as empirical clinical or field diagnostic accuracy**.
+> As disclosed in `docs/LIMITATIONS.md`, **`benchmark_synthetic.csv` is rule-derived**. Evaluating an expert system on cases generated from its own Horn-clause rules guarantees near-ceiling performance (99.25% multi-label accuracy, 92.50% exact-match accuracy) by construction. It verifies rule firing consistency and deductive completeness, but **cannot be interpreted as empirical clinical or field diagnostic accuracy**.
 
 ---
 
@@ -75,7 +75,7 @@ The `symptom_*` columns of this file were originally populated with descriptive 
 authored during Stage B extraction (for example `seed_yellowish_green_velvety_balls`). Those slugs form
 a namespace disjoint from the ontology vocabulary `model.ALL_SYMPTOMS`, which uses identifiers such as
 `Rusty_Grain_Balls`: **none of the 25 recorded descriptors matched any of the then 45 ontology terms**, while
-`benchmark_augmented.csv` matched on all 45. As a result every case in this benchmark reached the
+`benchmark_synthetic.csv` matched on all 45. As a result every case in this benchmark reached the
 reasoner as an empty assertion set, and the benchmark could not exercise the rule base at all.
 
 [`symptom_mapping.csv`](symptom_mapping.csv) records the resolution of each descriptor with a
@@ -104,8 +104,8 @@ normalization.
 The evaluation script (`evaluate.py`) supports separate dataset evaluation via `--dataset`:
 
 ```bash
-# Evaluate augmented verification benchmark
-python evaluate.py --dataset augmented
+# Evaluate synthetic verification benchmark
+python evaluate.py --dataset synthetic
 
 # Evaluate independent field/literature benchmark
 python evaluate.py --dataset field

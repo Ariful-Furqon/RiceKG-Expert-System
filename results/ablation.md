@@ -1,6 +1,6 @@
 # RiceKG Reasoner Architecture Ablation Study
 
-**Evaluated on**: `benchmark_augmented.csv` (80 cases)
+**Evaluated on**: `benchmark_synthetic.csv` (80 cases)
 **Generated**: 2026-09-13 09:15:20 UTC
 
 ## Comparative Architecture Performance

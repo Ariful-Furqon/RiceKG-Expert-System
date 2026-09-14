@@ -71,7 +71,7 @@ as such here.
 
 Evaluation is deliberately separated into two benchmarks that are never pooled.
 
-- `data/benchmark_augmented.csv` (n=80, `rule_derived`) verifies deductive consistency only. Its
+- `data/benchmark_synthetic.csv` (n=80, `rule_derived`) verifies deductive consistency only. Its
   score moved from 92.50% to 60.00% when the rules were revised without the data being touched,
   which demonstrates directly that it measures agreement with the rule base rather than diagnostic
   ability.

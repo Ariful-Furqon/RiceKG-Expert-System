@@ -122,9 +122,9 @@ Open your browser and navigate to: `http://127.0.0.1:5000/`
 
 ## Evaluation Results
 
-To prevent evaluation circularity, performance is reported separately on two distinct benchmarks with explicit provenance tracking. **Augmented and independent cases are never pooled.**
+To prevent evaluation circularity, performance is reported separately on two distinct benchmarks with explicit provenance tracking. **Synthetic and independent cases are never pooled.**
 
-### Benchmark 1: Augmented Rule-Derived Benchmark (`data/benchmark_augmented.csv`)
+### Benchmark 1: Synthetic Rule-Derived Benchmark (`data/benchmark_synthetic.csv`)
 - **Provenance**: `rule_derived` (authored to verify deductive SWRL rule firing consistency)
 - **Sample Size ($n$)**: 80 test cases across 6 diagnostic tiers (T1-T6)
 
