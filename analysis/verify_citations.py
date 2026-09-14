@@ -1,12 +1,18 @@
 """
-Verification script for data/benchmark_field.csv citations.
+Verification script for field benchmark and holdout staging citations.
 
-Queries Crossref API (https://api.crossref.org/works/{doi}) for every row
-in data/benchmark_field.csv, asserts HTTP 200, and verifies that the paper's
-real title appears verbatim (modulo whitespace/case/HTML markup) in the citation.
-Exits with code 1 if any title mismatches or DOI fails to resolve.
+Queries Crossref API (https://api.crossref.org/works/{doi}) for every DOI row,
+asserts HTTP 200, and verifies that the paper's real title appears verbatim
+(modulo whitespace/case/HTML markup) in the citation.
+
+For tier-C outbreak report rows (with no DOI), asserts that the archive_url
+resolves (HTTP 200). A dead source_url with a live archive is reported as a
+warning, not a failure.
+
+Exits with code 1 if any title mismatches, archive fails, or DOI fails to resolve.
 """
 
+import argparse
 import csv
 import json
 import os
@@ -34,16 +40,32 @@ def normalize_for_comparison(text: str) -> str:
     return re.sub(r"[^a-z0-9]", "", text)
 
 
-def verify_benchmark_citations(csv_path: str = "data/benchmark_field.csv") -> bool:
+def check_url_status(url: str, timeout: int = 15, headers: dict = None) -> tuple[int, str]:
+    """Attempts a GET request with a range/stream to verify HTTP status."""
+    if headers is None:
+        headers = {
+            "User-Agent": "RiceKG-CitationVerifier/1.0 (mailto:ariful.furqon@unej.ac.id)"
+        }
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.status, ""
+    except urllib.error.HTTPError as e:
+        return e.code, str(e)
+    except Exception as e:
+        return 0, str(e)
+
+
+def verify_citations(csv_path: str = "data/benchmark_field.csv") -> bool:
     if not os.path.exists(csv_path):
-        print(f"ERROR: Benchmark file not found at {csv_path}")
+        print(f"ERROR: File not found at {csv_path}")
         return False
 
-    with open(csv_path, mode="r", encoding="utf-8") as f:
+    with open(csv_path, mode="r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         rows = list(reader)
 
-    print(f"Verifying {len(rows)} citations in {csv_path} against Crossref API...")
+    print(f"Verifying {len(rows)} citations in {csv_path}...")
 
     headers = {
         "User-Agent": "RiceKG-CitationVerifier/1.0 (mailto:ariful.furqon@unej.ac.id)"
@@ -53,9 +75,38 @@ def verify_benchmark_citations(csv_path: str = "data/benchmark_field.csv") -> bo
 
     for idx, row in enumerate(rows):
         case_id = row.get("case_id", f"ROW_{idx+1}")
+        tier = row.get("evidence_tier", "").strip()
         doi = row.get("doi", "").strip()
         citation = row.get("citation", "").strip()
+        source_url = row.get("source_url", "").strip()
+        archive_url = row.get("archive_url", "").strip()
 
+        # Handle Tier C (Official institutional outbreak reports without DOI)
+        if tier == "C" or (not doi and archive_url):
+            if not archive_url:
+                print(f"[{case_id}] FAILED: Tier C row missing archive_url.")
+                all_passed = False
+                continue
+
+            # Verify archive_url
+            status, err = check_url_status(archive_url, timeout=20, headers=headers)
+            if status != 200:
+                print(f"[{case_id}] FAILED: Archive URL returned HTTP {status} ({err}): {archive_url}")
+                all_passed = False
+                continue
+
+            # Check source_url (warning only if dead, as long as archive is live)
+            if source_url:
+                src_status, src_err = check_url_status(source_url, timeout=10, headers=headers)
+                if src_status != 200:
+                    print(f"[{case_id}] WARNING: Source URL {source_url} returned HTTP {src_status} ({src_err}), but archive URL verified.")
+                else:
+                    print(f"[{case_id}] PASSED: Tier C archive and source URL verified -> {archive_url[:70]}...")
+            else:
+                print(f"[{case_id}] PASSED: Tier C archive URL verified -> {archive_url[:70]}...")
+            continue
+
+        # Standard DOI validation (Tiers A, B, benchmark_field)
         if not doi:
             print(f"[{case_id}] FAILED: Missing DOI.")
             all_passed = False
@@ -106,15 +157,23 @@ def verify_benchmark_citations(csv_path: str = "data/benchmark_field.csv") -> bo
             print(f"[{case_id}] PASSED: {doi} -> {clean_html(cr_title)[:60]}...")
 
     if all_passed:
-        print("\nAll citations verified successfully against Crossref API!")
+        print("\nAll citations verified successfully!")
         return True
     else:
         print("\nOne or more citations FAILED verification!")
         return False
 
 
-if __name__ == "__main__":
-    csv_file = sys.argv[1] if len(sys.argv) > 1 else "data/benchmark_field.csv"
-    success = verify_benchmark_citations(csv_file)
+def main():
+    parser = argparse.ArgumentParser(description="Verify citations against Crossref or archive URLs.")
+    parser.add_argument("--csv", dest="csv_path", default=None, help="Path to CSV dataset to verify")
+    parser.add_argument("positional_csv", nargs="?", default="data/benchmark_field.csv", help="Fallback positional CSV path")
+    args = parser.parse_args()
+
+    target_csv = args.csv_path if args.csv_path else args.positional_csv
+    success = verify_citations(target_csv)
     sys.exit(0 if success else 1)
 
+
+if __name__ == "__main__":
+    main()
