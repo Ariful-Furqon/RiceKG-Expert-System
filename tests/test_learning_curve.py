@@ -12,6 +12,7 @@ Verifies:
 
 import os
 import sys
+import json
 import pytest
 import numpy as np
 import pandas as pd
@@ -33,11 +34,15 @@ def test_zero_shot_reference_computation():
     X_eval, Y_eval, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
     refs = learning_curve.compute_zero_shot_references(eval_cases, Y_eval)
 
+    with open(os.path.join(BASE_DIR, "results", "baselines.json"), "r", encoding="utf-8") as f:
+        base_json = json.load(f)
+    fb = base_json["field_benchmark"]["system_summaries"]["RiceKG (Full Proposed)"]
+
     assert "RiceKG (Full Proposed)" in refs
     rk_ref = refs["RiceKG (Full Proposed)"]
-    assert rk_ref["cv_positive_recall"] == 35.00
-    assert rk_ref["cv_exact_match"] == 86.82
-    assert rk_ref["cv_micro_f1"] == 40.67
+    assert rk_ref["cv_positive_recall"] == round(float(fb["mean_positive_recall"]), 2)
+    assert rk_ref["cv_exact_match"] == round(float(fb["mean_exact_match"]), 2)
+    assert rk_ref["cv_micro_f1"] == round(float(fb["mean_micro_f1"]), 2)
     assert rk_ref["runtime_positive_recall"] == 40.00
     assert rk_ref["runtime_exact_match"] == 86.96
     assert isinstance(rk_ref["positive_recall_ci_95"], list)
@@ -48,6 +53,18 @@ def test_zero_shot_reference_computation():
 
     assert "Rule: Nearest Prototype" in refs
     assert refs["Rule: Nearest Prototype"]["runtime_positive_recall"] == 20.00
+
+
+def test_zero_shot_reference_fails_loudly_on_corrupt_baselines(monkeypatch, tmp_path):
+    """Verify that compute_zero_shot_references fails loudly if baselines.json is corrupt or missing keys."""
+    corrupt_file = tmp_path / "baselines.json"
+    corrupt_file.write_text('{"field_benchmark": {"system_summaries": {}}}', encoding="utf-8")
+    monkeypatch.setattr(learning_curve, "BASELINES_JSON", str(corrupt_file))
+
+    X_eval, Y_eval, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
+    with pytest.raises(KeyError, match="Missing 'RiceKG \\(Full Proposed\\)'"):
+        learning_curve.compute_zero_shot_references(eval_cases, Y_eval)
+
 
 
 def test_refuse_empty_eval_split():

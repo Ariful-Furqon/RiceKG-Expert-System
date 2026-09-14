@@ -16,12 +16,13 @@ raised `dev` positive recall from 19.17% to 63.33% while leaving `eval` flat to 
 signature of overfitting to development data, and it is reported here as such rather than as
 progress.
 
-Against baselines on `eval`, every supervised classifier remains far behind — the strongest reaches
-10.00% positive recall with at most five positive examples to learn from — and RiceKG exceeds the
+Against baselines on `eval`, supervised classifiers evaluated via 5×2-fold CV within `eval` remain far behind — the strongest reaches
+10.00% positive recall (with others at 0.00%) with only 11 training cases per fold and $\le 2$ positive instances to learn from (a protocol artifact of training-fold class sparsity and 82% negative imbalance, rather than model incompetence) — and RiceKG exceeds the
 ontology-free nearest-prototype matcher by 13.0 percentage points of exact match (Holm-adjusted
 $p = 0.0004$) and by 35.00% against 17.50% on positive recall. The prototype matcher nevertheless
 holds a marginally higher micro-F1 (43.29 against 40.67), so a trivial symptom-count heuristic has
 not been cleanly beaten.
+
 
 The 60.00% exact match now recorded on [`data/benchmark_synthetic.csv`](../data/benchmark_synthetic.csv)
 should not be read as degradation. That set is `rule_derived`: its cases were generated from the

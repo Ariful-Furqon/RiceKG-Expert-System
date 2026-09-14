@@ -97,23 +97,76 @@ def compute_zero_shot_references(
         round(float(np.percentile(boot_rk_recs, 97.5)), 1)
     )
 
-    # Validate against results/baselines.json if present
-    if os.path.exists(BASELINES_JSON):
-        with open(BASELINES_JSON, "r", encoding="utf-8") as f:
-            base_json = json.load(f)
-        fb = base_json.get("field_benchmark", {}).get("system_summaries", {})
-        if "RiceKG (Full Proposed)" in fb:
-            cv_pos_rec = fb["RiceKG (Full Proposed)"]["mean_positive_recall"]
-            assert cv_pos_rec == 35.0, f"Expected 35.0 in baselines.json, got {cv_pos_rec}"
+    # Read CV baselines strictly from results/baselines.json, failing loudly if missing
+    if not os.path.exists(BASELINES_JSON):
+        raise FileNotFoundError(
+            f"Missing required baseline results file: {BASELINES_JSON}. "
+            f"Run `python baselines/run_baselines.py` first to generate reference metrics."
+        )
+
+    with open(BASELINES_JSON, "r", encoding="utf-8") as f:
+        base_json = json.load(f)
+
+    if "field_benchmark" not in base_json or "system_summaries" not in base_json["field_benchmark"]:
+        raise KeyError(
+            f"Corrupt or incomplete {BASELINES_JSON}: missing 'field_benchmark.system_summaries' key."
+        )
+
+    fb = base_json["field_benchmark"]["system_summaries"]
+
+    # Verify and extract RiceKG (Full Proposed) metrics
+    if "RiceKG (Full Proposed)" not in fb:
+        raise KeyError(
+            f"Missing 'RiceKG (Full Proposed)' in {BASELINES_JSON} field_benchmark.system_summaries."
+        )
+    rk_fb = fb["RiceKG (Full Proposed)"]
+    for req_key in ("mean_positive_recall", "mean_exact_match", "mean_micro_f1"):
+        if req_key not in rk_fb:
+            raise KeyError(
+                f"Missing required metric key '{req_key}' for 'RiceKG (Full Proposed)' in {BASELINES_JSON}."
+            )
+    rk_cv_pos_recall = round(float(rk_fb["mean_positive_recall"]), 2)
+    rk_cv_exact_match = round(float(rk_fb["mean_exact_match"]), 2)
+    rk_cv_micro_f1 = round(float(rk_fb["mean_micro_f1"]), 2)
+
+    # Verify and extract Rule: Flat Single-Tier metrics
+    if "Rule: Flat Single-Tier" not in fb:
+        raise KeyError(
+            f"Missing 'Rule: Flat Single-Tier' in {BASELINES_JSON} field_benchmark.system_summaries."
+        )
+    flat_fb = fb["Rule: Flat Single-Tier"]
+    for req_key in ("mean_positive_recall", "mean_exact_match", "mean_micro_f1"):
+        if req_key not in flat_fb:
+            raise KeyError(
+                f"Missing required metric key '{req_key}' for 'Rule: Flat Single-Tier' in {BASELINES_JSON}."
+            )
+    flat_cv_pos_recall = round(float(flat_fb["mean_positive_recall"]), 2)
+    flat_cv_exact_match = round(float(flat_fb["mean_exact_match"]), 2)
+    flat_cv_micro_f1 = round(float(flat_fb["mean_micro_f1"]), 2)
+
+    # Verify and extract Rule: Nearest Prototype metrics
+    if "Rule: Nearest Prototype" not in fb:
+        raise KeyError(
+            f"Missing 'Rule: Nearest Prototype' in {BASELINES_JSON} field_benchmark.system_summaries."
+        )
+    proto_fb = fb["Rule: Nearest Prototype"]
+    for req_key in ("mean_positive_recall", "mean_exact_match", "mean_micro_f1"):
+        if req_key not in proto_fb:
+            raise KeyError(
+                f"Missing required metric key '{req_key}' for 'Rule: Nearest Prototype' in {BASELINES_JSON}."
+            )
+    proto_cv_pos_recall = round(float(proto_fb["mean_positive_recall"]), 2)
+    proto_cv_exact_match = round(float(proto_fb["mean_exact_match"]), 2)
+    proto_cv_micro_f1 = round(float(proto_fb["mean_micro_f1"]), 2)
 
     return {
         "RiceKG (Full Proposed)": {
             "runtime_exact_match": round(rk_metrics["exact_match"], 2),
             "runtime_positive_recall": round(rk_metrics["positive_case_recall"], 2),
             "runtime_micro_f1": round(rk_metrics["micro_f1"], 2),
-            "cv_positive_recall": 35.00,
-            "cv_exact_match": 86.82,
-            "cv_micro_f1": 40.67,
+            "cv_positive_recall": rk_cv_pos_recall,
+            "cv_exact_match": rk_cv_exact_match,
+            "cv_micro_f1": rk_cv_micro_f1,
             "positive_recall_ci_95": list(rk_pos_recall_ci),
             "preds": rk_y_pred,
             "pos_correct": rk_pos_correct,
@@ -123,21 +176,22 @@ def compute_zero_shot_references(
             "runtime_exact_match": round(flat_metrics["exact_match"], 2),
             "runtime_positive_recall": round(flat_metrics["positive_case_recall"], 2),
             "runtime_micro_f1": round(flat_metrics["micro_f1"], 2),
-            "cv_positive_recall": 35.00,
-            "cv_exact_match": 86.82,
-            "cv_micro_f1": 40.67,
+            "cv_positive_recall": flat_cv_pos_recall,
+            "cv_exact_match": flat_cv_exact_match,
+            "cv_micro_f1": flat_cv_micro_f1,
             "preds": flat_y_pred,
         },
         "Rule: Nearest Prototype": {
             "runtime_exact_match": round(proto_metrics["exact_match"], 2),
             "runtime_positive_recall": round(proto_metrics["positive_case_recall"], 2),
             "runtime_micro_f1": round(proto_metrics["micro_f1"], 2),
-            "cv_positive_recall": 17.50,
-            "cv_exact_match": 73.94,
-            "cv_micro_f1": 43.29,
+            "cv_positive_recall": proto_cv_pos_recall,
+            "cv_exact_match": proto_cv_exact_match,
+            "cv_micro_f1": proto_cv_micro_f1,
             "preds": proto_y_pred,
         }
     }
+
 
 
 def draw_stratified_subsample(
