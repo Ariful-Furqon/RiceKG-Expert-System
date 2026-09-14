@@ -91,6 +91,7 @@ Recorded with reasons in `data/rejected_field_candidates.csv`:
 | HREJ_17 | Rice_Tungro_Virus | Subak Bebau, Kayuputih: only a photo gallery exists (no date, no symptom text); cited article not locatable; earlier dedup reason was wrong — re-reviewed, see below |
 | HREJ_18 | Rice_Tungro_Virus | Former HOLD_17 (Subak Banyuatis, 2023): field report only states "padi terkena tungro"; quoted symptoms are a general RTBV/RTSV explanation |
 | HREJ_19 | Bacterial_Leaf_Blight | Former HOLD_19 (Subak Suralepang, 2025): symptom sentence is a general description in an explanatory paragraph, not this field |
+| HREJ_20 | Rice_Tungro_Virus | Rao & Hasanuddin 1991, South Sulawesi (item 5): only symptom text is cited to Ling (1972) in the introduction; results are vector counts and plot incidence |
 
 ## Tier-C verification (2026-09-14)
 
@@ -140,7 +141,6 @@ These gaps are reported as genuine findings regarding the availability of empiri
 
 | # | DOI | Class | Note |
 |---|---|---|---|
-| 5 | 10.1080/09670879109371595 | Rice_Tungro_Virus | South Sulawesi, Indonesia incidence |
 | 6 | 10.1080/09670878109413653 | Rice_Grassy_Stunt / Rice_Tungro_Virus | Indonesia |
 | 7 | 10.5958/2249-4677.2025.00049.1 | Rice_Tungro_Virus | Philippines, co-infection with rice orange leaf phytoplasma |
 | 8 | 10.1094/pdis-12-15-1391-pdn | Rice_Blast | Puerto Rico |
@@ -150,4 +150,5 @@ These gaps are reported as genuine findings regarding the availability of empiri
 | 20 | 10.5958/2230-7338.2014.00869.6 | Rice_Root_Nematode | Udham Singh Nagar, India |
 | 21 | 10.5958/0974-0163.2018.00082.4 | Rice_Root_Nematode | Siddharthnagar, India |
 
-Items 5–7 matter most: they are the only remaining candidates for a tier-A Rice_Tungro_Virus case.
+Items 6–7 matter most: they are the only remaining candidates for a tier-A Rice_Tungro_Virus case
+(item 5 was read and rejected as HREJ_20).
