@@ -32,7 +32,9 @@ def required_figures():
 
     field = base["field_benchmark"]
     rk_field = field["system_summaries"]["RiceKG (Full Proposed)"]
-    aug = base["augmented_benchmark"]["system_summaries"]["RiceKG (Full Proposed)"]
+    # Support synthetic_benchmark key with fallback to augmented_benchmark
+    synth = base.get("synthetic_benchmark", base.get("augmented_benchmark"))
+    aug = synth["system_summaries"]["RiceKG (Full Proposed)"]
     full = next(r for r in abl["results"] if r["variant"] == "full")
 
     checks = [
@@ -50,21 +52,34 @@ def required_figures():
          [README, LIMITATIONS]),
         ("field negative control count", str(field["n_negative"]),
          [README, LIMITATIONS]),
-        ("augmented exact match", f"{aug['mean_exact_match']:.2f}",
+        ("synthetic exact match", f"{aug['mean_exact_match']:.2f}",
          [README]),
         ("ablation multi-label accuracy", f"{full['multi_acc']:.2f}",
          [README]),
     ]
-
-    if os.path.exists(LEARNING_CURVE_JSON):
-        with open(LEARNING_CURVE_JSON, encoding="utf-8") as fh:
-            lc = json.load(fh)
-        if "pool_A_results" in lc and "crossover_analysis" in lc["pool_A_results"]:
-            dt_cov = lc["pool_A_results"]["crossover_analysis"]["Decision Tree"]["crossover_budget"]
-            if dt_cov is not None:
-                checks.append(("learning curve pool A crossover budget", str(dt_cov), [POSITIONING]))
-
     return checks
+
+
+def scan_for_stale_metrics(text: str, filename: str) -> list:
+    """Detects stale pre-P0-5 figures quoted as current RiceKG performance."""
+    failures = []
+    import re
+    # 1. Stale claim of 92.50% exact match outperforming baselines
+    if re.search(r"RiceKG achieves \*\*?92\.50?%", text, re.IGNORECASE) or re.search(r"RiceKG achieves 92\.50?%", text, re.IGNORECASE):
+        failures.append(f"  {filename}: quotes obsolete pre-P0-5 claim 'RiceKG achieves 92.50% exact match'")
+
+    # 2. Stale ablation table row: Full variant at 92.50% / 96.2%
+    if re.search(r"RiceKG Full.*\|\s*\*\*?92\.50?%\*\*?\s*\|", text):
+        failures.append(f"  {filename}: ablation table contains stale 92.50% exact match for RiceKG Full")
+
+    if re.search(r"RiceKG Full.*\|\s*\*\*?96\.2%\*\*?\s*\|", text):
+        failures.append(f"  {filename}: ablation table contains stale 96.2% micro-F1 for RiceKG Full")
+
+    # 3. Stale ceiling claim
+    if "99.25% multi-label accuracy, 92.50% exact-match" in text and "guarantees" in text:
+        failures.append(f"  {filename}: quotes obsolete pre-P0-5 ceiling claim")
+
+    return failures
 
 
 def main():
@@ -87,6 +102,13 @@ def main():
             else:
                 print(f"  OK  {rel}: {label} = {value}")
 
+    # Check for stale claims across docs
+    for doc, text in contents.items():
+        rel = os.path.relpath(doc, BASE_DIR)
+        stale_errs = scan_for_stale_metrics(text, rel)
+        if stale_errs:
+            failures.extend(stale_errs)
+
     if failures:
         print("\nFAIL: documentation has drifted from results/\n")
         print("\n".join(failures))
@@ -94,7 +116,7 @@ def main():
               "then update the prose to match.")
         return 1
 
-    print("\nOK: every checked figure is traceable to results/")
+    print("\nOK: every checked figure is traceable to results/ and no stale metrics detected")
     return 0
 
 

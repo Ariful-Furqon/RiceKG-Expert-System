@@ -45,5 +45,13 @@ def test_guard_detects_drift(tmp_path, monkeypatch):
     assert checker.main() == 1, "The guard must fail when prose no longer quotes the measured figures"
 
 
+def test_guard_catches_stale_line_185_claim():
+    """A regression test asserting that stale line-185 text is flagged by the consistency scanner."""
+    fixture_text = "RiceKG achieves 92.50% ± 2.24% exact match, significantly outperforming ML baselines... all p < 0.001"
+    errs = checker.scan_for_stale_metrics(fixture_text, "README.md")
+    assert len(errs) > 0, "Guard must detect stale pre-P0-5 line-185 claim 'RiceKG achieves 92.50% exact match'"
+    assert "92.50%" in errs[0]
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

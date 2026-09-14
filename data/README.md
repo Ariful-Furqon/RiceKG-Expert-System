@@ -20,14 +20,14 @@ The 80 cases are partitioned into six diagnostic tiers:
 |---|:---:|---|---|:---:|
 | **T1: Canonical Single Threats** | 1–10 | Full pathognomonic profiles ($4 \le \|S\| \le 6$) | Exactly matches the antecedent clauses of Tier-1 SWRL rules `SWRL-R01` to `SWRL-R10`. | 10 (1 per threat) |
 | **T2: Relaxed Single Threats** | 11–20 | Partial symptom profiles ($2 \le \|S\| \le 3$) | Exactly matches the minimal antecedent clauses of Tier-2 SWRL rules `SWRL-R11` to `SWRL-R20`. | 10 (1 per threat) |
-| **T3: Co-infection Pairs** | 21–38 | Simultaneous multi-threat infections | Augmented union of disjoint antecedent subsets from two distinct threats (e.g. Bacterial Leaf Blight + Rice Blast). | 18 |
+| **T3: Co-infection Pairs** | 21–38 | Simultaneous multi-threat infections | Synthetic union of disjoint antecedent subsets from two distinct threats (e.g. Bacterial Leaf Blight + Rice Blast). | 18 |
 | **T4: Noise & Distractor Cases** | 39–48 | Single threats with non-diagnostic noise | Threat antecedents perturbed with unspecific environmental symptoms (e.g. `Rainy_Season_Outbreak`, `Plant_Yellowing`). | 10 |
 | **T5: Partial Symptom Variants** | 49–60 | Incomplete combinations | Partial subsets of canonical antecedents with varying symptom counts. | 12 |
 | **T6: Negative Controls** | 61–80 | Non-diagnostic / Insufficient evidence | Isolated symptoms (e.g. single symptom `Severed_Panicles` or general background traits) where no rule should fire (`No_Diagnosis`). | 20 |
 
 ### Methodological Disclosure & Circularity
 > [!IMPORTANT]
-> As disclosed in `docs/LIMITATIONS.md`, **`benchmark_synthetic.csv` is rule-derived**. Evaluating an expert system on cases generated from its own Horn-clause rules guarantees near-ceiling performance (99.25% multi-label accuracy, 92.50% exact-match accuracy) by construction. It verifies rule firing consistency and deductive completeness, but **cannot be interpreted as empirical clinical or field diagnostic accuracy**.
+> As disclosed in `docs/LIMITATIONS.md`, **`benchmark_synthetic.csv` is rule-derived**. Evaluating an expert system on cases generated from earlier Horn-clause rules exhibited ceiling consistency (60.00% exact match and 95.12% multi-label accuracy following P0-5 rule revisions; formerly 92.50%). It verifies rule firing consistency and deductive completeness, but **cannot be interpreted as empirical clinical or field diagnostic accuracy**.
 
 ---
 
@@ -114,5 +114,5 @@ python evaluate.py --dataset field
 python evaluate.py --csv-path data/custom_eval.csv
 ```
 
-Augmented and independent metrics are **never pooled into a single composite accuracy score**.
+Synthetic and independent metrics are **never pooled into a single composite accuracy score**.
 

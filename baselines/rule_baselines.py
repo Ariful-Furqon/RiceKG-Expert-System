@@ -131,10 +131,10 @@ def evaluate_rule_baselines(cases: List[Dict[str, Any]], onto=None) -> Dict[str,
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", choices=["augmented", "field"], default="augmented")
+    parser.add_argument("--dataset", choices=["synthetic", "augmented", "field"], default="synthetic")
     args = parser.parse_args()
 
-    csv_file = evaluate.DEFAULT_AUGMENTED_CSV if args.dataset == "augmented" else evaluate.FIELD_CSV
+    csv_file = evaluate.FIELD_CSV if args.dataset == "field" else evaluate.DEFAULT_SYNTHETIC_CSV
     cases = evaluate.load_data(csv_file)
     print(f"Evaluating Rule baselines on {args.dataset} ({len(cases)} cases)...")
     res = evaluate_rule_baselines(cases)

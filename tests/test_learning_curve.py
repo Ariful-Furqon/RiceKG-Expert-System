@@ -28,15 +28,26 @@ FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
 SYNTHETIC_CSV = os.path.join(BASE_DIR, "data", "benchmark_synthetic.csv")
 
 
-def test_zero_shot_reference_constants():
-    """Verify that learning-curve zero-shot reference constants match results/baselines.md."""
-    # From baselines.md Section 2 / baselines.json
-    assert learning_curve.RICEKG_REF_POS_RECALL == 35.00
-    assert learning_curve.RICEKG_REF_EXACT_MATCH == 86.82
-    assert learning_curve.RICEKG_REF_MICRO_F1 == 40.67
+def test_zero_shot_reference_computation():
+    """Verify that zero-shot references are computed at runtime on eval split and match baselines.json."""
+    X_eval, Y_eval, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
+    refs = learning_curve.compute_zero_shot_references(eval_cases, Y_eval)
 
-    assert learning_curve.FLAT_REF_POS_RECALL == 35.00
-    assert learning_curve.PROTOTYPE_REF_POS_RECALL == 17.50
+    assert "RiceKG (Full Proposed)" in refs
+    rk_ref = refs["RiceKG (Full Proposed)"]
+    assert rk_ref["cv_positive_recall"] == 35.00
+    assert rk_ref["cv_exact_match"] == 86.82
+    assert rk_ref["cv_micro_f1"] == 40.67
+    assert rk_ref["runtime_positive_recall"] == 40.00
+    assert rk_ref["runtime_exact_match"] == 86.96
+    assert isinstance(rk_ref["positive_recall_ci_95"], list)
+    assert len(rk_ref["positive_recall_ci_95"]) == 2
+
+    assert "Rule: Flat Single-Tier" in refs
+    assert refs["Rule: Flat Single-Tier"]["runtime_positive_recall"] == 40.00
+
+    assert "Rule: Nearest Prototype" in refs
+    assert refs["Rule: Nearest Prototype"]["runtime_positive_recall"] == 20.00
 
 
 def test_refuse_empty_eval_split():
@@ -166,6 +177,57 @@ def test_small_budget_learning_curve_execution():
         assert "models" in b_summary
         for m_name, m_stats in b_summary["models"].items():
             assert "mean_positive_recall" in m_stats
-            assert "positive_recall_ci_95" in m_stats
-            assert len(m_stats["positive_recall_ci_95"]) == 2
+            assert "training_ci_95" in m_stats
+            assert "test_set_ci_95" in m_stats
+            assert "test_set_diff_ci_95" in m_stats
+            assert "test_set_ci_excludes_zero" in m_stats
+            assert "is_crossover" in m_stats
+            assert len(m_stats["training_ci_95"]) == 2
+            assert len(m_stats["test_set_ci_95"]) == 2
             assert 0.0 <= m_stats["mean_positive_recall"] <= 100.0
+
+
+def test_leakage_assertion_triggers_if_pool_overlaps_test_set():
+    """Verify that run_learning_curve_for_pool actively catches and raises AssertionError on train-on-test overlap."""
+    X_eval, Y_eval, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
+
+    # If training pool contains identical case_ids to the test set
+    with pytest.raises(AssertionError, match="Data leakage detected"):
+        learning_curve.run_learning_curve_for_pool(
+            pool_name="leaky_pool",
+            pool_source_desc="Leaky Pool",
+            X_pool=X_eval,
+            Y_pool=Y_eval,
+            pool_cases=eval_cases,  # Identical to test_cases!
+            X_test=X_eval,
+            Y_test=Y_eval,
+            test_cases=eval_cases,
+            budgets=[2],
+            n_draws=1,
+            base_seed=42,
+        )
+
+
+def test_crossover_criterion_requires_test_set_ci_excluding_zero():
+    """Verify that crossover detection requires test_set_diff_ci_95 lower bound > 0."""
+    # Pool B results in learning_curve.json
+    results_path = os.path.join(BASE_DIR, "results", "learning_curve.json")
+    if os.path.exists(results_path):
+        import json
+        with open(results_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        # Check all models across all budgets in all pools
+        for pool_key in ["pool_a_synthetic", "pool_b_field_dev"]:
+            if pool_key in data:
+                p_data = data[pool_key]
+                for b_str, b_dict in p_data.get("by_budget", {}).items():
+                    for m_name, m_stats in b_dict.get("models", {}).items():
+                        diff_ci = m_stats["test_set_diff_ci_95"]
+                        sig_cross = m_stats["test_set_ci_excludes_zero"]
+                        if diff_ci[0] > 0.0:
+                            assert sig_cross is True
+                        else:
+                            assert sig_cross is False
+
+

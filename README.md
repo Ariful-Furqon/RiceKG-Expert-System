@@ -168,11 +168,13 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 
 | Variant | Exact Match (%) | Micro Prec (%) | Micro Rec (%) | Micro F1 (%) | Mean Latency (ms) | P95 Latency (ms) |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG Full (T1 + T2 Stratified, Pellet DL)** | **92.50%** | **97.4%** | **95.0%** | **96.2%** | **520.76** | **579.41** |
-| *Ablation A: Tier 1 Canonical Only (Pellet DL)* | 32.50% | 100.0% | 10.0% | 18.2% | 515.57 | 574.25 |
-| *Ablation B: Tier 2 Relaxed Only (Pellet DL)* | 92.50% | 97.4% | 95.0% | 96.2% | 502.42 | 530.42 |
-| *Ablation C: Flat Rules Unstratified (Pellet DL)* | 92.50% | 97.4% | 95.0% | 96.2% | 503.51 | 514.83 |
-| *Baseline Control: No Reasoner (Set-Matching)* | 92.50% | 97.4% | 95.0% | 96.2% | 0.00 | 0.00 |
+| Variant | Exact Match (%) | Micro Prec (%) | Micro Rec (%) | Micro F1 (%) | Mean Latency (ms) | P95 Latency (ms) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)** | **60.00%** | **97.7%** | **52.5%** | **68.3%** | **455.22** | **586.02** |
+| *Ablation A: Tier 1 Canonical Only (Pellet DL)* | 32.50% | 100.0% | 10.0% | 18.2% | 437.22 | 549.21 |
+| *Ablation B: Tier 2 Relaxed Only (Pellet DL)* | 55.00% | 97.4% | 47.5% | 63.9% | 439.45 | 506.19 |
+| *Ablation C: Flat Rules Unstratified (Pellet DL)* | 60.00% | 97.7% | 52.5% | 68.3% | 432.40 | 495.60 |
+| *Baseline Control: No Reasoner (Set-Matching)* | 60.00% | 97.7% | 52.5% | 68.3% | 0.02 | 0.01 |
 
 > **Key Architectural Insights**:
 > 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 52.5% to 10.0%, while guaranteeing 100% precision (0 false positives). Tier-2 expands sensitivity under incomplete symptom observation, at the cost of specificity.
@@ -182,7 +184,7 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 
 Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
 
-- **Augmented Benchmark ($n=80$)**: RiceKG achieves **92.50% ± 2.24%** exact match with **zero training data**, significantly outperforming ML baselines trained on 40 cases/fold (**55.50%–63.75%**, all $p < 0.001$ after Holm–Bonferroni correction) due to 16 singleton multi-threat composites.
+- **Synthetic Verification Benchmark ($n=80$)**: RiceKG achieves **60.00% ± 6.52%** exact match (micro-F1 **68.30% ± 3.41%**) with **zero training data**. The ontology-free Nearest Prototype baseline outperforms RiceKG on exact match (**72.50% ± 2.24%**, Holm-adjusted $p = 0.0030$), while five supervised ML baselines trained on 40 cases/fold reach **52.25%–63.75%** exact match with none showing statistically significant difference from RiceKG after Holm–Bonferroni correction (Holm-adjusted $p = 0.1024$ to $1.0000$).
 - **Independent Field Benchmark, `eval` ($n=23$, development-informed)**: RiceKG attains **35.00%** positive-case recall; the strongest supervised baseline reaches 10.00%. It exceeds the ontology-free nearest-prototype matcher by 13.0 points of exact match (Holm-adjusted $p = 0.0004$), though that matcher holds a higher micro-F1 (43.29 vs 40.67). With 5 positive cases and an MDE of $\pm 29.5$ percentage points the comparison remains underpowered.
 - **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
