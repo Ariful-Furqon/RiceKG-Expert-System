@@ -112,9 +112,7 @@ Open your browser and navigate to: `http://127.0.0.1:5000/`
 
 | Document | Covers |
 |---|---|
-| [`docs/DSR_MAPPING.md`](docs/DSR_MAPPING.md) | Design Science Research positioning: Peffers DSRM activities, Hevner's seven guidelines, and where the artefact falls short of each. |
 | [`docs/COMPETENCY_QUESTIONS.md`](docs/COMPETENCY_QUESTIONS.md) | 16 competency questions (Grüninger & Fox) with the SPARQL that answers each — 13 satisfied, 3 recorded gaps. |
-| [`docs/SOCIOTECHNICAL_FRAMING.md`](docs/SOCIOTECHNICAL_FRAMING.md) | The extension knowledge chain, SECI externalisation, low-connectivity policy implications, and liability for an incorrect recommendation. |
 | [`docs/ONTOLOGY.md`](docs/ONTOLOGY.md) | Vocabulary and rule change rationale with literature sources, including a revision that was withdrawn. |
 | [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) | What the evidence does not support. |
 

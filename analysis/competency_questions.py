@@ -249,7 +249,7 @@ def main():
         L.append("```")
         L.append("")
 
-    with open(OUT_MD, "w", newline="") as fh:
+    with open(OUT_MD, "w", newline="", encoding="utf-8") as fh:
         fh.write("\n".join(L) + "\n")
 
     print(f"[OUTPUT] {OUT_MD}")

@@ -2,8 +2,6 @@
 Flask>=2.3.0,<4.0.0
 Owlready2>=0.40,<0.50
 
-# Production WSGI Server (Linux only)
-gunicorn>=21.0.0; sys_platform != "win32"
 
 # Testing, Statistical Analysis & Evaluation
 pytest>=7.0.0

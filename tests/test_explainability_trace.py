@@ -1,3 +1,11 @@
+"""Derivation trace and /api/v2/diagnose — the explainability contribution.
+
+The human-subject study that once accompanied this (protocol, instruments,
+response analysis) was scoped for a socio-technical venue and was removed when
+the target changed to Inteligencia Artificial. The machine-checkable part of
+the XAI claim — that every diagnosis carries a rule-level derivation — stays.
+"""
+
 import os
 import sys
 import json
@@ -6,8 +14,6 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import model
 import app as flask_app
-from studies.explainability.analyse import analyze_explainability_study, compute_cronbach_alpha, paired_t_test
-import numpy as np
 
 
 @pytest.fixture
@@ -17,7 +23,7 @@ def client():
         yield client
 
 
-class TestP16DerivationTrace:
+class TestDerivationTrace:
     def test_derivation_trace_structure_on_canonical_blast(self):
         r08 = next(r for r in model.RULE_REGISTRY if r["id"] == "SWRL-R08")
         symptoms = r08["antecedents"]
@@ -115,57 +121,3 @@ class TestP16ApiV2Endpoints:
 
         res2 = client.post("/api/v2/diagnose", json={"symptoms": "not-a-list"})
         assert res2.status_code == 400
-
-
-class TestP16StudyArtifactsAndAnalysis:
-    def test_protocol_and_instrument_exist(self):
-        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        proto_path = os.path.join(base, "studies", "explainability", "protocol.md")
-        inst_path = os.path.join(base, "studies", "explainability", "instrument_explanation_satisfaction.md")
-        ethics_path = os.path.join(base, "docs", "ETHICS.md")
-
-        assert os.path.exists(proto_path), "studies/explainability/protocol.md missing"
-        assert os.path.exists(inst_path), "instrument_explanation_satisfaction.md missing"
-        assert os.path.exists(ethics_path), "docs/ETHICS.md missing"
-
-        with open(inst_path, encoding="utf-8") as f:
-            inst_text = f.read()
-            assert "Hoffman et al." in inst_text
-            assert "ESS_01" in inst_text
-            assert "ESS_08" in inst_text
-            assert "Trust in Automation" in inst_text
-
-    def test_responses_csv_zero_rows(self):
-        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        resp_path = os.path.join(base, "studies", "explainability", "responses.csv")
-        assert os.path.exists(resp_path)
-
-        with open(resp_path, encoding="utf-8") as f:
-            lines = [line.strip() for line in f if line.strip()]
-            assert len(lines) == 1, "responses.csv must contain exactly one header line and zero data rows"
-            assert "participant_id" in lines[0]
-            assert "ess_composite" in lines[0]
-
-    def test_analyse_py_exits_cleanly_on_empty(self):
-        status = analyze_explainability_study()
-        assert status == 0, "analyse.py must exit cleanly with code 0 on empty responses.csv"
-
-    def test_cronbach_alpha_math(self):
-        # Test scale reliability math on synthetic matrix
-        items = np.array([
-            [5, 4, 5, 4, 5],
-            [4, 4, 4, 3, 4],
-            [5, 5, 5, 5, 5],
-            [2, 3, 2, 2, 3],
-            [1, 2, 1, 1, 2]
-        ])
-        alpha = compute_cronbach_alpha(items)
-        assert alpha > 0.80, f"Expected high alpha for concordant items, got {alpha}"
-
-    def test_paired_t_test_math(self):
-        x = np.array([10.0, 12.0, 14.0, 16.0, 18.0])
-        y = np.array([8.0, 9.0, 11.0, 12.0, 13.0])
-        t, p, d = paired_t_test(x, y)
-        assert t > 0
-        assert p < 0.05
-        assert d > 0.80

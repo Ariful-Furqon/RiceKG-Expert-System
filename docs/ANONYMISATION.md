@@ -23,7 +23,6 @@ procedure after acceptance.
 | `CITATION.cff` lines 29–32 | `preferred-citation` author name + affiliation | Replaced by `ANONYMISED` |
 | `README.md` CI badge | Points to `github.com/Ariful-Furqon/RiceKG-Expert-System` | Badge line removed |
 | `analysis/verify_citations.py` line 49 | Crossref `User-Agent` contains `ariful.furqon@unej.ac.id` | Replaced by `ricekg-review@anonymous.invalid` |
-| `docs/ETHICS.md` lines 5–7 | Institution name (Universitas Jember), ethics committee name | Replaced by `[Institution name withheld for review]` |
 | Git commit history | Author name and email in every commit | Squashed to a single anonymous commit |
 | `pyproject.toml` line 13 | `authors` name and email | Replaced by `ANONYMISED` |
 | `README.md` BibTeX block | Citation key `furqon2026ricekg` and `author = {Furqon, ...}` | Key and author replaced |
