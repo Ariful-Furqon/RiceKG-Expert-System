@@ -44,3 +44,10 @@ published as first-report disease notes. And the signs the literature identifies
 for the two virus classes — excessive tillering for grassy stunt, orange discoloration for tungro —
 are recorded by no descriptor in the benchmark, so those rules cannot fire on the present case set.
 Both are limits of the available evidence rather than of the reasoner.
+
+---
+
+## Cold-Start Quantification and Sample Efficiency
+
+In the cold-start learning-curve experiment ([`results/learning_curve.md`](../results/learning_curve.md)), supervised learning requires at least $N^* = 40$ labelled cases in the rule-derived synthetic pool before all five supervised architectures exceed the zero-shot knowledge base (35.00% positive-case recall) with non-overlapping 95% bootstrap confidence intervals, while on independent real field training data, two of five supervised baselines (Multinomial Naive Bayes and Logistic Regression) fail to exceed the zero-shot baseline at any budget up to $N = 16$. However, this comparison carries an essential statistical counterweight: the independent field evaluation set contains only 5 positive disease cases ($\Delta = 0.20$ quantisation step), rendering the field comparison substantially underpowered with a minimum detectable effect of $\pm 29.5\%$ accuracy ($\alpha = 0.05$, $80\%$ power). Consequently, apparent small margins on field data (such as Decision Tree reaching 36.2% at $N=4$ or Random Forest reaching 40.0% at $N=16$) fall well within the margin of random variation and should not be interpreted as demonstrated inductive superiority over the zero-shot symbolic knowledge base.
+

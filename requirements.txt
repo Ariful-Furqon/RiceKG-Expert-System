@@ -8,6 +8,8 @@ gunicorn>=21.0.0; sys_platform != "win32"
 # Testing, Statistical Analysis & Evaluation
 pytest>=7.0.0
 numpy>=1.20.0
+pandas>=2.0.0
 scikit-learn>=1.0.0
 scipy>=1.10.0
 statsmodels>=0.14.0
+matplotlib>=3.5.0

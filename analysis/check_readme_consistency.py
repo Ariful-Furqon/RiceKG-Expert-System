@@ -17,6 +17,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASELINES_JSON = os.path.join(BASE_DIR, "results", "baselines.json")
 ABLATION_JSON = os.path.join(BASE_DIR, "results", "ablation.json")
+LEARNING_CURVE_JSON = os.path.join(BASE_DIR, "results", "learning_curve.json")
 README = os.path.join(BASE_DIR, "README.md")
 LIMITATIONS = os.path.join(BASE_DIR, "docs", "LIMITATIONS.md")
 POSITIONING = os.path.join(BASE_DIR, "docs", "POSITIONING.md")
@@ -54,6 +55,15 @@ def required_figures():
         ("ablation multi-label accuracy", f"{full['multi_acc']:.2f}",
          [README]),
     ]
+
+    if os.path.exists(LEARNING_CURVE_JSON):
+        with open(LEARNING_CURVE_JSON, encoding="utf-8") as fh:
+            lc = json.load(fh)
+        if "pool_A_results" in lc and "crossover_analysis" in lc["pool_A_results"]:
+            dt_cov = lc["pool_A_results"]["crossover_analysis"]["Decision Tree"]["crossover_budget"]
+            if dt_cov is not None:
+                checks.append(("learning curve pool A crossover budget", str(dt_cov), [POSITIONING]))
+
     return checks
 
 

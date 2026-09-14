@@ -62,6 +62,10 @@ jobs:
         run: |
           python analysis/competency_questions.py
 
+      - name: Run cold-start learning-curve evaluation (CI draws)
+        run: |
+          python analysis/learning_curve.py --draws 20
+
       - name: Verify documentation figures match results/
         run: |
           python analysis/check_readme_consistency.py
