@@ -76,3 +76,4 @@ All quantitative hypotheses are evaluated in `studies/explainability/analyse.py`
 
 - Responses are recorded anonymously in `studies/explainability/responses.csv` indexed by synthetic participant identifiers (`P01`, `P02`, ...).
 - The study adheres strictly to Universitas Jember Institutional Review Board guidelines (Ethics Approval Protocol detailed in `docs/ETHICS.md`).
+

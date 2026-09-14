@@ -54,3 +54,4 @@ Post-trial semi-structured qualitative interview items:
 1. **Critical Feature Identification**: *Which specific element in the explanation trace was most influential in your decision to accept or reject the diagnosis (e.g., rule formula, observed vs unmet symptom checklist, or confidence grade)?*
 2. **Missing Evidence Recognition**: *Did the explanation help you notice unobserved symptoms that you should check again in the field before spraying?*
 3. **Black-Box Contrast**: *How did your confidence differ when viewing a single percentage score (Condition A) versus the rule derivation tree (Condition B)?*
+
