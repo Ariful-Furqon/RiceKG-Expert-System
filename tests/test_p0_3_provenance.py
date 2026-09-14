@@ -9,8 +9,8 @@ import evaluate
 from analysis.agreement import compute_cohens_kappa, compute_fleiss_kappa, run_agreement_analysis
 
 
-def test_synthetic_benchmark_provenance():
-    path = os.path.join(evaluate.BASE_DIR, "data", "benchmark_synthetic.csv")
+def test_verification_suite_provenance():
+    path = os.path.join(evaluate.BASE_DIR, "data", "verification_suite.csv")
     assert os.path.exists(path), f"Synthetic benchmark not found at {path}"
 
     data = evaluate.load_data(path)

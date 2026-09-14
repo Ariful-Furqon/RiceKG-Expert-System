@@ -32,8 +32,10 @@ def required_figures():
 
     field = base["field_benchmark"]
     rk_field = field["system_summaries"]["RiceKG (Full Proposed)"]
-    # Support synthetic_benchmark key with fallback to augmented_benchmark
-    synth = base.get("synthetic_benchmark", base.get("augmented_benchmark"))
+    # Support verification_suite key, falling back to the historical names
+    synth = base.get("verification_suite",
+                    base.get("synthetic_benchmark",
+                             base.get("augmented_benchmark")))
     aug = synth["system_summaries"]["RiceKG (Full Proposed)"]
     full = next(r for r in abl["results"] if r["variant"] == "full")
 
@@ -52,7 +54,7 @@ def required_figures():
          [README, LIMITATIONS]),
         ("field negative control count", str(field["n_negative"]),
          [README, LIMITATIONS]),
-        ("synthetic exact match", f"{aug['mean_exact_match']:.2f}",
+        ("verification-suite exact match", f"{aug['mean_exact_match']:.2f}",
          [README]),
         ("ablation multi-label accuracy", f"{full['multi_acc']:.2f}",
          [README]),

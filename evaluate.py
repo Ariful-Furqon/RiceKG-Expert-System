@@ -10,8 +10,8 @@ from sklearn.linear_model import LinearRegression
 import model
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_SYNTHETIC_CSV = os.path.join(BASE_DIR, "data", "benchmark_synthetic.csv")
-DEFAULT_AUGMENTED_CSV = DEFAULT_SYNTHETIC_CSV  # alias for backwards compatibility
+DEFAULT_VERIFICATION_CSV = os.path.join(BASE_DIR, "data", "verification_suite.csv")
+DEFAULT_VERIFICATION_CSV = DEFAULT_VERIFICATION_CSV  # alias for backwards compatibility
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
 
 ALL_DIAGNOSES = [
@@ -39,7 +39,7 @@ PEST_CLASSES = {
 def load_data(csv_path, split=None):
     """
     Loads diagnostic benchmark dataset.
-    Supports benchmark_synthetic.csv and benchmark_field.csv.
+    Supports verification_suite.csv and benchmark_field.csv.
     Optional split parameter filters by dataset split (e.g. 'dev' or 'eval').
     """
     if not os.path.exists(csv_path):
@@ -125,12 +125,12 @@ def load_data(csv_path, split=None):
     return dataset
 
 
-def run_evaluation(csv_path=None, dataset_name="synthetic"):
+def run_evaluation(csv_path=None, dataset_name="verification"):
     if csv_path is None:
         if dataset_name == "field":
             csv_path = FIELD_CSV
         else:
-            csv_path = DEFAULT_SYNTHETIC_CSV
+            csv_path = DEFAULT_VERIFICATION_CSV
 
     print("=" * 80)
     print("PERFORMANCE EVALUATION: RICE PEST & DISEASE DIAGNOSTIC EXPERT SYSTEM (SWRL)")
@@ -448,8 +448,8 @@ def run_evaluation(csv_path=None, dataset_name="synthetic"):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate RiceKG expert system with out-of-sample calibration.")
-    parser.add_argument("--dataset", choices=["synthetic", "augmented", "field"], default="synthetic",
-                        help="Benchmark dataset to evaluate (synthetic, augmented alias, or field).")
+    parser.add_argument("--dataset", choices=["verification", "synthetic", "augmented", "field"], default="verification",
+                        help="Dataset to evaluate: 'verification' (rule-derived deductive suite) or 'field' (independent literature cases). 'synthetic' and 'augmented' are deprecated aliases for 'verification'.")
     parser.add_argument("--csv-path", default=None, help="Explicit path to benchmark CSV file.")
     args = parser.parse_args()
 

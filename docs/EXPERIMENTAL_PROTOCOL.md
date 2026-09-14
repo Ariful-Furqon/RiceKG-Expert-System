@@ -99,7 +99,7 @@ Section 5 and `docs/ONTOLOGY.md`.
 
 ### 2.1 The synthetic rule-derived set: tier structure T1–T6
 
-`data/benchmark_synthetic.csv` (eighty cases, provenance `rule_derived`)
+`data/verification_suite.csv` (eighty cases, provenance `rule_derived`)
 is derived mechanically from `RULE_REGISTRY`. It is structured into six
 tiers:
 
@@ -291,7 +291,7 @@ Prototype` (ontology-free symptom-count heuristic).
 
 ### 5.2 Training budgets and encoding
 
-On the synthetic benchmark, supervised classifiers train on forty cases per
+On the verification suite, supervised classifiers train on forty cases per
 fold (half of eighty). On the field benchmark, the 5×2-fold protocol
 allocates roughly eleven training cases per fold (half of twenty-three).
 
@@ -313,7 +313,7 @@ boundary is used throughout.
 The learning-curve experiment uses two training pools:
 
 - **Pool A**: the eighty synthetic rule-derived cases from
-  `data/benchmark_synthetic.csv`. This pool supplies the smooth scaling
+  `data/verification_suite.csv`. This pool supplies the smooth scaling
   reference. In all pool draws, training cases are drawn from Pool A and
   tested on the field evaluation set; the pool and the test set are
   disjoint by construction. The leakage assertion in
@@ -381,7 +381,7 @@ cross-references are given here:
 - **Four insect pest classes have no positive field evidence** (Section 2):
   no claim about diagnostic performance on insect pests is supported by
   field data.
-- **The synthetic benchmark is circular** (Section 4): it measures
+- **The verification suite is circular** (Section 4): it measures
   deductive consistency with the rule base, not diagnostic ability.
 - **Vocabulary coverage is partial** (Section 3): nine symptom descriptors
   extracted from the field literature remain unmapped; the two discriminating

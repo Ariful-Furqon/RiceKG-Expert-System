@@ -143,9 +143,9 @@ The P0-5 Step 2 extension closed the most serious gaps, but coverage remains par
 
 ---
 
-## 4. Evaluation Set Circularity of `benchmark_synthetic.csv`
+## 4. Evaluation Set Circularity of `verification_suite.csv`
 
-`data/benchmark_synthetic.csv` (80 instances, formerly `benchmark_augmented.csv` / `dataText.csv`) was authored from the same
+`data/verification_suite.csv` (80 instances, formerly `benchmark_augmented.csv` / `dataText.csv`) was authored from the same
 SWRL rule antecedents that the reasoner executes, and carries provenance `rule_derived`.
 
 The P0-5 rule revisions demonstrated this circularity directly rather than by argument. Revising
@@ -210,6 +210,6 @@ This analysis reveals an inherent structural limitation of the independent field
 3. **Methodological Mitigation**:
    To prevent misleading interpretations:
    - All learning-curve evaluations report per-budget non-parametric 95% bootstrap confidence intervals rather than bare point means;
-   - A secondary smooth learning curve is reported over the larger synthetic benchmark ($n = 80$) to reveal asymptotic inductive behavior, explicitly disclosed as rule-derived rather than empirical field performance;
+   - A secondary smooth learning curve is reported over the larger verification suite ($n = 80$) to reveal asymptotic inductive behavior, explicitly disclosed as rule-derived rather than empirical field performance;
    - Crossover budgets ($N^*$) are strictly defined to require that the 95% bootstrap CI of the paired difference excludes zero, and no extrapolation beyond empirical pool boundaries is permitted.
 

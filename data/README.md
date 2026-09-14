@@ -4,10 +4,10 @@ This directory contains benchmark datasets used for evaluating the RiceKG expert
 
 ---
 
-## 1. Synthetic Rule-Derived Benchmark (`benchmark_synthetic.csv`)
+## 1. Deductive Verification Suite (`verification_suite.csv`)
 
 ### Overview
-- **File**: `data/benchmark_synthetic.csv` (formerly `benchmark_augmented.csv` / `dataText.csv`)
+- **File**: `data/verification_suite.csv` (formerly `benchmark_synthetic.csv`, `benchmark_augmented.csv`, `dataText.csv`)
 - **Sample Size ($n$)**: 80 test cases
 - **Provenance**: `rule_derived`
 - **Authorship**: Knowledge engineering team during SWRL rule base authoring.
@@ -27,7 +27,7 @@ The 80 cases are partitioned into six diagnostic tiers:
 
 ### Methodological Disclosure & Circularity
 > [!IMPORTANT]
-> As disclosed in `docs/LIMITATIONS.md`, **`benchmark_synthetic.csv` is rule-derived**. Evaluating an expert system on cases generated from earlier Horn-clause rules exhibited ceiling consistency (60.00% exact match and 95.12% multi-label accuracy following P0-5 rule revisions; formerly 92.50%). It verifies rule firing consistency and deductive completeness, but **cannot be interpreted as empirical clinical or field diagnostic accuracy**.
+> As disclosed in `docs/LIMITATIONS.md`, **`verification_suite.csv` is rule-derived**. Evaluating an expert system on cases generated from earlier Horn-clause rules exhibited ceiling consistency (60.00% exact match and 95.12% multi-label accuracy following P0-5 rule revisions; formerly 92.50%). It verifies rule firing consistency and deductive completeness, but **cannot be interpreted as empirical clinical or field diagnostic accuracy**.
 
 ---
 
@@ -75,7 +75,7 @@ The `symptom_*` columns of this file were originally populated with descriptive 
 authored during Stage B extraction (for example `seed_yellowish_green_velvety_balls`). Those slugs form
 a namespace disjoint from the ontology vocabulary `model.ALL_SYMPTOMS`, which uses identifiers such as
 `Rusty_Grain_Balls`: **none of the 25 recorded descriptors matched any of the then 45 ontology terms**, while
-`benchmark_synthetic.csv` matched on all 45. As a result every case in this benchmark reached the
+`verification_suite.csv` matched on all 45. As a result every case in this benchmark reached the
 reasoner as an empty assertion set, and the benchmark could not exercise the rule base at all.
 
 [`symptom_mapping.csv`](symptom_mapping.csv) records the resolution of each descriptor with a
@@ -104,8 +104,8 @@ normalization.
 The evaluation script (`evaluate.py`) supports separate dataset evaluation via `--dataset`:
 
 ```bash
-# Evaluate synthetic verification benchmark
-python evaluate.py --dataset synthetic
+# Evaluate deductive verification suite
+python evaluate.py --dataset verification
 
 # Evaluate independent field/literature benchmark
 python evaluate.py --dataset field
@@ -114,5 +114,5 @@ python evaluate.py --dataset field
 python evaluate.py --csv-path data/custom_eval.csv
 ```
 
-Synthetic and independent metrics are **never pooled into a single composite accuracy score**.
+Verification-suite and independent field metrics are **never pooled into a single composite accuracy score**: the first measures deductive consistency, the second measures diagnostic accuracy.
 

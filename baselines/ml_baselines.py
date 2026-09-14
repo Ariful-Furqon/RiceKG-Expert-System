@@ -303,10 +303,10 @@ def evaluate_ml_baselines(csv_path: str, random_state: int = 42) -> Dict[str, An
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Run ML baselines on RiceKG benchmark")
-    parser.add_argument("--dataset", choices=["synthetic", "augmented", "field"], default="synthetic")
+    parser.add_argument("--dataset", choices=["verification", "synthetic", "augmented", "field"], default="verification")
     args = parser.parse_args()
 
-    csv_file = evaluate.FIELD_CSV if args.dataset == "field" else evaluate.DEFAULT_SYNTHETIC_CSV
+    csv_file = evaluate.FIELD_CSV if args.dataset == "field" else evaluate.DEFAULT_VERIFICATION_CSV
     print(f"Evaluating ML baselines on {args.dataset} ({csv_file})...")
     res = evaluate_ml_baselines(csv_file)
     print(f"Split strategy: {res['split_strategy']}")

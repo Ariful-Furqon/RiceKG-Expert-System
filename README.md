@@ -75,7 +75,7 @@ them drifts from the regenerated data.
 
 | Reported table | Command | Output |
 |---|---|---|
-| Benchmark 1 (synthetic, rule-derived) | `make ablate` | [`results/ablation.md`](results/ablation.md), [`results/ablation.json`](results/ablation.json) |
+| Verification suite (rule-derived) | `make ablate` | [`results/ablation.md`](results/ablation.md), [`results/ablation.json`](results/ablation.json) |
 | Benchmark 2 (independent field) and baseline comparison | `make baselines` | [`results/baselines.md`](results/baselines.md), [`results/baselines.json`](results/baselines.json) |
 | Per-case field failure diagnosis | `make failure-analysis` | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
 | Documentation consistency gate | `make check-docs` | exit status |
@@ -120,9 +120,9 @@ Open your browser and navigate to: `http://127.0.0.1:5000/`
 
 ## Evaluation Results
 
-To prevent evaluation circularity, performance is reported separately on two distinct benchmarks with explicit provenance tracking. **Synthetic and independent cases are never pooled.**
+To prevent evaluation circularity, the two datasets are reported separately and serve different purposes. The **deductive verification suite** is rule-derived: it checks that the reasoner fires correctly and cannot measure diagnostic accuracy. The **independent field benchmark** is drawn from peer-reviewed case reports and is the only source of an accuracy claim. **The two are never pooled.**
 
-### Benchmark 1: Synthetic Rule-Derived Benchmark (`data/benchmark_synthetic.csv`)
+### Benchmark 1: Deductive Verification Suite (`data/verification_suite.csv`)
 - **Provenance**: `rule_derived` (authored to verify deductive SWRL rule firing consistency)
 - **Sample Size ($n$)**: 80 test cases across 6 diagnostic tiers (T1-T6)
 
@@ -182,7 +182,7 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 
 Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
 
-- **Synthetic Verification Benchmark ($n=80$)**: RiceKG achieves **60.00% ± 6.52%** exact match (micro-F1 **68.30% ± 3.41%**) with **zero training data**. The ontology-free Nearest Prototype baseline outperforms RiceKG on exact match (**72.50% ± 2.24%**, Holm-adjusted $p = 0.0030$), while five supervised ML baselines trained on 40 cases/fold reach **52.25%–63.75%** exact match with none showing statistically significant difference from RiceKG after Holm–Bonferroni correction (Holm-adjusted $p = 0.1024$ to $1.0000$).
+- **Deductive Verification Suite ($n=80$)**: RiceKG achieves **60.00% ± 6.52%** exact match (micro-F1 **68.30% ± 3.41%**) with **zero training data**. The ontology-free Nearest Prototype baseline outperforms RiceKG on exact match (**72.50% ± 2.24%**, Holm-adjusted $p = 0.0030$), while five supervised ML baselines trained on 40 cases/fold reach **52.25%–63.75%** exact match with none showing statistically significant difference from RiceKG after Holm–Bonferroni correction (Holm-adjusted $p = 0.1024$ to $1.0000$).
 - **Independent Field Benchmark, `eval` ($n=23$, development-informed)**: RiceKG attains **35.00%** positive-case recall (micro-F1 **40.67%**, 95% CI [34.8, 74.3]), exceeding the ontology-free nearest-prototype matcher by 13.0 points of exact match (**86.82%** vs 73.94%, Holm-adjusted $p = 0.0004$), though that matcher holds a slightly higher micro-F1 (43.29 vs 40.67). Under 5×2-fold cross-validation within `eval`, the strongest supervised baseline reaches 10.00% (with remaining ML models at 0.00%); *however, as documented in `results/baselines.md` and `results/learning_curve.md`, this 0/5 result is an artifact of severe class sparsity in 11-case CV training folds (which contain zero examples of viral classes), not evidence of ML weakness*. When trained on the external `dev` split ($n=16$) and tested on `eval` (learning-curve Pool B), ML models reach up to 40.0% positive recall. With 5 positive cases and an MDE of $\pm 29.5$ percentage points, comparisons remain underpowered.
 - **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 

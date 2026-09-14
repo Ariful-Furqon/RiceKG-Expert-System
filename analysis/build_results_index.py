@@ -95,13 +95,15 @@ def _nearest_prototype_field(base: dict) -> list[dict]:
 
 
 def _ricekg_synthetic(base: dict) -> list[dict]:
-    synth = base.get("synthetic_benchmark", base.get("augmented_benchmark", {}))
+    synth = base.get("verification_suite",
+                     base.get("synthetic_benchmark",
+                              base.get("augmented_benchmark", {})))
     rk = synth.get("system_summaries", {}).get("RiceKG (Full Proposed)", {})
     if not rk:
         return []
     return [
         {
-            "claim": "RiceKG synthetic exact match",
+            "claim": "RiceKG verification-suite exact match",
             "command": "python baselines/run_baselines.py",
             "artifact": "results/baselines.json",
             "value": f"{_fmt(rk['mean_exact_match'])}%",
@@ -160,20 +162,20 @@ def _extract_ablation(path: Path) -> list[dict]:
         # ablation.json uses "exact_acc"; fall back to "exact_match" for future compat
         exact = r.get("exact_acc", r.get("exact_match", 0.0))
         rows.append({
-            "claim": f"Ablation: {r['variant']} exact match (synthetic)",
+            "claim": f"Ablation: {r['variant']} exact match (verification suite)",
             "command": "python ablation.py",
             "artifact": "results/ablation.json",
             "value": f"{_fmt(exact)}%",
         })
         rows.append({
-            "claim": f"Ablation: {r['variant']} multi-label accuracy (synthetic)",
+            "claim": f"Ablation: {r['variant']} multi-label accuracy (verification suite)",
             "command": "python ablation.py",
             "artifact": "results/ablation.json",
             "value": f"{_fmt(r.get('multi_acc', 0.0))}%",
         })
         if "recall" in r:
             rows.append({
-                "claim": f"Ablation: {r['variant']} positive recall (synthetic)",
+                "claim": f"Ablation: {r['variant']} positive recall (verification suite)",
                 "command": "python ablation.py",
                 "artifact": "results/ablation.json",
                 "value": f"{_fmt(r['recall'])}%",
@@ -189,7 +191,7 @@ def _extract_learning_curve(path: Path) -> list[dict]:
     # Gather crossover budgets per pool per model
     for pool_key in ("pool_a", "pool_b"):
         pool_data = lc.get(pool_key, {})
-        pool_label = "Pool A (synthetic)" if pool_key == "pool_a" else "Pool B (field dev)"
+        pool_label = "Pool A (verification suite)" if pool_key == "pool_a" else "Pool B (field dev)"
         crossovers_found = False
         for model_name, model_data in pool_data.items():
             if not isinstance(model_data, dict):

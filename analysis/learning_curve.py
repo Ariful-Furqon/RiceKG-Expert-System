@@ -10,7 +10,7 @@ Answers the fundamental reviewer question:
 
 Design:
 - Fixed test set: field 'eval' split of data/benchmark_field.csv (n=23: 5 positives, 18 controls).
-- Pool A (Rule-derived): data/benchmark_synthetic.csv (n=80). Budgets: [5, 10, 20, 40, 80].
+- Pool A (Rule-derived): data/verification_suite.csv (n=80). Budgets: [5, 10, 20, 40, 80].
 - Pool B (Real field dev): data/benchmark_field.csv dev split (n=16). Budgets: [2, 4, 8, 16].
 - Resampling: R=200 stratified draws without replacement per budget.
 - Headline metric: positive-case recall over 5 in-scope cases (exact match & micro-F1 as secondary).
@@ -45,7 +45,7 @@ import evaluate
 from baselines import ml_baselines, rule_baselines
 
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
-SYNTHETIC_CSV = os.path.join(BASE_DIR, "data", "benchmark_synthetic.csv")
+VERIFICATION_CSV = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 BASELINES_JSON = os.path.join(BASE_DIR, "results", "baselines.json")
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
 FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
@@ -539,7 +539,7 @@ def generate_markdown_report(
         "",
         "## 2. Quantitative Results: Pool A (Rule-Derived Cases, $N \\in [5, 80]$)",
         "",
-        "Training cases drawn from `data/benchmark_synthetic.csv` ($n=80$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n=23$).",
+        "Training cases drawn from `data/verification_suite.csv` ($n=80$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n=23$).",
         "",
         "| Model | N=5 | N=10 | N=20 | N=40 | N=80 | Crossover Budget $N^*$ | First Non-Zero $N$ |",
         "|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
@@ -651,7 +651,7 @@ def main():
         print(f"  {name:<25}: exact_match={r['runtime_exact_match']:>5.2f}%, pos_recall={r['runtime_positive_recall']:>5.2f}%{ci_str}, micro_f1={r['runtime_micro_f1']:>5.2f}%")
 
     # 3. Load Pools
-    X_pool_a, Y_pool_a, cases_pool_a = ml_baselines.load_and_encode_dataset(SYNTHETIC_CSV)
+    X_pool_a, Y_pool_a, cases_pool_a = ml_baselines.load_and_encode_dataset(VERIFICATION_CSV)
     X_pool_b, Y_pool_b, cases_pool_b = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="dev")
 
     budgets_a = [5, 10, 20, 40, 80]
@@ -662,7 +662,7 @@ def main():
     if args.pool in ("A", "both"):
         res_a = run_learning_curve_for_pool(
             pool_name="pool_A",
-            pool_source_desc="Rule-Derived Synthetic Benchmark (n=80)",
+            pool_source_desc="Rule-Derived Verification Suite (n=80)",
             X_pool=X_pool_a,
             Y_pool=Y_pool_a,
             pool_cases=cases_pool_a,

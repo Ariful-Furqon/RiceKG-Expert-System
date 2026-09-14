@@ -26,7 +26,7 @@ from analysis import learning_curve
 from baselines import ml_baselines
 
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
-SYNTHETIC_CSV = os.path.join(BASE_DIR, "data", "benchmark_synthetic.csv")
+VERIFICATION_CSV = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 
 
 def test_zero_shot_reference_computation():
@@ -102,7 +102,7 @@ def test_zero_leakage_pool_a_synthetic():
     eval_ids = {c["case_id"] for c in cases_eval}
     eval_dois = {c.get("doi") for c in cases_eval if c.get("doi")}
 
-    cases_syn = evaluate.load_data(SYNTHETIC_CSV)
+    cases_syn = evaluate.load_data(VERIFICATION_CSV)
     syn_ids = {c["case_id"] for c in cases_syn}
     syn_dois = {c.get("doi") for c in cases_syn if c.get("doi")}
 

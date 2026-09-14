@@ -1,11 +1,11 @@
 <!-- GENERATED FILE — DO NOT EDIT BY HAND -->
-<!-- content-sha256: 13582c699545436612475a3351210baf7bbcf730112825bcf1b700a0d011c5fa -->
+<!-- content-sha256: 61dec1ac83ed78ae5f58ef2703e26706cad83ad7b8a15cee016227beb83f762e -->
 <!-- Regenerate with: python analysis/build_results_index.py -->
 <!-- Wired into: make reproduce, CI (check_readme_consistency.py) -->
 
 # Results Index
 
-Auto-generated on 2026-09-14T05:40:20Z from `results/*.json`.
+Auto-generated on 2026-09-14T06:18:58Z from `results/*.json`.
 Each row maps a manuscript claim to the command that produces it and the
 source artifact that stores the value. Edit
 `analysis/build_results_index.py` to change what is indexed.
@@ -18,7 +18,7 @@ source artifact that stores the value. Edit
 | Nearest Prototype field positive-case recall | `python baselines/run_baselines.py` | `results/baselines.json` | 17.50% |
 | Nearest Prototype field exact match | `python baselines/run_baselines.py` | `results/baselines.json` | 73.94% |
 | Nearest Prototype field micro-F1 | `python baselines/run_baselines.py` | `results/baselines.json` | 43.29 |
-| RiceKG synthetic exact match | `python baselines/run_baselines.py` | `results/baselines.json` | 60.00% |
+| RiceKG verification-suite exact match | `python baselines/run_baselines.py` | `results/baselines.json` | 60.00% |
 | Field benchmark positive case count | `python baselines/run_baselines.py` | `results/baselines.json` | 5 |
 | Field benchmark negative control count | `python baselines/run_baselines.py` | `results/baselines.json` | 18 |
 | Decision Tree field positive-recall (5×2-fold CV) | `python baselines/run_baselines.py` | `results/baselines.json` | 10.00% |
@@ -26,22 +26,22 @@ source artifact that stores the value. Edit
 | Multinomial Naive Bayes field positive-recall (5×2-fold CV) | `python baselines/run_baselines.py` | `results/baselines.json` | 0.00% |
 | k-NN field positive-recall (5×2-fold CV) | `python baselines/run_baselines.py` | `results/baselines.json` | 0.00% |
 | Logistic Regression (OvR) field positive-recall (5×2-fold CV) | `python baselines/run_baselines.py` | `results/baselines.json` | 0.00% |
-| Ablation: full exact match (synthetic) | `python ablation.py` | `results/ablation.json` | 60.00% |
-| Ablation: full multi-label accuracy (synthetic) | `python ablation.py` | `results/ablation.json` | 95.12% |
-| Ablation: full positive recall (synthetic) | `python ablation.py` | `results/ablation.json` | 52.50% |
-| Ablation: tier1_only exact match (synthetic) | `python ablation.py` | `results/ablation.json` | 32.50% |
-| Ablation: tier1_only multi-label accuracy (synthetic) | `python ablation.py` | `results/ablation.json` | 91.00% |
-| Ablation: tier1_only positive recall (synthetic) | `python ablation.py` | `results/ablation.json` | 10.00% |
-| Ablation: tier2_only exact match (synthetic) | `python ablation.py` | `results/ablation.json` | 55.00% |
-| Ablation: tier2_only multi-label accuracy (synthetic) | `python ablation.py` | `results/ablation.json` | 94.62% |
-| Ablation: tier2_only positive recall (synthetic) | `python ablation.py` | `results/ablation.json` | 47.50% |
-| Ablation: flat_rules exact match (synthetic) | `python ablation.py` | `results/ablation.json` | 60.00% |
-| Ablation: flat_rules multi-label accuracy (synthetic) | `python ablation.py` | `results/ablation.json` | 95.12% |
-| Ablation: flat_rules positive recall (synthetic) | `python ablation.py` | `results/ablation.json` | 52.50% |
-| Ablation: no_reasoner exact match (synthetic) | `python ablation.py` | `results/ablation.json` | 60.00% |
-| Ablation: no_reasoner multi-label accuracy (synthetic) | `python ablation.py` | `results/ablation.json` | 95.12% |
-| Ablation: no_reasoner positive recall (synthetic) | `python ablation.py` | `results/ablation.json` | 52.50% |
-| Learning-curve crossover detected (Pool A (synthetic)) | `python analysis/learning_curve.py` | `results/learning_curve.json` | None (all test-set CIs include zero) |
+| Ablation: full exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 60.00% |
+| Ablation: full multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 95.12% |
+| Ablation: full positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 52.50% |
+| Ablation: tier1_only exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 32.50% |
+| Ablation: tier1_only multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 91.00% |
+| Ablation: tier1_only positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 10.00% |
+| Ablation: tier2_only exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 55.00% |
+| Ablation: tier2_only multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 94.62% |
+| Ablation: tier2_only positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 47.50% |
+| Ablation: flat_rules exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 60.00% |
+| Ablation: flat_rules multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 95.12% |
+| Ablation: flat_rules positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 52.50% |
+| Ablation: no_reasoner exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 60.00% |
+| Ablation: no_reasoner multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 95.12% |
+| Ablation: no_reasoner positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 52.50% |
+| Learning-curve crossover detected (Pool A (verification suite)) | `python analysis/learning_curve.py` | `results/learning_curve.json` | None (all test-set CIs include zero) |
 | Learning-curve crossover detected (Pool B (field dev)) | `python analysis/learning_curve.py` | `results/learning_curve.json` | None (all test-set CIs include zero) |
 | LC zero-shot reference: RiceKG (Full Proposed) positive recall | `python analysis/learning_curve.py` | `results/learning_curve.json` | 35.00% |
 | LC zero-shot reference: Rule: Flat Single-Tier positive recall | `python analysis/learning_curve.py` | `results/learning_curve.json` | 35.00% |

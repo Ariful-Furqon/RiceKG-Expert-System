@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-14T05:38:36.908666+00:00",
-  "elapsed_seconds": 271.95,
-  "synthetic_benchmark": {
-    "dataset_name": "Synthetic Verification Benchmark",
-    "csv_path": "data/benchmark_synthetic.csv",
+  "generated_at": "2026-09-14T06:13:29.165780+00:00",
+  "elapsed_seconds": 173.03,
+  "verification_suite": {
+    "dataset_name": "Deductive Verification Suite",
+    "csv_path": "data/verification_suite.csv",
     "split": "all",
     "n_samples": 80,
     "n_positive": 62,
@@ -601,8 +601,8 @@
     }
   },
   "augmented_benchmark": {
-    "dataset_name": "Synthetic Verification Benchmark",
-    "csv_path": "data/benchmark_synthetic.csv",
+    "dataset_name": "Deductive Verification Suite",
+    "csv_path": "data/verification_suite.csv",
     "split": "all",
     "n_samples": 80,
     "n_positive": 62,

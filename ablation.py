@@ -26,7 +26,7 @@ import argparse
 import model
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_SYNTHETIC = os.path.join(BASE_DIR, "data", "benchmark_synthetic.csv")
+DEFAULT_SYNTHETIC = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 DEFAULT_CSV = DEFAULT_SYNTHETIC
 DEFAULT_OUT_DIR = os.path.join(BASE_DIR, "results")
 ALL_CLASSES = list(model.SWRL_RULES_METADATA.keys())

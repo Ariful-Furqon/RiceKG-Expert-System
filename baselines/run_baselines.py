@@ -8,7 +8,7 @@ Generates:
 - results/baselines.json
 - results/baselines.md
 
-Strictly separates the augmented verification benchmark from the independent field benchmark,
+Strictly separates the deductive verification suite from the independent field benchmark,
 and reports the field benchmark's dev and held-out eval splits separately.
 """
 
@@ -293,7 +293,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "",
         "---",
         "",
-        "## 1. Synthetic Verification Benchmark (`benchmark_synthetic.csv`, $n=80$)",
+        "## 1. Deductive Verification Suite (`verification_suite.csv`, $n=80$)",
         "",
         f"- **Dataset Provenance**: Rule-derived cases ($n=80$, multi-threat composites).",
         f"- **Cross-Validation Split Strategy**: `{augmented_results['split_strategy']}`.",
@@ -334,8 +334,8 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "Risk Difference ($\\Delta$ Acc) is reported as percentage-point difference with paired Wald 95% confidence interval. "
         "Cohen's g is bounded on $[-0.50, +0.50]$ (defined as $g = b/(b+c) - 0.5$); values near $+0.50$ indicate that the ceiling of the statistic has been reached due to near-zero errors by RiceKG on discordant pairs ($c \\approx 0$), rather than an unbounded magnitude.*",
         "",
-        "### Key Findings (Synthetic Benchmark)",
-        "1. **Rule-Derived Verification Only**: All 80 cases in `benchmark_synthetic.csv` have provenance `rule_derived`, constructed from RiceKG's own Horn clauses. Outperforming ML on cases generated from internal rules verifies deductive consistency, but does not establish empirical diagnostic superiority over supervised learning.",
+        "### Key Findings (Verification Suite)",
+        "1. **Rule-Derived Verification Only**: All 80 cases in `verification_suite.csv` have provenance `rule_derived`, constructed from RiceKG's own Horn clauses. Outperforming ML on cases generated from internal rules verifies deductive consistency, but does not establish empirical diagnostic superiority over supervised learning.",
         "2. **Cold-Start Sample Efficiency**: Supervised ML models trained on 40 cases/fold achieve 55.50% to 63.75% exact match because 16 rare multi-threat combinations appear only once. RiceKG requires **zero training data** and executes deterministic symbolic inference.",
         "3. **Rule Stratification Identity**: The unstratified single-tier rule baseline (*Flat Single-Tier*) achieves identical numerical accuracy to Full RiceKG on this benchmark, confirming the P0-2 ablation finding that tier stratification provides clinical specificity/screening grading rather than an accuracy improvement.",
         "",
@@ -426,7 +426,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "",
         "## 3. Statistical Power & Minimum Detectable Effect Disclosure",
         "",
-        f"- **Synthetic Benchmark ($n={augmented_results['n_samples']}$)**: $\\text{{MDE}} = \\pm {aug_mde:.1f}\\%$.",
+        f"- **Verification Suite ($n={augmented_results['n_samples']}$)**: $\\text{{MDE}} = \\pm {aug_mde:.1f}\\%$.",
         f"- **Field Benchmark, eval split ($n={f_n}$, {f_pos} positive cases)**: "
         f"$\\text{{MDE}} = \\pm {field_mde:.1f}\\%$.",
         "- In accordance with AIP empirical standards, null hypothesis outcomes are disclosed as underpowered rather than equivalent.",
@@ -437,7 +437,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
 
 def run_all_baselines():
     """Runs complete comparative baselines on synthetic and field benchmarks."""
-    synthetic_csv = evaluate.DEFAULT_SYNTHETIC_CSV if os.path.exists(evaluate.DEFAULT_SYNTHETIC_CSV) else evaluate.DEFAULT_AUGMENTED_CSV
+    verification_csv = evaluate.DEFAULT_VERIFICATION_CSV if os.path.exists(evaluate.DEFAULT_VERIFICATION_CSV) else evaluate.DEFAULT_VERIFICATION_CSV
     field_csv = evaluate.FIELD_CSV
 
     print("=" * 80)
@@ -445,7 +445,7 @@ def run_all_baselines():
     print("=" * 80)
 
     t0 = time.time()
-    synthetic_res = evaluate_dataset_with_fair_protocol(synthetic_csv, "Synthetic Verification Benchmark", random_state=42)
+    verification_res = evaluate_dataset_with_fair_protocol(verification_csv, "Deductive Verification Suite", random_state=42)
     field_dev_res = evaluate_dataset_with_fair_protocol(
         field_csv, "Independent Literature Field Benchmark (dev split)", random_state=42, split="dev")
     field_res = evaluate_dataset_with_fair_protocol(
@@ -457,8 +457,8 @@ def run_all_baselines():
     combined_json = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "elapsed_seconds": round(elapsed, 2),
-        "synthetic_benchmark": synthetic_res,
-        "augmented_benchmark": synthetic_res,  # backwards-compatible alias
+        "verification_suite": verification_res,
+        "augmented_benchmark": verification_res,  # backwards-compatible alias
         # `field_benchmark` is the held-out eval split: the only independent figure.
         "field_benchmark": field_res,
         "field_benchmark_dev": field_dev_res,
@@ -469,7 +469,7 @@ def run_all_baselines():
 
     # Write Markdown report
     md_path = os.path.join(RESULTS_DIR, "baselines.md")
-    md_content = generate_markdown_report(synthetic_res, field_res, field_dev_res)
+    md_content = generate_markdown_report(verification_res, field_res, field_dev_res)
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(md_content)
     print(f"[OUTPUT] Saved publication report to {md_path}")
