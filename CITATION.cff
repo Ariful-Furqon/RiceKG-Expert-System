@@ -19,10 +19,12 @@ keywords:
   - explainable-ai
 abstract: >-
   An explainable semantic knowledge graph and multi-tier SWRL reasoning
-  system for rice biotic stressor diagnosis and prescriptive integrated
-  pest management (IPM). The framework formalizes 10 major biotic threats
-  (5 pests and 5 diseases), 45 phenotypic symptoms, and 20 SWRL inference
-  rules using OWL 2 Description Logic with the Pellet DL reasoner.
+  system for rice biotic stressor diagnosis. The framework formalizes
+  10 major biotic threats (5 pests and 5 diseases), 54 phenotypic symptoms,
+  and 20 SWRL inference rules using OWL 2 Description Logic with the Pellet
+  DL reasoner. Treatment recommendations are outside the current scope of
+  the knowledge graph; the ControlTreatment class is declared but not
+  populated. No prescriptive integrated pest management (IPM) claim is made.
 preferred-citation:
   type: article
   authors:

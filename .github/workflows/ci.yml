@@ -66,6 +66,10 @@ jobs:
         run: |
           python analysis/learning_curve.py --draws 20
 
+      - name: Regenerate results index
+        run: |
+          python analysis/build_results_index.py
+
       - name: Verify documentation figures match results/
         run: |
           python analysis/check_readme_consistency.py

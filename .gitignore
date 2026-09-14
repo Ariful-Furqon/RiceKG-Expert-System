@@ -95,3 +95,5 @@ Response_to_Reviewers.md
 AIP_REVISION_TASKS.md
 ANTIGRAVITY_PROMPT*.md
 
+# Anonymous review bundle (produced by make anon-bundle; never commit)
+anon_bundle/

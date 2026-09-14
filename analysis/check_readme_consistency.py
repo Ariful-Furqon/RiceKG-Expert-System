@@ -82,6 +82,29 @@ def scan_for_stale_metrics(text: str, filename: str) -> list:
     return failures
 
 
+RESULTS_INDEX = os.path.join(BASE_DIR, "docs", "RESULTS_INDEX.md")
+_GENERATED_MARKER = "<!-- GENERATED FILE — DO NOT EDIT BY HAND -->"
+
+
+def check_results_index() -> list[str]:
+    """Fail if docs/RESULTS_INDEX.md is missing or was hand-edited."""
+    errs = []
+    if not os.path.exists(RESULTS_INDEX):
+        errs.append(
+            "  docs/RESULTS_INDEX.md is missing; run `python analysis/build_results_index.py`"
+        )
+        return errs
+    with open(RESULTS_INDEX, encoding="utf-8") as fh:
+        first_line = fh.readline().strip()
+    if _GENERATED_MARKER not in first_line:
+        errs.append(
+            "  docs/RESULTS_INDEX.md does not contain the generated-file header on line 1; "
+            "it may have been hand-edited or regenerated incorrectly. "
+            "Run `python analysis/build_results_index.py` to regenerate."
+        )
+    return errs
+
+
 def main():
     for path in (BASELINES_JSON, ABLATION_JSON):
         if not os.path.exists(path):
@@ -108,6 +131,13 @@ def main():
         stale_errs = scan_for_stale_metrics(text, rel)
         if stale_errs:
             failures.extend(stale_errs)
+
+    # Check RESULTS_INDEX freshness
+    index_errs = check_results_index()
+    if index_errs:
+        failures.extend(index_errs)
+    else:
+        print("  OK  docs/RESULTS_INDEX.md: generated-file header present")
 
     if failures:
         print("\nFAIL: documentation has drifted from results/\n")
