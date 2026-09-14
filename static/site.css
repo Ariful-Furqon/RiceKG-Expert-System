@@ -1107,6 +1107,112 @@ body {
   border: 1px solid #e2e8f0;
 }
 
+/* Proof Tree Derivation Trace */
+.xai-proof-tree-details {
+  margin-top: 14px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.xai-proof-tree-details summary {
+  padding: 10px 14px;
+  background: #f8fafc;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid transparent;
+  user-select: none;
+}
+
+.xai-proof-tree-details[open] summary {
+  border-bottom: 1px solid #e2e8f0;
+  background: #f1f5f9;
+}
+
+.proof-tree-body {
+  padding: 14px;
+  background: #ffffff;
+}
+
+.proof-tree-step {
+  border-left: 2px solid var(--primary);
+  margin-left: 12px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.proof-tree-step::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 12px;
+  height: 2px;
+  background: var(--primary);
+}
+
+.proof-node-conclusion {
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #166534;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.proof-node-rule {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  font-size: 0.82rem;
+}
+
+.proof-premises-list {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.proof-premise-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.proof-premise-item.satisfied {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.proof-premise-item.unmet {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
 /* ==========================================================================
    Printable Diagnostic Report / Certificate Styles
    ========================================================================== */

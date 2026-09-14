@@ -129,6 +129,78 @@
           <div style="font-size: 0.85rem; color: var(--slate); margin-top: 10px; line-height: 1.5; background: #f8fafc; padding: 8px 12px; border-radius: 6px;">
             <strong style="color: var(--dark);">Inference Rationale:</strong> {{ threat.explanation.rationale }}
           </div>
+
+          <!-- Collapsible Formal Proof Tree -->
+          {% if threat.explanation.proof_tree %}
+          <details class="xai-proof-tree-details">
+            <summary>
+              <span style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-sitemap" style="color: var(--primary);"></i>
+                <span>Formal Horn-Clause Proof Tree (Derivation Trace)</span>
+              </span>
+              <span style="font-size: 0.75rem; color: var(--muted); font-weight: 500;">
+                <i class="fa-solid fa-chevron-down"></i> Expand Proof Tree
+              </span>
+            </summary>
+            <div class="proof-tree-body">
+              <!-- Conclusion Node -->
+              <div class="proof-node-conclusion">
+                <i class="fa-solid fa-flag-checkered"></i>
+                <span>Conclusion: {{ threat.explanation.proof_tree.conclusion }}</span>
+                <span class="badge-tier {{ threat.explanation.tier_badge }}" style="margin-left: auto;">
+                  Grade: {{ threat.explanation.proof_tree.grade|upper }}
+                </span>
+              </div>
+
+              <!-- Inference Step -->
+              <div class="proof-tree-step">
+                <div class="proof-node-rule">
+                  <div style="font-weight: 700; color: var(--dark); margin-bottom: 4px;">
+                    <i class="fa-solid fa-arrow-right-to-bracket" style="color: var(--primary);"></i>
+                    Deduction Step: {{ threat.explanation.proof_tree.inference_step.inference_rule }}
+                    via <code>{{ threat.explanation.proof_tree.inference_step.rule_id }}</code>
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--slate); margin-bottom: 6px;">
+                    {{ threat.explanation.proof_tree.inference_step.rule_name }} ({{ threat.explanation.proof_tree.inference_step.tier }})
+                  </div>
+                  
+                  <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-top: 8px;">
+                    Conjunctive Premise Leaves (Observed vs Unmet):
+                  </div>
+                  <ul class="proof-premises-list">
+                    {% for premise in threat.explanation.proof_tree.inference_step.premises %}
+                    <li class="proof-premise-item {% if premise.observed %}satisfied{% else %}unmet{% endif %}">
+                      {% if premise.observed %}
+                        <i class="fa-solid fa-circle-check" style="color: #16a34a;"></i>
+                        <span>{{ premise.predicate }}</span>
+                        <strong style="margin-left: auto; font-size: 0.72rem; color: #15803d;">[OBSERVED]</strong>
+                      {% else %}
+                        <i class="fa-solid fa-circle-xmark" style="color: #dc2626;"></i>
+                        <span>{{ premise.predicate }}</span>
+                        <strong style="margin-left: auto; font-size: 0.72rem; color: #b91c1c;">[UNMET]</strong>
+                      {% endif %}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+                <!-- Evaluated Candidate Rules Overview -->
+                {% if threat.explanation.candidate_rules %}
+                <div style="margin-top: 10px; font-size: 0.78rem; background: #f8fafc; padding: 8px 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                  <span style="font-weight: 700; color: var(--dark);">Stratified Candidate Rules Evaluated:</span>
+                  <div style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+                    {% for crule in threat.explanation.candidate_rules %}
+                    <span style="padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; {% if crule.status == 'FIRED' %}background: #dcfce7; color: #166534; border: 1px solid #86efac;{% else %}background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1;{% endif %}">
+                      {{ crule.rule_id }} ({{ crule.tier }}): <strong>{{ crule.status }}</strong> ({{ crule.satisfied_count }}/{{ crule.antecedents_count }} symptoms)
+                    </span>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </details>
+          {% endif %}
         </div>
         {% endif %}
 

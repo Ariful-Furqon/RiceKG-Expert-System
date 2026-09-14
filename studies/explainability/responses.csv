@@ -1,0 +1,1 @@
+participant_id,role,experience_years,case_id,condition,suggested_diagnosis,model_is_correct,user_accepted,final_diagnosis,user_correct,decision_latency_seconds,user_confidence,reliance_category,ess_01,ess_02,ess_03,ess_04,ess_05,ess_06,ess_07,ess_08,ess_composite,tia_mean

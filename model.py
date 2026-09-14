@@ -624,14 +624,168 @@ def predict_diseases_flat(symptoms, onto=None):
 
 
 # =========================================================================
-# Explainable AI (XAI): Formal SWRL Rule Knowledge Representation
+# Explainable AI (XAI): Formal SWRL Rule Knowledge Representation & Traces
 # =========================================================================
+
+def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
+    """
+    Generates a full explainable derivation trace across all SWRL rules in RiceKG.
+
+    Identifies:
+    - Which rules fired, in what order
+    - Which observed symptoms satisfied which antecedent
+    - Which antecedents were unmet for unsatisfied or candidate rules
+    - Resulting confidence grade and formal Horn-clause proof trees
+
+    :param selected_symptoms: List of user-selected symptom ID strings.
+    :param diagnosed_threats: Optional list of diagnosed threat keys or result dicts.
+    :return: Dictionary containing complete derivation trace and proof trees.
+    """
+    selected_set = set(selected_symptoms)
+    fired_rules = []
+    candidate_rules_by_threat = {}
+    evaluated_rules_trace = []
+
+    # Map diagnosed threats and grades if provided
+    diagnosed_map = {}
+    if diagnosed_threats:
+        for item in diagnosed_threats:
+            if isinstance(item, dict) and "threat" in item:
+                diagnosed_map[item["threat"]] = item
+            else:
+                diagnosed_map[str(item)] = {"threat": str(item), "grade": "confirmed", "confidence": 1.0}
+
+    # Evaluate all 20 production rules in standard stratified execution order (Tier 1 then Tier 2)
+    for rule in RULE_REGISTRY:
+        threat = rule["threat"]
+        antecedents = rule["antecedents"]
+        satisfied = [ant for ant in antecedents if ant in selected_set]
+        unmet = [ant for ant in antecedents if ant not in selected_set]
+        is_fired = (len(unmet) == 0)
+        coverage_pct = round((len(satisfied) / len(antecedents)) * 100, 1) if antecedents else 0.0
+
+        trace_entry = {
+            "rule_id": rule["id"],
+            "name": rule["name"],
+            "threat": threat,
+            "threat_type": rule["threat_type"],
+            "tier": rule["tier"],
+            "consequent_property": rule["consequent_property"],
+            "antecedents_count": len(antecedents),
+            "satisfied_count": len(satisfied),
+            "unmet_count": len(unmet),
+            "status": "FIRED" if is_fired else "UNSATISFIED",
+            "coverage_percentage": coverage_pct,
+            "antecedents": antecedents,
+            "satisfied_antecedents": satisfied,
+            "unmet_antecedents": unmet,
+            "formula": " ^ ".join(f"hasSymptom(?Rice, {a})" for a in antecedents) + f" -> {rule['consequent_property']}(?Rice, {threat})",
+            "rationale": rule.get("rationale", "")
+        }
+
+        evaluated_rules_trace.append(trace_entry)
+
+        if is_fired:
+            fired_rules.append(trace_entry)
+
+        if threat not in candidate_rules_by_threat:
+            candidate_rules_by_threat[threat] = []
+        candidate_rules_by_threat[threat].append(trace_entry)
+
+    # Construct formal proof trees for diagnosed or relevant threats
+    proof_trees = {}
+    if diagnosed_map:
+        threats_to_trace = list(diagnosed_map.keys())
+    else:
+        threats_to_trace = list(set(r["threat"] for r in fired_rules))
+        if not threats_to_trace:
+            threats_to_trace = [
+                threat for threat, rules in candidate_rules_by_threat.items()
+                if any(r["satisfied_count"] > 0 for r in rules)
+            ]
+
+    for threat in threats_to_trace:
+        threat_rules = candidate_rules_by_threat.get(threat, [])
+        t1_rule = next((r for r in threat_rules if r["tier"] == "tier1"), None)
+        t2_rule = next((r for r in threat_rules if r["tier"] == "tier2"), None)
+
+        diag_info = diagnosed_map.get(threat, {})
+        grade = diag_info.get("grade")
+        if not grade:
+            if t1_rule and t1_rule["status"] == "FIRED":
+                grade = "confirmed"
+            elif t2_rule and t2_rule["status"] == "FIRED":
+                grade = "suspected"
+            else:
+                grade = "possible"
+
+        confidence = diag_info.get("confidence", 1.0 if grade == "confirmed" else (0.80 if grade == "suspected" else 0.50))
+
+        # Select primary proving rule
+        if grade == "confirmed" and t1_rule and t1_rule["status"] == "FIRED":
+            active_rule = t1_rule
+            predicate = "hasConfirmedThreat"
+        elif t2_rule and t2_rule["status"] == "FIRED":
+            active_rule = t2_rule
+            predicate = "hasSuspectedThreat"
+        elif t2_rule:
+            active_rule = t2_rule
+            predicate = "hasPossibleThreat"
+        else:
+            active_rule = threat_rules[0] if threat_rules else None
+            predicate = "hasThreat"
+
+        premises = []
+        if active_rule:
+            for ant in active_rule["antecedents"]:
+                observed = ant in selected_set
+                premises.append({
+                    "symptom_id": ant,
+                    "symptom_name": ant.replace("_", " "),
+                    "predicate": f"hasSymptom(Rice_Sample, {ant})",
+                    "observed": observed,
+                    "status": "SATISFIED" if observed else "UNMET"
+                })
+
+        proof_tree = {
+            "conclusion": f"{predicate}(Rice_Sample, {threat})",
+            "threat": threat,
+            "grade": grade,
+            "confidence": confidence,
+            "inference_step": {
+                "rule_id": active_rule["rule_id"] if active_rule else "SWRL-GENERIC",
+                "rule_name": active_rule["name"] if active_rule else f"Deductive Rule for {threat}",
+                "inference_rule": "Modus Ponens" if (active_rule and active_rule["status"] == "FIRED") else "Partial Antecedent Match",
+                "tier": "Tier 1 (Canonical)" if (active_rule and active_rule["tier"] == "tier1") else "Tier 2 (Relaxed Composite)",
+                "formula": active_rule["formula"] if active_rule else "",
+                "rationale": active_rule["rationale"] if active_rule else "",
+                "premises": premises
+            },
+            "candidate_rules": threat_rules
+        }
+        proof_trees[threat] = proof_tree
+
+    return {
+        "summary": {
+            "total_rules_evaluated": len(evaluated_rules_trace),
+            "fired_rules_count": len(fired_rules),
+            "fired_rules_sequence": [r["rule_id"] for r in fired_rules],
+            "observed_symptoms_count": len(selected_symptoms),
+            "observed_symptoms": selected_symptoms,
+            "diagnoses_count": len(threats_to_trace)
+        },
+        "fired_rules": fired_rules,
+        "proof_trees": proof_trees,
+        "candidate_rules_by_threat": candidate_rules_by_threat,
+        "evaluated_rules_trace": evaluated_rules_trace
+    }
+
 
 def explain_diagnoses(selected_symptoms, diagnosed_threats):
     """
     Generates explainable deductive proof traces for all inferred diagnoses.
     Identifies whether Tier 1 (canonical) or Tier 2 (relaxed) rule fired,
-    and maps observed vs unobserved rule antecedents.
+    maps observed vs unobserved rule antecedents, and attaches full proof trees.
 
     :param selected_symptoms: List of user-selected symptom ID strings.
     :param diagnosed_threats: List of diagnosed threat key strings or result dicts.
@@ -639,6 +793,9 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
     """
     selected_set = set(selected_symptoms)
     explanations = {}
+
+    trace_data = get_derivation_trace(selected_symptoms, diagnosed_threats)
+    proof_trees = trace_data["proof_trees"]
 
     threat_items = []
     for item in diagnosed_threats:
@@ -648,7 +805,9 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
             threat_items.append((str(item), None))
 
     for threat_key, diag_dict in threat_items:
+        proof_tree = proof_trees.get(threat_key)
         meta = SWRL_RULES_METADATA.get(threat_key)
+
         if not meta:
             explanations[threat_key] = {
                 "rule_id": "SWRL-GENERIC",
@@ -657,7 +816,8 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
                 "tier_badge": "tier-relaxed",
                 "formula": f"hasSymptom(?Rice, ...) → hasThreat(?Rice, {threat_key})",
                 "rationale": "Inferred via Pellet description logic tableau algorithm.",
-                "antecedents_status": [{"symptom": s, "observed": True} for s in selected_symptoms]
+                "antecedents_status": [{"symptom": s, "observed": True} for s in selected_symptoms],
+                "proof_tree": proof_tree
             }
             continue
 
@@ -688,7 +848,9 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
             "rationale": active_rule["rationale"],
             "antecedents": active_rule["antecedents"],
             "antecedents_status": ant_status,
-            "rule_level": "Tier 1 (Canonical)" if t1_satisfied else "Tier 2 (Relaxed Composite)"
+            "rule_level": "Tier 1 (Canonical)" if t1_satisfied else "Tier 2 (Relaxed Composite)",
+            "proof_tree": proof_tree,
+            "candidate_rules": trace_data["candidate_rules_by_threat"].get(threat_key, [])
         }
 
     return explanations

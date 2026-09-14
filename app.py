@@ -2,7 +2,7 @@ import os
 import json
 import time
 from flask import Flask, request, render_template, redirect, url_for, jsonify
-from model import predict_diseases, predict_diseases_flat, explain_diagnoses, SWRL_RULES_METADATA
+from model import predict_diseases, predict_diseases_flat, explain_diagnoses, get_derivation_trace, SWRL_RULES_METADATA
 
 app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -227,11 +227,14 @@ def diagnose():
                     "explanation": explanations.get(diag_name, {})
                 })
 
+        derivation_trace = get_derivation_trace(selected_symptoms, graded_results)
+
         return render_template(
             'result.html',
             penyakit=diagnosed_results,
             diagnoses=enriched_diagnoses,
             explanations=explanations,
+            derivation_trace=derivation_trace,
             selected_symptoms=selected_symptoms,
             symptom_name_map=SYMPTOM_NAME_MAP,
             elapsed_time=elapsed_time
@@ -323,6 +326,107 @@ def api_diagnose():
         },
         "diagnoses": enriched_diagnoses,
         "explanations": explanations
+    }), 200
+
+
+@app.route("/api/v2/diagnose", methods=["POST"])
+def api_diagnose_v2():
+    """
+    REST API v2 endpoint for RiceKG automated diagnosis with full Explainable AI (XAI)
+    derivation trace, rule evaluation order, unsatisfied antecedents, and formal proof trees.
+
+    Accepts JSON:
+    {
+        "symptoms": ["Symptom_1", "Symptom_2", ...],
+        "include_possible": false
+    }
+
+    Returns JSON with:
+    - Diagnosed threats with grades (confirmed, suspected, possible)
+    - Full derivation trace per threat (rules fired, candidate rules, unmet symptoms)
+    - Hierarchical Horn-clause Modus Ponens proof trees
+    - Global derivation execution summary
+    """
+    data = request.get_json(silent=True)
+    if not data or "symptoms" not in data:
+        return jsonify({
+            "status": "error",
+            "message": "Missing 'symptoms' array in JSON request body."
+        }), 400
+
+    symptoms = data.get("symptoms", [])
+    if not isinstance(symptoms, list):
+        return jsonify({
+            "status": "error",
+            "message": "'symptoms' must be a JSON array of symptom identifier strings."
+        }), 400
+
+    include_possible = bool(data.get("include_possible", False))
+
+    start_time = time.time()
+    graded_results = predict_diseases(symptoms, include_possible=include_possible)
+    diagnosed_results = [item["threat"] for item in graded_results]
+    grade_map = {item["threat"]: item for item in graded_results}
+    elapsed_time = round(time.time() - start_time, 3)
+
+    explanations = explain_diagnoses(symptoms, graded_results)
+    derivation_trace = get_derivation_trace(symptoms, graded_results)
+
+    enriched_diagnoses = []
+    for diag_name in diagnosed_results:
+        threat_info = THREAT_MAP.get(diag_name)
+        if not threat_info:
+            for t in THREAT_CATALOG:
+                if t.get("key") == diag_name or diag_name in t.get("nama", ""):
+                    threat_info = t
+                    break
+
+        item_grade = grade_map.get(diag_name, {})
+        expl = explanations.get(diag_name, {})
+        proof_tree = derivation_trace["proof_trees"].get(diag_name, expl.get("proof_tree", {}))
+        candidate_rules = derivation_trace["candidate_rules_by_threat"].get(diag_name, [])
+
+        item = {
+            "key": diag_name,
+            "name": threat_info.get("nama", diag_name.replace("_", " ")) if threat_info else diag_name,
+            "scientific_name": threat_info.get("nama_latin", "Scientific ID confirmed via SWRL") if threat_info else "",
+            "category": threat_info.get("kategori", "Biotic Threat") if threat_info else "Biotic Threat",
+            "grade": item_grade.get("grade", "confirmed"),
+            "confidence": item_grade.get("confidence", 1.0),
+            "fired_rules": item_grade.get("fired_rules", []),
+            "target_organ": threat_info.get("organ_target", "Rice Plant") if threat_info else "Rice Plant",
+            "description": threat_info.get("deskripsi", "") if threat_info else "",
+            "ipm_prescriptions": threat_info.get("pengendalian_ipm", []) if threat_info else [],
+            "derivation_trace": {
+                "rule_level": expl.get("rule_level", "Tier 1 (Canonical)"),
+                "active_rule": expl.get("rule_id", ""),
+                "formula": expl.get("formula", ""),
+                "rationale": expl.get("rationale", ""),
+                "antecedents_status": expl.get("antecedents_status", []),
+                "candidate_rules": candidate_rules,
+                "proof_tree": proof_tree
+            }
+        }
+        enriched_diagnoses.append(item)
+
+    return jsonify({
+        "status": "success",
+        "api_version": "v2",
+        "query": {
+            "symptoms_count": len(symptoms),
+            "symptoms": symptoms,
+            "include_possible": include_possible
+        },
+        "inference": {
+            "reasoner": "Pellet DL (Tableau Forward-Chaining)",
+            "execution_time_seconds": elapsed_time,
+            "diagnoses_count": len(diagnosed_results)
+        },
+        "diagnoses": enriched_diagnoses,
+        "derivation_summary": derivation_trace["summary"],
+        "proof_trees": derivation_trace["proof_trees"],
+        "fired_rules": derivation_trace["fired_rules"],
+        "all_candidate_rules": derivation_trace["evaluated_rules_trace"]
     }), 200
 
 
