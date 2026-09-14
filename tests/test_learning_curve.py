@@ -96,8 +96,8 @@ def test_refuse_empty_eval_split():
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
-def test_zero_leakage_pool_a_synthetic():
-    """Verify that synthetic pool cases do not leak into field eval set."""
+def test_zero_leakage_pool_a_verification():
+    """Verify that verification-suite cases do not leak into the field eval set."""
     cases_eval = evaluate.load_data(FIELD_CSV, split="eval")
     eval_ids = {c["case_id"] for c in cases_eval}
     eval_dois = {c.get("doi") for c in cases_eval if c.get("doi")}
@@ -108,9 +108,9 @@ def test_zero_leakage_pool_a_synthetic():
 
     # Case IDs must be disjoint
     overlap_ids = eval_ids.intersection(syn_ids)
-    assert len(overlap_ids) == 0, f"Found overlapping case_ids between synthetic pool and eval: {overlap_ids}"
+    assert len(overlap_ids) == 0, f"Found overlapping case_ids between verification pool and eval: {overlap_ids}"
 
-    # Synthetic cases have no DOIs (rule_derived), whereas field eval cases have verified DOIs
+    # Verification-suite cases have no DOIs (rule_derived), whereas field eval cases have verified DOIs
     overlap_dois = eval_dois.intersection(syn_dois)
     assert len(overlap_dois) == 0, f"Found overlapping DOIs: {overlap_dois}"
 
@@ -234,17 +234,25 @@ def test_crossover_criterion_requires_test_set_ci_excluding_zero():
         with open(results_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        # Check all models across all budgets in all pools
-        for pool_key in ["pool_a_synthetic", "pool_b_field_dev"]:
-            if pool_key in data:
-                p_data = data[pool_key]
-                for b_str, b_dict in p_data.get("by_budget", {}).items():
-                    for m_name, m_stats in b_dict.get("models", {}).items():
-                        diff_ci = m_stats["test_set_diff_ci_95"]
-                        sig_cross = m_stats["test_set_ci_excludes_zero"]
-                        if diff_ci[0] > 0.0:
-                            assert sig_cross is True
-                        else:
-                            assert sig_cross is False
+        # Check all models across all budgets in all pools.
+        # The pool keys are asserted rather than skipped: this loop previously
+        # named keys that do not exist ("pool_a_synthetic"), so the guard made
+        # the whole test pass without ever evaluating an assertion.
+        checked = 0
+        for pool_key in ["pool_A_results", "pool_B_results"]:
+            assert pool_key in data, f"{pool_key} missing from learning_curve.json"
+            p_data = data[pool_key]
+            by_budget = p_data.get("by_budget", {})
+            assert by_budget, f"{pool_key} has no by_budget entries"
+            for b_str, b_dict in by_budget.items():
+                for m_name, m_stats in b_dict.get("models", {}).items():
+                    diff_ci = m_stats["test_set_diff_ci_95"]
+                    sig_cross = m_stats["test_set_ci_excludes_zero"]
+                    assert sig_cross is (diff_ci[0] > 0.0), (
+                        f"{pool_key}/{b_str}/{m_name}: test_set_ci_excludes_zero="
+                        f"{sig_cross} contradicts CI {diff_ci}"
+                    )
+                    checked += 1
+        assert checked > 0, "crossover consistency check evaluated nothing"
 
 

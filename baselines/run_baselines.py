@@ -436,7 +436,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
 
 
 def run_all_baselines():
-    """Runs complete comparative baselines on synthetic and field benchmarks."""
+    """Runs complete comparative baselines on the verification suite and the field benchmark."""
     verification_csv = evaluate.DEFAULT_VERIFICATION_CSV if os.path.exists(evaluate.DEFAULT_VERIFICATION_CSV) else evaluate.DEFAULT_VERIFICATION_CSV
     field_csv = evaluate.FIELD_CSV
 

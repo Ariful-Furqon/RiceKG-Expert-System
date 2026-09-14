@@ -478,7 +478,7 @@ def generate_publication_figure(
     rk_ref = pool_a_res["zero_shot_references"]["RiceKG (Full Proposed)"]["cv_positive_recall"]
     proto_ref = pool_a_res["zero_shot_references"]["Rule: Nearest Prototype"]["cv_positive_recall"]
 
-    for ax, res, title in [(ax1, pool_a_res, "(a) Pool A: Rule-Derived Synthetic Cases (n=80)"),
+    for ax, res, title in [(ax1, pool_a_res, "(a) Pool A: Rule-Derived Verification Cases (n=80)"),
                            (ax2, pool_b_res, "(b) Pool B: Real Field Development Cases (n=16)")]:
         budgets = res["budgets"]
 
@@ -605,7 +605,7 @@ def generate_markdown_report(
         "### Non-Monotonic Drop of Multinomial Naive Bayes (Pool A: N=40 → N=80)",
         "In Pool A, Multinomial Naive Bayes drops from 43.8% positive recall at $N=40$ to 20.0% at $N=80$. This is caused by **negative evidence accumulation in One-vs-Rest feature likelihoods**:",
         "- At $N=40$, stratified draws sample predominantly positive cases from the 10 threat classes, maintaining relatively balanced class priors.",
-        "- At $N=80$, the full synthetic pool is utilized, introducing all 20 negative control instances alongside counter-evidence from the 9 other classes. For any single threat $c$, negative instances outnumber positive instances by ~7:1.",
+        "- At $N=80$, the full verification pool is utilized, introducing all 20 negative control instances alongside counter-evidence from the 9 other classes. For any single threat $c$, negative instances outnumber positive instances by ~7:1.",
         "- With Laplace smoothing, the aggregated evidence for the negative class drives the posterior log-odds below the decision threshold for borderline field cases, causing MNB to default to `No_Diagnosis`.",
         "",
         "### Dual Uncertainty Decomposition",

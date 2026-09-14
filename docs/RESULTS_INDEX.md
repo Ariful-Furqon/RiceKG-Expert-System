@@ -1,11 +1,11 @@
 <!-- GENERATED FILE — DO NOT EDIT BY HAND -->
-<!-- content-sha256: 61dec1ac83ed78ae5f58ef2703e26706cad83ad7b8a15cee016227beb83f762e -->
+<!-- content-sha256: 96e9c79bf9e573bb124ed38d5ecb1f8e25439221442b59d9619168567706cfb6 -->
 <!-- Regenerate with: python analysis/build_results_index.py -->
 <!-- Wired into: make reproduce, CI (check_readme_consistency.py) -->
 
 # Results Index
 
-Auto-generated on 2026-09-14T06:18:58Z from `results/*.json`.
+Auto-generated on 2026-09-14T06:35:27Z from `results/*.json`.
 Each row maps a manuscript claim to the command that produces it and the
 source artifact that stores the value. Edit
 `analysis/build_results_index.py` to change what is indexed.

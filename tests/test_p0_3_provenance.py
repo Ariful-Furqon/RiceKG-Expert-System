@@ -11,7 +11,7 @@ from analysis.agreement import compute_cohens_kappa, compute_fleiss_kappa, run_a
 
 def test_verification_suite_provenance():
     path = os.path.join(evaluate.BASE_DIR, "data", "verification_suite.csv")
-    assert os.path.exists(path), f"Synthetic benchmark not found at {path}"
+    assert os.path.exists(path), f"Verification suite not found at {path}"
 
     data = evaluate.load_data(path)
     assert len(data) == 80, f"Expected 80 cases, got {len(data)}"

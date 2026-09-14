@@ -94,7 +94,7 @@ def _nearest_prototype_field(base: dict) -> list[dict]:
     ]
 
 
-def _ricekg_synthetic(base: dict) -> list[dict]:
+def _ricekg_verification(base: dict) -> list[dict]:
     synth = base.get("verification_suite",
                      base.get("synthetic_benchmark",
                               base.get("augmented_benchmark", {})))
@@ -137,7 +137,7 @@ def _extract_baselines(path: Path) -> list[dict]:
     rows = []
     rows.extend(_ricekg_field(base))
     rows.extend(_nearest_prototype_field(base))
-    rows.extend(_ricekg_synthetic(base))
+    rows.extend(_ricekg_verification(base))
     rows.extend(_field_counts(base))
 
     # Per-ML-model positive recall on field benchmark
