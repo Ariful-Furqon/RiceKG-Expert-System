@@ -1,7 +1,7 @@
 # Holdout Field Partition — Sourcing Log
 
 Status: **LOCKED** (2026-09-15) — Sourcing closed per 6-D and author decision.
-Final row count: **18 positive cases** (9 tier A, 6 tier B, 3 tier C).
+Final row count: **18 positive cases** (8 tier A, 7 tier B, 3 tier C).
 SHA-256 (`data/field_holdout_staging.csv`): `8616419d0781ae2f9c62ba80f3bee8581d0f10798a6d1598ec837e7f29aa9aaa`
 Two tier-C cases (former HOLD_17, HOLD_19) were removed on source verification; see "Tier-C verification".
 
@@ -49,7 +49,7 @@ are recorded as rejected, with the reason.
 | Rice_Grassy_Stunt | 2 | 0 | 0 | 2 | HOLD_04, HOLD_05 |
 | Rice_Tungro_Virus | 0 | 2 | 1 | 3 | HOLD_06, HOLD_14, HOLD_16 |
 | Rice_Blast | 1 | 2 | 1 | 4 | HOLD_07, HOLD_08, HOLD_11, HOLD_18 |
-| **Total** | **9** | **6** | **3** | **18** | |
+| **Total** | **8** | **7** | **3** | **18** | |
 
 Case IDs are not renumbered after removals; HOLD_17 and HOLD_19 are retired.
 

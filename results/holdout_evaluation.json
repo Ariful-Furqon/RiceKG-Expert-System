@@ -1,0 +1,897 @@
+{
+  "metadata": {
+    "evaluation_timestamp": "2026-09-15 03:03:07 UTC",
+    "rule_base_freeze_commit": "385caf9",
+    "lock_commit": "46e2c3e",
+    "holdout_lock_sha256": "8616419d0781ae2f9c62ba80f3bee8581d0f10798a6d1598ec837e7f29aa9aaa",
+    "staging_csv": "data/field_holdout_staging.csv",
+    "total_cases": 18
+  },
+  "tier_a": {
+    "subset_name": "Tier A",
+    "n_cases": 8,
+    "exact_matches": 3,
+    "exact_match_acc": 37.5,
+    "positive_recalled": 3,
+    "positive_recall_pct": 37.5,
+    "total_tp": 3,
+    "total_fp": 1,
+    "total_fn": 5,
+    "total_tn": 39,
+    "micro_precision": 75.0,
+    "micro_recall": 37.5,
+    "micro_f1": 50.0,
+    "per_class": {
+      "Rice_Root_Nematode": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2,
+        "TN": 6,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "Bacterial_Leaf_Blight": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "TN": 7,
+        "precision": 100.0,
+        "recall": 100.0,
+        "f1": 100.0
+      },
+      "False_Smut": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 1,
+        "TN": 6,
+        "precision": 100.0,
+        "recall": 50.0,
+        "f1": 66.67
+      },
+      "Rice_Blast": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "TN": 7,
+        "precision": 100.0,
+        "recall": 100.0,
+        "f1": 100.0
+      },
+      "Rice_Grassy_Stunt": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2,
+        "TN": 6,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "Rice_Tungro_Virus": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 0,
+        "TN": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "detailed": [
+      {
+        "case_id": "HOLD_01",
+        "tier": "A",
+        "expected": "Bacterial_Leaf_Blight",
+        "symptoms": [
+          "Water_Soaked_Lesions",
+          "Yellowing_Leaves",
+          "Yellowing_Leaf_Tips"
+        ],
+        "predicted": [
+          "Bacterial_Leaf_Blight"
+        ],
+        "grades": {
+          "Bacterial_Leaf_Blight": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_02",
+        "tier": "A",
+        "expected": "Rice_Root_Nematode",
+        "symptoms": [
+          "Yellowing_Leaves",
+          "Hook_Like_Root_Swelling"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_03",
+        "tier": "A",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls",
+          "Empty_Grains"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_04",
+        "tier": "A",
+        "expected": "Rice_Grassy_Stunt",
+        "symptoms": [
+          "Stunted_Growth",
+          "Orange_Leaf_Discoloration"
+        ],
+        "predicted": [
+          "Rice_Tungro_Virus"
+        ],
+        "grades": {
+          "Rice_Tungro_Virus": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "plant_spreading_growth; leaves_deformity_serration_twisting_curling"
+      },
+      {
+        "case_id": "HOLD_05",
+        "tier": "A",
+        "expected": "Rice_Grassy_Stunt",
+        "symptoms": [
+          "Stunted_Growth",
+          "Yellowing_Leaves"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "plant_spreading_growth; plant_premature_death"
+      },
+      {
+        "case_id": "HOLD_07",
+        "tier": "A",
+        "expected": "Rice_Blast",
+        "symptoms": [
+          "Diamond_Shaped_Lesions",
+          "Necrotic_Spots"
+        ],
+        "predicted": [
+          "Rice_Blast"
+        ],
+        "grades": {
+          "Rice_Blast": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_09",
+        "tier": "A",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls",
+          "Blackened_Grain_Balls"
+        ],
+        "predicted": [
+          "False_Smut"
+        ],
+        "grades": {
+          "False_Smut": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_10",
+        "tier": "A",
+        "expected": "Rice_Root_Nematode",
+        "symptoms": [
+          "Hook_Like_Root_Swelling"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      }
+    ]
+  },
+  "tier_a_plus_b": {
+    "subset_name": "Tier A + B",
+    "n_cases": 15,
+    "exact_matches": 4,
+    "exact_match_acc": 26.67,
+    "positive_recalled": 4,
+    "positive_recall_pct": 26.67,
+    "total_tp": 4,
+    "total_fp": 1,
+    "total_fn": 11,
+    "total_tn": 74,
+    "micro_precision": 80.0,
+    "micro_recall": 26.67,
+    "micro_f1": 40.0,
+    "per_class": {
+      "Rice_Root_Nematode": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2,
+        "TN": 13,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "Bacterial_Leaf_Blight": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 1,
+        "TN": 13,
+        "precision": 100.0,
+        "recall": 50.0,
+        "f1": 66.67
+      },
+      "False_Smut": {
+        "TP": 2,
+        "FP": 0,
+        "FN": 2,
+        "TN": 11,
+        "precision": 100.0,
+        "recall": 50.0,
+        "f1": 66.67
+      },
+      "Rice_Blast": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 2,
+        "TN": 12,
+        "precision": 100.0,
+        "recall": 33.33,
+        "f1": 50.0
+      },
+      "Rice_Grassy_Stunt": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2,
+        "TN": 13,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "Rice_Tungro_Virus": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 2,
+        "TN": 12,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "detailed": [
+      {
+        "case_id": "HOLD_01",
+        "tier": "A",
+        "expected": "Bacterial_Leaf_Blight",
+        "symptoms": [
+          "Water_Soaked_Lesions",
+          "Yellowing_Leaves",
+          "Yellowing_Leaf_Tips"
+        ],
+        "predicted": [
+          "Bacterial_Leaf_Blight"
+        ],
+        "grades": {
+          "Bacterial_Leaf_Blight": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_02",
+        "tier": "A",
+        "expected": "Rice_Root_Nematode",
+        "symptoms": [
+          "Yellowing_Leaves",
+          "Hook_Like_Root_Swelling"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_03",
+        "tier": "A",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls",
+          "Empty_Grains"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_04",
+        "tier": "A",
+        "expected": "Rice_Grassy_Stunt",
+        "symptoms": [
+          "Stunted_Growth",
+          "Orange_Leaf_Discoloration"
+        ],
+        "predicted": [
+          "Rice_Tungro_Virus"
+        ],
+        "grades": {
+          "Rice_Tungro_Virus": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "plant_spreading_growth; leaves_deformity_serration_twisting_curling"
+      },
+      {
+        "case_id": "HOLD_05",
+        "tier": "A",
+        "expected": "Rice_Grassy_Stunt",
+        "symptoms": [
+          "Stunted_Growth",
+          "Yellowing_Leaves"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "plant_spreading_growth; plant_premature_death"
+      },
+      {
+        "case_id": "HOLD_06",
+        "tier": "B",
+        "expected": "Rice_Tungro_Virus",
+        "symptoms": [
+          "Yellowing_Leaves"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_07",
+        "tier": "A",
+        "expected": "Rice_Blast",
+        "symptoms": [
+          "Diamond_Shaped_Lesions",
+          "Necrotic_Spots"
+        ],
+        "predicted": [
+          "Rice_Blast"
+        ],
+        "grades": {
+          "Rice_Blast": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_08",
+        "tier": "B",
+        "expected": "Rice_Blast",
+        "symptoms": [
+          "Diamond_Shaped_Lesions"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_09",
+        "tier": "A",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls",
+          "Blackened_Grain_Balls"
+        ],
+        "predicted": [
+          "False_Smut"
+        ],
+        "grades": {
+          "False_Smut": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_10",
+        "tier": "A",
+        "expected": "Rice_Root_Nematode",
+        "symptoms": [
+          "Hook_Like_Root_Swelling"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_11",
+        "tier": "B",
+        "expected": "Rice_Blast",
+        "symptoms": [
+          "Diamond_Shaped_Lesions"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "leaves_grayish_white_mold_layer"
+      },
+      {
+        "case_id": "HOLD_12",
+        "tier": "B",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls",
+          "Blackened_Grain_Balls"
+        ],
+        "predicted": [
+          "False_Smut"
+        ],
+        "grades": {
+          "False_Smut": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_13",
+        "tier": "B",
+        "expected": "Bacterial_Leaf_Blight",
+        "symptoms": [
+          "Water_Soaked_Lesions"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_14",
+        "tier": "B",
+        "expected": "Rice_Tungro_Virus",
+        "symptoms": [
+          "Stunted_Growth",
+          "Yellowing_Leaves",
+          "Necrotic_Spots"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "leaves_rust_spots; plant_few_tillers; leaves_short_blades"
+      },
+      {
+        "case_id": "HOLD_15",
+        "tier": "B",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      }
+    ]
+  },
+  "tier_a_plus_b_plus_c": {
+    "subset_name": "Tier A + B + C",
+    "n_cases": 18,
+    "exact_matches": 5,
+    "exact_match_acc": 27.78,
+    "positive_recalled": 5,
+    "positive_recall_pct": 27.78,
+    "total_tp": 5,
+    "total_fp": 1,
+    "total_fn": 13,
+    "total_tn": 89,
+    "micro_precision": 83.33,
+    "micro_recall": 27.78,
+    "micro_f1": 41.67,
+    "per_class": {
+      "Rice_Root_Nematode": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 3,
+        "TN": 15,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "Bacterial_Leaf_Blight": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 1,
+        "TN": 16,
+        "precision": 100.0,
+        "recall": 50.0,
+        "f1": 66.67
+      },
+      "False_Smut": {
+        "TP": 2,
+        "FP": 0,
+        "FN": 2,
+        "TN": 14,
+        "precision": 100.0,
+        "recall": 50.0,
+        "f1": 66.67
+      },
+      "Rice_Blast": {
+        "TP": 2,
+        "FP": 0,
+        "FN": 2,
+        "TN": 14,
+        "precision": 100.0,
+        "recall": 50.0,
+        "f1": 66.67
+      },
+      "Rice_Grassy_Stunt": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2,
+        "TN": 16,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "Rice_Tungro_Virus": {
+        "TP": 0,
+        "FP": 1,
+        "FN": 3,
+        "TN": 14,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "detailed": [
+      {
+        "case_id": "HOLD_01",
+        "tier": "A",
+        "expected": "Bacterial_Leaf_Blight",
+        "symptoms": [
+          "Water_Soaked_Lesions",
+          "Yellowing_Leaves",
+          "Yellowing_Leaf_Tips"
+        ],
+        "predicted": [
+          "Bacterial_Leaf_Blight"
+        ],
+        "grades": {
+          "Bacterial_Leaf_Blight": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_02",
+        "tier": "A",
+        "expected": "Rice_Root_Nematode",
+        "symptoms": [
+          "Yellowing_Leaves",
+          "Hook_Like_Root_Swelling"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_03",
+        "tier": "A",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls",
+          "Empty_Grains"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_04",
+        "tier": "A",
+        "expected": "Rice_Grassy_Stunt",
+        "symptoms": [
+          "Stunted_Growth",
+          "Orange_Leaf_Discoloration"
+        ],
+        "predicted": [
+          "Rice_Tungro_Virus"
+        ],
+        "grades": {
+          "Rice_Tungro_Virus": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "plant_spreading_growth; leaves_deformity_serration_twisting_curling"
+      },
+      {
+        "case_id": "HOLD_05",
+        "tier": "A",
+        "expected": "Rice_Grassy_Stunt",
+        "symptoms": [
+          "Stunted_Growth",
+          "Yellowing_Leaves"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "plant_spreading_growth; plant_premature_death"
+      },
+      {
+        "case_id": "HOLD_06",
+        "tier": "B",
+        "expected": "Rice_Tungro_Virus",
+        "symptoms": [
+          "Yellowing_Leaves"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_07",
+        "tier": "A",
+        "expected": "Rice_Blast",
+        "symptoms": [
+          "Diamond_Shaped_Lesions",
+          "Necrotic_Spots"
+        ],
+        "predicted": [
+          "Rice_Blast"
+        ],
+        "grades": {
+          "Rice_Blast": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_08",
+        "tier": "B",
+        "expected": "Rice_Blast",
+        "symptoms": [
+          "Diamond_Shaped_Lesions"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_09",
+        "tier": "A",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls",
+          "Blackened_Grain_Balls"
+        ],
+        "predicted": [
+          "False_Smut"
+        ],
+        "grades": {
+          "False_Smut": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_10",
+        "tier": "A",
+        "expected": "Rice_Root_Nematode",
+        "symptoms": [
+          "Hook_Like_Root_Swelling"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_11",
+        "tier": "B",
+        "expected": "Rice_Blast",
+        "symptoms": [
+          "Diamond_Shaped_Lesions"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "leaves_grayish_white_mold_layer"
+      },
+      {
+        "case_id": "HOLD_12",
+        "tier": "B",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls",
+          "Blackened_Grain_Balls"
+        ],
+        "predicted": [
+          "False_Smut"
+        ],
+        "grades": {
+          "False_Smut": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_13",
+        "tier": "B",
+        "expected": "Bacterial_Leaf_Blight",
+        "symptoms": [
+          "Water_Soaked_Lesions"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_14",
+        "tier": "B",
+        "expected": "Rice_Tungro_Virus",
+        "symptoms": [
+          "Stunted_Growth",
+          "Yellowing_Leaves",
+          "Necrotic_Spots"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "leaves_rust_spots; plant_few_tillers; leaves_short_blades"
+      },
+      {
+        "case_id": "HOLD_15",
+        "tier": "B",
+        "expected": "False_Smut",
+        "symptoms": [
+          "Rusty_Grain_Balls"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      },
+      {
+        "case_id": "HOLD_16",
+        "tier": "C",
+        "expected": "Rice_Tungro_Virus",
+        "symptoms": [
+          "Orange_Leaf_Discoloration",
+          "Yellowing_Leaves"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": "daun_kuning_kecoklatan"
+      },
+      {
+        "case_id": "HOLD_18",
+        "tier": "C",
+        "expected": "Rice_Blast",
+        "symptoms": [
+          "Diamond_Shaped_Lesions",
+          "Necrotic_Spots"
+        ],
+        "predicted": [
+          "Rice_Blast"
+        ],
+        "grades": {
+          "Rice_Blast": "suspected"
+        },
+        "rules_fired": [],
+        "exact_match": true,
+        "recalled": true,
+        "unmapped": "pinggir_bercak_coklat"
+      },
+      {
+        "case_id": "HOLD_20",
+        "tier": "C",
+        "expected": "Rice_Root_Nematode",
+        "symptoms": [
+          "Yellowing_Leaves",
+          "Stunted_Growth",
+          "Root_Knot_Swelling"
+        ],
+        "predicted": [],
+        "grades": {},
+        "rules_fired": [],
+        "exact_match": false,
+        "recalled": false,
+        "unmapped": ""
+      }
+    ]
+  }
+}
