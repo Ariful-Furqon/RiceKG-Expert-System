@@ -1,11 +1,11 @@
 <!-- GENERATED FILE — DO NOT EDIT BY HAND -->
-<!-- content-sha256: a9e4bfb8abe04e4c5da1a5370f4b371dc0e21010e0632c1beefd63a6e74fcb1a -->
+<!-- content-sha256: fac156a81e8447f9b370fdca86894febaa89227d4abc4a5aac112c324a4fd21c -->
 <!-- Regenerate with: python analysis/build_results_index.py -->
 <!-- Wired into: make reproduce, CI (check_readme_consistency.py) -->
 
 # Results Index
 
-Auto-generated on 2026-09-15T05:57:18Z from `results/*.json`.
+Auto-generated on 2026-09-15T11:33:16Z from `results/*.json`.
 Each row maps a manuscript claim to the command that produces it and the
 source artifact that stores the value. Edit
 `analysis/build_results_index.py` to change what is indexed.
@@ -55,7 +55,7 @@ source artifact that stores the value. Edit
 | RiceKG Top-3 negative-control specificity on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 50.00% |
 | Nearest Prototype Top-3 differential hit on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 100.00% |
 | Flat Single-Tier Top-1 differential hit on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 40.00% |
-| RiceKG Top-3 differential hit on holdout (Tier C) | `python analysis/differential_analysis.py` | `results/top_k.json` | 77.78% |
+| RiceKG Top-3 differential hit on holdout (tiers A-C) | `python analysis/differential_analysis.py` | `results/top_k.json` | 77.78% |
 
 ---
 _This file is produced by `analysis/build_results_index.py` and validated by `analysis/check_readme_consistency.py`. A stale or missing index fails the CI build._

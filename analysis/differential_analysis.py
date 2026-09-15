@@ -158,13 +158,17 @@ def compute_top_k_metrics_for_system(
     for k in k_vals:
         hit_any_pct = (hit_any[k] / n_pos * 100.0) if n_pos > 0 else 0.0
         hit_all_pct = (hit_all[k] / n_pos * 100.0) if n_pos > 0 else 0.0
-        far_pct = (far_k[k] / n_neg * 100.0) if n_neg > 0 else 0.0
-        spec_pct = 100.0 - far_pct
 
         results[f"hit_at_{k}_any"] = round(hit_any_pct, 2)
         results[f"hit_at_{k}_all"] = round(hit_all_pct, 2)
-        results[f"far_at_{k}"] = round(far_pct, 2)
-        results[f"specificity_at_{k}"] = round(spec_pct, 2)
+        # Without negative controls the false-alarm rate is undefined, not zero.
+        if n_neg > 0:
+            far_pct = far_k[k] / n_neg * 100.0
+            results[f"far_at_{k}"] = round(far_pct, 2)
+            results[f"specificity_at_{k}"] = round(100.0 - far_pct, 2)
+        else:
+            results[f"far_at_{k}"] = None
+            results[f"specificity_at_{k}"] = None
 
     return results
 
@@ -277,7 +281,7 @@ def evaluate_dataset_differential(
 
     return {
         "dataset": dataset_label,
-        "csv_path": csv_path,
+        "csv_path": os.path.relpath(csv_path, BASE_DIR).replace(os.sep, "/"),
         "split": split,
         "n_cases": len(cases),
         "systems": system_metrics
@@ -287,6 +291,49 @@ def evaluate_dataset_differential(
 # ---------------------------------------------------------------------------
 # Report Formatting
 # ---------------------------------------------------------------------------
+
+RULE_SYSTEMS = ("RiceKG (Full Proposed)", "Rule: Nearest Prototype", "Rule: Flat Single-Tier")
+
+
+def _pct(value) -> str:
+    return "n/a" if value is None else f"{value:.1f}%"
+
+
+def _key_findings(all_evals: List[Dict[str, Any]]) -> List[str]:
+    """Derive the findings from the eval-split metrics; no figure is typed by hand."""
+    ev = next((e for e in all_evals if e.get("split") == "eval"), None)
+    if ev is None:
+        return ["No `eval` split was evaluated."]
+    s = ev["systems"]
+    rk, proto, flat = s["RiceKG (Full Proposed)"], s["Rule: Nearest Prototype"], s["Rule: Flat Single-Tier"]
+    ml = [m for name, m in s.items() if name not in RULE_SYSTEMS]
+    n_pos, n_neg = rk["n_positive"], rk["n_negative"]
+
+    findings = [
+        f"1. **Top-k raises hits and false alarms together.** On the field `eval` split ({n_pos} positives, "
+        f"{n_neg} negative controls), RiceKG moves from Hit@1 = {_pct(rk['hit_at_1_any'])} to Hit@3 = "
+        f"{_pct(rk['hit_at_3_any'])} (MRR {rk['mrr']:.3f}), with a negative-control false-alarm rate of "
+        f"{_pct(rk['far_at_3'])} at k=3 (specificity {_pct(rk['specificity_at_3'])}). The additional candidates are "
+        f"`possible`-grade threats, which are also raised on negative controls, so the list is a screening aid "
+        f"rather than a diagnosis. The set-based rules without partial evidence (Flat Single-Tier) stay at "
+        f"Hit@3 = {_pct(flat['hit_at_3_any'])} with FAR@3 = {_pct(flat['far_at_3'])}.",
+        f"2. **Nearest Prototype** reaches Hit@3 = {_pct(proto['hit_at_3_any'])} with FAR@3 = {_pct(proto['far_at_3'])}.",
+    ]
+    if ml:
+        hits = [m["hit_at_3_any"] for m in ml]
+        fars = [m["far_at_3"] for m in ml if m["far_at_3"] is not None]
+        findings.append(
+            f"3. **Supervised baselines** ({len(ml)} models, trained on one 2-fold split of the same field cases) "
+            f"range over Hit@3 = {min(hits):.1f}–{max(hits):.1f}% and FAR@3 = "
+            + (f"{min(fars):.1f}–{max(fars):.1f}%." if fars else "n/a.")
+        )
+    if n_pos:
+        findings.append(
+            f"{len(findings) + 1}. **Resolution.** With {n_pos} positives, one case moves Hit@k by "
+            f"{100.0 / n_pos:.1f} points; none of the differences above is statistically established."
+        )
+    return findings
+
 
 def format_markdown_report(all_evals: List[Dict[str, Any]], output_md: str) -> None:
     """Formats top-k differential evaluation findings into Markdown."""
@@ -324,29 +371,19 @@ def format_markdown_report(all_evals: List[Dict[str, Any]], output_md: str) -> N
         ])
 
         for s_name, m in systems.items():
-            hit1 = m["hit_at_1_any"]
-            hit2 = m["hit_at_2_any"]
-            hit3 = m["hit_at_3_any"]
-            mrr = m["mrr"]
-            far1 = m["far_at_1"]
-            far3 = m["far_at_3"]
-            spec3 = m["specificity_at_3"]
-            mlen = m["mean_list_length"]
-
             lines.append(
-                f"| **{s_name}** | {hit1:.1f}% | {hit2:.1f}% | {hit3:.1f}% | {mrr:.3f} | {far1:.1f}% | {far3:.1f}% | {spec3:.1f}% | {mlen:.2f} |"
+                f"| **{s_name}** | {_pct(m['hit_at_1_any'])} | {_pct(m['hit_at_2_any'])} | {_pct(m['hit_at_3_any'])} "
+                f"| {m['mrr']:.3f} | {_pct(m['far_at_1'])} | {_pct(m['far_at_3'])} | {_pct(m['specificity_at_3'])} "
+                f"| {m['mean_list_length']:.2f} |"
             )
 
+        if n_neg == 0:
+            lines.extend(["", "_No negative controls in this split: false-alarm rate and specificity are undefined (n/a)._"])
         lines.extend(["", "---", ""])
 
-    lines.extend([
-        "## 3. Key Findings & Insights",
-        "",
-        "1. **Clinical Screening Benefit on Partial Field Cases**: On the held-out field `eval` split, expanding from Top-1 to Top-3 allows RiceKG to capture cases that stop at partial evidence without sacrificing precision.",
-        "2. **Differential Specificity Preservation vs. Baselines**: While purely unranked single-tier rules maintain 0.0% false-alarm rate at the cost of low sensitivity (40.0% recall), expanding to a top-3 differential with partial evidence achieves 100.0% Hit@3 on held-out positives while maintaining 50.0% specificity on negative controls. In contrast, standard ML classifiers (Decision Tree, Random Forest, k-NN, Logistic Regression) collapse to 100.0% false-alarm rates (0.0% specificity) on negative controls.",
-        "3. **Comparison Against Baselines**: Nearest Prototype achieves high Hit@3 (100.0%) but suffers from a 72.2% false alarm rate on negative controls, whereas RiceKG's formal OWL ontology restrictions and out-of-scope gate filter non-target pathogens and insect damage far more effectively.",
-        "",
-    ])
+    lines.extend(["## 3. Key Findings", ""])
+    lines.extend(_key_findings(all_evals))
+    lines.append("")
 
     with open(output_md, "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines))
@@ -375,9 +412,9 @@ def main():
         evaluate_dataset_differential(field_csv, "Field Benchmark (Eval Split, Held-Out)", split="eval", onto=onto)
     )
 
-    # 3. Field holdout split (Tier C)
+    # 3. Field holdout split (evidence tiers A, B and C)
     evaluations.append(
-        evaluate_dataset_differential(field_csv, "Field Benchmark (Holdout Split, Tier C)", split="holdout", onto=onto)
+        evaluate_dataset_differential(field_csv, "Field Benchmark (Holdout Split, Tiers A-C)", split="holdout", onto=onto)
     )
 
     # 4. Deductive verification suite

@@ -1,6 +1,6 @@
 # Top-k Differential Diagnosis & Ranking Analysis (PART 7)
 
-> **Generated**: 2026-09-15T05:52:21.647734+00:00  
+> **Generated**: 2026-09-15T11:33:07.749592+00:00  
 > **Evaluation Protocol**: Pre-fixed deterministic ordering key (Part 7-A), fair comparative baselines (Part 7-C), secondary diagnostic utility analysis.
 
 ---
@@ -40,23 +40,25 @@ list of diagnostic hypotheses ranked strictly by evidence strength:
 | **Decision Tree** | 20.0% | 40.0% | 40.0% | 0.300 | 100.0% | 100.0% | 0.0% | 2.52 |
 | **Random Forest** | 20.0% | 40.0% | 40.0% | 0.300 | 100.0% | 100.0% | 0.0% | 2.78 |
 | **Multinomial Naive Bayes** | 0.0% | 0.0% | 0.0% | 0.000 | 61.1% | 61.1% | 38.9% | 1.17 |
-| **k-NN** | 20.0% | 40.0% | 40.0% | 0.300 | 100.0% | 100.0% | 0.0% | 2.61 |
+| **k-NN** | 20.0% | 40.0% | 60.0% | 0.367 | 100.0% | 100.0% | 0.0% | 2.61 |
 | **Logistic Regression (OvR)** | 20.0% | 20.0% | 40.0% | 0.267 | 100.0% | 100.0% | 0.0% | 2.04 |
 
 ---
 
-## 2. Dataset: Field Benchmark (Holdout Split, Tier C) ($n=18$, 18 positives, 0 negative controls)
+## 2. Dataset: Field Benchmark (Holdout Split, Tiers A-C) ($n=18$, 18 positives, 0 negative controls)
 
 | System / Architecture | Hit@1 (%) | Hit@2 (%) | Hit@3 (%) | MRR | FAR@1 (%) | FAR@3 (%) | Spec@3 (%) | Mean Length |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | 72.2% | 72.2% | 77.8% | 0.741 | 0.0% | 0.0% | 100.0% | 1.11 |
-| **Rule: Nearest Prototype** | 77.8% | 88.9% | 88.9% | 0.833 | 0.0% | 0.0% | 100.0% | 1.78 |
-| **Rule: Flat Single-Tier** | 27.8% | 27.8% | 27.8% | 0.278 | 0.0% | 0.0% | 100.0% | 0.33 |
-| **Decision Tree** | 50.0% | 50.0% | 50.0% | 0.500 | 0.0% | 0.0% | 100.0% | 1.00 |
-| **Random Forest** | 66.7% | 77.8% | 83.3% | 0.741 | 0.0% | 0.0% | 100.0% | 2.78 |
-| **Multinomial Naive Bayes** | 61.1% | 83.3% | 94.4% | 0.759 | 0.0% | 0.0% | 100.0% | 2.89 |
-| **k-NN** | 55.6% | 77.8% | 83.3% | 0.685 | 0.0% | 0.0% | 100.0% | 2.33 |
-| **Logistic Regression (OvR)** | 66.7% | 83.3% | 94.4% | 0.787 | 0.0% | 0.0% | 100.0% | 3.00 |
+| **RiceKG (Full Proposed)** | 72.2% | 72.2% | 77.8% | 0.741 | n/a | n/a | n/a | 1.11 |
+| **Rule: Nearest Prototype** | 77.8% | 88.9% | 88.9% | 0.833 | n/a | n/a | n/a | 1.78 |
+| **Rule: Flat Single-Tier** | 27.8% | 27.8% | 27.8% | 0.278 | n/a | n/a | n/a | 0.33 |
+| **Decision Tree** | 50.0% | 50.0% | 50.0% | 0.500 | n/a | n/a | n/a | 1.00 |
+| **Random Forest** | 66.7% | 77.8% | 83.3% | 0.741 | n/a | n/a | n/a | 2.78 |
+| **Multinomial Naive Bayes** | 61.1% | 83.3% | 94.4% | 0.759 | n/a | n/a | n/a | 2.89 |
+| **k-NN** | 61.1% | 83.3% | 83.3% | 0.722 | n/a | n/a | n/a | 2.33 |
+| **Logistic Regression (OvR)** | 66.7% | 83.3% | 94.4% | 0.787 | n/a | n/a | n/a | 3.00 |
+
+_No negative controls in this split: false-alarm rate and specificity are undefined (n/a)._
 
 ---
 
@@ -68,15 +70,16 @@ list of diagnostic hypotheses ranked strictly by evidence strength:
 | **Rule: Nearest Prototype** | 60.0% | 65.5% | 65.5% | 0.627 | 50.0% | 50.0% | 50.0% | 1.38 |
 | **Rule: Flat Single-Tier** | 14.6% | 14.6% | 14.6% | 0.145 | 0.0% | 0.0% | 100.0% | 0.11 |
 | **Decision Tree** | 47.3% | 47.3% | 47.3% | 0.473 | 5.6% | 5.6% | 94.4% | 0.40 |
-| **Random Forest** | 56.4% | 63.6% | 65.5% | 0.606 | 61.1% | 61.1% | 38.9% | 1.75 |
+| **Random Forest** | 61.8% | 63.6% | 65.5% | 0.633 | 61.1% | 61.1% | 38.9% | 1.75 |
 | **Multinomial Naive Bayes** | 54.5% | 61.8% | 63.6% | 0.588 | 100.0% | 100.0% | 0.0% | 2.26 |
-| **k-NN** | 50.9% | 63.6% | 63.6% | 0.573 | 27.8% | 27.8% | 72.2% | 1.04 |
+| **k-NN** | 61.8% | 63.6% | 63.6% | 0.627 | 16.7% | 16.7% | 83.3% | 1.00 |
 | **Logistic Regression (OvR)** | 60.0% | 63.6% | 63.6% | 0.618 | 100.0% | 100.0% | 0.0% | 3.00 |
 
 ---
 
-## 3. Key Findings & Insights
+## 3. Key Findings
 
-1. **Clinical Screening Benefit on Partial Field Cases**: On the held-out field `eval` split, expanding from Top-1 to Top-3 allows RiceKG to capture cases that stop at partial evidence without sacrificing precision.
-2. **Differential Specificity Preservation vs. Baselines**: While purely unranked single-tier rules maintain 0.0% false-alarm rate at the cost of low sensitivity (40.0% recall), expanding to a top-3 differential with partial evidence achieves 100.0% Hit@3 on held-out positives while maintaining 50.0% specificity on negative controls. In contrast, standard ML classifiers (Decision Tree, Random Forest, k-NN, Logistic Regression) collapse to 100.0% false-alarm rates (0.0% specificity) on negative controls.
-3. **Comparison Against Baselines**: Nearest Prototype achieves high Hit@3 (100.0%) but suffers from a 72.2% false alarm rate on negative controls, whereas RiceKG's formal OWL ontology restrictions and out-of-scope gate filter non-target pathogens and insect damage far more effectively.
+1. **Top-k raises hits and false alarms together.** On the field `eval` split (5 positives, 18 negative controls), RiceKG moves from Hit@1 = 40.0% to Hit@3 = 100.0% (MRR 0.667), with a negative-control false-alarm rate of 50.0% at k=3 (specificity 50.0%). The additional candidates are `possible`-grade threats, which are also raised on negative controls, so the list is a screening aid rather than a diagnosis. The set-based rules without partial evidence (Flat Single-Tier) stay at Hit@3 = 40.0% with FAR@3 = 0.0%.
+2. **Nearest Prototype** reaches Hit@3 = 100.0% with FAR@3 = 72.2%.
+3. **Supervised baselines** (5 models, trained on one 2-fold split of the same field cases) range over Hit@3 = 0.0–60.0% and FAR@3 = 61.1–100.0%.
+4. **Resolution.** With 5 positives, one case moves Hit@k by 20.0 points; none of the differences above is statistically established.

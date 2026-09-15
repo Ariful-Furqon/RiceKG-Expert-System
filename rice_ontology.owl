@@ -4,9 +4,21 @@
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
          xmlns:owl="http://www.w3.org/2002/07/owl#"
          xml:base="http://www.semanticweb.org/ontologies/rice_pest_disease.owl"
-         xmlns="http://www.semanticweb.org/ontologies/rice_pest_disease.owl#">
+         xmlns="http://www.semanticweb.org/ontologies/rice_pest_disease.owl#"
+         xmlns:term="http://purl.org/dc/terms/"
+         xmlns:vann="http://purl.org/vocab/vann/"
+         xmlns:core="http://www.w3.org/2004/02/skos/core#">
 
-<owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/rice_pest_disease.owl"/>
+<owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/rice_pest_disease.owl">
+  <term:license rdf:resource="https://opensource.org/licenses/MIT"/>
+  <term:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RiceKG: an OWL 2 DL ontology for rice disease diagnosis</term:title>
+  <term:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RiceKG Expert System contributors</term:creator>
+  <term:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Six in-scope rice disease classes (five pathogens and one plant-parasitic nematode) defined by OWL 2 defined classes over a two-axis symptom taxonomy; insect damage is represented as out-of-scope evidence.</term:description>
+  <vann:preferredNamespacePrefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ricekg</vann:preferredNamespacePrefix>
+  <vann:preferredNamespaceUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.semanticweb.org/ontologies/rice_pest_disease.owl#</vann:preferredNamespaceUri>
+  <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2.0.0</owl:versionInfo>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RiceKG: OWL 2 DL ontology for rice disease diagnosis with defined classes, a symptom taxonomy and provable tier subsumption.</rdfs:comment>
+</owl:Ontology>
 
 <owl:ObjectProperty rdf:about="#hasObservation">
   <rdfs:domain rdf:resource="#Rice"/>
@@ -62,12 +74,14 @@
   <rdfs:subPropertyOf rdf:resource="#hasThreat"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Disease"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Unstratified link from a rice sample to an inferred disease (flat single-tier baseline).</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="#hasPest">
   <rdfs:subPropertyOf rdf:resource="#hasThreat"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Pest"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Unstratified link from a rice sample to an inferred pest (flat single-tier baseline).</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="#hasConfirmedDisease">
@@ -75,6 +89,7 @@
   <rdfs:subPropertyOf rdf:resource="#hasDisease"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Disease"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier-1 (confirmed) inference of a disease.</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="#hasSuspectedDisease">
@@ -82,6 +97,7 @@
   <rdfs:subPropertyOf rdf:resource="#hasDisease"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Disease"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier-2 (suspected) inference of a disease.</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="#hasConfirmedPest">
@@ -89,6 +105,7 @@
   <rdfs:subPropertyOf rdf:resource="#hasPest"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Pest"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier-1 (confirmed) inference of a pest.</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="#hasSuspectedPest">
@@ -96,12 +113,13 @@
   <rdfs:subPropertyOf rdf:resource="#hasPest"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Pest"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier-2 (suspected) inference of a pest.</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="#hasControlTreatment">
   <rdfs:domain rdf:resource="#Threat"/>
   <rdfs:range rdf:resource="#ControlTreatment"/>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Links a diagnosed threat to its peer-reviewed IPM recommendation.</rdfs:comment>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Links a diagnosed threat to its cited IPM recommendation.</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:DatatypeProperty rdf:about="#hasDiagnosticConfidence">
@@ -110,20 +128,30 @@
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Datatype property recording the diagnostic confidence grade (confirmed, suspected, possible).</rdfs:comment>
 </owl:DatatypeProperty>
 
-<owl:AnnotationProperty rdf:about="#exactMatch"/>
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#exactMatch"/>
 
-<owl:AnnotationProperty rdf:about="#closeMatch"/>
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#closeMatch"/>
 
-<owl:AnnotationProperty rdf:about="#title"/>
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#broadMatch"/>
 
-<owl:AnnotationProperty rdf:about="#creator"/>
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#relatedMatch"/>
 
-<owl:AnnotationProperty rdf:about="#license"/>
+<owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
+
+<owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/creator"/>
+
+<owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
+
+<owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
+
+<owl:AnnotationProperty rdf:about="http://purl.org/vocab/vann/preferredNamespacePrefix"/>
+
+<owl:AnnotationProperty rdf:about="http://purl.org/vocab/vann/preferredNamespaceUri"/>
 
 <owl:Class rdf:about="#Rice">
   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <core:exactMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_5438"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Oryza sativa plant individual under diagnosis.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_5438</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#Observation">
@@ -133,8 +161,8 @@
 
 <owl:Class rdf:about="#Symptom">
   <rdfs:subClassOf rdf:resource="#Observation"/>
+  <core:exactMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_7566"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Direct plant sign or phenotypic manifestation of biotic injury on Oryza sativa.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_7568</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#OrganismSighting">
@@ -154,56 +182,56 @@
 
 <owl:Class rdf:about="#LeafSign">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:relatedMatch rdf:resource="http://purl.obolibrary.org/obo/PO_0025034"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the leaf blade or sheath.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0025034</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#StemSign">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:relatedMatch rdf:resource="http://purl.obolibrary.org/obo/PO_0009047"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the culm or tiller stem.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0009047</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#RootSign">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:relatedMatch rdf:resource="http://purl.obolibrary.org/obo/PO_0009005"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the root system or subterranean crowns.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0009005</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#PanicleSign">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:relatedMatch rdf:resource="http://purl.obolibrary.org/obo/PO_0009049"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the inflorescence, panicle neck, or rachis.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0009049</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#GrainSign">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:relatedMatch rdf:resource="http://purl.obolibrary.org/obo/PO_0009010"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the spikelet, caryopsis, or mature grain.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0009010</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#WholePlantSign">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:relatedMatch rdf:resource="http://purl.obolibrary.org/obo/PO_0000003"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Systemic sign manifested across the entire rice plant architecture.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0000003</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#Chlorosis">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:exactMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_1579"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Foliar yellowing, discoloration, or loss of chlorophyll pigments.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_1568</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#Necrosis">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:exactMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_15509"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Localized or extensive death and breakdown of plant cells and tissues.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_5097</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#Stunting">
   <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <core:exactMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_4426a431"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Suppression of plant elongation, height reduction, or dwarfing.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_2404</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#MechanicalDamage">
@@ -234,15 +262,15 @@
 
 <owl:Class rdf:about="#Disease">
   <rdfs:subClassOf rdf:resource="#Threat"/>
+  <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_5962"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Infectious disease of rice caused by fungal, bacterial, or viral phytopathogens.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_5969</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#Pest">
   <rdfs:subClassOf rdf:resource="#Threat"/>
+  <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_5741"/>
   <owl:disjointWith rdf:resource="#Disease"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Animal or nematode pest infesting rice crops.</rdfs:comment>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_5739</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#ControlTreatment">
@@ -324,6 +352,7 @@
 
 <owl:Class rdf:about="#Rice_Root_NematodeObservation">
   <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defined grouping of the Tier-2 antecedent observations of Rice_Root_Nematode.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Rice_Root_NematodePossible">
@@ -335,12 +364,12 @@
         <owl:Restriction>
           <owl:onProperty rdf:resource="#hasObservation"/>
           <owl:onClass rdf:resource="#Rice_Root_NematodeObservation"/>
-          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</owl:minQualifiedCardinality>
         </owl:Restriction>
       </owl:intersectionOf>
     </owl:Class>
   </owl:equivalentClass>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Rice_Root_Nematode.</rdfs:comment>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Qualified cardinality definition (min 2) for possible Rice_Root_Nematode.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Bacterial_Leaf_BlightSuspect">
@@ -413,6 +442,7 @@
 
 <owl:Class rdf:about="#Bacterial_Leaf_BlightObservation">
   <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defined grouping of the Tier-2 antecedent observations of Bacterial_Leaf_Blight.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Bacterial_Leaf_BlightPossible">
@@ -429,7 +459,7 @@
       </owl:intersectionOf>
     </owl:Class>
   </owl:equivalentClass>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Bacterial_Leaf_Blight.</rdfs:comment>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Qualified cardinality definition (min 1) for possible Bacterial_Leaf_Blight.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#False_SmutSuspect">
@@ -502,6 +532,7 @@
 
 <owl:Class rdf:about="#False_SmutObservation">
   <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defined grouping of the Tier-2 antecedent observations of False_Smut.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#False_SmutPossible">
@@ -518,7 +549,7 @@
       </owl:intersectionOf>
     </owl:Class>
   </owl:equivalentClass>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible False_Smut.</rdfs:comment>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Qualified cardinality definition (min 1) for possible False_Smut.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Rice_BlastSuspect">
@@ -587,6 +618,7 @@
 
 <owl:Class rdf:about="#Rice_BlastObservation">
   <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defined grouping of the Tier-2 antecedent observations of Rice_Blast.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Rice_BlastPossible">
@@ -603,7 +635,7 @@
       </owl:intersectionOf>
     </owl:Class>
   </owl:equivalentClass>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Rice_Blast.</rdfs:comment>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Qualified cardinality definition (min 1) for possible Rice_Blast.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Rice_Grassy_StuntSuspect">
@@ -672,6 +704,7 @@
 
 <owl:Class rdf:about="#Rice_Grassy_StuntObservation">
   <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defined grouping of the Tier-2 antecedent observations of Rice_Grassy_Stunt.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Rice_Grassy_StuntPossible">
@@ -688,7 +721,7 @@
       </owl:intersectionOf>
     </owl:Class>
   </owl:equivalentClass>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Rice_Grassy_Stunt.</rdfs:comment>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Qualified cardinality definition (min 1) for possible Rice_Grassy_Stunt.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Rice_Tungro_VirusSuspect">
@@ -761,6 +794,7 @@
 
 <owl:Class rdf:about="#Rice_Tungro_VirusObservation">
   <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defined grouping of the Tier-2 antecedent observations of Rice_Tungro_Virus.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Rice_Tungro_VirusPossible">
@@ -777,19 +811,22 @@
       </owl:intersectionOf>
     </owl:Class>
   </owl:equivalentClass>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Rice_Tungro_Virus.</rdfs:comment>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Qualified cardinality definition (min 1) for possible Rice_Tungro_Virus.</rdfs:comment>
 </owl:Class>
 
 <owl:NamedIndividual rdf:about="#Brown_Nymphs">
   <rdf:type rdf:resource="#OrganismSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Brown Nymphs': organism sighting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellow_Nymphs">
   <rdf:type rdf:resource="#OrganismSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Yellow Nymphs': organism sighting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Eggs_On_Plant">
   <rdf:type rdf:resource="#OrganismSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Eggs On Plant': organism sighting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Broad_Leaf_Damage">
@@ -797,6 +834,7 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Broad Leaf Damage': plant symptom; anatomical axis LeafSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Severed_Panicles">
@@ -804,6 +842,7 @@
   <rdf:type rdf:resource="#PanicleSign"/>
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Severed Panicles': plant symptom; anatomical axis PanicleSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Chewing_Damage">
@@ -811,22 +850,26 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Chewing Damage': plant symptom; anatomical axis LeafSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Hook_Like_Root_Swelling">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#RootSign"/>
   <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Hook Like Root Swelling': plant symptom; anatomical axis RootSign.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Root_Knot_Swelling">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#RootSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Root Knot Swelling': plant symptom; anatomical axis RootSign.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Deformed_Roots">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#RootSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Deformed Roots': plant symptom; anatomical axis RootSign.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Necrotic_Spots">
@@ -834,6 +877,7 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#Rice_BlastObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Necrotic Spots': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaves">
@@ -841,6 +885,7 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Yellowing Leaves': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Stunted_Growth">
@@ -849,10 +894,12 @@
   <rdf:type rdf:resource="#Stunting"/>
   <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
   <rdf:type rdf:resource="#Rice_Tungro_VirusObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Stunted Growth': plant symptom; anatomical axis WholePlantSign; phenomenological axis Stunting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Frass_In_Stem">
   <rdf:type rdf:resource="#OrganismSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Frass In Stem': organism sighting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Bore_Holes_In_Stem">
@@ -860,6 +907,7 @@
   <rdf:type rdf:resource="#StemSign"/>
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Bore Holes In Stem': plant symptom; anatomical axis StemSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Deadheart_Seedling">
@@ -867,6 +915,7 @@
   <rdf:type rdf:resource="#WholePlantSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Deadheart Seedling': plant symptom; anatomical axis WholePlantSign; phenomenological axis Necrosis; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Easily_Pulled_Tillers">
@@ -874,20 +923,24 @@
   <rdf:type rdf:resource="#StemSign"/>
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Easily Pulled Tillers': plant symptom; anatomical axis StemSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Whitehead_Empty_Panicles">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#PanicleSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Whitehead Empty Panicles': plant symptom; anatomical axis PanicleSign; phenomenological axis GrainAbnormality.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Nymphs_Present">
   <rdf:type rdf:resource="#OrganismSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Nymphs Present': organism sighting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Adult_Insects_Present">
   <rdf:type rdf:resource="#OrganismSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Adult Insects Present': organism sighting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Margin_Sap_Sucking">
@@ -895,6 +948,7 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Margin Sap Sucking': plant symptom; anatomical axis LeafSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rotten_Panicles">
@@ -902,10 +956,12 @@
   <rdf:type rdf:resource="#PanicleSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Rotten Panicles': plant symptom; anatomical axis PanicleSign; phenomenological axis Necrosis; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Random_Feeding_Pattern">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Random Feeding Pattern': epidemiological context.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Localized_Leaf_Yellowing">
@@ -913,6 +969,7 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Localized Leaf Yellowing': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Empty_Grains">
@@ -920,6 +977,7 @@
   <rdf:type rdf:resource="#GrainSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Empty Grains': plant symptom; anatomical axis GrainSign; phenomenological axis GrainAbnormality; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Plant_Yellowing">
@@ -927,6 +985,7 @@
   <rdf:type rdf:resource="#WholePlantSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Plant Yellowing': plant symptom; anatomical axis WholePlantSign; phenomenological axis Chlorosis; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Hopperburn_Drying">
@@ -934,10 +993,12 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Hopperburn Drying': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Circular_Hopperburn_Patches">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Circular Hopperburn Patches': epidemiological context.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Blackened_Feeding_Punctures">
@@ -945,18 +1006,21 @@
   <rdf:type rdf:resource="#StemSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Blackened Feeding Punctures': plant symptom; anatomical axis StemSign; phenomenological axis Necrosis; insect damage, out of diagnostic scope.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaf_Veins">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Yellowing Leaf Veins': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Discoloration_Yellow">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Discoloration Yellow': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaf_Tips">
@@ -964,10 +1028,12 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdf:type rdf:resource="#Bacterial_Leaf_BlightObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Yellowing Leaf Tips': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rapid_Disease_Spread">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Rapid Disease Spread': epidemiological context.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rusty_Grain_Balls">
@@ -975,6 +1041,7 @@
   <rdf:type rdf:resource="#GrainSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
   <rdf:type rdf:resource="#False_SmutObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Rusty Grain Balls': plant symptom; anatomical axis GrainSign; phenomenological axis GrainAbnormality.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Blackened_Grain_Balls">
@@ -982,28 +1049,34 @@
   <rdf:type rdf:resource="#GrainSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
   <rdf:type rdf:resource="#False_SmutObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Blackened Grain Balls': plant symptom; anatomical axis GrainSign; phenomenological axis GrainAbnormality.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rainy_Season_Outbreak">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Rainy Season Outbreak': epidemiological context.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Uniform_Field_Infection">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Uniform Field Infection': epidemiological context.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Slight_Panicle_Infection">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Slight Panicle Infection': epidemiological context.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Milky_Stage_Vulnerability">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Milky Stage Vulnerability': epidemiological context.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Panicle_Neck_Rot">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#PanicleSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Panicle Neck Rot': plant symptom; anatomical axis PanicleSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Diamond_Shaped_Lesions">
@@ -1011,14 +1084,17 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#Rice_BlastObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Diamond Shaped Lesions': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Infected_Seedlings">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Infected Seedlings': epidemiological context.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Brown_Planthopper_Present">
   <rdf:type rdf:resource="#VectorSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Brown Planthopper Present': vector sighting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Severe_Stunting">
@@ -1026,15 +1102,18 @@
   <rdf:type rdf:resource="#WholePlantSign"/>
   <rdf:type rdf:resource="#Stunting"/>
   <rdf:type rdf:resource="#Rice_Grassy_StuntObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Severe Stunting': plant symptom; anatomical axis WholePlantSign; phenomenological axis Stunting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#No_Panicle_Formation">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#PanicleSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'No Panicle Formation': plant symptom; anatomical axis PanicleSign.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Green_Leafhopper_Present">
   <rdf:type rdf:resource="#VectorSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Green Leafhopper Present': vector sighting.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Water_Soaked_Lesions">
@@ -1042,47 +1121,55 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#Bacterial_Leaf_BlightObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Water Soaked Lesions': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Bacterial_Ooze">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#StemSign"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Bacterial Ooze': plant symptom; anatomical axis StemSign.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Mottling">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Mottling': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Interveinal_Chlorosis">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Interveinal Chlorosis': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Grain_Discoloration">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#GrainSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Grain Discoloration': plant symptom; anatomical axis GrainSign; phenomenological axis GrainAbnormality.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Sheath_Lesions">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Sheath Lesions': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Stem_Rot_Lesions">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#StemSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Stem Rot Lesions': plant symptom; anatomical axis StemSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Excessive_Tillering">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#WholePlantSign"/>
   <rdf:type rdf:resource="#Rice_Grassy_StuntObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Excessive Tillering': plant symptom; anatomical axis WholePlantSign.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Orange_Leaf_Discoloration">
@@ -1090,48 +1177,61 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdf:type rdf:resource="#Rice_Tungro_VirusObservation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Orange Leaf Discoloration': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Desiccation">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Desiccation': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Chlorotic_Streaks">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Chlorotic Streaks': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Brown_Streaks">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Brown Streaks': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Bleaching">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Bleaching': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Whitened_Leaf_Tips">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Whitened Leaf Tips': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Wilting">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#WholePlantSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Wilting': plant symptom; anatomical axis WholePlantSign; phenomenological axis Necrosis.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Discolored_Roots">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#RootSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Discolored Roots': plant symptom; anatomical axis RootSign; phenomenological axis Necrosis.</rdfs:comment>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Control_Rice_Root_Nematode">
+  <rdf:type rdf:resource="#ControlTreatment"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Root-Knot Nematode: Continuous soil flooding in lowland paddies, crop rotation with non-host legumes (mungbean, sesbania), nursery bed solarization, and biological nematicides. Citation: Bridge, J., Plowright, R.A. &amp; Peng, D. (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI Publishing. DOI: 10.1079/9780851997278.0087</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Control_Bacterial_Leaf_Blight">
@@ -1146,7 +1246,7 @@
 
 <owl:NamedIndividual rdf:about="#Control_Rice_Blast">
   <rdf:type rdf:resource="#ControlTreatment"/>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Blast: Deploy multi-line resistant varieties, apply silicon soil amendments, avoid excessive nitrogen fertilization, and apply tricyclazole or azoxystrobin at panicle initiation. Citation: Plant Disease (2014), Sensitivity of Magnaporthe oryzae from Rice to Tricyclazole and Azoxystrobin; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI. DOI: 10.1094/pdis-04-13-0432-re</rdfs:comment>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Blast: Deploy multi-line resistant varieties, apply silicon soil amendments, avoid excessive nitrogen fertilization, and apply tricyclazole or azoxystrobin at panicle initiation. Citation: Kunova et al. (2014), Sensitivity of Nonexposed and Exposed Populations of Magnaporthe oryzae from Rice to Tricyclazole and Azoxystrobin, Plant Disease 98(4):512-518; Ou, S.H. (1985), Rice Diseases, CMI. DOI: 10.1094/pdis-04-13-0432-re</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Control_Rice_Grassy_Stunt">
@@ -1159,79 +1259,81 @@
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Tungro Virus: Control the green leafhopper (GLH, Nephotettix virescens) vector, practice synchronous planting, eradicate ratoon and weed reservoir hosts, and plant tungro-resistant cultivars. Citation: Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor. DOI: 10.1146/annurev.phyto.34.1.249</rdfs:comment>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#Control_Rice_Root_Nematode">
-  <rdf:type rdf:resource="#ControlTreatment"/>
-  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Root-Knot Nematode: Continuous soil flooding in lowland paddies, crop rotation with non-host legumes (mungbean, sesbania), nursery bed solarization, and biological nematicides. Citation: Bridge, J., Plowright, R.A. &amp; Peng, D. (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI Publishing. DOI: 10.1079/9780851997278.0087</rdfs:comment>
-</owl:NamedIndividual>
-
 <owl:NamedIndividual rdf:about="#Rice_Root_Nematode">
   <rdf:type rdf:resource="#Pest"/>
+  <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_31070"/>
   <hasControlTreatment rdf:resource="#Control_Rice_Root_Nematode"/>
-  <hasSymptom rdf:resource="#Hook_Like_Root_Swelling"/>
-  <hasSymptom rdf:resource="#Necrotic_Spots"/>
-  <hasSymptom rdf:resource="#Yellowing_Leaves"/>
-  <hasSymptom rdf:resource="#Root_Knot_Swelling"/>
-  <hasSymptom rdf:resource="#Stunted_Growth"/>
   <hasSymptom rdf:resource="#Deformed_Roots"/>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_34645</exactMatch>
+  <hasSymptom rdf:resource="#Stunted_Growth"/>
+  <hasSymptom rdf:resource="#Hook_Like_Root_Swelling"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaves"/>
+  <hasSymptom rdf:resource="#Necrotic_Spots"/>
+  <hasSymptom rdf:resource="#Root_Knot_Swelling"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope pest 'Rice Root Nematode'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Bacterial_Leaf_Blight">
   <rdf:type rdf:resource="#Disease"/>
+  <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_24383"/>
   <hasControlTreatment rdf:resource="#Control_Bacterial_Leaf_Blight"/>
-  <hasSymptom rdf:resource="#Water_Soaked_Lesions"/>
   <hasSymptom rdf:resource="#Leaf_Discoloration_Yellow"/>
-  <hasSymptom rdf:resource="#Rapid_Disease_Spread"/>
-  <hasSymptom rdf:resource="#Yellowing_Leaf_Veins"/>
+  <hasSymptom rdf:resource="#Water_Soaked_Lesions"/>
   <hasSymptom rdf:resource="#Yellowing_Leaf_Tips"/>
   <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_8457</exactMatch>
+  <hasSymptom rdf:resource="#Rapid_Disease_Spread"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaf_Veins"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'Bacterial Leaf Blight'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#False_Smut">
   <rdf:type rdf:resource="#Disease"/>
+  <core:broadMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_31622"/>
   <hasControlTreatment rdf:resource="#Control_False_Smut"/>
-  <hasSymptom rdf:resource="#Milky_Stage_Vulnerability"/>
-  <hasSymptom rdf:resource="#Blackened_Grain_Balls"/>
   <hasSymptom rdf:resource="#Slight_Panicle_Infection"/>
+  <hasSymptom rdf:resource="#Blackened_Grain_Balls"/>
   <hasSymptom rdf:resource="#Rainy_Season_Outbreak"/>
-  <hasSymptom rdf:resource="#Rusty_Grain_Balls"/>
   <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_8109</exactMatch>
+  <hasSymptom rdf:resource="#Milky_Stage_Vulnerability"/>
+  <hasSymptom rdf:resource="#Rusty_Grain_Balls"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'False Smut'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Blast">
   <rdf:type rdf:resource="#Disease"/>
+  <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_16025"/>
   <hasControlTreatment rdf:resource="#Control_Rice_Blast"/>
+  <hasSymptom rdf:resource="#Panicle_Neck_Rot"/>
+  <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
   <hasSymptom rdf:resource="#Necrotic_Spots"/>
   <hasSymptom rdf:resource="#Infected_Seedlings"/>
   <hasSymptom rdf:resource="#Diamond_Shaped_Lesions"/>
-  <hasSymptom rdf:resource="#Panicle_Neck_Rot"/>
-  <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_330663</exactMatch>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'Rice Blast'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Grassy_Stunt">
   <rdf:type rdf:resource="#Disease"/>
+  <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_ce4b70ea"/>
   <hasControlTreatment rdf:resource="#Control_Rice_Grassy_Stunt"/>
+  <hasSymptom rdf:resource="#No_Panicle_Formation"/>
+  <hasSymptom rdf:resource="#Brown_Planthopper_Present"/>
+  <hasSymptom rdf:resource="#Severe_Stunting"/>
   <hasSymptom rdf:resource="#Necrotic_Spots"/>
   <hasSymptom rdf:resource="#Excessive_Tillering"/>
-  <hasSymptom rdf:resource="#Severe_Stunting"/>
-  <hasSymptom rdf:resource="#Brown_Planthopper_Present"/>
-  <hasSymptom rdf:resource="#No_Panicle_Formation"/>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_24853</exactMatch>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'Rice Grassy Stunt'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Tungro_Virus">
   <rdf:type rdf:resource="#Disease"/>
+  <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_f6940eb3"/>
+  <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_f48899c1"/>
   <hasControlTreatment rdf:resource="#Control_Rice_Tungro_Virus"/>
+  <hasSymptom rdf:resource="#Stunted_Growth"/>
+  <hasSymptom rdf:resource="#Orange_Leaf_Discoloration"/>
   <hasSymptom rdf:resource="#Necrotic_Spots"/>
   <hasSymptom rdf:resource="#Yellowing_Leaves"/>
-  <hasSymptom rdf:resource="#Whitehead_Empty_Panicles"/>
-  <hasSymptom rdf:resource="#Stunted_Growth"/>
   <hasSymptom rdf:resource="#Green_Leafhopper_Present"/>
-  <hasSymptom rdf:resource="#Orange_Leaf_Discoloration"/>
-  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_6615</exactMatch>
+  <hasSymptom rdf:resource="#Whitehead_Empty_Panicles"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'Rice Tungro Virus'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:AllDifferent>

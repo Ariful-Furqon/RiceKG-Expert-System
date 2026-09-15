@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-09-15T05:22:22.374030+00:00",
+    "generated_at": "2026-09-15T11:32:48.389532+00:00",
     "n_cases_per_run": 500,
     "num_seeds": 20,
     "occlusion_sweep": [
@@ -14,7 +14,7 @@
       0.7,
       0.8
     ],
-    "elapsed_seconds": 20.24,
+    "elapsed_seconds": 26.9,
     "scientific_disclosure": "Evaluated on parameterised rule-derived cases under controlled occlusion. Characterises robustness to incomplete symptom scouting under the rule vocabulary; does not measure field diagnostic accuracy on uncurated cases."
   },
   "systems": {
@@ -162,6 +162,152 @@
         ],
         "exact_match_mean": 22.35,
         "micro_precision_mean": 100.0
+      }
+    },
+    "RiceKG (+ possible grade)": {
+      "0.0": {
+        "positive_recall_mean": 100.0,
+        "positive_recall_std": 0.0,
+        "positive_recall_ci95": [
+          100.0,
+          100.0
+        ],
+        "micro_f1_mean": 99.68,
+        "micro_f1_std": 0.18,
+        "micro_f1_ci95": [
+          99.38,
+          100.0
+        ],
+        "exact_match_mean": 99.43,
+        "micro_precision_mean": 99.36
+      },
+      "0.1": {
+        "positive_recall_mean": 86.75,
+        "positive_recall_std": 1.91,
+        "positive_recall_ci95": [
+          82.59,
+          90.07
+        ],
+        "micro_f1_mean": 91.95,
+        "micro_f1_std": 1.11,
+        "micro_f1_ci95": [
+          89.74,
+          93.81
+        ],
+        "exact_match_mean": 88.8,
+        "micro_precision_mean": 88.15
+      },
+      "0.2": {
+        "positive_recall_mean": 75.91,
+        "positive_recall_std": 2.03,
+        "positive_recall_ci95": [
+          71.7,
+          79.44
+        ],
+        "micro_f1_mean": 85.72,
+        "micro_f1_std": 1.27,
+        "micro_f1_ci95": [
+          83.63,
+          87.99
+        ],
+        "exact_match_mean": 80.05,
+        "micro_precision_mean": 80.81
+      },
+      "0.3": {
+        "positive_recall_mean": 66.63,
+        "positive_recall_std": 2.51,
+        "positive_recall_ci95": [
+          62.53,
+          71.49
+        ],
+        "micro_f1_mean": 80.25,
+        "micro_f1_std": 1.64,
+        "micro_f1_ci95": [
+          77.81,
+          83.56
+        ],
+        "exact_match_mean": 72.65,
+        "micro_precision_mean": 76.02
+      },
+      "0.4": {
+        "positive_recall_mean": 59.42,
+        "positive_recall_std": 1.81,
+        "positive_recall_ci95": [
+          56.33,
+          62.71
+        ],
+        "micro_f1_mean": 75.7,
+        "micro_f1_std": 1.16,
+        "micro_f1_ci95": [
+          74.01,
+          77.94
+        ],
+        "exact_match_mean": 66.79,
+        "micro_precision_mean": 73.06
+      },
+      "0.5": {
+        "positive_recall_mean": 52.85,
+        "positive_recall_std": 1.89,
+        "positive_recall_ci95": [
+          49.47,
+          56.19
+        ],
+        "micro_f1_mean": 70.67,
+        "micro_f1_std": 1.49,
+        "micro_f1_ci95": [
+          67.9,
+          72.98
+        ],
+        "exact_match_mean": 61.48,
+        "micro_precision_mean": 71.4
+      },
+      "0.6": {
+        "positive_recall_mean": 46.55,
+        "positive_recall_std": 2.26,
+        "positive_recall_ci95": [
+          43.09,
+          49.78
+        ],
+        "micro_f1_mean": 65.1,
+        "micro_f1_std": 1.87,
+        "micro_f1_ci95": [
+          61.88,
+          68.29
+        ],
+        "exact_match_mean": 56.35,
+        "micro_precision_mean": 70.46
+      },
+      "0.7": {
+        "positive_recall_mean": 38.84,
+        "positive_recall_std": 2.31,
+        "positive_recall_ci95": [
+          35.56,
+          42.99
+        ],
+        "micro_f1_mean": 57.76,
+        "micro_f1_std": 2.08,
+        "micro_f1_ci95": [
+          54.49,
+          61.06
+        ],
+        "exact_match_mean": 50.53,
+        "micro_precision_mean": 69.11
+      },
+      "0.8": {
+        "positive_recall_mean": 33.79,
+        "positive_recall_std": 1.71,
+        "positive_recall_ci95": [
+          30.75,
+          36.41
+        ],
+        "micro_f1_mean": 50.93,
+        "micro_f1_std": 1.8,
+        "micro_f1_ci95": [
+          47.36,
+          53.74
+        ],
+        "exact_match_mean": 46.24,
+        "micro_precision_mean": 68.91
       }
     },
     "Rule: Flat Single-Tier": {
@@ -896,148 +1042,148 @@
     },
     "k-NN": {
       "0.0": {
-        "positive_recall_mean": 97.53,
-        "positive_recall_std": 1.56,
+        "positive_recall_mean": 97.78,
+        "positive_recall_std": 1.42,
         "positive_recall_ci95": [
-          94.59,
-          99.63
+          94.99,
+          99.88
         ],
-        "micro_f1_mean": 98.81,
-        "micro_f1_std": 0.77,
+        "micro_f1_mean": 98.93,
+        "micro_f1_std": 0.71,
         "micro_f1_ci95": [
-          97.21,
+          97.43,
           99.83
         ],
-        "exact_match_mean": 97.91,
-        "micro_precision_mean": 99.9
+        "exact_match_mean": 98.12,
+        "micro_precision_mean": 99.91
       },
       "0.1": {
-        "positive_recall_mean": 95.67,
-        "positive_recall_std": 1.17,
+        "positive_recall_mean": 95.81,
+        "positive_recall_std": 1.33,
         "positive_recall_ci95": [
-          93.73,
-          97.77
+          93.37,
+          98.24
         ],
-        "micro_f1_mean": 97.91,
-        "micro_f1_std": 0.57,
+        "micro_f1_mean": 97.99,
+        "micro_f1_std": 0.66,
         "micro_f1_ci95": [
-          96.84,
-          98.84
+          96.67,
+          99.18
         ],
-        "exact_match_mean": 96.42,
-        "micro_precision_mean": 99.85
+        "exact_match_mean": 96.54,
+        "micro_precision_mean": 99.87
       },
       "0.2": {
-        "positive_recall_mean": 92.82,
-        "positive_recall_std": 1.67,
+        "positive_recall_mean": 92.77,
+        "positive_recall_std": 1.73,
         "positive_recall_ci95": [
-          90.07,
-          95.52
+          90.06,
+          95.66
         ],
-        "micro_f1_mean": 96.48,
-        "micro_f1_std": 0.86,
+        "micro_f1_mean": 96.47,
+        "micro_f1_std": 0.9,
         "micro_f1_ci95": [
-          95.06,
-          97.82
+          94.98,
+          97.89
         ],
-        "exact_match_mean": 94.13,
-        "micro_precision_mean": 99.76
+        "exact_match_mean": 94.1,
+        "micro_precision_mean": 99.78
       },
       "0.3": {
-        "positive_recall_mean": 87.7,
-        "positive_recall_std": 1.61,
+        "positive_recall_mean": 87.75,
+        "positive_recall_std": 1.77,
         "positive_recall_ci95": [
-          85.98,
-          91.0
+          84.29,
+          90.71
         ],
         "micro_f1_mean": 93.83,
-        "micro_f1_std": 0.79,
+        "micro_f1_std": 0.94,
         "micro_f1_ci95": [
-          92.76,
-          95.49
+          91.8,
+          95.27
         ],
-        "exact_match_mean": 90.06,
-        "micro_precision_mean": 99.57
+        "exact_match_mean": 90.11,
+        "micro_precision_mean": 99.54
       },
       "0.4": {
-        "positive_recall_mean": 80.28,
-        "positive_recall_std": 1.88,
+        "positive_recall_mean": 80.01,
+        "positive_recall_std": 1.66,
         "positive_recall_ci95": [
-          77.65,
-          83.53
+          76.97,
+          83.01
         ],
-        "micro_f1_mean": 89.65,
-        "micro_f1_std": 1.0,
+        "micro_f1_mean": 89.49,
+        "micro_f1_std": 0.93,
         "micro_f1_ci95": [
-          88.35,
-          91.49
+          87.89,
+          91.21
         ],
-        "exact_match_mean": 84.08,
-        "micro_precision_mean": 99.24
+        "exact_match_mean": 83.89,
+        "micro_precision_mean": 99.26
       },
       "0.5": {
-        "positive_recall_mean": 69.06,
-        "positive_recall_std": 3.23,
+        "positive_recall_mean": 68.66,
+        "positive_recall_std": 2.58,
         "positive_recall_ci95": [
-          64.43,
-          74.27
+          64.46,
+          72.52
         ],
-        "micro_f1_mean": 82.63,
-        "micro_f1_std": 2.09,
+        "micro_f1_mean": 82.36,
+        "micro_f1_std": 1.69,
         "micro_f1_ci95": [
-          79.46,
-          86.15
+          79.6,
+          84.91
         ],
-        "exact_match_mean": 75.02,
-        "micro_precision_mean": 98.8
+        "exact_match_mean": 74.72,
+        "micro_precision_mean": 98.77
       },
       "0.6": {
-        "positive_recall_mean": 55.77,
-        "positive_recall_std": 3.55,
+        "positive_recall_mean": 54.88,
+        "positive_recall_std": 3.3,
         "positive_recall_ci95": [
-          50.29,
-          61.89
+          49.71,
+          61.6
         ],
-        "micro_f1_mean": 72.82,
-        "micro_f1_std": 2.6,
+        "micro_f1_mean": 72.2,
+        "micro_f1_std": 2.41,
         "micro_f1_ci95": [
-          69.64,
-          77.92
+          69.04,
+          77.44
         ],
-        "exact_match_mean": 64.33,
-        "micro_precision_mean": 98.21
+        "exact_match_mean": 63.66,
+        "micro_precision_mean": 98.32
       },
       "0.7": {
-        "positive_recall_mean": 40.64,
-        "positive_recall_std": 4.65,
+        "positive_recall_mean": 39.51,
+        "positive_recall_std": 3.47,
         "positive_recall_ci95": [
-          34.05,
-          49.89
+          32.78,
+          44.66
         ],
-        "micro_f1_mean": 59.33,
-        "micro_f1_std": 4.21,
+        "micro_f1_mean": 58.41,
+        "micro_f1_std": 3.39,
         "micro_f1_ci95": [
-          53.63,
-          67.59
+          51.8,
+          62.87
         ],
-        "exact_match_mean": 52.64,
+        "exact_match_mean": 51.77,
         "micro_precision_mean": 97.76
       },
       "0.8": {
-        "positive_recall_mean": 26.16,
-        "positive_recall_std": 4.99,
+        "positive_recall_mean": 24.91,
+        "positive_recall_std": 3.73,
         "positive_recall_ci95": [
-          17.42,
-          34.25
+          17.39,
+          30.44
         ],
-        "micro_f1_mean": 42.74,
-        "micro_f1_std": 5.6,
+        "micro_f1_mean": 41.33,
+        "micro_f1_std": 4.38,
         "micro_f1_ci95": [
-          32.45,
-          50.46
+          32.05,
+          48.23
         ],
-        "exact_match_mean": 40.82,
-        "micro_precision_mean": 96.78
+        "exact_match_mean": 39.85,
+        "micro_precision_mean": 96.35
       }
     },
     "Logistic Regression (OvR)": {

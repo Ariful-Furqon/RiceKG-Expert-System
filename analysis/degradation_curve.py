@@ -118,6 +118,29 @@ def fast_predict_flat(symptoms: List[str]) -> List[str]:
     return sorted(list(diagnoses))
 
 
+def fast_predict_ricekg_possible(symptoms: List[str]) -> List[str]:
+    """Fast solver for RiceKG with the `possible` grade enabled.
+
+    Mirrors model.predict_diseases(symptoms, include_possible=True): when no rule fires and
+    no out-of-scope gate triggers, every threat whose Tier-2 antecedent coverage reaches
+    model.POSSIBLE_COVERAGE_THRESHOLD is returned. Checked against Pellet in
+    tests/test_degradation_curve.py.
+    """
+    strict = fast_predict_ricekg(symptoms)
+    if strict:
+        return strict
+
+    s_set = set(symptoms)
+    possible: Set[str] = set()
+    for r in model.RULE_REGISTRY:
+        if r.get("tier") != "tier2":
+            continue
+        matched = [a for a in r["antecedents"] if a in s_set]
+        if matched and len(matched) / len(r["antecedents"]) >= model.POSSIBLE_COVERAGE_THRESHOLD:
+            possible.add(r["threat"])
+    return sorted(possible)
+
+
 # ---------------------------------------------------------------------------
 # Core Evaluation Loop
 # ---------------------------------------------------------------------------
@@ -133,6 +156,7 @@ def run_degradation_experiment(
 
     system_names = [
         "RiceKG (Full Proposed)",
+        "RiceKG (+ possible grade)",
         "Rule: Flat Single-Tier",
         "Rule: Nearest Prototype",
         "Decision Tree",
@@ -204,6 +228,13 @@ def run_degradation_experiment(
                 rk_preds[i] = ml_baselines.encode_labels(fast_predict_ricekg(c["symptoms"]))
             rk_m = ml_baselines.compute_multilabel_metrics(Y_test, rk_preds)
             data_by_system["RiceKG (Full Proposed)"][occ].append(rk_m)
+
+            # A'. RiceKG with the `possible` grade (partial Tier-2 coverage)
+            rkp_preds = np.zeros_like(Y_test)
+            for i, c in enumerate(test_cases):
+                rkp_preds[i] = ml_baselines.encode_labels(fast_predict_ricekg_possible(c["symptoms"]))
+            rkp_m = ml_baselines.compute_multilabel_metrics(Y_test, rkp_preds)
+            data_by_system["RiceKG (+ possible grade)"][occ].append(rkp_m)
 
             # B. Flat Single-Tier
             flat_preds = np.zeros_like(Y_test)
@@ -304,6 +335,7 @@ def generate_plot(results: Dict[str, Any], output_png: str) -> None:
     # Styling palettes
     styles = {
         "RiceKG (Full Proposed)": {"color": "#1b9e77", "marker": "o", "lw": 2.5, "ls": "-"},
+        "RiceKG (+ possible grade)": {"color": "#1b9e77", "marker": "o", "lw": 2.0, "ls": "--"},
         "Rule: Flat Single-Tier": {"color": "#7570b3", "marker": "s", "lw": 1.8, "ls": "--"},
         "Rule: Nearest Prototype": {"color": "#e7298a", "marker": "^", "lw": 1.8, "ls": "-."},
         "Random Forest": {"color": "#d95f02", "marker": "D", "lw": 1.8, "ls": "-"},
@@ -359,6 +391,51 @@ def generate_plot(results: Dict[str, Any], output_png: str) -> None:
     plt.close()
 
 
+ML_SYSTEMS = (
+    "Decision Tree", "Random Forest", "Multinomial Naive Bayes", "k-NN", "Logistic Regression (OvR)",
+)
+
+
+def _findings(results: Dict[str, Any]) -> List[str]:
+    """Derive every stated finding from the aggregated numbers; no figure is typed by hand."""
+    systems = results["systems"]
+    sweep = results["metadata"]["occlusion_sweep"]
+    rec = lambda name, occ: systems[name][str(occ)]["positive_recall_mean"]
+    prec = lambda name, occ: systems[name][str(occ)]["micro_precision_mean"]
+
+    rk, rkp, flat = "RiceKG (Full Proposed)", "RiceKG (+ possible grade)", "Rule: Flat Single-Tier"
+    lo, hi = sweep[0], sweep[-1]
+    mid = min(sweep, key=lambda o: abs(o - 0.3))
+    flat_gap = max(abs(rec(rk, o) - rec(flat, o)) for o in sweep)
+
+    ml_present = [m for m in ML_SYSTEMS if m in systems]
+    below_all_ml = [o for o in sweep if ml_present and rec(rk, o) < min(rec(m, o) for m in ml_present)]
+    best_ml_hi = max(ml_present, key=lambda m: rec(m, hi)) if ml_present else None
+    rk_prec_min = min(prec(rk, o) for o in sweep)
+
+    out = [
+        f"1. **Strict RiceKG collapses under occlusion.** Positive recall falls from {rec(rk, lo):.1f}% at "
+        f"occlusion {lo:.1f} to {rec(rk, mid):.1f}% at {mid:.1f} and {rec(rk, hi):.1f}% at {hi:.1f}. "
+        f"Its lowest micro-precision across the sweep is {rk_prec_min:.1f}%: it misses cases rather than "
+        f"returning wrong threats.",
+        f"2. **Tier stratification does not change the diagnosed set.** The maximum recall difference between "
+        f"RiceKG and Flat Single-Tier over the sweep is {flat_gap:.1f} points. Tier-1 antecedents contain the "
+        f"Tier-2 antecedents, so any case that satisfies Tier 1 also satisfies Tier 2; the tiers change the "
+        f"reported grade, not which threats are returned.",
+        f"3. **Supervised baselines are more robust on this benchmark.** Strict RiceKG recall is below every "
+        f"supervised baseline at {len(below_all_ml)} of {len(sweep)} occlusion levels"
+        + (f"; at {hi:.1f} the best one ({best_ml_hi}) reaches {rec(best_ml_hi, hi):.1f}%." if best_ml_hi else "."),
+    ]
+    if rkp in systems:
+        out.append(
+            f"4. **The `possible` grade trades precision for recall.** With it enabled, recall at {mid:.1f} is "
+            f"{rec(rkp, mid):.1f}% (strict: {rec(rk, mid):.1f}%) and micro-precision is {prec(rkp, mid):.1f}% "
+            f"(strict: {prec(rk, mid):.1f}%); at {hi:.1f}, recall is {rec(rkp, hi):.1f}% and precision "
+            f"{prec(rkp, hi):.1f}%."
+        )
+    return out
+
+
 def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
     """Write comprehensive experimental findings to Markdown."""
     meta = results["metadata"]
@@ -383,9 +460,16 @@ def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
         "to $0.8$ (severe partial observation where 80% of diagnostic signs are hidden).",
         "",
         "> [!IMPORTANT]",
-        "> **Scientific Boundary**: This experiment evaluates degradation under the rule base's own vocabulary",
-        "> and Horn-clause definitions. It demonstrates mathematical robustness to incomplete symptom scouting,",
-        "> **not field diagnostic accuracy on authentic uncurated disease notes**.",
+        "> **Scientific Boundary**: This experiment measures robustness to symptom occlusion under the rule base's",
+        "> own vocabulary, **not field accuracy**. Test cases are generated from the same `RULE_REGISTRY` antecedents",
+        "> that the knowledge-based systems use, so the 0.0 column is 100% for RiceKG by construction.",
+        "",
+        "Confidence intervals come from 20 seeds with $n=500$ generated cases per point, so the 0.20-step",
+        "quantisation of the 5-positive field `eval` split does not apply here.",
+        "",
+        "RiceKG predictions are computed with set-containment solvers (`fast_predict_ricekg`,",
+        "`fast_predict_ricekg_possible`) whose outputs are checked against Pellet on sampled cases in",
+        "`tests/test_degradation_curve.py`; the sweep itself does not run the DL reasoner.",
         "",
         "---",
         "",
@@ -425,15 +509,29 @@ def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
         "",
         "---",
         "",
-        "## 4. Architectural & Degradation Insights",
+        "## 4. Micro-Average Precision (%) vs. Occlusion Rate",
         "",
-        "1. **Graceful Tier-2 Degradation Buffer**: Under zero occlusion (rate = 0.0), RiceKG achieves near-perfect pathognomonic recall (99.8%). As occlusion reaches 0.3, canonical Tier-1 rules fail on 60%+ of cases, but stratified Tier-2 rules maintain high positive recall (93.1%), providing an agronomic safety buffer against partial field scouting.",
-        "2. **Graceful Collapse vs Brittle Failure**: Supervised ML models (Random Forest, Decision Tree) degrade linearly as observation noise increases. In contrast, symbolic rules maintain high precision across all occlusion levels (near 100% precision), trading off recall rather than introducing false positive pesticide recommendations.",
-        "3. **Nearest Prototype Smoothness**: The heuristic prototype matcher degrades smoothest under severe occlusion (rate > 0.6) because Jaccard similarity computes partial overlap, whereas strict Horn clauses require all antecedents in at least one rule tier to be present.",
+        "| System / Paradigm | " + " | ".join(f"{occ:.1f}" for occ in sweep) + " |",
+        "|:---|" + ":---:|" * len(sweep),
+    ])
+
+    for sys_name, data in systems.items():
+        row_vals = [f"{data[str(occ)]['micro_precision_mean']:.1f}" for occ in sweep]
+        lines.append(f"| **{sys_name}** | " + " | ".join(row_vals) + " |")
+
+    lines.extend([
         "",
         "---",
         "",
-        "## 5. Visual Degradation Trajectory",
+        "## 5. Findings (computed from the tables above)",
+        "",
+    ])
+    lines.extend(_findings(results))
+    lines.extend([
+        "",
+        "---",
+        "",
+        "## 6. Visual Degradation Trajectory",
         "",
         "![Observation Occlusion Degradation Curve](figures/degradation_curve.png)",
         "",

@@ -275,11 +275,13 @@ Because every antecedent in the Tier-2 suspect definition is a strict subset of 
 $$\text{Rice\_BlastConfirmed} \sqsubseteq \text{Rice\_BlastSuspect}$$
 This property holds universally across all six diagnosable threats.
 
-**Unit Verification**: Added `tests/test_tier_subsumption_is_provable.py` which executes Pellet classification over an isolated ontology world and asserts:
-1. $\text{ThreatConfirmed} \sqsubseteq \text{ThreatSuspect}$ for all 6 threats (**PASS**).
-2. Removing a Tier-2 antecedent breaks the subsumption entailment (**PASS**).
+**Unit Verification**: `tests/test_tier_subsumption_is_provable.py` classifies the production ontology returned by `model.build_ontology()` (antecedents read from `RULE_REGISTRY`, not restated in the test) with Pellet and asserts, for each of the six threats:
+1. $\text{ThreatConfirmed} \sqsubseteq \text{ThreatSuspect}$, and $\text{ThreatSuspect} \not\sqsubseteq \text{ThreatConfirmed}$.
+2. Removing one Tier-2 antecedent from that threat's Tier-1 definition removes the entailment for that threat while leaving the other five intact.
 
-This formally answers the architectural requirement of why an OWL 2 DL reasoner is necessary: pure Python set-containment or relational baselines cannot prove subsumption invariants over the rule base at any latency.
+This is a capability the `no_reasoner` variant does not provide: set containment can check a known subset relation, but the reasoner derives the class hierarchy from the definitions themselves.
+
+**Scope of the change.** The defined classes are added alongside the SWRL rules, not in place of them: `model.build_ontology()` still emits one SWRL `Imp` per `RULE_REGISTRY` entry, and `predict_diseases` reads both the rule consequents and defined-class membership. The published `rice_ontology.owl` contains the defined classes only.
 
 ---
 
@@ -291,16 +293,19 @@ Class: Rice_BlastPossible
     EquivalentTo:
         Rice and (hasObservation min 2 Rice_BlastObservation)
 ```
-where `Rice_BlastObservation` is a defined superclass typing all Tier-2 antecedents for Rice Blast (`Diamond_Shaped_Lesions`, `Necrotic_Spots`). A sample exhibiting $\ge k$ characteristic signs is classified into `*Possible` directly by Pellet's description logic tableau algorithm.
+where `Rice_BlastObservation` types the Tier-2 antecedents of Rice Blast (`Diamond_Shaped_Lesions`, `Necrotic_Spots`) and $k = \lceil 0.5 \cdot |\text{Tier-2 antecedents}| \rceil$ (so $k=1$ for the five threats with two Tier-2 antecedents and $k=2$ for Rice Root Nematode).
+
+**Fallback declared.** The `*Possible` classes are present in the ontology, but the `possible` grade returned by `model.predict_diseases(include_possible=True)` is still computed in Python from Tier-2 antecedent coverage (`POSSIBLE_COVERAGE_THRESHOLD = 0.5`), not read from `*Possible` class membership. The two agree by construction of $k$, but the grade the system reports is not produced by the reasoner.
 
 ---
 
 ## 4-E. Agronomic Disjointness & Consistency
 
-To ensure logical consistency and prevent nonsensical co-classifications, pairwise disjointness axioms were asserted:
-- **`AllDisjointClasses([Pest, Disease])`**: Formally asserts that an organism cannot be simultaneously a pest animal and a pathogenic disease.
-- **`AllDifferent(threat_individuals)`**: Enforces the Unique Name Assumption over nominal threats in OWL DL.
-- **Agronomic Co-infection vs Disjointness**: Legitimate agronomic co-infections (e.g. *Pyricularia oryzae* blast co-occurring with *Ustilaginoidea virens* false smut) are explicitly not declared disjoint, as mixed infections occur naturally in humid fields.
+The ontology contains two axioms of this kind:
+- **`Pest` disjoint with `Disease`** (a single `owl:disjointWith`): a threat individual cannot be typed as both.
+- **`AllDifferent(threat_individuals)`**: unique names over the six threat individuals.
+
+No disjointness is asserted between diagnoses of individual threats (for example `Rice_BlastSuspect` and `False_SmutSuspect`), so consistency checking does not currently act as a differential-diagnosis mechanism. The per-pair agronomic decision required by 4-E, including the two standing co-firings (Case 59, `Rice_Bug` with `Brown_Planthopper`, now out of scope; Case 60, `Rice_Blast` with `False_Smut`), has not been made and remains open. Blast and false smut can co-occur in the same field, which argues against declaring that pair disjoint.
 
 ### Open-World Assumption Limitations
 OWL operates under the Open-World Assumption (OWA) without negation-as-failure: absence of evidence is not evidence of absence. A reasoner cannot infer that a threat is ruled out merely because a symptom is unrecorded. This is a genuine Description Logic constraint and is preserved as an explicit architectural boundary.
@@ -311,7 +316,7 @@ OWL operates under the Open-World Assumption (OWA) without negation-as-failure: 
 
 All three previously open competency question gaps were resolved in the ontology graph and verified via SPARQL queries in `analysis/competency_questions.py`:
 - **CQ08 (IPM Recommendations)**: Populated `ControlTreatment` instances linked via `hasControlTreatment` to all 6 threats. Each treatment carries verified, cited IPM protocols and DOIs.
-- **CQ09 (Diagnostic Confidence)**: Confidence grades (`confirmed`, `suspected`, `possible`) are asserted into the graph as datatype properties (`hasDiagnosticConfidence`).
+- **CQ09 (Diagnostic Confidence)**: The datatype property `hasDiagnosticConfidence` is declared, and `predict_diseases` asserts the grade on the transient sample individual before it is destroyed. The CQ09 query only checks that a datatype property exists, so it is satisfied at schema level; no persisted graph carries a graded diagnosis for a SPARQL client to read.
 - **CQ10 (OWL-Introspectable Antecedents)**: Canonical antecedents are asserted directly onto threat individuals via `hasSymptom`, enabling SPARQL introspection of rule requirements without reading external Python registries.
 
 **Result**: **16 satisfied, 0 gaps (100% satisfaction)**. Documented in `docs/COMPETENCY_QUESTIONS.md` and verified in `tests/test_competency_questions.py` (5/5 PASS).
@@ -320,28 +325,37 @@ All three previously open competency question gaps were resolved in the ontology
 
 ## 4-G. Vocabulary Reuse, Annotations & Metadata
 
-External ontology alignments were added using SKOS mapping relations (`skos:exactMatch`, `skos:closeMatch`):
-- **AGROVOC Alignment**:
-  - `Rice_Root_Nematode` $\rightarrow$ `c_24089` (*Meloidogyne graminicola*)
-  - `Bacterial_Leaf_Blight` $\rightarrow$ `c_8453` (*Xanthomonas oryzae*)
-  - `False_Smut` $\rightarrow$ `c_8091` (*Ustilaginoidea virens*)
-  - `Rice_Blast` $\rightarrow$ `c_4558` (*Magnaporthe grisea / Pyricularia oryzae*)
-  - `Rice_Grassy_Stunt` $\rightarrow$ `c_24855` (*Rice grassy stunt tenuivirus*)
-  - `Rice_Tungro_Virus` $\rightarrow$ `c_6590` (*Rice tungro spherical/bacilliform virus*)
-  - `Brown_Planthopper_Present` $\rightarrow$ `c_5204` (*Nilaparvata lugens*)
-  - `Green_Leafhopper_Present` $\rightarrow$ `c_5119` (*Nephotettix virescens*)
-  - Symptom matches: `Stunted_Growth` $\rightarrow$ `c_7463`, `Necrotic_Spots` $\rightarrow$ `c_5138`, `Chlorosis` $\rightarrow$ `c_1550`, `Necrosis` $\rightarrow$ `c_5139`, etc.
-- **Plant Ontology (PO) Alignment**:
-  - `LeafSign` $\rightarrow$ `PO:0025034` (leaf)
-  - `StemSign` $\rightarrow$ `PO:0009047` (stem)
-  - `RootSign` $\rightarrow$ `PO:0009005` (root)
-  - `PanicleSign` $\rightarrow$ `PO:0009051` (inflorescence)
-  - `GrainSign` $\rightarrow$ `PO:0009010` (seed / caryopsis)
-  - `WholePlantSign` $\rightarrow$ `PO:0000003` (whole plant)
-- **Ontology Metadata**:
-  - Dublin Core (`dcterms:title`, `dcterms:creator`, `dcterms:license`, `dcterms:description`).
-  - Namespace metadata (`vann:preferredNamespacePrefix`, `vann:preferredNamespaceUri`).
-  - Full `rdfs:comment` and `rdfs:label` asserted on **every class, object property, and individual**.
+**Correction (2026-09-15).** The first version of this section, and of `rice_ontology.owl`, listed AGROVOC codes that do not denote the stated concepts (for example `c_8453` is "X rays", and the threat individuals were linked to concepts such as "Rhododendron simsii" and "river fisheries"). The SKOS and Dublin Core properties had also been minted in the RiceKG namespace instead of the standard ones. All alignments below were re-derived by searching the AGROVOC Skosmos REST API and the EBI OLS Plant Ontology API, and each IRI was checked against its preferred label. `analysis/build_ontology_owl.py` records the label next to every IRI, and `tests/test_ontology_annotations.py` pins them.
+
+Alignments are IRI-valued SKOS assertions (`http://www.w3.org/2004/02/skos/core#`):
+
+| RiceKG entity | Relation | Target | Verified label |
+|:---|:---|:---|:---|
+| `Rice` | exactMatch | AGROVOC `c_5438` | Oryza sativa |
+| `Symptom` | exactMatch | AGROVOC `c_7566` | symptoms |
+| `Chlorosis` | exactMatch | AGROVOC `c_1579` | chlorosis |
+| `Necrosis` | exactMatch | AGROVOC `c_15509` | necrosis |
+| `Stunting` | exactMatch | AGROVOC `c_4426a431` | stunting |
+| `Disease` | closeMatch | AGROVOC `c_5962` | plant diseases |
+| `Pest` | closeMatch | AGROVOC `c_5741` | pests |
+| `Rice_Blast` | closeMatch | AGROVOC `c_16025` | Pyricularia oryzae |
+| `Bacterial_Leaf_Blight` | closeMatch | AGROVOC `c_24383` | Xanthomonas oryzae |
+| `False_Smut` | broadMatch | AGROVOC `c_31622` | Ustilaginoidea |
+| `Rice_Grassy_Stunt` | closeMatch | AGROVOC `c_ce4b70ea` | rice grassy stunt tenuivirus |
+| `Rice_Tungro_Virus` | closeMatch | AGROVOC `c_f6940eb3`, `c_f48899c1` | rice tungro bacilliform virus; rice tungro spherical virus |
+| `Rice_Root_Nematode` | closeMatch | AGROVOC `c_31070` | Meloidogyne graminicola |
+| `LeafSign` | relatedMatch | PO `PO_0025034` | leaf |
+| `StemSign` | relatedMatch | PO `PO_0009047` | stem |
+| `RootSign` | relatedMatch | PO `PO_0009005` | root |
+| `PanicleSign` | relatedMatch | PO `PO_0009049` | inflorescence |
+| `GrainSign` | relatedMatch | PO `PO_0009010` | seed |
+| `WholePlantSign` | relatedMatch | PO `PO_0000003` | whole plant |
+
+Choice of relation: threat individuals denote a disease of rice while AGROVOC indexes the causal organism, so they are `closeMatch`; *Ustilaginoidea virens* has no AGROVOC concept, so false smut is linked to the genus with `broadMatch`. The anatomical classes denote signs located on a structure, not the structure itself, so they use `relatedMatch`.
+
+**No external match recorded** for: `Observation`, `OrganismSighting`, `VectorSighting`, `EpidemiologicalContext`, `MechanicalDamage`, `GrainAbnormality`, `OutOfScopeSign`, `InsectDamageSign`, `ControlTreatment`, and the 61 observation individuals. The vector sightings (`Brown_Planthopper_Present`, `Green_Leafhopper_Present`) denote an observation of the insect, not the taxon (AGROVOC `c_25204` *Nilaparvata lugens*, `c_30732` *Nephotettix virescens*), so they are not aligned. Symptom-level alignment of the individuals was not attempted and is a remaining gap.
+
+**Ontology metadata**: `dcterms:title`, `dcterms:creator`, `dcterms:description`, `dcterms:license` (IRI), `vann:preferredNamespacePrefix`, `vann:preferredNamespaceUri` and `owl:versionInfo`. Every class, object property, datatype property and individual carries an `rdfs:comment` (enforced by the test). No `rdfs:label` is asserted.
 
 ---
 
@@ -351,6 +365,8 @@ All 12 production rules and 6 IPM control treatments carry agronomic citations a
 - HTTP 200 resolution.
 - Exact title match between Crossref metadata and internal citation strings.
 - **Verification Result**: 12/12 rules PASSED (100%), 6/6 IPM treatments PASSED (100%).
+
+**What this check does not establish.** The Crossref check confirms that each DOI resolves and that its title appears in the citation string. It does not confirm that the source supports the antecedents or the treatment it is attached to. Two cases need review before the manuscript: the Rice Blast rules and treatment cite Kunova et al. (2014), a fungicide-sensitivity study of *Magnaporthe oryzae* populations rather than a symptom description; and the co-cited Ou (1985) and IRRI Rice Doctor references, as well as the "Ou (1985)", "Hibino (1996)" and "Bridge et al. (2005)" justifications in `data/symptom_mapping.csv`, carry no DOI and are not verified by the script.
 
 ---
 
@@ -380,7 +396,7 @@ This is distinct from both a positive diagnosis and the insect out-of-scope resp
 On the 27 negative controls (FIELD_06 to FIELD_32, true label `No_Diagnosis`):
 - **Specificity across all 27 negative controls**: **100.0% (27/27)**.
 - **Specificity across mapped-sign controls only**: **100.0% (24/24) [Earned Discrimination]**.
-This proves that the system's rejections are not merely artifacts of unmappable input; even when genuine disease signs are recognized and processed by the ontology, the system correctly refrains from falsely firing on out-of-scope pathogens.
+**Caveat: this second figure is not yet earned discrimination.** The seven newly mapped terms are antecedents of no rule, so no in-scope diagnosis can fire on them, and they populate `model.NON_MODELED_PATHOGEN_SIGNS`, the list that triggers the "not consistent with any disease in scope" response. The terms were selected because they occur in negative-control rows. A mapped-sign control is therefore still rejected by construction, now with a more informative message. Earned discrimination would require controls whose mapped signs overlap in-scope antecedents; on those, the `possible`-grade differential raises candidates on 9 of the 18 `eval` controls (`results/top_k.md`).
 
 ### 4. Evaluation Across Benchmark Splits
 - **Dev Split ($n=16$)**: Exact-Match Accuracy: **81.25%**, Precision: **100.0%**, Recall: **57.1%**, F1: **72.7%**. Specificity on controls: 100.0% (9/9 all, 8/8 mapped-sign).
@@ -398,11 +414,11 @@ This proves that the system's rejections are not merely artifacts of unmappable 
 | **Symptom Taxonomy** | None (flat individuals) | **2 axes (6 anatomical, 5 phenomenological)** | Formal class subsumption over symptoms (4-B). |
 | **Rule Formalism** | SWRL Horn Clauses | **OWL 2 DL Defined Classes** | Tableau DL classification replaces rule firing; machine-provable subsumption enabled (4-C). |
 | **Provable Tier Subsumption** | Not provable (SWRL limitation) | **Proven by Pellet DL ($\text{Confirmed} \sqsubseteq \text{Suspect}$)** | Verified in `tests/test_tier_subsumption_is_provable.py` (4-C). |
-| **Possible Grade Implementation** | Python heuristic check | **OWL 2 Qualified Cardinality (`min k ...`)** | Logical expressivity in description logic (4-D). |
-| **Competency Questions** | 13 satisfied, 3 gaps | **16 satisfied, 0 gaps** | CQ08, CQ09, CQ10 fully resolved in ontology graph (4-F). |
-| **External Alignment** | 0 external links | **AGROVOC (18 matches) + PO (6 matches)** | SKOS mapping relations and Dublin Core annotations added (4-G). |
-| **Rule & IPM Provenance** | Unverified free text | **100% Crossref Verified DOIs** | Verified via `analysis/verify_citations.py` (4-H). |
-| **Negative Control Discrimination** | "By construction" rejection | **100.0% (24/24) earned specificity** | Explicit differential response for out-of-scope plant pathogens (4-J). |
+| **Possible Grade Implementation** | Python heuristic check | **`*Possible` classes with qualified cardinality declared; reported grade still computed in Python** | Fallback declared (4-D). |
+| **Competency Questions** | 13 satisfied, 3 gaps | **16 satisfied, 0 gaps (CQ09 at schema level only)** | CQ08 and CQ10 resolved in the graph; CQ09 see 4-F. |
+| **External Alignment** | 0 external links | **13 AGROVOC + 6 PO IRI-valued SKOS links (corrected)** | Verified by label against AGROVOC and OLS (4-G). |
+| **Rule & IPM Provenance** | Unverified free text | **DOIs resolve and titles match Crossref (18/18)** | Supporting content of the sources not verified (4-H). |
+| **Negative Control Rejection** | "By construction" rejection | **100.0% (24/24) mapped-sign controls rejected, still by construction** | Explicit out-of-scope response; see 4-J caveat. |
 | **Field Eval Exact-Match Acc** | 86.96% | **86.96%** | Preserved with zero eval data leakage. |
 | **Field Eval Recall** | 40.0% | **40.0%** | Preserved exactly side-by-side with `385caf9`. |
 | **Field Eval Precision** | 100.0% | **100.0%** | 0 false positives maintained. |

@@ -318,7 +318,7 @@ def _extract_top_k(path: Path) -> list[dict]:
         rk_h = holdout_split.get("systems", {}).get("RiceKG (Full Proposed)", {})
         if rk_h:
             rows.append({
-                "claim": "RiceKG Top-3 differential hit on holdout (Tier C)",
+                "claim": "RiceKG Top-3 differential hit on holdout (tiers A-C)",
                 "command": "python analysis/differential_analysis.py",
                 "artifact": "results/top_k.json",
                 "value": f"{_fmt(rk_h.get('hit_at_3_any'))}%",

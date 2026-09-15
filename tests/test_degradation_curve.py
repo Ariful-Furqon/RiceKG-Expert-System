@@ -16,6 +16,7 @@ from baselines import rule_baselines
 from data.generator import generate_benchmark
 from analysis.degradation_curve import (
     fast_predict_ricekg,
+    fast_predict_ricekg_possible,
     fast_predict_flat,
     run_degradation_experiment,
 )
@@ -48,6 +49,27 @@ def test_fast_solver_equivalence_to_pellet_dl():
         assert fast_out == pellet_threats, (
             f"Equivalence violation for symptoms {syms}: "
             f"Pellet DL produced {pellet_threats}, fast solver produced {fast_out}"
+        )
+
+
+def test_fast_possible_solver_equivalence_to_pellet_dl():
+    """fast_predict_ricekg_possible must match model.predict_diseases(include_possible=True)."""
+    onto = model.build_ontology()
+    cases = generate_benchmark(
+        n_cases=25,
+        occlusion_rate=0.5,
+        distractor_rate=0.1,
+        coinfection_rate=0.2,
+        out_of_vocab_rate=0.2,
+        seed=789,
+    )
+
+    for c in cases:
+        syms = c["symptoms"]
+        pellet_out = model.predict_diseases(syms, onto=onto, include_possible=True)
+        pellet_threats = sorted(p["threat"] for p in pellet_out if p.get("threat"))
+        assert sorted(fast_predict_ricekg_possible(syms)) == pellet_threats, (
+            f"Possible-grade equivalence violation for {syms}: Pellet={pellet_threats}"
         )
 
 

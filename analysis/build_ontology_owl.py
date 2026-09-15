@@ -1,19 +1,25 @@
 """
 analysis/build_ontology_owl.py
 ------------------------------
-Generates the complete, publication-grade OWL 2 DL ontology file `rice_ontology.owl`
-implementing PART 4 requirements (4-A through 4-H):
+Generates the OWL 2 DL ontology file `rice_ontology.owl` for PART 4 (4-A through 4-H):
 - Stratified observation property hierarchy (hasObservation, hasSymptom, hasOrganismSighting, hasVectorSighting, hasEpidemiologicalContext)
 - Two-axis symptom taxonomy (anatomical and phenomenological)
-- OWL 2 Defined Classes (ThreatConfirmed, ThreatSuspect, ThreatPossible) with provable DL subsumption
-- Control treatments with peer-reviewed IPM recommendations and DOIs (CQ08)
+- OWL 2 Defined Classes (ThreatConfirmed, ThreatSuspect, ThreatPossible)
+- Control treatments with cited IPM recommendations and DOIs (CQ08)
 - Datatype property hasDiagnosticConfidence (CQ09)
 - OWL-introspectable antecedent relations threat.hasSymptom (CQ10)
-- AllDifferent, AllDisjointClasses axioms
-- AGROVOC and Plant Ontology (PO) SKOS alignments
-- Dublin Core metadata and rdfs:comment on all entities
+- AllDifferent axioms and Pest/Disease disjointness
+- SKOS alignments to AGROVOC and Plant Ontology (PO), written as IRI-valued
+  skos:exactMatch / closeMatch / broadMatch / relatedMatch assertions
+- Dublin Core (dcterms), VANN and owl:versionInfo ontology metadata, and an
+  rdfs:comment on every class, property and individual
+
+Every AGROVOC concept below was checked against the AGROVOC Skosmos REST API
+(https://agrovoc.fao.org/browse/rest/v1/) on 2026-09-15; the preferred label is
+recorded next to each IRI. `tests/test_ontology_annotations.py` pins the mapping.
 """
 
+import math
 import os
 import sys
 import types
@@ -22,46 +28,111 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR)
 
 from owlready2 import (
-    get_ontology, Thing, AllDifferent, AllDisjoint,
+    Thing, AllDifferent, AllDisjoint,
     World, AnnotationProperty
 )
 
 import model
 OUTPUT_OWL = os.path.join(BASE_DIR, "rice_ontology.owl")
 
+SKOS_IRI = "http://www.w3.org/2004/02/skos/core#"
+DCTERMS_IRI = "http://purl.org/dc/terms/"
+VANN_IRI = "http://purl.org/vocab/vann/"
+AGROVOC = "http://aims.fao.org/aos/agrovoc/"
+OBO = "http://purl.obolibrary.org/obo/"
+
+ONTOLOGY_VERSION = "2.0.0"
+
+# (entity name, SKOS relation, target IRI, verified preferred label)
+CLASS_ALIGNMENTS = [
+    ("Rice", "exactMatch", AGROVOC + "c_5438", "Oryza sativa"),
+    ("Symptom", "exactMatch", AGROVOC + "c_7566", "symptoms"),
+    ("Chlorosis", "exactMatch", AGROVOC + "c_1579", "chlorosis"),
+    ("Necrosis", "exactMatch", AGROVOC + "c_15509", "necrosis"),
+    ("Stunting", "exactMatch", AGROVOC + "c_4426a431", "stunting"),
+    ("Disease", "closeMatch", AGROVOC + "c_5962", "plant diseases"),
+    ("Pest", "closeMatch", AGROVOC + "c_5741", "pests"),
+    # Anatomical sign classes are signs *located on* a PO structure, not the structure itself.
+    ("LeafSign", "relatedMatch", OBO + "PO_0025034", "leaf"),
+    ("StemSign", "relatedMatch", OBO + "PO_0009047", "stem"),
+    ("RootSign", "relatedMatch", OBO + "PO_0009005", "root"),
+    ("PanicleSign", "relatedMatch", OBO + "PO_0009049", "inflorescence"),
+    ("GrainSign", "relatedMatch", OBO + "PO_0009010", "seed"),
+    ("WholePlantSign", "relatedMatch", OBO + "PO_0000003", "whole plant"),
+]
+
+# Threat individuals denote a disease of rice; AGROVOC indexes the causal organism, so the
+# relation is closeMatch (or broadMatch where only the genus exists).
+THREAT_ALIGNMENTS = [
+    ("Rice_Blast", "closeMatch", AGROVOC + "c_16025", "Pyricularia oryzae"),
+    ("Bacterial_Leaf_Blight", "closeMatch", AGROVOC + "c_24383", "Xanthomonas oryzae"),
+    ("False_Smut", "broadMatch", AGROVOC + "c_31622", "Ustilaginoidea"),
+    ("Rice_Grassy_Stunt", "closeMatch", AGROVOC + "c_ce4b70ea", "rice grassy stunt tenuivirus"),
+    ("Rice_Tungro_Virus", "closeMatch", AGROVOC + "c_f6940eb3", "rice tungro bacilliform virus"),
+    ("Rice_Tungro_Virus", "closeMatch", AGROVOC + "c_f48899c1", "rice tungro spherical virus"),
+    ("Rice_Root_Nematode", "closeMatch", AGROVOC + "c_31070", "Meloidogyne graminicola"),
+]
+
 
 def build_and_save_ontology(output_path=OUTPUT_OWL):
     world = World()
     onto = world.get_ontology(model.ONTOLOGY_IRI)
+    skos = onto.get_namespace(SKOS_IRI)
+    dcterms = onto.get_namespace(DCTERMS_IRI)
+    vann = onto.get_namespace(VANN_IRI)
 
-    with onto:
-        # -------------------------------------------------------------
-        # Metadata and Annotation Properties
-        # -------------------------------------------------------------
+    with skos:
         class exactMatch(AnnotationProperty): pass
         class closeMatch(AnnotationProperty): pass
+        class broadMatch(AnnotationProperty): pass
+        class relatedMatch(AnnotationProperty): pass
+    with dcterms:
         class title(AnnotationProperty): pass
         class creator(AnnotationProperty): pass
         class license(AnnotationProperty): pass
+        class description(AnnotationProperty): pass
+    with vann:
+        class preferredNamespacePrefix(AnnotationProperty): pass
+        class preferredNamespaceUri(AnnotationProperty): pass
 
-        onto.comment = [
-            "RiceKG: OWL 2 DL Ontology for Rice Pathogen and Pest Diagnosis. "
-            "Formally axiomatised with defined classes, symptom taxonomies, and provable subsumption."
+    skos_props = {p.name: p for p in (exactMatch, closeMatch, broadMatch, relatedMatch)}
+
+    def link(entity, relation, iri):
+        """Assert an IRI-valued (not string-literal) annotation triple."""
+        onto._add_obj_triple_spo(entity.storid, skos_props[relation].storid, onto._abbreviate(iri))
+
+    with onto:
+        # -------------------------------------------------------------
+        # Ontology metadata
+        # -------------------------------------------------------------
+        onto.metadata.title = ["RiceKG: an OWL 2 DL ontology for rice disease diagnosis"]
+        onto.metadata.creator = ["RiceKG Expert System contributors"]
+        onto.metadata.description = [
+            "Six in-scope rice disease classes (five pathogens and one plant-parasitic nematode) "
+            "defined by OWL 2 defined classes over a two-axis symptom taxonomy; insect damage is "
+            "represented as out-of-scope evidence."
         ]
+        onto.metadata.preferredNamespacePrefix = ["ricekg"]
+        onto.metadata.preferredNamespaceUri = [model.ONTOLOGY_IRI + "#"]
+        onto.metadata.versionInfo = [ONTOLOGY_VERSION]
+        onto.metadata.comment = [
+            "RiceKG: OWL 2 DL ontology for rice disease diagnosis with defined classes, a symptom "
+            "taxonomy and provable tier subsumption."
+        ]
+        onto._add_obj_triple_spo(onto.storid, license.storid,
+                                 onto._abbreviate("https://opensource.org/licenses/MIT"))
 
         # -------------------------------------------------------------
         # Core Class Hierarchy
         # -------------------------------------------------------------
         class Rice(Thing):
             comment = ["Oryza sativa plant individual under diagnosis."]
-            exactMatch = ["http://aims.fao.org/aos/agrovoc/c_5438"]
 
         class Observation(Thing):
             comment = ["Top-level entity for any empirical observation made in a rice field or scout report."]
 
         class Symptom(Observation):
             comment = ["Direct plant sign or phenotypic manifestation of biotic injury on Oryza sativa."]
-            exactMatch = ["http://aims.fao.org/aos/agrovoc/c_7568"]
 
         class OrganismSighting(Observation):
             comment = ["Direct physical sighting of an insect or pest organism (adults, nymphs, egg clutches, frass)."]
@@ -73,46 +144,37 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
             comment = ["Stand-level, environmental, or temporal condition modulating outbreak probability."]
 
         # -------------------------------------------------------------
-        # Anatomical Axis (aligned with Plant Ontology)
+        # Anatomical Axis
         # -------------------------------------------------------------
         class LeafSign(Symptom):
             comment = ["Pathological sign manifested on the leaf blade or sheath."]
-            exactMatch = ["http://purl.obolibrary.org/obo/PO_0025034"]
 
         class StemSign(Symptom):
             comment = ["Pathological sign manifested on the culm or tiller stem."]
-            exactMatch = ["http://purl.obolibrary.org/obo/PO_0009047"]
 
         class RootSign(Symptom):
             comment = ["Pathological sign manifested on the root system or subterranean crowns."]
-            exactMatch = ["http://purl.obolibrary.org/obo/PO_0009005"]
 
         class PanicleSign(Symptom):
             comment = ["Pathological sign manifested on the inflorescence, panicle neck, or rachis."]
-            exactMatch = ["http://purl.obolibrary.org/obo/PO_0009049"]
 
         class GrainSign(Symptom):
             comment = ["Pathological sign manifested on the spikelet, caryopsis, or mature grain."]
-            exactMatch = ["http://purl.obolibrary.org/obo/PO_0009010"]
 
         class WholePlantSign(Symptom):
             comment = ["Systemic sign manifested across the entire rice plant architecture."]
-            exactMatch = ["http://purl.obolibrary.org/obo/PO_0000003"]
 
         # -------------------------------------------------------------
         # Phenomenological Axis
         # -------------------------------------------------------------
         class Chlorosis(Symptom):
             comment = ["Foliar yellowing, discoloration, or loss of chlorophyll pigments."]
-            exactMatch = ["http://aims.fao.org/aos/agrovoc/c_1568"]
 
         class Necrosis(Symptom):
             comment = ["Localized or extensive death and breakdown of plant cells and tissues."]
-            exactMatch = ["http://aims.fao.org/aos/agrovoc/c_5097"]
 
         class Stunting(Symptom):
             comment = ["Suppression of plant elongation, height reduction, or dwarfing."]
-            exactMatch = ["http://aims.fao.org/aos/agrovoc/c_2404"]
 
         class MechanicalDamage(Symptom):
             comment = ["Physical perforation, chewing, severance, or feeding injury."]
@@ -134,11 +196,9 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
 
         class Disease(Threat):
             comment = ["Infectious disease of rice caused by fungal, bacterial, or viral phytopathogens."]
-            exactMatch = ["http://aims.fao.org/aos/agrovoc/c_5969"]
 
         class Pest(Threat):
             comment = ["Animal or nematode pest infesting rice crops."]
-            exactMatch = ["http://aims.fao.org/aos/agrovoc/c_5739"]
 
         class ControlTreatment(Thing):
             comment = ["Integrated Pest Management (IPM) recommendation or intervention for managing a threat."]
@@ -181,32 +241,41 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
         class hasDisease(hasThreat):
             domain = [Rice]
             range = [Disease]
+            comment = ["Unstratified link from a rice sample to an inferred disease (flat single-tier baseline)."]
 
         class hasPest(hasThreat):
             domain = [Rice]
             range = [Pest]
+            comment = ["Unstratified link from a rice sample to an inferred pest (flat single-tier baseline)."]
 
         class hasConfirmedDisease(hasConfirmedThreat, hasDisease):
             domain = [Rice]
             range = [Disease]
+            comment = ["Tier-1 (confirmed) inference of a disease."]
 
         class hasSuspectedDisease(hasSuspectedThreat, hasDisease):
             domain = [Rice]
             range = [Disease]
+            comment = ["Tier-2 (suspected) inference of a disease."]
 
         class hasConfirmedPest(hasConfirmedThreat, hasPest):
             domain = [Rice]
             range = [Pest]
+            comment = ["Tier-1 (confirmed) inference of a pest."]
 
         class hasSuspectedPest(hasSuspectedThreat, hasPest):
             domain = [Rice]
             range = [Pest]
+            comment = ["Tier-2 (suspected) inference of a pest."]
 
         class hasControlTreatment(Threat >> ControlTreatment):
-            comment = ["Links a diagnosed threat to its peer-reviewed IPM recommendation."]
+            comment = ["Links a diagnosed threat to its cited IPM recommendation."]
 
         class hasDiagnosticConfidence(Rice >> str):
             comment = ["Datatype property recording the diagnostic confidence grade (confirmed, suspected, possible)."]
+
+        for cls_name, relation, iri, _label in CLASS_ALIGNMENTS:
+            link(getattr(onto, cls_name), relation, iri)
 
         # -------------------------------------------------------------
         # Instantiate Symptoms and Observations
@@ -215,30 +284,37 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
         for s_name in model.ALL_SYMPTOMS:
             prop_name = model.OBSERVATION_CATEGORIES.get(s_name, "hasSymptom")
             types_list = []
+            descr = []
 
             if prop_name == "hasOrganismSighting":
                 types_list.append(OrganismSighting)
+                descr.append("organism sighting")
             elif prop_name == "hasVectorSighting":
                 types_list.append(VectorSighting)
+                descr.append("vector sighting")
             elif prop_name == "hasEpidemiologicalContext":
                 types_list.append(EpidemiologicalContext)
+                descr.append("epidemiological context")
             else:
                 types_list.append(Symptom)
-                # Apply taxonomy
+                descr.append("plant symptom")
                 tax = model.SYMPTOM_TAXONOMY.get(s_name, {})
                 anat = tax.get("anatomical")
                 phen = tax.get("phenomenological")
                 if anat and hasattr(onto, anat):
                     types_list.append(getattr(onto, anat))
+                    descr.append(f"anatomical axis {anat}")
                 if phen and hasattr(onto, phen):
                     types_list.append(getattr(onto, phen))
+                    descr.append(f"phenomenological axis {phen}")
                 if s_name in model.INSECT_DAMAGE_SIGNS:
                     types_list.append(InsectDamageSign)
+                    descr.append("insect damage, out of diagnostic scope")
 
-            # Create individual with multiple types
             inst = types_list[0](s_name, namespace=onto)
             for extra_type in types_list[1:]:
                 inst.is_a.append(extra_type)
+            inst.comment = [f"Observation term '{s_name.replace('_', ' ')}': " + "; ".join(descr) + "."]
             obs_individuals[s_name] = inst
 
         AllDifferent(list(obs_individuals.values()))
@@ -257,34 +333,26 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
         # -------------------------------------------------------------
         threat_individuals = {}
         for p_name in model.PESTS:
-            p_inst = Pest(p_name, namespace=onto)
-            threat_individuals[p_name] = p_inst
+            threat_individuals[p_name] = Pest(p_name, namespace=onto)
 
         for d_name in model.DISEASES:
-            d_inst = Disease(d_name, namespace=onto)
-            threat_individuals[d_name] = d_inst
+            threat_individuals[d_name] = Disease(d_name, namespace=onto)
 
-        # AGROVOC mappings for threats
-        agrovoc_threat_map = {
-            "Rice_Blast": "http://aims.fao.org/aos/agrovoc/c_330663",
-            "Bacterial_Leaf_Blight": "http://aims.fao.org/aos/agrovoc/c_8457",
-            "False_Smut": "http://aims.fao.org/aos/agrovoc/c_8109",
-            "Rice_Grassy_Stunt": "http://aims.fao.org/aos/agrovoc/c_24853",
-            "Rice_Tungro_Virus": "http://aims.fao.org/aos/agrovoc/c_6615",
-            "Rice_Root_Nematode": "http://aims.fao.org/aos/agrovoc/c_34645"
-        }
-        for t_name, uri in agrovoc_threat_map.items():
+        for t_name, relation, iri, _label in THREAT_ALIGNMENTS:
             if t_name in threat_individuals:
-                threat_individuals[t_name].exactMatch.append(uri)
+                link(threat_individuals[t_name], relation, iri)
 
         AllDifferent(list(threat_individuals.values()))
         AllDisjoint([Pest, Disease])
 
-        # Link Control Treatments and Canonical Symptoms
         for t_name, t_inst in threat_individuals.items():
+            kind = "Pest" if t_name in model.PESTS else "Disease"
+            t_inst.comment = [
+                f"In-scope {kind.lower()} '{t_name.replace('_', ' ')}'. hasSymptom lists its Tier-1 "
+                f"canonical antecedents; hasControlTreatment links its cited IPM recommendation."
+            ]
             if t_name in control_individuals:
                 t_inst.hasControlTreatment = [control_individuals[t_name]]
-            # Link symptoms from canonical Tier 1 rule (CQ10)
             t1_meta = model.SWRL_RULES_METADATA.get(t_name, {}).get("tier1", {})
             canonical_ants = t1_meta.get("antecedents", [])
             t_inst.hasSymptom = [obs_individuals[a] for a in canonical_ants if a in obs_individuals]
@@ -303,36 +371,33 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
                 if a in obs_individuals:
                     susp_expr = susp_expr & hasObservation.value(obs_individuals[a])
 
-            susp_cls_name = f"{t_name}Suspect"
-            susp_cls = types.new_class(susp_cls_name, (Rice,))
+            susp_cls = types.new_class(f"{t_name}Suspect", (Rice,))
             susp_cls.equivalent_to = [susp_expr]
             susp_cls.is_a.append(hasSuspectedThreat.value(t_inst))
             susp_cls.comment = [f"Tier 2 composite definition for suspected {t_name}."]
 
-            # Tier 1 Confirmed Defined Class (Strict superset of Tier 2)
+            # Tier 1 Confirmed Defined Class (superset of Tier 2 antecedents)
             conf_expr = Rice
             for a in t1_ants:
                 if a in obs_individuals:
                     conf_expr = conf_expr & hasObservation.value(obs_individuals[a])
 
-            conf_cls_name = f"{t_name}Confirmed"
-            conf_cls = types.new_class(conf_cls_name, (Rice,))
+            conf_cls = types.new_class(f"{t_name}Confirmed", (Rice,))
             conf_cls.equivalent_to = [conf_expr]
             conf_cls.is_a.append(hasConfirmedThreat.value(t_inst))
             conf_cls.comment = [f"Tier 1 pathognomonic definition for confirmed {t_name}."]
 
-            # Tier 3 Possible Defined Class (Qualified Cardinality)
-            k = max(1, int(len(t2_ants) * model.POSSIBLE_COVERAGE_THRESHOLD))
-            obs_cls_name = f"{t_name}Observation"
-            obs_cls = types.new_class(obs_cls_name, (Observation,))
+            # Possible Defined Class (Qualified Cardinality); k must match model.build_ontology
+            k = max(1, int(math.ceil(len(t2_ants) * model.POSSIBLE_COVERAGE_THRESHOLD)))
+            obs_cls = types.new_class(f"{t_name}Observation", (Observation,))
+            obs_cls.comment = [f"Defined grouping of the Tier-2 antecedent observations of {t_name}."]
             for a in t2_ants:
                 if a in obs_individuals:
                     obs_individuals[a].is_a.append(obs_cls)
 
-            poss_cls_name = f"{t_name}Possible"
-            poss_cls = types.new_class(poss_cls_name, (Rice,))
+            poss_cls = types.new_class(f"{t_name}Possible", (Rice,))
             poss_cls.equivalent_to = [Rice & hasObservation.min(k, obs_cls)]
-            poss_cls.comment = [f"Tier 3 qualified cardinality definition (min {k}) for possible {t_name}."]
+            poss_cls.comment = [f"Qualified cardinality definition (min {k}) for possible {t_name}."]
 
     onto.save(file=output_path, format="rdfxml")
     print(f"[OK] Ontology successfully generated and saved to: {output_path}")
