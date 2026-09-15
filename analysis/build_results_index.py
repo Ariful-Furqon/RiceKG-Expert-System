@@ -232,6 +232,36 @@ def _extract_learning_curve(path: Path) -> list[dict]:
     return rows
 
 
+def _extract_degradation_curve(path: Path) -> list[dict]:
+    with path.open(encoding="utf-8") as fh:
+        deg = json.load(fh)
+    rows: list[dict] = []
+    systems = deg.get("systems", {})
+    rk = systems.get("RiceKG (Full Proposed)", {})
+    if "0.0" in rk:
+        rows.append({
+            "claim": "RiceKG degradation positive recall at 0.0 occlusion",
+            "command": "python analysis/degradation_curve.py",
+            "artifact": "results/degradation_curve.json",
+            "value": f"{_fmt(rk['0.0']['positive_recall_mean'])}%",
+        })
+    if "0.4" in rk:
+        rows.append({
+            "claim": "RiceKG degradation positive recall at 0.4 occlusion",
+            "command": "python analysis/degradation_curve.py",
+            "artifact": "results/degradation_curve.json",
+            "value": f"{_fmt(rk['0.4']['positive_recall_mean'])}%",
+        })
+    if "0.8" in rk:
+        rows.append({
+            "claim": "RiceKG degradation positive recall at 0.8 occlusion",
+            "command": "python analysis/degradation_curve.py",
+            "artifact": "results/degradation_curve.json",
+            "value": f"{_fmt(rk['0.8']['positive_recall_mean'])}%",
+        })
+    return rows
+
+
 # ---------------------------------------------------------------------------
 # Dispatch table: filename → extractor function
 # ---------------------------------------------------------------------------
@@ -240,6 +270,7 @@ EXTRACTORS: dict[str, object] = {
     "baselines.json": _extract_baselines,
     "ablation.json": _extract_ablation,
     "learning_curve.json": _extract_learning_curve,
+    "degradation_curve.json": _extract_degradation_curve,
 }
 
 

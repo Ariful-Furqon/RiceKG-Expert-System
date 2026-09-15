@@ -52,3 +52,17 @@ Both are limits of the available evidence rather than of the reasoner.
 
 In the cold-start learning-curve experiment ([`results/learning_curve.md`](../results/learning_curve.md)), no supervised baseline exceeded the zero-shot knowledge base (35.00% positive-case recall) at any training budget available in this study under the test-set uncertainty criterion (up to $N=80$ rule-derived cases in Pool A, and $N=16$ real field cases in Pool B). While several supervised classifiers achieve point recall above 35.00% at larger budgets, the paired difference 95% bootstrap confidence interval over the test set spans zero in every case. The independent field evaluation set contains only 5 positive disease cases ($\Delta = 0.20$ quantisation step), rendering the field comparison substantially underpowered with a minimum detectable effect of $\pm 29.5\%$ accuracy ($\alpha = 0.05$, $80\%$ power). Consequently, apparent small margins on field data (such as Decision Tree reaching 36.2% at $N=4$ or Random Forest reaching 40.0% at $N=16$) fall well within random variation and should not be interpreted as demonstrated inductive superiority over the zero-shot symbolic knowledge base.
 
+---
+
+## Parameterised Benchmark Generation and Incomplete Observation Degradation
+
+Beyond static test suites, this repository contributes a **parameterised generator for multi-label knowledge-based diagnosis benchmarks** ([`data/generator.py`](../data/generator.py)). Rather than evaluating on a single fixed rule-derived CSV that invites circularity objections, the generator parameterises antecedent occlusion, non-diagnostic contextual distractors, multi-threat co-infections, and out-of-vocabulary negative controls under reproducible random seeds.
+
+This instrument enables a continuous characterisation of **symbolic-versus-supervised degradation along the observation-incompleteness axis** ([`results/degradation_curve.md`](../results/degradation_curve.md), [`results/figures/degradation_curve.png`](../results/figures/degradation_curve.png)). Across sweeps from complete pathognomonic observation (occlusion rate $0.0$, where RiceKG achieves $100.0\%$ recall) to severe partial scouting (occlusion rate $0.8$, where recall falls to $3.0\%$), the experiment reveals the distinct operational failure modes of knowledge-based versus inductive paradigms:
+- Symbolic Horn clauses degrade by gracefully falling back from Tier-1 confirmation to Tier-2 suspicion, maintaining near-$100\%$ precision without generating false alarms.
+- Supervised classifiers degrade with higher apparent recall under severe occlusion by interpolating partial correlations, at the cost of diagnostic precision.
+
+Crucially, synthetic benchmarks cannot cross two boundaries already documented in [`docs/LIMITATIONS.md`](LIMITATIONS.md):
+1. **Vocabulary Realism**: Synthetic generation cannot validate whether the vocabulary matches authentic field scouting language or reporting practices.
+2. **Excluded Classes**: It cannot supply empirical grounding for the four insect pest classes that lack independent peer-reviewed field cases.
+

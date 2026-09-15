@@ -46,10 +46,13 @@ competency:
 check-docs:
 	$(VENV_BIN)/python3 analysis/check_readme_consistency.py
 
+degradation:
+	$(VENV_BIN)/python3 analysis/degradation_curve.py
+
 results-index:
 	$(VENV_BIN)/python3 analysis/build_results_index.py
 
-reproduce: ablate baselines failure-analysis competency results-index check-docs
+reproduce: ablate baselines failure-analysis competency degradation results-index check-docs
 	@echo "All result artifacts regenerated and documentation figures verified."
 
 # ---------------------------------------------------------------------------

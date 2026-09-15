@@ -1,11 +1,11 @@
 <!-- GENERATED FILE — DO NOT EDIT BY HAND -->
-<!-- content-sha256: 5b65a4b0bc00d8944f20d81690b1e8a18b60c5265aa50b7c3ce77e80b73fc43c -->
+<!-- content-sha256: 821118d46963cc745bd31664ce21f31c0b93b105b43d5e67762e8e5802090e96 -->
 <!-- Regenerate with: python analysis/build_results_index.py -->
 <!-- Wired into: make reproduce, CI (check_readme_consistency.py) -->
 
 # Results Index
 
-Auto-generated on 2026-09-15T04:17:47Z from `results/*.json`.
+Auto-generated on 2026-09-15T05:22:42Z from `results/*.json`.
 Each row maps a manuscript claim to the command that produces it and the
 source artifact that stores the value. Edit
 `analysis/build_results_index.py` to change what is indexed.
@@ -46,6 +46,9 @@ source artifact that stores the value. Edit
 | LC zero-shot reference: RiceKG (Full Proposed) positive recall | `python analysis/learning_curve.py` | `results/learning_curve.json` | 35.00% |
 | LC zero-shot reference: Rule: Flat Single-Tier positive recall | `python analysis/learning_curve.py` | `results/learning_curve.json` | 35.00% |
 | LC zero-shot reference: Rule: Nearest Prototype positive recall | `python analysis/learning_curve.py` | `results/learning_curve.json` | 17.50% |
+| RiceKG degradation positive recall at 0.0 occlusion | `python analysis/degradation_curve.py` | `results/degradation_curve.json` | 100.00% |
+| RiceKG degradation positive recall at 0.4 occlusion | `python analysis/degradation_curve.py` | `results/degradation_curve.json` | 31.96% |
+| RiceKG degradation positive recall at 0.8 occlusion | `python analysis/degradation_curve.py` | `results/degradation_curve.json` | 2.98% |
 
 ---
 _This file is produced by `analysis/build_results_index.py` and validated by `analysis/check_readme_consistency.py`. A stale or missing index fails the CI build._

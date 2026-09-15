@@ -66,6 +66,10 @@ jobs:
         run: |
           python analysis/learning_curve.py --draws 20
 
+      - name: Run observation occlusion degradation curve (CI quick sweep)
+        run: |
+          python analysis/degradation_curve.py --quick
+
       - name: Regenerate results index
         run: |
           python analysis/build_results_index.py
