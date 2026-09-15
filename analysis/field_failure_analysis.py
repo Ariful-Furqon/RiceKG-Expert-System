@@ -33,10 +33,12 @@ OUT_MD = os.path.join(BASE_DIR, "results", "field_failure_analysis.md")
 SYM_COLS = [f"symptom_{i}" for i in range(1, 7)]
 
 
-def load_cases(split="all"):
-    with open(FIELD_CSV, newline="") as fh:
+def load_cases(split="benchmark"):
+    with open(FIELD_CSV, newline="", encoding="utf-8") as fh:
         cases = list(csv.DictReader(fh))
-    if split and split != "all":
+    if split == "benchmark":
+        cases = [c for c in cases if c.get("split", "dev") in ("dev", "eval")]
+    elif split and split != "all":
         cases = [c for c in cases if c.get("split", "dev") == split]
     return cases
 
@@ -201,7 +203,7 @@ def main(split="all"):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Per-case field failure analysis by split.")
-    parser.add_argument("--split", choices=["dev", "eval", "all"], default="all",
-                        help="Dataset split to evaluate (default: all).")
+    parser.add_argument("--split", choices=["dev", "eval", "holdout", "benchmark", "all"], default="benchmark",
+                        help="Dataset split to evaluate (default: benchmark = dev + eval).")
     args = parser.parse_args()
     main(split=args.split)

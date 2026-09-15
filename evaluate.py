@@ -28,11 +28,12 @@ PEST_CLASSES = {
 }
 
 
-def load_data(csv_path, split=None):
+def load_data(csv_path, split=None, tier=None):
     """
     Loads diagnostic benchmark dataset.
     Supports verification_suite.csv and benchmark_field.csv.
-    Optional split parameter filters by dataset split (e.g. 'dev' or 'eval').
+    Optional split parameter filters by dataset split (e.g. 'dev', 'eval', 'holdout', or ('dev', 'eval')).
+    Optional tier parameter filters by evidence tier (e.g. 'A', 'B', 'C', or {'A', 'B'}).
     """
     if not os.path.exists(csv_path):
         raise FileNotFoundError(f"Dataset file not found: {csv_path}")
@@ -60,6 +61,10 @@ def load_data(csv_path, split=None):
         raw_symptom_idx = header_lower.index("raw_symptom_text") if "raw_symptom_text" in header_lower else -1
         doi_idx = header_lower.index("doi") if "doi" in header_lower else -1
         split_idx = header_lower.index("split") if "split" in header_lower else -1
+        tier_idx = header_lower.index("evidence_tier") if "evidence_tier" in header_lower else -1
+        tier_note_idx = header_lower.index("tier_note") if "tier_note" in header_lower else -1
+        url_idx = header_lower.index("source_url") if "source_url" in header_lower else -1
+        archive_idx = header_lower.index("archive_url") if "archive_url" in header_lower else -1
 
         for row_idx, row in enumerate(reader, 2):
             if not row or not any(field.strip() for field in row):
@@ -99,9 +104,24 @@ def load_data(csv_path, split=None):
             raw_symptom_text = row[raw_symptom_idx].strip() if raw_symptom_idx >= 0 and len(row) > raw_symptom_idx else ""
             doi = row[doi_idx].strip() if doi_idx >= 0 and len(row) > doi_idx else ""
             case_split = row[split_idx].strip() if split_idx >= 0 and len(row) > split_idx else "eval"
+            evidence_tier = row[tier_idx].strip() if tier_idx >= 0 and len(row) > tier_idx else "A"
+            tier_note = row[tier_note_idx].strip() if tier_note_idx >= 0 and len(row) > tier_note_idx else ""
+            source_url = row[url_idx].strip() if url_idx >= 0 and len(row) > url_idx else ""
+            archive_url = row[archive_idx].strip() if archive_idx >= 0 and len(row) > archive_idx else ""
 
-            if split is not None and case_split != split:
-                continue
+            if split is not None:
+                if isinstance(split, (list, tuple, set)):
+                    if case_split not in split:
+                        continue
+                elif split != "all" and case_split != split:
+                    continue
+
+            if tier is not None:
+                if isinstance(tier, (list, tuple, set)):
+                    if evidence_tier not in tier:
+                        continue
+                elif tier != "all" and evidence_tier != tier:
+                    continue
 
             dataset.append({
                 "id": len(dataset) + 1,
@@ -110,6 +130,10 @@ def load_data(csv_path, split=None):
                 "raw_symptom_text": raw_symptom_text,
                 "doi": doi,
                 "split": case_split,
+                "evidence_tier": evidence_tier,
+                "tier_note": tier_note,
+                "source_url": source_url,
+                "archive_url": archive_url,
                 "symptoms": symptoms,
                 "expected": targets,
                 "raw_target": raw_target,
@@ -119,10 +143,12 @@ def load_data(csv_path, split=None):
     return dataset
 
 
-def run_evaluation(csv_path=None, dataset_name="verification"):
+def run_evaluation(csv_path=None, dataset_name="verification", split=None, tier=None):
     if csv_path is None:
         if dataset_name == "field":
             csv_path = FIELD_CSV
+            if split is None:
+                split = ("dev", "eval")
         else:
             csv_path = DEFAULT_VERIFICATION_CSV
 
@@ -131,8 +157,14 @@ def run_evaluation(csv_path=None, dataset_name="verification"):
     print("=" * 80)
     print(f"Dataset Name       : {dataset_name.upper()}")
     print(f"Dataset File       : {csv_path}")
+    if split is not None:
+        split_desc = ", ".join(split) if isinstance(split, (list, tuple, set)) else str(split)
+        print(f"Split Filter       : {split_desc}")
+    if tier is not None:
+        tier_desc = ", ".join(tier) if isinstance(tier, (list, tuple, set)) else str(tier)
+        print(f"Tier Filter        : {tier_desc}")
 
-    dataset = load_data(csv_path)
+    dataset = load_data(csv_path, split=split, tier=tier)
     if not dataset:
         print(f"[STATUS] Dataset '{csv_path}' contains 0 test records.")
         return 0
@@ -445,6 +477,15 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", choices=["verification", "synthetic", "augmented", "field"], default="verification",
                         help="Dataset to evaluate: 'verification' (rule-derived deductive suite) or 'field' (independent literature cases). 'synthetic' and 'augmented' are deprecated aliases for 'verification'.")
     parser.add_argument("--csv-path", default=None, help="Explicit path to benchmark CSV file.")
+    parser.add_argument("--split", choices=["dev", "eval", "holdout", "all"], default=None, help="Filter dataset by split (e.g. 'dev', 'eval', 'holdout', 'all').")
+    parser.add_argument("--tier", choices=["A", "B", "C", "A+B", "all"], default=None, help="Filter dataset by evidence tier.")
     args = parser.parse_args()
 
-    sys.exit(run_evaluation(csv_path=args.csv_path, dataset_name=args.dataset))
+    split_arg = args.split
+    tier_arg = None
+    if args.tier == "A+B":
+        tier_arg = {"A", "B"}
+    elif args.tier and args.tier != "all":
+        tier_arg = {args.tier}
+
+    sys.exit(run_evaluation(csv_path=args.csv_path, dataset_name=args.dataset, split=split_arg, tier=tier_arg))

@@ -154,3 +154,40 @@ These gaps are reported as genuine findings regarding the availability of empiri
 
 Items 6–7 matter most: they are the only remaining candidates for a tier-A Rice_Tungro_Virus case
 (item 5 was read and rejected as HREJ_20).
+
+## Benchmark Merger and Evidence Tiering (6-H.5, 6-H.6)
+
+Following the locked single-run evaluation (`results/holdout_evaluation.md`), the holdout partition was merged into `data/benchmark_field.csv` per NEXT_TASK.md 6-H.5 and 6-H.6:
+
+1. **Schema Extension**: `data/benchmark_field.csv` was extended to 25 columns matching the staging format:
+   `evidence_tier,tier_note,raw_symptom_text_en,source_url,accessed,archive_url`.
+2. **Holdout Partition Merger**:
+   - 18 holdout cases (`HOLD_01`–`HOLD_16`, `HOLD_18`, `HOLD_20`) were appended with `split = holdout`.
+   - Extracted holdout rows with header verify byte-identical hash matching `LOCKED_HOLDOUT_SHA256`: `8616419d0781ae2f9c62ba80f3bee8581d0f10798a6d1598ec837e7f29aa9aaa`.
+   - `data/field_holdout_staging.csv` is retired and tracked via git history at commit `46e2c3e`.
+3. **Existing Benchmark Tiering**:
+   - The original 39 benchmark rows were tiered using the same criteria:
+     - `FIELD_01` through `FIELD_36` $\rightarrow$ **Tier A** (peer-reviewed case reports with DOI, verbatim observed field symptoms).
+     - `FIELD_51`, `FIELD_52`, `FIELD_53` $\rightarrow$ **Tier B** with explicit `tier_note` justifications:
+       - `FIELD_51` (RTBV): Source is an ELISA detection method article; symptom text is a general description from an inoculated screen rather than an outbreak field observation.
+       - `FIELD_52` (RTSV): Source is a vector transmission study; symptoms reported in a summary table without case-level field notes.
+       - `FIELD_53` (RTSV): Source is a regional virus survey; symptoms are summarized across multiple field plots rather than a single diagnosed case.
+   - Total benchmark rows: **57 cases** (16 dev, 23 eval, 18 holdout).
+4. **Symptom Mapping Integration**:
+   - 9 new unmapped slugs from holdout cases (`plant_spreading_growth`, `leaves_deformity_serration_twisting_curling`, `plant_premature_death`, `leaves_grayish_white_mold_layer`, `leaves_rust_spots`, `plant_few_tillers`, `leaves_short_blades`, `daun_kuning_kecoklatan`, `pinggir_bercak_coklat`) were mapped into `data/symptom_mapping.csv` with agronomic justifications.
+5. **Split Isolation Enforcement**:
+   - `evaluate.py`, `analysis/field_failure_analysis.py`, and `baselines/ml_baselines.py` isolate `dev` and `eval` from `holdout`.
+   - Enforced by unit tests in `tests/test_holdout_split_isolation.py` and `tests/test_p0_5_field.py`.
+
+### Benchmark Dev & Eval Comparative Performance Across Tiers
+
+| Split | Subset | Cases (Pos / Neg) | Exact Match (%) | Positive Recall (%) | Micro Precision (%) | Micro F1 (%) |
+|---|---|:---:|:---:|:---:|:---:|:---:|
+| **Dev** | Tier A alone | 16 (7 / 9) | 81.25% (13/16) | 57.14% (4/7) | 80.00% | 66.67% |
+| **Dev** | All tiers | 16 (7 / 9) | 81.25% (13/16) | 57.14% (4/7) | 80.00% | 66.67% |
+| **Eval** | Tier A alone | 20 (2 / 18) | **100.00%** (20/20) | **100.00%** (2/2) | **100.00%** | **100.00%** |
+| **Eval** | All tiers | 23 (5 / 18) | 86.96% (20/23) | 40.00% (2/5) | 100.00% | 57.14% |
+| **Holdout** | Tier A alone | 8 (8 / 0) | 37.50% (3/8) | 37.50% (3/8) | 75.00% | 50.00% |
+| **Holdout** | Tier A + B | 15 (15 / 0) | 26.67% (4/15) | 26.67% (4/15) | 80.00% | 40.00% |
+| **Holdout** | All tiers (A+B+C) | 18 (18 / 0) | 27.78% (5/18) | 27.78% (5/18) | 83.33% | 41.67% |
+

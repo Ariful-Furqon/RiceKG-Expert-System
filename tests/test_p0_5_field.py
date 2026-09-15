@@ -38,11 +38,14 @@ def test_split_column_present_and_disjoint():
     assert "split" in rows[0], "data/benchmark_field.csv must carry a 'split' column"
 
     values = {r["split"] for r in rows}
-    assert values <= {"dev", "eval"}, f"Unexpected split values: {values - {'dev', 'eval'}}"
+    assert values <= {"dev", "eval", "holdout"}, f"Unexpected split values: {values - {'dev', 'eval', 'holdout'}}"
 
     dev = {r["case_id"] for r in rows if r["split"] == "dev"}
     ev = {r["case_id"] for r in rows if r["split"] == "eval"}
-    assert not (dev & ev), f"Cases appear in both splits: {sorted(dev & ev)}"
+    hold = {r["case_id"] for r in rows if r["split"] == "holdout"}
+    assert not (dev & ev), f"Cases appear in both dev and eval: {sorted(dev & ev)}"
+    assert not (dev & hold), f"Cases appear in both dev and holdout: {sorted(dev & hold)}"
+    assert not (ev & hold), f"Cases appear in both eval and holdout: {sorted(ev & hold)}"
 
 
 def test_no_source_publication_straddles_the_split():
@@ -132,5 +135,12 @@ def test_uncovered_threat_classes_are_disclosed():
 
 def test_doi_and_citation_integrity():
     for r in _rows():
-        assert r["doi"].strip().startswith("10."), f"{r['case_id']} has no usable DOI"
+        tier = r.get("evidence_tier", "").strip()
+        if tier in ("A", "B"):
+            assert r["doi"].strip().startswith("10."), f"{r['case_id']} has no usable DOI"
+        elif tier == "C":
+            assert r.get("source_url", "").strip(), f"{r['case_id']} has no source_url"
+            assert r.get("archive_url", "").strip(), f"{r['case_id']} has no archive_url"
+        else:
+            assert r["doi"].strip().startswith("10."), f"{r['case_id']} has no usable DOI"
         assert r["citation"].strip(), f"{r['case_id']} has an empty citation"

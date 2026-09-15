@@ -32,7 +32,11 @@ def test_field_benchmark_provenance_and_citations():
     for item in data:
         assert len(item["citation"]) > 10, f"Case {item['case_id']} missing valid citation"
         assert len(item["raw_symptom_text"]) > 10, f"Case {item['case_id']} missing raw_symptom_text"
-        assert item["doi"].startswith("10."), f"Case {item['case_id']} must have a verified DOI starting with '10.'"
+        tier = item.get("evidence_tier", "A")
+        if tier in ("A", "B"):
+            assert item["doi"].startswith("10."), f"Case {item['case_id']} must have a verified DOI starting with '10.'"
+        elif tier == "C":
+            assert item.get("source_url"), f"Tier C case {item['case_id']} must have a verified source_url"
 
         if item["raw_target"] == "No_Diagnosis":
             no_diag_count += 1
