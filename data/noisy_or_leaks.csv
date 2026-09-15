@@ -1,0 +1,62 @@
+observation,leak,justification
+Adult_Insects_Present,0.01,Adult insect pests directly observed on the rice crop canopy.
+Bacterial_Ooze,0.01,Viscous bacterial exudate droplets highly distinctive to bacterial blights.
+Blackened_Feeding_Punctures,0.05,Necrotic stylet puncture marks occasional from non-target hemipterans.
+Blackened_Grain_Balls,0.01,Pathognomonic mature sooty chlamydospore masses of Ustilaginoidea virens.
+Bore_Holes_In_Stem,0.01,Penetration holes bored into culm distinctive to stem borers.
+Broad_Leaf_Damage,0.01,Extensive foliar tissue removal distinctive to grasshopper feeding.
+Brown_Nymphs,0.01,Direct sighting of immature planthopper or grasshopper nymphs.
+Brown_Planthopper_Present,0.01,Entomological sighting of specific viral vector Nilaparvata lugens.
+Brown_Streaks,0.05,Necrotic brown streaking occasional in unmodeled foliar bacterial diseases.
+Chlorotic_Streaks,0.05,Foliar chlorotic streaking occurring in unmodeled bacterial leaf streak.
+Circular_Hopperburn_Patches,0.10,Stand-level circular dying patches associated with unmodeled insect complexes.
+Deadheart_Seedling,0.05,Central shoot necrosis occurring from stem borers or seedling rots.
+Deformed_Roots,0.01,Abnormal root twisting and distortion distinctive to nematode damage.
+Diamond_Shaped_Lesions,0.05,Necrotic foliar lesion morphology with potential mimicry by minor unmodeled fungi.
+Discolored_Roots,0.05,Darkening and cortical necrosis of roots occurring under anaerobic soil or root rot.
+Easily_Pulled_Tillers,0.01,Severed internal tillers characteristic of insect stem borer damage.
+Eggs_On_Plant,0.01,Egg mass oviposition directly observed on rice plant tissue.
+Empty_Grains,0.01,High-rate floret sterility associated with specific panicle infections.
+Excessive_Tillering,0.01,Profuse stunted tillering hallmark characteristic of Rice grassy stunt virus.
+Frass_In_Stem,0.01,Internal larval excrement distinctive to boring insect infestation.
+Grain_Discoloration,0.01,Glume staining and blotching specific to panicle-infecting complexes.
+Green_Leafhopper_Present,0.01,Entomological sighting of specific viral vector Nephotettix virescens.
+Hook_Like_Root_Swelling,0.01,Pathognomonic root tip hook galling specific to Meloidogyne graminicola.
+Hopperburn_Drying,0.05,Desiccated foliar drying observed in severe drought and sap-feeding pests.
+Infected_Seedlings,0.10,Nursery bed infection manifestation shared across diverse soil and seed-borne agents.
+Interveinal_Chlorosis,0.05,Chlorosis between veins observed in nutrient deficiencies and non-target viruses.
+Leaf_Bleaching,0.05,Foliar bleaching and whitening occasional under intense heat or chemical stress.
+Leaf_Chewing_Damage,0.01,Chewed and serrated foliar margins distinctive to chewing insect pests.
+Leaf_Desiccation,0.05,Advanced foliar necrotic drying common under severe drought or unmodeled blight.
+Leaf_Discoloration_Yellow,0.05,General yellow discoloration common across non-target field stress conditions.
+Leaf_Margin_Sap_Sucking,0.01,Stylet margin sap feeding specific to hemipteran insect pests.
+Leaf_Mottling,0.05,Foliar mottling pattern occasional across unmodeled viral and abiotic stresses.
+Leaf_Sheath_Lesions,0.05,Necrotic sheath lesions typical of unmodeled Rhizoctonia sheath blight.
+Leaf_Wilting,0.05,Whole-plant wilting and senescence seen across root rots and moisture deficit.
+Localized_Leaf_Yellowing,0.05,Discrete foliar yellow chlorotic patches seen in various localized stresses.
+Milky_Stage_Vulnerability,0.10,Developmental grain filling susceptibility window applicable across conditions.
+Necrotic_Spots,0.05,Generic foliar necrotic spotting produced by multiple saprophytic and minor fungi.
+No_Panicle_Formation,0.01,Complete heading suppression characteristic of severe viral infection.
+Nymphs_Present,0.01,Colony of active insect nymphs directly sighted on foliage/stems.
+Orange_Leaf_Discoloration,0.05,Foliar orange-yellow discoloration occasional in physiological stress conditions.
+Panicle_Neck_Rot,0.05,Necrosis at panicle neck occasional in secondary unmodeled fungal rots.
+Plant_Yellowing,0.05,Generic whole-plant chlorosis occurring from diverse biotic and abiotic stresses.
+Rainy_Season_Outbreak,0.10,Environmental wet-season predisposition common to many foliar and grain ailments.
+Random_Feeding_Pattern,0.10,Dispersed damage pattern common across diverse non-target field organisms.
+Rapid_Disease_Spread,0.10,Broad stand-level epidemiological factor observed across various pathogen outbreaks.
+Root_Knot_Swelling,0.01,Nodular root swellings distinctive to plant-parasitic nematode infection.
+Rotten_Panicles,0.05,Panicle decay and necrosis common across diverse unmodeled panicle rots.
+Rusty_Grain_Balls,0.01,Pathognomonic orange-yellow chlamydospore masses of Ustilaginoidea virens.
+Severe_Stunting,0.05,Severe reduction in tiller height occasional across abiotic and unmodeled viral stresses.
+Severed_Panicles,0.01,Mechanically cut panicle stems distinctive to insect panicle biters.
+Slight_Panicle_Infection,0.10,Mild panicle-stage infection pattern possible across diverse unmodeled conditions.
+Stem_Rot_Lesions,0.05,Culm necrosis and rot common to unmodeled stem rot and sheath blight pathogens.
+Stunted_Growth,0.05,"Non-specific growth stunting common to nutritional, moisture, and viral stresses."
+Uniform_Field_Infection,0.10,Homogeneous stand-level symptom distribution occurring under general crop stress.
+Water_Soaked_Lesions,0.05,Early water-soaked lesions shared among unmodeled bacterial phytopathogens.
+Whitehead_Empty_Panicles,0.01,Completely bleached empty panicle hallmark of stem-severing damage.
+Whitened_Leaf_Tips,0.05,Apical foliar whitening seen in white-tip nematode and environmental stress.
+Yellow_Nymphs,0.01,Direct sighting of immature hopper nymphs.
+Yellowing_Leaf_Tips,0.05,Apical foliar yellowing frequently observed in general nutritional/moisture stress.
+Yellowing_Leaf_Veins,0.05,Veinal chlorosis occurring across unmodeled nutritional and viral disorders.
+Yellowing_Leaves,0.05,Common foliar chlorosis shared across senescence and multiple unmodeled stresses.

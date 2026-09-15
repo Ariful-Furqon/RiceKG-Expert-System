@@ -94,6 +94,7 @@ Response_to_Reviewers.md
 *TASKS*.md
 AIP_REVISION_TASKS.md
 ANTIGRAVITY_PROMPT*.md
+PROBABILISTIC_REASONING_TASK.md
 
 # Anonymous review bundle (produced by make anon-bundle; never commit)
 anon_bundle/

@@ -522,3 +522,50 @@ infestation experiment, and source is a population-genetics study. All
 fourteen are preserved with per-row stated reasons in
 `data/rejected_field_candidates.csv`. The gate is enforced automatically
 by `tests/test_p0_5_field.py`.
+
+---
+
+## 8-F. Probabilistic Reasoning Layer Protocol (noisy-OR)
+
+### 8-F.1 Division of Labor with the OWL Ontology
+The noisy-OR probabilistic reasoning layer is complementary to, and strictly separated from, the OWL 2 Description Logic ontology. The probabilistic layer does not write probability values or uncertainty annotations into the OWL ontology and makes no claim of a probabilistic description logic (no P-SHIQ, no PR-OWL). The OWL ontology remains solely responsible for the symptom taxonomy, observation sub-property stratification, defined classes, machine-provable tier subsumption, and deductive proof explanations. The probabilistic layer operates as an independent scoring module to evaluate trade-offs between sensitivity and false alarm rates under partial observation.
+
+### 8-F.2 Mathematical Formulation
+Each of the six diagnosable threats $t \in \text{ALL\_DIAGNOSES}$ is modeled as an independent binary hypothesis in a multi-label framework. For each observation $e \in \text{ALL\_SYMPTOMS}$ with an elicited link to $t$:
+- $P(e \text{ present} \mid t \text{ present}) = 1 - (1 - \text{leak}_e)(1 - p_{te})$
+- $P(e \text{ present} \mid t \text{ absent}) = \text{leak}_e$
+
+Evidence is handled as follows:
+- **Observed present signs**: contribute their likelihood ratio $\frac{P(e \mid t)}{P(e \mid \neg t)}$.
+- **Unrecorded signs**: are treated as unknown and marginalised out; they contribute nothing to the posterior.
+- **Recorded absent signs**: contribute $\frac{1 - P(e \mid t)}{1 - P(e \mid \neg t)}$.
+- **Unlinked observations**: contribute nothing to threat $t$.
+
+Prior probabilities are fixed uniformly across all six threats at $P(t) = 0.10$ as a single constant, justified by the absence of epidemiological census data for the benchmark population.
+
+### 8-F.3 Elicitation Protocol and Pre-Fixed Qualitative Scale
+Conditional probabilities $p_{te} = P(e \mid t)$ are elicited exclusively from primary phytopathological literature, monographs, and peer-reviewed disease descriptions. Probabilities are never derived from `RULE_REGISTRY` and never estimated from benchmark data. When sources report quantitative frequencies, they are recorded directly as `quantitative`. For qualitative frequency words in primary sources, the mapping scale is fixed a priori before examining literature sources:
+
+| Source Wording (Examples) | Conditional Probability $p_{te}$ |
+|:---|:---:|
+| characteristic, diagnostic, typical, always | 0.90 |
+| common, usually, frequently | 0.70 |
+| may, sometimes, often accompanied by | 0.40 |
+| occasionally, rarely, in severe cases only | 0.15 |
+
+### 8-F.4 Leak Probability Assignment Policy
+Background leak probabilities $\text{leak}_e = P(e \text{ present} \mid \text{none of the six threats})$ represent non-target background rates from unmodeled diseases, abiotic disorders, or environmental context:
+- **Sign-specific terms** ($\text{leak} = 0.01$): distinctive morphological hallmarks (e.g. `Hook_Like_Root_Swelling`, `Rusty_Grain_Balls`, `Bacterial_Ooze`) rarely produced outside specific pathogen or insect damage etiologies.
+- **Generic phenomenological terms** ($\text{leak} = 0.05$): non-specific signs belonging to general chlorosis, necrosis, or stunting taxonomical categories (e.g. `Yellowing_Leaves`, `Necrotic_Spots`, `Stunted_Growth`) that occur across diverse stresses.
+- **Epidemiological context terms** ($\text{leak} = 0.10$): broad stand-level or seasonal conditions (e.g. `Rainy_Season_Outbreak`, `Uniform_Field_Infection`, `Rapid_Disease_Spread`) that are widely distributed in rice-growing environments.
+
+### 8-F.5 Decision Threshold Policy
+The primary decision threshold is fixed a priori at $\text{DECISION\_THRESHOLD} = 0.50$. A threat is predicted if $P(t \mid E) \ge 0.50$. A full trade-off curve across a fixed grid of thresholds from 0.05 to 0.95 in steps of 0.05 is evaluated to characterize operating trade-offs.
+
+### 8-F.6 Sensitivity and Robustness Protocol
+To assess sensitivity to elicitation choices:
+1. **Probability perturbation**: shifting every $p_{te}$ by $-0.10$ and $+0.10$ (clipped to $[0.01, 0.99]$).
+2. **Alternative scale**: evaluating the alternative qualitative scale $\{0.95, 0.80, 0.50, 0.20\}$.
+3. **Leak perturbation**: scaling all leak values by $\times 0.5$ and $\times 2.0$.
+Any finding that reverses within these sensitivity spans is reported as inconclusive.
+

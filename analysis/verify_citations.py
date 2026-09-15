@@ -297,17 +297,105 @@ def verify_treatment_citations() -> bool:
         return False
 
 
+def verify_noisy_or_citations(csv_path: str = "data/noisy_or_parameters.csv") -> bool:
+    """
+    Verifies literature provenance citations in data/noisy_or_parameters.csv:
+    - Every DOI resolves on Crossref and its title appears in citation.
+    - Rows without DOI are listed as unverified warnings (not failures).
+    """
+    if not os.path.exists(csv_path):
+        print(f"ERROR: File not found at {csv_path}")
+        return False
+
+    with open(csv_path, mode="r", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+
+    print(f"\nVerifying {len(rows)} Noisy-OR parameter citations in {csv_path}...")
+    headers = {
+        "User-Agent": "RiceKG-CitationVerifier/1.0 (mailto:ariful.furqon@unej.ac.id)"
+    }
+    all_passed = True
+    seen_dois = {}
+    unverified_count = 0
+    verified_count = 0
+
+    for idx, row in enumerate(rows):
+        threat = row.get("threat", "").strip()
+        obs = row.get("observation", "").strip()
+        pair_key = f"{threat}:{obs}"
+        doi = row.get("doi", "").strip()
+        cit = row.get("citation", "").strip()
+        source_phrase = row.get("source_phrase", "").strip()
+
+        if not cit or not source_phrase:
+            print(f"[{pair_key}] FAILED: Missing citation or source_phrase.")
+            all_passed = False
+            continue
+
+        if not doi:
+            print(f"[{pair_key}] WARNING (monograph/no DOI): {cit[:70]}...")
+            unverified_count += 1
+            continue
+
+        if doi in seen_dois:
+            cr_title = seen_dois[doi]
+        else:
+            url = f"https://api.crossref.org/works/{urllib.parse.quote(doi)}"
+            req = urllib.request.Request(url, headers=headers)
+            try:
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    if resp.status != 200:
+                        print(f"[{pair_key}] FAILED: HTTP {resp.status} for DOI {doi}")
+                        all_passed = False
+                        continue
+                    data = json.loads(resp.read().decode("utf-8"))
+                    titles = data.get("message", {}).get("title", [])
+                    if not titles:
+                        print(f"[{pair_key}] FAILED: No title returned from Crossref for DOI {doi}")
+                        all_passed = False
+                        continue
+                    cr_title = titles[0]
+                    seen_dois[doi] = cr_title
+            except Exception as e:
+                print(f"[{pair_key}] FAILED: Request error for DOI {doi}: {e}")
+                all_passed = False
+                continue
+            time.sleep(0.2)
+
+        norm_cr = normalize_for_comparison(cr_title)
+        norm_cit = normalize_for_comparison(cit)
+
+        if norm_cr not in norm_cit:
+            print(f"[{pair_key}] FAILED: Title mismatch!")
+            print(f"   Crossref title: {cr_title}")
+            print(f"   Citation text : {cit}")
+            all_passed = False
+        else:
+            print(f"[{pair_key}] PASSED: {doi} -> {clean_html(cr_title)[:60]}...")
+            verified_count += 1
+
+    print(f"\nNoisy-OR Verification Summary: {verified_count} DOI citations verified, {unverified_count} monographs unverified (warned).")
+    if all_passed:
+        print("All Noisy-OR parameter citations verified successfully!")
+        return True
+    else:
+        print("One or more Noisy-OR parameter citations FAILED verification!")
+        return False
+
+
 def main():
     parser = argparse.ArgumentParser(description="Verify citations against Crossref or archive URLs.")
     parser.add_argument("--csv", dest="csv_path", default=None, help="Path to CSV dataset to verify")
     parser.add_argument("--rules", action="store_true", help="Verify rule provenance citations in model.RULE_REGISTRY")
     parser.add_argument("--treatments", action="store_true", help="Verify control treatment citations in model.CONTROL_TREATMENTS")
-    parser.add_argument("--all", action="store_true", help="Verify CSV dataset, rules, and treatments")
+    parser.add_argument("--noisy-or", action="store_true", help="Verify noisy-OR parameter citations in data/noisy_or_parameters.csv")
+    parser.add_argument("--all", action="store_true", help="Verify CSV dataset, rules, treatments, and noisy-OR parameters")
     parser.add_argument("positional_csv", nargs="?", default="data/benchmark_field.csv", help="Fallback positional CSV path")
     args = parser.parse_args()
 
     success = True
-    if args.all or (not args.rules and not args.treatments):
+    if args.all or (not args.rules and not args.treatments and not args.noisy_or):
         target_csv = args.csv_path if args.csv_path else args.positional_csv
         if not verify_citations(target_csv):
             success = False
@@ -318,6 +406,10 @@ def main():
 
     if args.all or args.treatments:
         if not verify_treatment_citations():
+            success = False
+
+    if args.all or args.noisy_or:
+        if not verify_noisy_or_citations():
             success = False
 
     sys.exit(0 if success else 1)
