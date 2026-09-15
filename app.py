@@ -2,7 +2,8 @@ import os
 import json
 import time
 from flask import Flask, request, render_template, redirect, url_for, jsonify
-from model import predict_diseases, predict_diseases_flat, explain_diagnoses, get_derivation_trace, SWRL_RULES_METADATA
+import model
+from model import predict_diseases, predict_diseases_flat, predict_top_k, explain_diagnoses, get_derivation_trace, SWRL_RULES_METADATA
 
 app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -229,10 +230,26 @@ def diagnose():
 
         derivation_trace = get_derivation_trace(selected_symptoms, graded_results)
 
+        # Part 7-A: Top-k Differential Diagnosis
+        top_k_differential = model.predict_top_k(
+            selected_symptoms, k=3, include_possible=True, base_results=graded_results
+        )
+        for cand in top_k_differential:
+            t_key = cand["threat"]
+            threat_info = THREAT_MAP.get(t_key)
+            if not threat_info:
+                for t in THREAT_CATALOG:
+                    if t.get("key") == t_key or t_key in t.get("nama", ""):
+                        threat_info = t
+                        break
+            cand["name"] = threat_info.get("nama", t_key.replace("_", " ")) if threat_info else t_key.replace("_", " ")
+            cand["scientific_name"] = threat_info.get("nama_latin", "") if threat_info else ""
+
         return render_template(
             'result.html',
             penyakit=diagnosed_results,
             diagnoses=enriched_diagnoses,
+            differential=top_k_differential,
             explanations=explanations,
             derivation_trace=derivation_trace,
             selected_symptoms=selected_symptoms,
@@ -313,6 +330,21 @@ def api_diagnose():
         }
         enriched_diagnoses.append(item)
 
+    # Part 7-A: Top-k Differential Diagnosis
+    top_k_differential = model.predict_top_k(
+        symptoms, k=3, include_possible=True, base_results=graded_results
+    )
+    for cand in top_k_differential:
+        t_key = cand["threat"]
+        threat_info = THREAT_MAP.get(t_key)
+        if not threat_info:
+            for t in THREAT_CATALOG:
+                if t.get("key") == t_key or t_key in t.get("nama", ""):
+                    threat_info = t
+                    break
+        cand["name"] = threat_info.get("nama", t_key.replace("_", " ")) if threat_info else t_key.replace("_", " ")
+        cand["scientific_name"] = threat_info.get("nama_latin", "") if threat_info else ""
+
     return jsonify({
         "status": "success",
         "query": {
@@ -325,6 +357,7 @@ def api_diagnose():
             "diagnoses_count": len(diagnosed_results)
         },
         "diagnoses": enriched_diagnoses,
+        "differential_diagnosis": top_k_differential,
         "explanations": explanations
     }), 200
 

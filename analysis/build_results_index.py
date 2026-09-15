@@ -262,6 +262,70 @@ def _extract_degradation_curve(path: Path) -> list[dict]:
     return rows
 
 
+def _extract_top_k(path: Path) -> list[dict]:
+    with path.open(encoding="utf-8") as fh:
+        data = json.load(fh)
+    rows: list[dict] = []
+    evals = data.get("evaluations", [])
+    eval_split = next((e for e in evals if e.get("split") == "eval"), None)
+    if eval_split:
+        systems = eval_split.get("systems", {})
+        rk = systems.get("RiceKG (Full Proposed)", {})
+        if rk:
+            rows.append({
+                "claim": "RiceKG Top-1 differential hit on field eval",
+                "command": "python analysis/differential_analysis.py",
+                "artifact": "results/top_k.json",
+                "value": f"{_fmt(rk.get('hit_at_1_any'))}%",
+            })
+            rows.append({
+                "claim": "RiceKG Top-3 differential hit on field eval",
+                "command": "python analysis/differential_analysis.py",
+                "artifact": "results/top_k.json",
+                "value": f"{_fmt(rk.get('hit_at_3_any'))}%",
+            })
+            rows.append({
+                "claim": "RiceKG Top-k MRR on field eval",
+                "command": "python analysis/differential_analysis.py",
+                "artifact": "results/top_k.json",
+                "value": f"{_fmt(rk.get('mrr'), 3)}",
+            })
+            rows.append({
+                "claim": "RiceKG Top-3 negative-control specificity on field eval",
+                "command": "python analysis/differential_analysis.py",
+                "artifact": "results/top_k.json",
+                "value": f"{_fmt(rk.get('specificity_at_3'))}%",
+            })
+        np_ = systems.get("Rule: Nearest Prototype", {})
+        if np_:
+            rows.append({
+                "claim": "Nearest Prototype Top-3 differential hit on field eval",
+                "command": "python analysis/differential_analysis.py",
+                "artifact": "results/top_k.json",
+                "value": f"{_fmt(np_.get('hit_at_3_any'))}%",
+            })
+        flat = systems.get("Rule: Flat Single-Tier", {})
+        if flat:
+            rows.append({
+                "claim": "Flat Single-Tier Top-1 differential hit on field eval",
+                "command": "python analysis/differential_analysis.py",
+                "artifact": "results/top_k.json",
+                "value": f"{_fmt(flat.get('hit_at_1_any'))}%",
+            })
+
+    holdout_split = next((e for e in evals if e.get("split") == "holdout"), None)
+    if holdout_split:
+        rk_h = holdout_split.get("systems", {}).get("RiceKG (Full Proposed)", {})
+        if rk_h:
+            rows.append({
+                "claim": "RiceKG Top-3 differential hit on holdout (Tier C)",
+                "command": "python analysis/differential_analysis.py",
+                "artifact": "results/top_k.json",
+                "value": f"{_fmt(rk_h.get('hit_at_3_any'))}%",
+            })
+    return rows
+
+
 # ---------------------------------------------------------------------------
 # Dispatch table: filename → extractor function
 # ---------------------------------------------------------------------------
@@ -271,6 +335,7 @@ EXTRACTORS: dict[str, object] = {
     "ablation.json": _extract_ablation,
     "learning_curve.json": _extract_learning_curve,
     "degradation_curve.json": _extract_degradation_curve,
+    "top_k.json": _extract_top_k,
 }
 
 

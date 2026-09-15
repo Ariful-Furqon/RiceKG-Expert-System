@@ -221,6 +221,74 @@
     {% endfor %}
   {% endif %}
 
+  <!-- Top-k Differential Diagnosis Card (PART 7) -->
+  {% if differential and differential|length > 0 %}
+  <div class="result-header-card" style="text-align: left; margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem;">
+      <div>
+        <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin: 0;">
+          <i class="fa-solid fa-list-ol" style="color: var(--primary);"></i> Ranked Differential Diagnosis (Top-{{ differential|length }})
+        </h3>
+        <p style="color: var(--muted); font-size: 0.88rem; margin: 4px 0 0 0;">
+          Deterministic evidence-based ranking: Evidence Grade &gt; Antecedent Coverage &gt; Rule Confidence.
+        </p>
+      </div>
+      <span class="badge-tier" style="background: rgba(39, 174, 96, 0.1); color: var(--primary); font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.82rem;">
+        Clinical Screening Utility
+      </span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      {% for cand in differential %}
+      <div style="background: var(--light, #f8fafc); border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--primary, #27ae60); color: white; font-weight: 800; font-size: 0.85rem;">
+              #{{ cand.rank }}
+            </span>
+            <div>
+              <strong style="font-size: 1.05rem; color: var(--dark);">{{ cand.name }}</strong>
+              {% if cand.scientific_name %}
+              <span style="font-style: italic; color: var(--muted); font-size: 0.88rem; margin-left: 6px;">({{ cand.scientific_name }})</span>
+              {% endif %}
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span class="badge-tier {% if cand.grade == 'confirmed' %}tier-confirmed{% elif cand.grade == 'suspected' %}tier-suspected{% elif cand.grade == 'possible' %}tier-possible{% else %}tier-weak{% endif %}" style="text-transform: uppercase; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
+              Grade: {{ cand.grade }}
+            </span>
+            <span style="font-size: 0.82rem; color: var(--slate); font-weight: 600;">
+              Antecedent Coverage: {{ (cand.antecedent_coverage * 100)|round(1) }}%
+            </span>
+          </div>
+        </div>
+
+        <!-- Matched & Missing Antecedents Breakdown -->
+        <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 4px; margin-top: 4px;">
+          {% if cand.matched_symptoms %}
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <span style="color: #2e7d32; font-weight: 600; font-size: 0.8rem;"><i class="fa-solid fa-check"></i> Matched ({{ cand.matched_symptoms|length }}):</span>
+            {% for s in cand.matched_symptoms %}
+            <span class="chip-tag matched" style="font-size: 0.78rem; padding: 2px 8px;">{{ symptom_name_map.get(s, s.replace('_', ' ')) }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if cand.missing_symptoms %}
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <span style="color: #c62828; font-weight: 600; font-size: 0.8rem;"><i class="fa-solid fa-triangle-exclamation"></i> Unmet Antecedents ({{ cand.missing_symptoms|length }}):</span>
+            {% for s in cand.missing_symptoms %}
+            <span class="chip-tag missing" style="font-size: 0.78rem; padding: 2px 8px; background: #fff5f5; border: 1px dashed #feb2b2; color: #c53030;">{{ symptom_name_map.get(s, s.replace('_', ' ')) }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   <!-- User Observed Symptoms Summary -->
   <div class="result-header-card" style="text-align: left;">
     <h4 class="section-subtitle"><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Input Symptoms Analyzed ({{ selected_symptoms|length }})</h4>

@@ -187,6 +187,15 @@ def run_evaluation(csv_path=None, dataset_name="verification", split=None, tier=
     ctrl_total = ctrl_rejected = 0
     mapped_ctrl_total = mapped_ctrl_rejected = 0
 
+    # Top-k differential diagnosis tracking (Part 7)
+    tk_pos_count = 0
+    tk_hit_any = {1: 0, 2: 0, 3: 0}
+    tk_hit_all = {1: 0, 2: 0, 3: 0}
+    tk_rr_sum = 0.0
+    tk_ctrl_count = 0
+    tk_far = {1: 0, 2: 0, 3: 0}
+    tk_total_len = 0
+
     for item in dataset:
         graded_preds = model.predict_diseases(item["symptoms"])
         predicted = [p["threat"] for p in graded_preds]
@@ -211,6 +220,31 @@ def run_evaluation(csv_path=None, dataset_name="verification", split=None, tier=
                 mapped_ctrl_total += 1
                 if not in_scope_preds:
                     mapped_ctrl_rejected += 1
+
+        # Top-k differential diagnosis (Part 7-A & 7-B)
+        top_cands = model.predict_top_k(item["symptoms"], k=3, include_possible=True, base_results=graded_preds)
+        top_preds = [c["threat"] for c in top_cands]
+        tk_total_len += len(top_preds)
+
+        if item["raw_target"] != "No_Diagnosis" and expected_set:
+            tk_pos_count += 1
+            for k in (1, 2, 3):
+                sub_preds = set(top_preds[:k])
+                if any(p in expected_set for p in sub_preds):
+                    tk_hit_any[k] += 1
+                if expected_set.issubset(sub_preds):
+                    tk_hit_all[k] += 1
+            rr = 0.0
+            for rank_idx, p in enumerate(top_preds[:3], 1):
+                if p in expected_set:
+                    rr = 1.0 / rank_idx
+                    break
+            tk_rr_sum += rr
+        elif item["raw_target"] == "No_Diagnosis":
+            tk_ctrl_count += 1
+            for k in (1, 2, 3):
+                if any(p in ALL_DIAGNOSES for p in top_preds[:k]):
+                    tk_far[k] += 1
 
         # Grade-aware precision tracking (in-sample counts)
         for p in graded_preds:
@@ -313,6 +347,34 @@ def run_evaluation(csv_path=None, dataset_name="verification", split=None, tier=
         print("\nNEGATIVE CONTROL SPECIFICITY ANALYSIS (DISCRIMINATION METRICS):")
         print(f"  - Specificity on all negative controls       : {spec_all:.1f}% ({ctrl_rejected}/{ctrl_total})")
         print(f"  - Specificity on mapped-sign controls only   : {spec_mapped:.1f}% ({mapped_ctrl_rejected}/{mapped_ctrl_total}) [Earned Discrimination]")
+
+    # =========================================================================
+    # TOP-K DIFFERENTIAL DIAGNOSIS (SECONDARY SCREENING ANALYSIS, PART 7)
+    # =========================================================================
+    if tk_pos_count > 0 or tk_ctrl_count > 0:
+        mean_len = (tk_total_len / len(dataset)) if dataset else 0.0
+        mrr = (tk_rr_sum / tk_pos_count) if tk_pos_count > 0 else 0.0
+        print("\n" + "=" * 80)
+        print("TOP-K DIFFERENTIAL DIAGNOSIS (SECONDARY SCREENING ANALYSIS, PART 7)")
+        print("=" * 80)
+        if tk_pos_count > 0:
+            print(f"Positive In-Scope Cases (n = {tk_pos_count}):")
+            for k in (1, 2, 3):
+                hit_any_pct = (tk_hit_any[k] / tk_pos_count * 100)
+                hit_all_pct = (tk_hit_all[k] / tk_pos_count * 100)
+                tag = " [Headline]" if k == 3 else ""
+                print(f"  - Hit@{k} (Any True Label)  : {hit_any_pct:>5.1f}% | Hit@{k} (All True Labels): {hit_all_pct:>5.1f}%{tag}")
+            print(f"  - Mean Reciprocal Rank (MRR): {mrr:.3f}")
+
+        if tk_ctrl_count > 0:
+            print(f"\nNegative Control Cases (n = {tk_ctrl_count}):")
+            for k in (1, 2, 3):
+                far_pct = (tk_far[k] / tk_ctrl_count * 100)
+                spec_k = 100.0 - far_pct
+                print(f"  - False Alarm Rate @ {k} (FAR@{k}): {far_pct:>5.1f}%  |  Specificity @ {k}: {spec_k:>5.1f}%")
+
+        print(f"\nOverall Mean Differential List Length: {mean_len:.2f}")
+        print("-" * 80)
 
 
     # =========================================================================

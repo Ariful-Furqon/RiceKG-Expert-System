@@ -903,36 +903,12 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
                 "missing_symptoms": missing
             })
 
-        if include_possible:
-            for t_name, meta in SWRL_RULES_METADATA.items():
-                if t_name in all_threat_names:
-                    continue
-                t2_ants = meta.get("tier2", {}).get("antecedents", [])
-                if not t2_ants:
-                    continue
-
-                poss_cls = getattr(target_onto, f"{t_name}Possible", None)
-                matched = [s for s in t2_ants if s in input_symptom_set]
-                coverage = round(len(matched) / len(t2_ants), 4)
-
-                if coverage >= POSSIBLE_COVERAGE_THRESHOLD and matched:
-                    results.append({
-                        "threat": t_name,
-                        "grade": "possible",
-                        "confidence": round(0.5 * coverage, 4),
-                        "antecedent_coverage": coverage,
-                        "fired_rules": [],
-                        "matched_symptoms": matched,
-                        "missing_symptoms": [s for s in t2_ants if s not in input_symptom_set]
-                    })
-                    if highest_grade not in ("confirmed", "suspected"):
-                        highest_grade = "possible"
-
         # Assert diagnostic confidence datatype property into the ontology graph (CQ09)
         if results:
             new_plant.hasDiagnosticConfidence = [highest_grade]
 
         # Negative controls and Out-of-Scope differential diagnosis (4-J & 5-B)
+        # Check out-of-scope gates before relaxing to partial/possible evidence
         if not results:
             insect_matched = insect_damage_evidence(input_symptom_set)
             if insect_matched:
@@ -959,6 +935,35 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
                         "missing_symptoms": [],
                         "message": NEGATIVE_CONTROL_OUT_OF_SCOPE_RESPONSE
                     })
+
+        # Partial evidence ('possible' grade): only evaluated if no confirmed/suspected diagnosis
+        # and no out-of-scope evidence was triggered
+        if include_possible and not results:
+            for t_name, meta in SWRL_RULES_METADATA.items():
+                if t_name in all_threat_names:
+                    continue
+                t2_ants = meta.get("tier2", {}).get("antecedents", [])
+                if not t2_ants:
+                    continue
+
+                poss_cls = getattr(target_onto, f"{t_name}Possible", None)
+                matched = [s for s in t2_ants if s in input_symptom_set]
+                coverage = round(len(matched) / len(t2_ants), 4)
+
+                if coverage >= POSSIBLE_COVERAGE_THRESHOLD and matched:
+                    results.append({
+                        "threat": t_name,
+                        "grade": "possible",
+                        "confidence": round(0.5 * coverage, 4),
+                        "antecedent_coverage": coverage,
+                        "fired_rules": [],
+                        "matched_symptoms": matched,
+                        "missing_symptoms": [s for s in t2_ants if s not in input_symptom_set]
+                    })
+                    if highest_grade not in ("confirmed", "suspected"):
+                        highest_grade = "possible"
+            if results and highest_grade == "possible":
+                new_plant.hasDiagnosticConfidence = [highest_grade]
 
         # Rank: confirmed first, then antecedent coverage desc, then name
         grade_rank = {"confirmed": 3, "unstratified": 2, "suspected": 2, "possible": 1, "out_of_scope": 0}
@@ -987,6 +992,134 @@ def predict_diseases_flat(symptoms, onto=None):
     :return: List of diagnosed pest and disease names as strings.
     """
     return predict_diseases(symptoms, flat=True, onto=onto)
+
+
+# -------------------------------------------------------------------------
+# Part 7-A: Top-k Differential Diagnosis with Pre-Fixed Deterministic Ordering
+# -------------------------------------------------------------------------
+TOP_K_GRADE_ORDINAL = {
+    "confirmed": 4,
+    "suspected": 3,
+    "possible": 2,
+    "weak": 1,
+    "out_of_scope": 0,
+}
+
+
+def predict_top_k(symptoms, k=3, onto=None, include_possible=True, include_weak=False, base_results=None):
+    """
+    Returns the top-k differential diagnoses ranked by evidence strength.
+
+    Pre-fixed deterministic ordering key (Part 7-A):
+    1. Grade ordinal: confirmed (4) > suspected (3) > possible (2) > weak (1) > out_of_scope (0)
+    2. Antecedent coverage (descending float)
+    3. Diagnostic confidence (descending float)
+    4. Threat identifier (ascending alphabetical deterministic tie-break)
+
+    Rules:
+    - Only in-scope diseases and pests are included in the ranked differential.
+    - Insect out-of-scope (5-B) and negative control (4-J) responses are never ranked
+      alongside diseases; if only out-of-scope evidence exists, candidates list is empty.
+    - If include_weak=True, candidate threats with coverage > 0 but below the possible
+      threshold (0.50) are included with grade="weak". By default, include_weak=False.
+    - Returns at most k candidates. If no threat has evidence, returns [].
+
+    :param symptoms: List of observed symptom strings.
+    :param k: Maximum number of differential candidates to return (default 3).
+    :param onto: Optional loaded owlready2 ontology instance.
+    :param include_possible: Whether to include possible-grade candidates (default True).
+    :param include_weak: Whether to include weak-grade candidates (<50% coverage, default False).
+    :param base_results: Optional pre-computed output of predict_diseases to avoid redundant Pellet reasoning.
+    :return: List of dicts representing top-k candidates, each containing:
+             threat, grade, confidence, antecedent_coverage, matched_symptoms,
+             missing_symptoms, fired_rules, rank.
+    """
+    if k <= 0:
+        return []
+
+    input_symptoms = [str(s).strip() for s in (symptoms or []) if str(s).strip()]
+    input_symptom_set = set(input_symptoms)
+    if not input_symptom_set:
+        return []
+
+    # Get baseline predictions (includes confirmed, suspected, and optional possible)
+    if base_results is None:
+        base_results = predict_diseases(input_symptoms, include_possible=include_possible, onto=onto)
+    else:
+        base_results = [dict(c) for c in base_results]
+        # If include_possible is requested but base_results came from standard unrelaxed prediction,
+        # evaluate possible candidates here if no confirmed/suspected/out_of_scope fired.
+        has_definitive = any(c.get("grade") in ("confirmed", "suspected", "out_of_scope") for c in base_results)
+        if include_possible and not has_definitive:
+            existing = {c["threat"] for c in base_results}
+            for t_name, meta in SWRL_RULES_METADATA.items():
+                if t_name in existing:
+                    continue
+                t2_ants = meta.get("tier2", {}).get("antecedents", [])
+                if not t2_ants:
+                    continue
+                matched = [s for s in t2_ants if s in input_symptom_set]
+                cov = round(len(matched) / len(t2_ants), 4)
+                if cov >= POSSIBLE_COVERAGE_THRESHOLD and matched:
+                    base_results.append({
+                        "threat": t_name,
+                        "grade": "possible",
+                        "confidence": round(0.5 * cov, 4),
+                        "antecedent_coverage": cov,
+                        "fired_rules": [],
+                        "matched_symptoms": matched,
+                        "missing_symptoms": [s for s in t2_ants if s not in input_symptom_set]
+                    })
+
+    # Check for out-of-scope evidence: if out-of-scope gate fired, no disease candidate is ranked
+    has_out_of_scope = any(c.get("grade") == "out_of_scope" for c in base_results)
+    if has_out_of_scope:
+        return []
+
+    # Filter strictly for in-scope threats
+    candidates = [
+        dict(c) for c in base_results
+        if c.get("threat") in ALL_DIAGNOSES and c.get("grade") != "out_of_scope"
+    ]
+
+    # Optional inclusion of weak candidates (<50% antecedent coverage)
+    if include_weak and not has_out_of_scope:
+        existing_threats = {c["threat"] for c in candidates}
+        for t_name in ALL_DIAGNOSES:
+            if t_name not in existing_threats:
+                meta = SWRL_RULES_METADATA.get(t_name, {})
+                t2_ants = meta.get("tier2", {}).get("antecedents", [])
+                if not t2_ants:
+                    continue
+                matched = [s for s in t2_ants if s in input_symptom_set]
+                if matched:
+                    cov = round(len(matched) / len(t2_ants), 4)
+                    if cov < POSSIBLE_COVERAGE_THRESHOLD:
+                        candidates.append({
+                            "threat": t_name,
+                            "grade": "weak",
+                            "confidence": round(0.2 * cov, 4),
+                            "antecedent_coverage": cov,
+                            "fired_rules": [],
+                            "matched_symptoms": matched,
+                            "missing_symptoms": [s for s in t2_ants if s not in input_symptom_set]
+                        })
+
+    # Sort strictly using the pre-fixed deterministic ordering key
+    candidates.sort(
+        key=lambda x: (
+            -TOP_K_GRADE_ORDINAL.get(x.get("grade"), 0),
+            -float(x.get("antecedent_coverage", 0.0)),
+            -float(x.get("confidence", 0.0)),
+            str(x.get("threat", ""))
+        )
+    )
+
+    top_k = candidates[:k]
+    for idx, item in enumerate(top_k, 1):
+        item["rank"] = idx
+
+    return top_k
 
 
 # =========================================================================

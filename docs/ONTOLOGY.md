@@ -408,3 +408,24 @@ This proves that the system's rejections are not merely artifacts of unmappable 
 | **Field Eval Precision** | 100.0% | **100.0%** | 0 false positives maintained. |
 | **Test Suite Pass Rate** | 114 passed | **121 passed, 0 failed** | All unit, regression, and property tests green. |
 
+---
+
+## Part 7. Top-k Differential Diagnosis & Ranking Hierarchy
+
+In field pathology, scouting observations frequently document partial symptom subsets that do not satisfy strict canonical pathognomonic thresholds. The **Top-k Differential Diagnosis** module (`model.predict_top_k`) surfaces a prioritized candidate list (default $k=3$) to provide clinical screening utility for field agronomists without compromising deductive certainty.
+
+### 1. Pre-Fixed Deterministic Ordering Key
+Candidate diagnoses are ranked according to a strictly pre-fixed lexicographical ordering key:
+1. **Grade Ordinal (descending)**: `confirmed` (4) > `suspected` (3) > `possible` (2) > `weak` (1) > `out_of_scope` (0).
+2. **Antecedent Coverage (descending float)**: Fraction of Tier-2 antecedents observed in the case ($\frac{|\text{Observed} \cap \text{Antecedents}|}{|\text{Antecedents}|}$).
+3. **Diagnostic Confidence (descending float)**: Continuous confidence score assigned to the inference stratum.
+4. **Threat Name (ascending alphabetical)**: Deterministic tie-break ensuring reproducibility across platforms and random seeds.
+
+### 2. Out-of-Scope Precedence Safeguard
+Out-of-scope responses (e.g. insect damage signs under Part 5-B, or non-modeled disease signs under Part 4-J) are explicit rejection diagnoses and are **never** ranked alongside in-scope disease candidates. If out-of-scope evidence is triggered, the differential candidate list is returned empty (`No_Diagnosis`), preventing partial symptom overlaps from fabricating false alarms on negative controls.
+
+### 3. Dual Reporting Protocol (Sensitivity vs False Alarm Rate)
+Because top-$k$ differential expansion inflates recall by construction, every Hit@$k$ metric is reported strictly alongside its corresponding Negative-Control False Alarm Rate (FAR@$k$) and Specificity@$k$ ($1 - \text{FAR@}k$):
+- On the held-out field `eval` split ($n=5$ positive cases, $n=18$ negative controls), RiceKG expands from Hit@1 = **40.0%** to Hit@3 = **100.0%** (MRR = 0.667), capturing partial-evidence field cases while preserving 50.0% specificity on negative controls.
+- Under the identical protocol, standard ML classifiers collapse to a 100.0% false alarm rate (0.0% specificity) on negative controls.
+

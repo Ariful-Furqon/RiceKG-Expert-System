@@ -1,11 +1,11 @@
 <!-- GENERATED FILE — DO NOT EDIT BY HAND -->
-<!-- content-sha256: 821118d46963cc745bd31664ce21f31c0b93b105b43d5e67762e8e5802090e96 -->
+<!-- content-sha256: a9e4bfb8abe04e4c5da1a5370f4b371dc0e21010e0632c1beefd63a6e74fcb1a -->
 <!-- Regenerate with: python analysis/build_results_index.py -->
 <!-- Wired into: make reproduce, CI (check_readme_consistency.py) -->
 
 # Results Index
 
-Auto-generated on 2026-09-15T05:22:42Z from `results/*.json`.
+Auto-generated on 2026-09-15T05:57:18Z from `results/*.json`.
 Each row maps a manuscript claim to the command that produces it and the
 source artifact that stores the value. Edit
 `analysis/build_results_index.py` to change what is indexed.
@@ -49,6 +49,13 @@ source artifact that stores the value. Edit
 | RiceKG degradation positive recall at 0.0 occlusion | `python analysis/degradation_curve.py` | `results/degradation_curve.json` | 100.00% |
 | RiceKG degradation positive recall at 0.4 occlusion | `python analysis/degradation_curve.py` | `results/degradation_curve.json` | 31.96% |
 | RiceKG degradation positive recall at 0.8 occlusion | `python analysis/degradation_curve.py` | `results/degradation_curve.json` | 2.98% |
+| RiceKG Top-1 differential hit on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 40.00% |
+| RiceKG Top-3 differential hit on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 100.00% |
+| RiceKG Top-k MRR on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 0.667 |
+| RiceKG Top-3 negative-control specificity on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 50.00% |
+| Nearest Prototype Top-3 differential hit on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 100.00% |
+| Flat Single-Tier Top-1 differential hit on field eval | `python analysis/differential_analysis.py` | `results/top_k.json` | 40.00% |
+| RiceKG Top-3 differential hit on holdout (Tier C) | `python analysis/differential_analysis.py` | `results/top_k.json` | 77.78% |
 
 ---
 _This file is produced by `analysis/build_results_index.py` and validated by `analysis/check_readme_consistency.py`. A stale or missing index fails the CI build._
