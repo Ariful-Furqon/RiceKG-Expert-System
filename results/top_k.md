@@ -1,6 +1,6 @@
 # Top-k Differential Diagnosis & Ranking Analysis (PART 7)
 
-> **Generated**: 2026-09-15T11:33:07.749592+00:00  
+> **Generated**: 2026-09-15T11:49:21.221325+00:00  
 > **Evaluation Protocol**: Pre-fixed deterministic ordering key (Part 7-A), fair comparative baselines (Part 7-C), secondary diagnostic utility analysis.
 
 ---
@@ -28,6 +28,8 @@ list of diagnostic hypotheses ranked strictly by evidence strength:
 | **k-NN** | 57.1% | 71.4% | 71.4% | 0.643 | 100.0% | 100.0% | 0.0% | 3.00 |
 | **Logistic Regression (OvR)** | 28.6% | 28.6% | 28.6% | 0.286 | 100.0% | 100.0% | 0.0% | 2.50 |
 
+_k-NN tie sensitivity: 10 of 16 held-out predictions have a distance tie at the 3rd-neighbour boundary. Over 20 training-row orders, k-NN spans Hit@1 57.1–57.1%, Hit@3 71.4–71.4% and FAR@3 100.0–100.0%. The table row uses `algorithm="brute"` with the original row order; k-NN figures are not comparable with other systems more finely than this span._
+
 ---
 
 ## 2. Dataset: Field Benchmark (Eval Split, Held-Out) ($n=23$, 5 positives, 18 negative controls)
@@ -42,6 +44,8 @@ list of diagnostic hypotheses ranked strictly by evidence strength:
 | **Multinomial Naive Bayes** | 0.0% | 0.0% | 0.0% | 0.000 | 61.1% | 61.1% | 38.9% | 1.17 |
 | **k-NN** | 20.0% | 40.0% | 60.0% | 0.367 | 100.0% | 100.0% | 0.0% | 2.61 |
 | **Logistic Regression (OvR)** | 20.0% | 20.0% | 40.0% | 0.267 | 100.0% | 100.0% | 0.0% | 2.04 |
+
+_k-NN tie sensitivity: 11 of 23 held-out predictions have a distance tie at the 3rd-neighbour boundary. Over 20 training-row orders, k-NN spans Hit@1 20.0–20.0%, Hit@3 40.0–60.0% and FAR@3 100.0–100.0%. The table row uses `algorithm="brute"` with the original row order; k-NN figures are not comparable with other systems more finely than this span._
 
 ---
 
@@ -60,6 +64,8 @@ list of diagnostic hypotheses ranked strictly by evidence strength:
 
 _No negative controls in this split: false-alarm rate and specificity are undefined (n/a)._
 
+_k-NN tie sensitivity: 12 of 18 held-out predictions have a distance tie at the 3rd-neighbour boundary. Over 20 training-row orders, k-NN spans Hit@1 50.0–61.1%, Hit@3 77.8–88.9% and FAR@3 n/a. The table row uses `algorithm="brute"` with the original row order; k-NN figures are not comparable with other systems more finely than this span._
+
 ---
 
 ## 2. Dataset: Deductive Verification Suite ($n=73$, 55 positives, 18 negative controls)
@@ -74,6 +80,8 @@ _No negative controls in this split: false-alarm rate and specificity are undefi
 | **Multinomial Naive Bayes** | 54.5% | 61.8% | 63.6% | 0.588 | 100.0% | 100.0% | 0.0% | 2.26 |
 | **k-NN** | 61.8% | 63.6% | 63.6% | 0.627 | 16.7% | 16.7% | 83.3% | 1.00 |
 | **Logistic Regression (OvR)** | 60.0% | 63.6% | 63.6% | 0.618 | 100.0% | 100.0% | 0.0% | 3.00 |
+
+_k-NN tie sensitivity: 50 of 73 held-out predictions have a distance tie at the 3rd-neighbour boundary. Over 20 training-row orders, k-NN spans Hit@1 58.2–63.6%, Hit@3 61.8–63.6% and FAR@3 16.7–27.8%. The table row uses `algorithm="brute"` with the original row order; k-NN figures are not comparable with other systems more finely than this span._
 
 ---
 

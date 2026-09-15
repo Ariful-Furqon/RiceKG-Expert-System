@@ -173,6 +173,69 @@ def compute_top_k_metrics_for_system(
     return results
 
 
+def _positive_class_probs(probs) -> np.ndarray:
+    """Stack per-label positive-class probabilities from a multi-output predict_proba."""
+    if isinstance(probs, list):
+        return np.column_stack([p[:, 1] if p.shape[1] > 1 else p[:, 0] for p in probs])
+    return probs
+
+
+def knn_tie_sensitivity(
+    X: np.ndarray,
+    Y: np.ndarray,
+    cases: List[Dict[str, Any]],
+    train_idx,
+    test_idx,
+    n_orders: int = 20,
+    seed: int = 0,
+) -> Dict[str, Any]:
+    """Quantify how much the k-NN top-k metrics depend on neighbour tie-breaking.
+
+    Binary symptom vectors yield many equidistant neighbours, and sklearn resolves ties by
+    training-row order. The same 2-fold split is re-run with `n_orders` permutations of the
+    training rows; the returned spans show the range of metrics attributable to tie-breaking
+    alone. `tie_at_k_boundary` counts held-out predictions whose 3rd and 4th nearest training
+    rows are equally distant.
+    """
+    tr, te = np.asarray(train_idx), np.asarray(test_idx)
+    k = ml_baselines.get_ml_models()["k-NN"].n_neighbors
+
+    ties = 0
+    for a, b in [(tr, te), (te, tr)]:
+        dists = np.sqrt(((X[b][:, None, :] - X[a][None, :, :]) ** 2).sum(-1))
+        for row in dists:
+            s = np.sort(row)
+            if len(s) > k and np.isclose(s[k - 1], s[k]):
+                ties += 1
+
+    rng = np.random.RandomState(seed)
+    outcomes = []
+    for _ in range(n_orders):
+        ranked: List[List[str]] = [[] for _ in cases]
+        for a, b in [(tr, te), (te, tr)]:
+            a = rng.permutation(a)
+            clf = ml_baselines.get_ml_models()["k-NN"]
+            clf.fit(X[a], Y[a])
+            prob_matrix = _positive_class_probs(clf.predict_proba(X[b]))
+            for local_i, global_i in enumerate(b):
+                ranked[global_i] = rank_ml_predictions(prob_matrix[local_i], k=3)
+        outcomes.append(compute_top_k_metrics_for_system(cases, ranked, "k-NN"))
+
+    def span(key):
+        vals = [o[key] for o in outcomes if o[key] is not None]
+        return [min(vals), max(vals)] if vals else None
+
+    return {
+        "n_orders": n_orders,
+        "tie_at_k_boundary": ties,
+        "n_held_out_predictions": int(len(tr) + len(te)),
+        "hit_at_1_any": span("hit_at_1_any"),
+        "hit_at_3_any": span("hit_at_3_any"),
+        "mrr": span("mrr"),
+        "far_at_3": span("far_at_3"),
+    }
+
+
 # ---------------------------------------------------------------------------
 # Dataset Evaluator
 # ---------------------------------------------------------------------------
@@ -223,6 +286,7 @@ def evaluate_dataset_differential(
 
     n_samples = len(cases)
     n_splits = 2 if n_samples >= 10 else 1
+    tie_sensitivity = None
 
     if n_splits > 1:
         splits = ml_baselines.get_5x2_splits(X, Y, random_state=42)
@@ -247,6 +311,8 @@ def evaluate_dataset_differential(
                         ml_ranked[m_name][global_i] = rank_ml_predictions(prob_matrix[local_i], k=3)
                 except Exception:
                     pass
+
+        tie_sensitivity = knn_tie_sensitivity(X, Y, cases, train_idx, test_idx)
     else:
         # Train on full set if < 10 cases
         for m_name, clf in ml_models.items():
@@ -284,7 +350,8 @@ def evaluate_dataset_differential(
         "csv_path": os.path.relpath(csv_path, BASE_DIR).replace(os.sep, "/"),
         "split": split,
         "n_cases": len(cases),
-        "systems": system_metrics
+        "systems": system_metrics,
+        "knn_tie_sensitivity": tie_sensitivity,
     }
 
 
@@ -379,6 +446,18 @@ def format_markdown_report(all_evals: List[Dict[str, Any]], output_md: str) -> N
 
         if n_neg == 0:
             lines.extend(["", "_No negative controls in this split: false-alarm rate and specificity are undefined (n/a)._"])
+
+        ts = ev.get("knn_tie_sensitivity")
+        if ts:
+            span = lambda key: "n/a" if ts[key] is None else f"{ts[key][0]:.1f}–{ts[key][1]:.1f}%"
+            lines.extend([
+                "",
+                f"_k-NN tie sensitivity: {ts['tie_at_k_boundary']} of {ts['n_held_out_predictions']} held-out "
+                f"predictions have a distance tie at the 3rd-neighbour boundary. Over {ts['n_orders']} "
+                f"training-row orders, k-NN spans Hit@1 {span('hit_at_1_any')}, Hit@3 {span('hit_at_3_any')} "
+                f"and FAR@3 {span('far_at_3')}. The table row uses `algorithm=\"brute\"` with the original row "
+                f"order; k-NN figures are not comparable with other systems more finely than this span._",
+            ])
         lines.extend(["", "---", ""])
 
     lines.extend(["## 3. Key Findings", ""])

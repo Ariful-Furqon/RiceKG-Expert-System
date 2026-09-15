@@ -12,7 +12,7 @@ Implements 5 ML architectures:
 1. Decision Tree (DecisionTreeClassifier, random_state=42)
 2. Random Forest (RandomForestClassifier, random_state=42)
 3. Multinomial Naive Bayes (OneVsRestClassifier(MultinomialNB()))
-4. k-Nearest Neighbors (KNeighborsClassifier(n_neighbors=3))
+4. k-Nearest Neighbors (KNeighborsClassifier(n_neighbors=3, algorithm="brute"))
 5. One-vs-Rest Logistic Regression (OneVsRestClassifier(LogisticRegression(random_state=42)))
 
 Evaluates via stratified 5x2-fold cross-validation with transparent fallback
@@ -181,7 +181,10 @@ def get_ml_models(random_state: int = 42) -> Dict[str, Any]:
         "Decision Tree": DecisionTreeClassifier(random_state=random_state),
         "Random Forest": RandomForestClassifier(n_estimators=100, random_state=random_state),
         "Multinomial Naive Bayes": OneVsRestClassifier(MultinomialNB()),
-        "k-NN": KNeighborsClassifier(n_neighbors=3),
+        # Binary symptom vectors produce many equidistant neighbours; tie-breaking differs between
+        # neighbour-search algorithms, and algorithm="auto" may choose differently across sklearn
+        # versions. Pinning brute force makes k-NN results identical across environments.
+        "k-NN": KNeighborsClassifier(n_neighbors=3, algorithm="brute"),
         "Logistic Regression (OvR)": OneVsRestClassifier(LogisticRegression(random_state=random_state, solver="liblinear")),
     }
 
