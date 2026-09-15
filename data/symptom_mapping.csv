@@ -15,15 +15,15 @@ leaves_interveinal_streaks,Interveinal_Chlorosis,mapped,P0-5 Step 2: term added 
 seed_discoloration_spotted,Grain_Discoloration,mapped,P0-5 Step 2: term added for discoloured or spotted grain.
 leaves_sheath_blight_rot,Leaf_Sheath_Lesions,mapped,P0-5 Step 2: Leaf_Sheath anatomy added. Expressivity only; not an antecedent of any modelled threat.
 stem_rot_or_break,Stem_Rot_Lesions,mapped,P0-5 Step 2: culm rot term added. Expressivity only; not an antecedent of any modelled threat.
-leaves_drying_up_yellowish_brown,,unmapped,Hopperburn_Drying is planthopper-specific; generic drying has no term.
-leaves_chlorotic_stripes_streaks,,unmapped,Ontology models chlorosis but no striping or streaking pattern.
-leaves_brown_streaks_stripes,,unmapped,"No streaking term; Necrotic_Spots denotes spots, not streaks."
-leaves_bleached_white,,unmapped,Ontology has no leaf bleaching term.
-leaves_whitened_leaf_tips,,unmapped,"Yellowing_Leaf_Tips denotes yellowing, not whitening."
-leaves_withering_dead,,unmapped,Ontology has no wilting or whole-leaf death term.
-leaves_discoloration,,unmapped,Too generic to resolve; Leaf_Discoloration_Yellow is colour-specific.
-roots_discolored,,unmapped,"Deformed_Roots denotes morphology, not colour."
-plant_malformation,,unmapped,Ontology has no generic malformation term.
+leaves_drying_up_yellowish_brown,Leaf_Desiccation,mapped,"Ou (1985): drying/desiccation of leaf tissue from severe blight or fungal infection; distinct from planthopper hopperburn."
+leaves_chlorotic_stripes_streaks,Chlorotic_Streaks,mapped,"Ou (1985), Hibino (1996): chlorotic streaking along veins characteristic of bacterial leaf streak and stripe virus."
+leaves_brown_streaks_stripes,Brown_Streaks,mapped,"Ou (1985): necrotic brown streaks caused by Xanthomonas oryzae pv. oryzicola or Cochliobolus."
+leaves_bleached_white,Leaf_Bleaching,mapped,"Ou (1985): foliar bleaching/kresek symptoms observed in systemic bacterial blight or acid soil stress."
+leaves_whitened_leaf_tips,Whitened_Leaf_Tips,mapped,"Bridge et al. (2005): whitening of the apical leaf portion caused by Aphelenchoides besseyi (white tip nematode)."
+leaves_withering_dead,Leaf_Wilting,mapped,"Ou (1985): whole-leaf wilting and premature senescence in vascular wilt and root rot."
+leaves_discoloration,,unmapped,"Too generic to resolve to any single diagnostic sign class."
+roots_discolored,Discolored_Roots,mapped,"Bridge et al. (2005): brown or black necrotic discoloration of the root system caused by Hirschmanniella or secondary rot."
+plant_malformation,,unmapped,"Generic morphological anomaly too non-specific to assign to a defined symptom class."
 plant_spreading_growth,,unmapped,Ontology models stunting but has no term for spreading or prostrate growth habit.
 leaves_deformity_serration_twisting_curling,,unmapped,Ontology has no terms for foliar serration, twisting, or leaf blade curling.
 plant_premature_death,,unmapped,Ontology has no general term for premature whole-plant mortality.

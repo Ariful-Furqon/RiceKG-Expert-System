@@ -1,13 +1,16 @@
 """
-RiceKG Expert System - Ontology Model & SWRL Reasoning Engine
--------------------------------------------------------------
+RiceKG Expert System - Ontology Model & Description Logic (DL) Reasoning Engine
+---------------------------------------------------------------------------------
 Implements an OWL 2 DL ontology for rice pests and diseases using Owlready2
-and the Pellet description logic reasoner. SWRL rules are defined via a
-declarative registry supporting dynamic ontology construction and ablation.
+and the Pellet description logic reasoner. Biotic threats are diagnosed via
+OWL 2 Equivalent Classes (Defined Classes) with machine-provable subsumption,
+structured across a two-axis symptom taxonomy (anatomical & phenomenological).
 """
 
 import os
 import uuid
+import math
+import types
 import subprocess
 from owlready2 import *
 
@@ -53,7 +56,7 @@ ONTOLOGY_PATH = os.path.join(BASE_DIR, "rice_ontology.owl")
 ONTOLOGY_IRI = "http://www.semanticweb.org/ontologies/rice_pest_disease.owl"
 
 # =========================================================================
-# Declarative Master Catalog: Symptoms, Threats, and SWRL Rules
+# Declarative Master Catalog: Symptoms, Threats, and Taxonomic Axes
 # =========================================================================
 
 ALL_SYMPTOMS = [
@@ -73,25 +76,120 @@ ALL_SYMPTOMS = [
     "Diamond_Shaped_Lesions", "Infected_Seedlings", "Brown_Planthopper_Present",
     "Severe_Stunting", "No_Panicle_Formation", "Green_Leafhopper_Present",
 
-    # P0-5 Step 2 vocabulary extension. Each term denotes a sign that the
-    # phytopathology literature treats as diagnostically informative but that the
-    # original 45-term vocabulary could not express. Sources are recorded per term
-    # in docs/ONTOLOGY.md; none of these were chosen by inspecting benchmark cases.
+    # P0-5 Step 2 vocabulary extension
     "Water_Soaked_Lesions",      # early bacterial lesion, leaf margin/tip
     "Bacterial_Ooze",            # bacterial exudate droplets on lesion or cut leaf
     "Leaf_Mottling",             # mosaic/mottle pattern, virus-associated
     "Interveinal_Chlorosis",     # chlorosis between veins, virus-associated
     "Grain_Discoloration",       # discoloured or spotted grain
-    "Leaf_Sheath_Lesions",       # lesions on the leaf sheath (anatomy absent before)
+    "Leaf_Sheath_Lesions",       # lesions on the leaf sheath
     "Stem_Rot_Lesions",          # rot or lodging at the culm
     "Excessive_Tillering",       # RGSV hallmark; tungro shows the opposite
-    "Orange_Leaf_Discoloration"  # tungro hallmark, yellow-orange from the leaf tip
+    "Orange_Leaf_Discoloration", # tungro hallmark, yellow-orange from the leaf tip
+
+    # PART 4-J: Expressivity descriptors mapped from field benchmark negative controls
+    "Leaf_Desiccation",          # whole-leaf drying/desiccation (Ou 1985)
+    "Chlorotic_Streaks",         # chlorotic streaking along veins (Ou 1985)
+    "Brown_Streaks",             # necrotic brown streaks (Ou 1985)
+    "Leaf_Bleaching",            # foliar bleaching/kresek symptoms (Ou 1985)
+    "Whitened_Leaf_Tips",        # apical whitening from Aphelenchoides besseyi (Bridge et al. 2005)
+    "Leaf_Wilting",              # whole-leaf wilting/senescence (Ou 1985)
+    "Discolored_Roots"           # root darkening/necrosis from Hirschmanniella (Bridge et al. 2005)
 ]
 
-# 21 phenotypic symptoms associated specifically with insect damage.
-# Retained in the ontology vocabulary (subclassed under OutOfScopeSign / InsectDamageSign)
-# so the system provides an explicit differential out-of-scope response rather than a
-# silent No_Diagnosis.
+# -------------------------------------------------------------------------
+# 4-A: Evidence Type Stratification
+# -------------------------------------------------------------------------
+OBSERVATION_CATEGORIES = {
+    # Direct organism sightings
+    "Brown_Nymphs": "hasOrganismSighting",
+    "Yellow_Nymphs": "hasOrganismSighting",
+    "Eggs_On_Plant": "hasOrganismSighting",
+    "Nymphs_Present": "hasOrganismSighting",
+    "Adult_Insects_Present": "hasOrganismSighting",
+    "Frass_In_Stem": "hasOrganismSighting",
+
+    # Entomological vector sightings for viral phytopathogens
+    "Brown_Planthopper_Present": "hasVectorSighting",
+    "Green_Leafhopper_Present": "hasVectorSighting",
+
+    # Stand-level and environmental epidemiological context
+    "Rapid_Disease_Spread": "hasEpidemiologicalContext",
+    "Rainy_Season_Outbreak": "hasEpidemiologicalContext",
+    "Uniform_Field_Infection": "hasEpidemiologicalContext",
+    "Slight_Panicle_Infection": "hasEpidemiologicalContext",
+    "Milky_Stage_Vulnerability": "hasEpidemiologicalContext",
+    "Infected_Seedlings": "hasEpidemiologicalContext",
+    "Random_Feeding_Pattern": "hasEpidemiologicalContext",
+    "Circular_Hopperburn_Patches": "hasEpidemiologicalContext",
+}
+# Default for all remaining terms is "hasSymptom" (plant pathological sign)
+
+# -------------------------------------------------------------------------
+# 4-B: Two-Axis Symptom Taxonomy (Anatomical & Phenomenological)
+# -------------------------------------------------------------------------
+SYMPTOM_TAXONOMY = {
+    # Chlorosis
+    "Plant_Yellowing": {"anatomical": "WholePlantSign", "phenomenological": "Chlorosis"},
+    "Yellowing_Leaves": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Yellowing_Leaf_Tips": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Yellowing_Leaf_Veins": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Leaf_Discoloration_Yellow": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Localized_Leaf_Yellowing": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Interveinal_Chlorosis": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Orange_Leaf_Discoloration": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Leaf_Mottling": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Chlorotic_Streaks": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Leaf_Bleaching": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+    "Whitened_Leaf_Tips": {"anatomical": "LeafSign", "phenomenological": "Chlorosis"},
+
+    # Necrosis
+    "Necrotic_Spots": {"anatomical": "LeafSign", "phenomenological": "Necrosis"},
+    "Diamond_Shaped_Lesions": {"anatomical": "LeafSign", "phenomenological": "Necrosis"},
+    "Water_Soaked_Lesions": {"anatomical": "LeafSign", "phenomenological": "Necrosis"},
+    "Stem_Rot_Lesions": {"anatomical": "StemSign", "phenomenological": "Necrosis"},
+    "Leaf_Sheath_Lesions": {"anatomical": "LeafSign", "phenomenological": "Necrosis"},
+    "Panicle_Neck_Rot": {"anatomical": "PanicleSign", "phenomenological": "Necrosis"},
+    "Rotten_Panicles": {"anatomical": "PanicleSign", "phenomenological": "Necrosis"},
+    "Hopperburn_Drying": {"anatomical": "LeafSign", "phenomenological": "Necrosis"},
+    "Blackened_Feeding_Punctures": {"anatomical": "StemSign", "phenomenological": "Necrosis"},
+    "Deadheart_Seedling": {"anatomical": "WholePlantSign", "phenomenological": "Necrosis"},
+    "Brown_Streaks": {"anatomical": "LeafSign", "phenomenological": "Necrosis"},
+    "Leaf_Desiccation": {"anatomical": "LeafSign", "phenomenological": "Necrosis"},
+    "Leaf_Wilting": {"anatomical": "WholePlantSign", "phenomenological": "Necrosis"},
+    "Discolored_Roots": {"anatomical": "RootSign", "phenomenological": "Necrosis"},
+
+    # Stunting
+    "Stunted_Growth": {"anatomical": "WholePlantSign", "phenomenological": "Stunting"},
+    "Severe_Stunting": {"anatomical": "WholePlantSign", "phenomenological": "Stunting"},
+
+    # Mechanical Damage
+    "Leaf_Chewing_Damage": {"anatomical": "LeafSign", "phenomenological": "MechanicalDamage"},
+    "Broad_Leaf_Damage": {"anatomical": "LeafSign", "phenomenological": "MechanicalDamage"},
+    "Severed_Panicles": {"anatomical": "PanicleSign", "phenomenological": "MechanicalDamage"},
+    "Bore_Holes_In_Stem": {"anatomical": "StemSign", "phenomenological": "MechanicalDamage"},
+    "Easily_Pulled_Tillers": {"anatomical": "StemSign", "phenomenological": "MechanicalDamage"},
+    "Leaf_Margin_Sap_Sucking": {"anatomical": "LeafSign", "phenomenological": "MechanicalDamage"},
+
+    # Grain Abnormality
+    "Empty_Grains": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
+    "Grain_Discoloration": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
+    "Rusty_Grain_Balls": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
+    "Blackened_Grain_Balls": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
+    "Whitehead_Empty_Panicles": {"anatomical": "PanicleSign", "phenomenological": "GrainAbnormality"},
+
+    # Root Morphology
+    "Hook_Like_Root_Swelling": {"anatomical": "RootSign", "phenomenological": None},
+    "Root_Knot_Swelling": {"anatomical": "RootSign", "phenomenological": None},
+    "Deformed_Roots": {"anatomical": "RootSign", "phenomenological": None},
+
+    # Architecture & Other Signs
+    "Excessive_Tillering": {"anatomical": "WholePlantSign", "phenomenological": None},
+    "No_Panicle_Formation": {"anatomical": "PanicleSign", "phenomenological": None},
+    "Bacterial_Ooze": {"anatomical": "StemSign", "phenomenological": None}
+}
+
+# 21 phenotypic symptoms associated specifically with insect damage
 INSECT_DAMAGE_SIGNS = [
     "Adult_Insects_Present", "Blackened_Feeding_Punctures", "Bore_Holes_In_Stem",
     "Broad_Leaf_Damage", "Brown_Nymphs", "Circular_Hopperburn_Patches", "Deadheart_Seedling",
@@ -100,12 +198,6 @@ INSECT_DAMAGE_SIGNS = [
     "Plant_Yellowing", "Random_Feeding_Pattern", "Rotten_Panicles", "Severed_Panicles", "Yellow_Nymphs"
 ]
 
-# The subset of INSECT_DAMAGE_SIGNS that only an insect produces: the organism itself, its
-# eggs, or a feeding mechanism no pathogen reproduces. The remaining seven terms
-# (Plant_Yellowing, Localized_Leaf_Yellowing, Empty_Grains, Rotten_Panicles,
-# Deadheart_Seedling, Easily_Pulled_Tillers, Random_Feeding_Pattern) are also produced by
-# in-scope and out-of-scope pathogens, nutrient deficiency or abiotic stress, so they never
-# count as evidence of insect damage on their own.
 INSECT_SPECIFIC_SIGNS = [
     "Adult_Insects_Present", "Nymphs_Present", "Brown_Nymphs", "Yellow_Nymphs", "Eggs_On_Plant",
     "Frass_In_Stem", "Bore_Holes_In_Stem", "Hopperburn_Drying", "Circular_Hopperburn_Patches",
@@ -113,15 +205,26 @@ INSECT_SPECIFIC_SIGNS = [
     "Broad_Leaf_Damage", "Severed_Panicles",
 ]
 
-# Distinct insect-specific signs required before the out-of-scope response is returned.
-# Two matches the evidentiary minimum of the removed Tier-2 insect rules (SWRL-R11, R13, R15
-# each required two), so a single isolated sign stays a No_Diagnosis negative control.
 INSECT_GATE_MIN_SIGNS = 2
 
 INSECT_OUT_OF_SCOPE_RESPONSE = (
     "consistent with insect damage, which is outside the diagnostic scope of this system"
 )
 INSECT_OUT_OF_SCOPE_TARGET = "insect damage, out of scope"
+
+# Signs belonging to plant diseases outside the six in-scope classes (e.g. sheath blight,
+# stem rot, bacterial panicle blight, bacterial leaf streak, white tip).
+NON_MODELED_PATHOGEN_SIGNS = [
+    "Leaf_Sheath_Lesions", "Stem_Rot_Lesions", "Grain_Discoloration",
+    "Chlorotic_Streaks", "Brown_Streaks", "Leaf_Bleaching",
+    "Whitened_Leaf_Tips", "Discolored_Roots", "Leaf_Desiccation",
+    "Leaf_Wilting"
+]
+
+NEGATIVE_CONTROL_OUT_OF_SCOPE_RESPONSE = (
+    "signs recorded, not consistent with any disease in scope"
+)
+NEGATIVE_CONTROL_OUT_OF_SCOPE_TARGET = "signs recorded, not consistent with any disease in scope"
 
 
 def insect_damage_evidence(symptoms):
@@ -130,15 +233,16 @@ def insect_damage_evidence(symptoms):
     return matched if len(matched) >= INSECT_GATE_MIN_SIGNS else []
 
 
+def negative_control_evidence(symptoms):
+    """Return non-modeled pathogen signs in `symptoms` that indicate an out-of-scope disease."""
+    return sorted(set(symptoms) & set(NON_MODELED_PATHOGEN_SIGNS))
+
+
 # Minimum Tier-2 antecedent coverage at which a non-firing rule is surfaced as a
-# `possible` diagnosis. Strict Horn-clause matching returns nothing when a single
-# antecedent is unobserved, which discards strong partial evidence; P0-1 specified an
-# ordinal grade set {confirmed, probable, possible} that was never implemented.
-# Calibrated on the field benchmark `dev` split only — see docs/ONTOLOGY.md.
+# `possible` diagnosis.
 POSSIBLE_COVERAGE_THRESHOLD = 0.5
 
 # Diagnosable scope narrowed to 6 evidence-backed classes with independent field cases.
-# Rice_Root_Nematode is retained as an in-scope parasitic nematode pest.
 PESTS = [
     "Rice_Root_Nematode"
 ]
@@ -150,9 +254,78 @@ DISEASES = [
 
 ALL_DIAGNOSES = PESTS + DISEASES
 
+# -------------------------------------------------------------------------
+# 4-F: Integrated Pest Management (IPM) Control Treatments (CQ08)
+# -------------------------------------------------------------------------
+CONTROL_TREATMENTS = {
+    "Rice_Root_Nematode": {
+        "id": "Control_Rice_Root_Nematode",
+        "name": "Integrated Management of Rice Root-Knot Nematode",
+        "threat": "Rice_Root_Nematode",
+        "treatment_type": "Cultural_and_Physical_Control",
+        "recommendation": "Continuous soil flooding in lowland paddies, crop rotation with non-host legumes (mungbean, sesbania), nursery bed solarization, and biological nematicides.",
+        "literature": "Bridge, J., Plowright, R.A. & Peng, D. (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI Publishing.",
+        "citation": "Bridge, J., Plowright, R.A. & Peng, D. (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI Publishing.",
+        "doi": "10.1079/9780851997278.0087"
+    },
+    "Bacterial_Leaf_Blight": {
+        "id": "Control_Bacterial_Leaf_Blight",
+        "name": "Integrated Management of Bacterial Leaf Blight",
+        "threat": "Bacterial_Leaf_Blight",
+        "treatment_type": "Chemical_and_Nutrient_Management",
+        "recommendation": "Use certified disease-free seed, balanced nitrogen fertilisation, resistant cultivars (IRBB lines), and preventative copper bactericide application at early tillering.",
+        "literature": "CABI Plantwise Knowledge Bank (2014), Management of bacterial leaf blight of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI.",
+        "citation": "CABI Plantwise Knowledge Bank (2014), Management of bacterial leaf blight of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI.",
+        "doi": "10.1079/pwkb.20147801451"
+    },
+    "False_Smut": {
+        "id": "Control_False_Smut",
+        "name": "Integrated Management of False Smut",
+        "threat": "False_Smut",
+        "treatment_type": "Chemical_and_Preventative_Control",
+        "recommendation": "Apply triazole fungicides (propiconazole, tebuconazole) at late booting stage, avoid excessive late-season nitrogen, and perform hot-water seed sanitation.",
+        "literature": "CABI Plantwise Knowledge Bank (2019), False smut of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI.",
+        "citation": "CABI Plantwise Knowledge Bank (2019), False smut of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI.",
+        "doi": "10.1079/pwkb.20197800044"
+    },
+    "Rice_Blast": {
+        "id": "Control_Rice_Blast",
+        "name": "Integrated Management of Rice Blast",
+        "threat": "Rice_Blast",
+        "treatment_type": "Chemical_and_Genetic_Control",
+        "recommendation": "Deploy multi-line resistant varieties, apply silicon soil amendments, avoid excessive nitrogen fertilization, and apply tricyclazole or azoxystrobin at panicle initiation.",
+        "literature": "Kunova et al. (2014), Sensitivity of Nonexposed and Exposed Populations of Magnaporthe oryzae from Rice to Tricyclazole and Azoxystrobin, Plant Disease 98(4):512-518; Ou, S.H. (1985), Rice Diseases, CMI.",
+        "citation": "Kunova et al. (2014), Sensitivity of Nonexposed and Exposed Populations of Magnaporthe oryzae from Rice to Tricyclazole and Azoxystrobin, Plant Disease 98(4):512-518; Ou, S.H. (1985), Rice Diseases, CMI.",
+        "doi": "10.1094/pdis-04-13-0432-re"
+    },
+    "Rice_Grassy_Stunt": {
+        "id": "Control_Rice_Grassy_Stunt",
+        "name": "Integrated Management of Rice Grassy Stunt Virus",
+        "threat": "Rice_Grassy_Stunt",
+        "treatment_type": "Vector_and_Cultural_Control",
+        "recommendation": "Manage the brown planthopper (BPH, Nilaparvata lugens) vector with synchronous planting, crop-free fallow periods, conservation of mirid predators (Cyrtorhinus lividipennis), and BPH-resistant cultivars.",
+        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor.",
+        "citation": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor.",
+        "doi": "10.1146/annurev.phyto.34.1.249"
+    },
+    "Rice_Tungro_Virus": {
+        "id": "Control_Rice_Tungro_Virus",
+        "name": "Integrated Management of Rice Tungro Virus",
+        "threat": "Rice_Tungro_Virus",
+        "treatment_type": "Vector_and_Cultural_Control",
+        "recommendation": "Control the green leafhopper (GLH, Nephotettix virescens) vector, practice synchronous planting, eradicate ratoon and weed reservoir hosts, and plant tungro-resistant cultivars.",
+        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor.",
+        "citation": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor.",
+        "doi": "10.1146/annurev.phyto.34.1.249"
+    }
+}
+
+# -------------------------------------------------------------------------
+# 4-C & 4-H: Rule Registry with Provable Subsumption & Verified Provenance
+# -------------------------------------------------------------------------
 RULE_REGISTRY = [
     # ---------------------------------------------------------------------
-    # Tier 1: Canonical Pathognomonic Rules (High Specificity, 100% Precision)
+    # Tier 1: Canonical Pathognomonic Rules (Strict Superset of Tier 2)
     # ---------------------------------------------------------------------
     {
         "id": "SWRL-R02",
@@ -160,10 +333,12 @@ RULE_REGISTRY = [
         "threat_type": "Pest",
         "tier": "tier1",
         "name": "Canonical Rice Root Nematode Diagnosis",
-        "antecedents": ["Hook_Like_Root_Swelling", "Root_Knot_Swelling", "Deformed_Roots", "Necrotic_Spots", "Yellowing_Leaves", "Stunted_Growth"],
+        "antecedents": ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves", "Root_Knot_Swelling", "Deformed_Roots", "Necrotic_Spots"],
         "consequent_property": "hasConfirmedPest",
         "flat_consequent_property": "hasPest",
-        "rationale": "Full root galling morphology, cortical necrosis, and secondary vegetative stunting."
+        "rationale": "Full root galling morphology, cortical necrosis, and secondary vegetative stunting.",
+        "literature": "Bridge, J., Plowright, R.A. & Peng, D. (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI Publishing.",
+        "doi": "10.1079/9780851997278.0087"
     },
     {
         "id": "SWRL-R06",
@@ -171,10 +346,12 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier1",
         "name": "Canonical Bacterial Leaf Blight Diagnosis",
-        "antecedents": ["Yellowing_Leaf_Veins", "Leaf_Discoloration_Yellow", "Yellowing_Leaf_Tips", "Uniform_Field_Infection", "Rapid_Disease_Spread"],
+        "antecedents": ["Water_Soaked_Lesions", "Yellowing_Leaf_Tips", "Yellowing_Leaf_Veins", "Leaf_Discoloration_Yellow", "Uniform_Field_Infection", "Rapid_Disease_Spread"],
         "consequent_property": "hasConfirmedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Systemic vascular yellowing along vein ridges with rapid epidemiological transmission across field."
+        "rationale": "Initial marginal water-soaked lesions developing systemic vascular yellowing and rapid epidemiological spread.",
+        "literature": "CABI Plantwise Knowledge Bank (2014), Management of bacterial leaf blight of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI.",
+        "doi": "10.1079/pwkb.20147801451"
     },
     {
         "id": "SWRL-R07",
@@ -185,7 +362,9 @@ RULE_REGISTRY = [
         "antecedents": ["Rusty_Grain_Balls", "Blackened_Grain_Balls", "Uniform_Field_Infection", "Rainy_Season_Outbreak", "Slight_Panicle_Infection", "Milky_Stage_Vulnerability"],
         "consequent_property": "hasConfirmedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Transformation of individual spikelets into yellow-orange velvety spore balls turning greenish-black."
+        "rationale": "Transformation of individual spikelets into yellow-orange velvety spore balls turning greenish-black during humid heading.",
+        "literature": "CABI Plantwise Knowledge Bank (2019), False smut of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI.",
+        "doi": "10.1079/pwkb.20197800044"
     },
     {
         "id": "SWRL-R08",
@@ -193,10 +372,12 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier1",
         "name": "Canonical Rice Blast Diagnosis",
-        "antecedents": ["Panicle_Neck_Rot", "Diamond_Shaped_Lesions", "Uniform_Field_Infection", "Infected_Seedlings"],
+        "antecedents": ["Diamond_Shaped_Lesions", "Necrotic_Spots", "Panicle_Neck_Rot", "Uniform_Field_Infection", "Infected_Seedlings"],
         "consequent_property": "hasConfirmedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Elliptical spindle/diamond lesions with necrotic panicle neck rot caused by Magnaporthe oryzae."
+        "rationale": "Elliptical diamond foliar lesions with necrotic centres accompanied by panicle neck rot caused by Pyricularia oryzae.",
+        "literature": "Kunova et al. (2014), Sensitivity of Nonexposed and Exposed Populations of Magnaporthe oryzae from Rice to Tricyclazole and Azoxystrobin, Plant Disease 98(4):512-518; Ou, S.H. (1985), Rice Diseases, CMI.",
+        "doi": "10.1094/pdis-04-13-0432-re"
     },
     {
         "id": "SWRL-R09",
@@ -204,10 +385,12 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier1",
         "name": "Canonical Rice Grassy Stunt Virus Diagnosis",
-        "antecedents": ["Brown_Planthopper_Present", "Necrotic_Spots", "Severe_Stunting", "No_Panicle_Formation"],
+        "antecedents": ["Severe_Stunting", "Excessive_Tillering", "Brown_Planthopper_Present", "Necrotic_Spots", "No_Panicle_Formation"],
         "consequent_property": "hasConfirmedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Excessive profuse tillering, severe dwarfing, heading suppression, and confirmed BPH vector presence."
+        "rationale": "Excessive profuse tillering, severe dwarfing, heading suppression, and confirmed Nilaparvata lugens vector presence.",
+        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274.",
+        "doi": "10.1146/annurev.phyto.34.1.249"
     },
     {
         "id": "SWRL-R10",
@@ -215,14 +398,16 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier1",
         "name": "Canonical Rice Tungro Virus Diagnosis",
-        "antecedents": ["Green_Leafhopper_Present", "Necrotic_Spots", "Yellowing_Leaves", "Whitehead_Empty_Panicles"],
+        "antecedents": ["Stunted_Growth", "Orange_Leaf_Discoloration", "Green_Leafhopper_Present", "Necrotic_Spots", "Yellowing_Leaves", "Whitehead_Empty_Panicles"],
         "consequent_property": "hasConfirmedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Foliar yellow-orange discoloration, delayed flowering, empty panicles, and active Nephotettix virescens."
+        "rationale": "Stunting with characteristic yellow-orange discoloration from leaf tips, empty panicles, and Nephotettix virescens presence.",
+        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274.",
+        "doi": "10.1146/annurev.phyto.34.1.249"
     },
 
     # ---------------------------------------------------------------------
-    # Tier 2: Relaxed Composite Rules (High Sensitivity, Partial Scouting)
+    # Tier 2: Relaxed Composite Rules (Partial Scouting, High Sensitivity)
     # ---------------------------------------------------------------------
     {
         "id": "SWRL-R12",
@@ -233,8 +418,9 @@ RULE_REGISTRY = [
         "antecedents": ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves"],
         "consequent_property": "hasSuspectedPest",
         "flat_consequent_property": "hasPest",
-        "rationale": "Root galling with hooked tips accompanied by above-ground stunting and chlorosis. The previous antecedent set required two distinct gall morphologies (hook-like and knot) to be recorded simultaneously, which conflates Hirschmanniella and Meloidogyne damage and is rarely reported together.",
-        "literature": "Bridge, Plowright & Peng (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI; IRRI Rice Doctor, root-knot nematode fact sheet."
+        "rationale": "Root galling with hooked tips accompanied by above-ground stunting and chlorosis.",
+        "literature": "Bridge, J., Plowright, R.A. & Peng, D. (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI Publishing.",
+        "doi": "10.1079/9780851997278.0087"
     },
     {
         "id": "SWRL-R16",
@@ -245,8 +431,9 @@ RULE_REGISTRY = [
         "antecedents": ["Water_Soaked_Lesions", "Yellowing_Leaf_Tips"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Water-soaked lesions beginning at the leaf tip or margin and progressing along it. Uniform_Field_Infection described the stand rather than the plant. Bacterial_Ooze was tried and withdrawn: exudate is a genus-level sign shared with X. oryzicola, Burkholderia and Pantoea, so it cannot discriminate bacterial blight from the other bacterial diseases of rice. Tip and margin onset is the discriminating feature against the interveinal streaking of bacterial leaf streak.",
-        "literature": "Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI, pp. 61-96; IRRI Rice Doctor, bacterial blight fact sheet."
+        "rationale": "Water-soaked lesions beginning at the leaf tip or margin and progressing longitudinally.",
+        "literature": "CABI Plantwise Knowledge Bank (2014), Management of bacterial leaf blight of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI.",
+        "doi": "10.1079/pwkb.20147801451"
     },
     {
         "id": "SWRL-R17",
@@ -257,7 +444,9 @@ RULE_REGISTRY = [
         "antecedents": ["Rusty_Grain_Balls", "Blackened_Grain_Balls"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Presence of mature and immature chlamydospore smut balls replacing grain kernels."
+        "rationale": "Presence of mature and immature chlamydospore smut balls replacing grain kernels.",
+        "literature": "CABI Plantwise Knowledge Bank (2019), False smut of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI.",
+        "doi": "10.1079/pwkb.20197800044"
     },
     {
         "id": "SWRL-R18",
@@ -268,8 +457,9 @@ RULE_REGISTRY = [
         "antecedents": ["Diamond_Shaped_Lesions", "Necrotic_Spots"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Diamond or spindle-shaped leaf lesions with necrotic centres. The previous antecedent set required the leaf phase and the panicle-neck phase to be present at once; these are distinct phenological phases of the same pathogen and are rarely reported together.",
-        "literature": "Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI, pp. 109-201; IRRI Rice Doctor, rice blast fact sheet."
+        "rationale": "Diamond or spindle-shaped leaf lesions with necrotic centres.",
+        "literature": "Kunova et al. (2014), Sensitivity of Nonexposed and Exposed Populations of Magnaporthe oryzae from Rice to Tricyclazole and Azoxystrobin, Plant Disease 98(4):512-518; Ou, S.H. (1985), Rice Diseases, CMI.",
+        "doi": "10.1094/pdis-04-13-0432-re"
     },
     {
         "id": "SWRL-R19",
@@ -280,8 +470,9 @@ RULE_REGISTRY = [
         "antecedents": ["Severe_Stunting", "Excessive_Tillering"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Severe stunting together with excessive tillering. Vector presence was withdrawn because it makes diagnosis contingent on entomological sampling. Stunting with mottling was tried and withdrawn: both signs are shared across rice viruses. Excessive tillering discriminates grassy stunt from tungro, which reduces tillering.",
-        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor, rice grassy stunt fact sheet."
+        "rationale": "Severe stunting together with excessive tillering, separating grassy stunt from tungro.",
+        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274.",
+        "doi": "10.1146/annurev.phyto.34.1.249"
     },
     {
         "id": "SWRL-R20",
@@ -292,8 +483,9 @@ RULE_REGISTRY = [
         "antecedents": ["Stunted_Growth", "Orange_Leaf_Discoloration"],
         "consequent_property": "hasSuspectedDisease",
         "flat_consequent_property": "hasDisease",
-        "rationale": "Stunting with the characteristic yellow-orange leaf discoloration progressing from the tip. Vector presence was withdrawn as for grassy stunt. Interveinal chlorosis was tried and withdrawn: it is shared with other rice viruses, whereas the orange cast is the tungro hallmark.",
-        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor, rice tungro fact sheet."
+        "rationale": "Stunting with characteristic yellow-orange leaf discoloration progressing from the tip.",
+        "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274.",
+        "doi": "10.1146/annurev.phyto.34.1.249"
     },
 ]
 
@@ -314,7 +506,9 @@ for r in RULE_REGISTRY:
         "tier_badge": badge,
         "antecedents": r["antecedents"],
         "formula": formula,
-        "rationale": r["rationale"]
+        "rationale": r["rationale"],
+        "literature": r.get("literature", ""),
+        "doi": r.get("doi", "")
     }
 
 
@@ -325,7 +519,7 @@ for r in RULE_REGISTRY:
 def build_ontology(enabled_tiers=None, flat_consequents=False, world=None):
     """
     Constructs a RiceKG OWL 2 DL ontology in an isolated owlready2.World()
-    with only the specified SWRL rule tiers loaded.
+    with Defined Classes and symptom taxonomies.
 
     :param enabled_tiers: Set of tiers to include, e.g. {"tier1"}, {"tier2"}, or {"tier1", "tier2"}.
                           If None, defaults to {"tier1", "tier2"}.
@@ -345,8 +539,35 @@ def build_ontology(enabled_tiers=None, flat_consequents=False, world=None):
         class Rice(Thing):
             namespace = onto
 
-        class Symptom(Thing):
+        class Observation(Thing):
             namespace = onto
+
+        class Symptom(Observation):
+            namespace = onto
+
+        class OrganismSighting(Observation):
+            namespace = onto
+
+        class VectorSighting(Observation):
+            namespace = onto
+
+        class EpidemiologicalContext(Observation):
+            namespace = onto
+
+        # Anatomical Axis
+        class LeafSign(Symptom): namespace = onto
+        class StemSign(Symptom): namespace = onto
+        class RootSign(Symptom): namespace = onto
+        class PanicleSign(Symptom): namespace = onto
+        class GrainSign(Symptom): namespace = onto
+        class WholePlantSign(Symptom): namespace = onto
+
+        # Phenomenological Axis
+        class Chlorosis(Symptom): namespace = onto
+        class Necrosis(Symptom): namespace = onto
+        class Stunting(Symptom): namespace = onto
+        class MechanicalDamage(Symptom): namespace = onto
+        class GrainAbnormality(Symptom): namespace = onto
 
         class Threat(Thing):
             namespace = onto
@@ -363,70 +584,193 @@ def build_ontology(enabled_tiers=None, flat_consequents=False, world=None):
         class OutOfScopeSign(Symptom):
             namespace = onto
 
-        class InsectDamageSign(OutOfScopeSign):
+        class InsectDamageSign(OutOfScopeSign, MechanicalDamage):
             namespace = onto
 
-        # Object Properties hierarchy
-        class hasSymptom(Rice >> Symptom):
+        # Observation Property Hierarchy (4-A)
+        class hasObservation(Rice >> Observation):
+            namespace = onto
+
+        class hasSymptom(hasObservation):
+            namespace = onto
             domain = [Rice]
             range = [Symptom]
 
-        class hasThreat(Rice >> Threat):
+        class hasOrganismSighting(hasObservation):
+            namespace = onto
             domain = [Rice]
-            range = [Threat]
+            range = [OrganismSighting]
+
+        class hasVectorSighting(hasObservation):
+            namespace = onto
+            domain = [Rice]
+            range = [VectorSighting]
+
+        class hasEpidemiologicalContext(hasObservation):
+            namespace = onto
+            domain = [Rice]
+            range = [EpidemiologicalContext]
+
+        # Threat Property Hierarchy
+        class hasThreat(Rice >> Threat):
+            namespace = onto
 
         class hasConfirmedThreat(hasThreat):
+            namespace = onto
             domain = [Rice]
             range = [Threat]
 
         class hasSuspectedThreat(hasThreat):
+            namespace = onto
             domain = [Rice]
             range = [Threat]
 
         class hasDisease(hasThreat):
+            namespace = onto
             domain = [Rice]
             range = [Disease]
 
         class hasPest(hasThreat):
+            namespace = onto
             domain = [Rice]
             range = [Pest]
 
         class hasConfirmedPest(hasConfirmedThreat, hasPest):
+            namespace = onto
             domain = [Rice]
             range = [Pest]
 
         class hasSuspectedPest(hasSuspectedThreat, hasPest):
+            namespace = onto
             domain = [Rice]
             range = [Pest]
 
         class hasConfirmedDisease(hasConfirmedThreat, hasDisease):
+            namespace = onto
             domain = [Rice]
             range = [Disease]
 
         class hasSuspectedDisease(hasSuspectedThreat, hasDisease):
+            namespace = onto
             domain = [Rice]
             range = [Disease]
 
-        # Instantiate all known symptom individuals.
-        # The 21 insect-only terms are typed as InsectDamageSign (subclass of Symptom).
-        for s_name in ALL_SYMPTOMS:
-            if s_name in INSECT_DAMAGE_SIGNS:
-                InsectDamageSign(s_name, namespace=onto)
-            else:
-                Symptom(s_name, namespace=onto)
+        class hasControlTreatment(Threat >> ControlTreatment):
+            namespace = onto
 
-        # Instantiate all threat individuals
+        class hasDiagnosticConfidence(Rice >> str):
+            namespace = onto
+
+        # Instantiate observations with taxonomy typing (4-A & 4-B)
+        obs_individuals = {}
+        for s_name in ALL_SYMPTOMS:
+            prop_name = OBSERVATION_CATEGORIES.get(s_name, "hasSymptom")
+            types_list = []
+
+            if prop_name == "hasOrganismSighting":
+                types_list.append(OrganismSighting)
+            elif prop_name == "hasVectorSighting":
+                types_list.append(VectorSighting)
+            elif prop_name == "hasEpidemiologicalContext":
+                types_list.append(EpidemiologicalContext)
+            else:
+                types_list.append(Symptom)
+                tax = SYMPTOM_TAXONOMY.get(s_name, {})
+                anat = tax.get("anatomical")
+                phen = tax.get("phenomenological")
+                if anat and hasattr(onto, anat):
+                    types_list.append(getattr(onto, anat))
+                if phen and hasattr(onto, phen):
+                    types_list.append(getattr(onto, phen))
+                if s_name in INSECT_DAMAGE_SIGNS:
+                    types_list.append(InsectDamageSign)
+
+            inst = types_list[0](s_name, namespace=onto)
+            for extra_type in types_list[1:]:
+                inst.is_a.append(extra_type)
+            obs_individuals[s_name] = inst
+
+        AllDifferent(list(obs_individuals.values()))
+
+        # Instantiate Control Treatments (CQ08)
+        control_individuals = {}
+        for threat_key, c_data in CONTROL_TREATMENTS.items():
+            c_inst = ControlTreatment(c_data["id"], namespace=onto)
+            control_individuals[threat_key] = c_inst
+
+        # Instantiate Threat individuals
+        threat_individuals = {}
         for p_name in PESTS:
-            Pest(p_name, namespace=onto)
+            p_inst = Pest(p_name, namespace=onto)
+            threat_individuals[p_name] = p_inst
 
         for d_name in DISEASES:
-            Disease(d_name, namespace=onto)
+            d_inst = Disease(d_name, namespace=onto)
+            threat_individuals[d_name] = d_inst
 
-        # Load SWRL rules according to enabled tiers
+        AllDifferent(list(threat_individuals.values()))
+        AllDisjoint([Pest, Disease])
+
+        # Link Control Treatments and Antecedents (CQ08, CQ10)
+        for t_name, t_inst in threat_individuals.items():
+            if t_name in control_individuals:
+                t_inst.hasControlTreatment = [control_individuals[t_name]]
+            t1_meta = SWRL_RULES_METADATA.get(t_name, {}).get("tier1", {})
+            canonical_ants = t1_meta.get("antecedents", [])
+            t_inst.hasSymptom = [obs_individuals[a] for a in canonical_ants if a in obs_individuals]
+
+        # -------------------------------------------------------------
+        # Defined Classes for DL Reasoning & Machine-Provable Subsumption (4-C)
+        # -------------------------------------------------------------
+        for t_name, t_inst in threat_individuals.items():
+            meta = SWRL_RULES_METADATA.get(t_name, {})
+            t1_ants = meta.get("tier1", {}).get("antecedents", [])
+            t2_ants = meta.get("tier2", {}).get("antecedents", [])
+            flat_prop = hasPest if t_name in PESTS else hasDisease
+
+            # Tier 2 Suspect Defined Class
+            if "tier2" in enabled_tiers:
+                susp_prop = flat_prop if flat_consequents else (hasSuspectedPest if t_name in PESTS else hasSuspectedDisease)
+                susp_expr = Rice
+                for a in t2_ants:
+                    if a in obs_individuals:
+                        susp_expr = susp_expr & hasObservation.value(obs_individuals[a])
+
+                susp_cls_name = f"{t_name}Suspect"
+                susp_cls = types.new_class(susp_cls_name, (Rice,))
+                susp_cls.equivalent_to = [susp_expr]
+                susp_cls.is_a.append(susp_prop.value(t_inst))
+
+            # Tier 1 Confirmed Defined Class (Strict superset of Tier 2)
+            if "tier1" in enabled_tiers:
+                conf_prop = flat_prop if flat_consequents else (hasConfirmedPest if t_name in PESTS else hasConfirmedDisease)
+                conf_expr = Rice
+                for a in t1_ants:
+                    if a in obs_individuals:
+                        conf_expr = conf_expr & hasObservation.value(obs_individuals[a])
+
+                conf_cls_name = f"{t_name}Confirmed"
+                conf_cls = types.new_class(conf_cls_name, (Rice,))
+                conf_cls.equivalent_to = [conf_expr]
+                conf_cls.is_a.append(conf_prop.value(t_inst))
+
+            # Tier 3 Possible Defined Class (Qualified Cardinality, 4-D)
+            k = max(1, int(math.ceil(len(t2_ants) * POSSIBLE_COVERAGE_THRESHOLD)))
+            obs_cls_name = f"{t_name}Observation"
+            obs_cls = types.new_class(obs_cls_name, (Observation,))
+            for a in t2_ants:
+                if a in obs_individuals:
+                    obs_individuals[a].is_a.append(obs_cls)
+
+            poss_cls_name = f"{t_name}Possible"
+            poss_cls = types.new_class(poss_cls_name, (Rice,))
+            poss_cls.equivalent_to = [Rice & hasObservation.min(k, obs_cls)]
+
+        # Backward-compatible SWRL rules according to enabled tiers
         for r_meta in RULE_REGISTRY:
             if r_meta["tier"] in enabled_tiers:
                 consequent_prop = r_meta["flat_consequent_property"] if flat_consequents else r_meta["consequent_property"]
-                body_atoms = " ^ ".join(f"hasSymptom(?Rice, {ant})" for ant in r_meta["antecedents"])
+                body_atoms = " ^ ".join(f"hasObservation(?Rice, {ant})" for ant in r_meta["antecedents"])
                 rule_str = f"{body_atoms} -> {consequent_prop}(?Rice, {r_meta['threat']})"
                 rule_imp = Imp()
                 rule_imp.set_as_rule(rule_str)
@@ -452,24 +796,20 @@ Rice_Tungro_Virus = getattr(onto, "Rice_Tungro_Virus", None)
 
 
 # =========================================================================
-# Pellet DL Reasoning Engine
+# Pellet DL Reasoning Engine & Graded Classification
 # =========================================================================
 
 def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
     """
-    Infers rice pests and diseases using SWRL reasoning with confidence-graded output.
-
-    Creates a temporary Rice individual in the target ontology, attaches observed
-    symptoms, executes Pellet DL forward-chaining inference, extracts inferred
-    properties, and returns ranked, graded diagnoses.
+    Infers rice pests and diseases using Description Logic defined class classification
+    and Pellet forward-chaining inference with confidence-graded output.
 
     :param symptoms: List of symptom identifier strings (English).
     :param flat: If True, returns List[str] of threat names for backwards compatibility.
     :param onto: Optional owlready2.Ontology instance (defaults to global module ontology).
     :param include_possible: When True, also surface threats whose Tier-2 antecedent
         coverage reaches POSSIBLE_COVERAGE_THRESHOLD but whose rule did not fire, graded
-        `possible`. Off by default so that the v1 API and predict_diseases_flat keep
-        their existing behaviour exactly.
+        `possible`.
     :return: List of dicts (or List[str] if flat=True).
     """
     target_onto = onto if onto is not None else globals()["onto"]
@@ -477,6 +817,7 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
     new_plant = target_onto.Rice(plant_id, namespace=target_onto)
     created_symptoms = []
     input_symptom_set = set()
+    observed_objs = []
 
     try:
         for symptom_name in symptoms:
@@ -488,16 +829,40 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
             if symptom_obj is None:
                 symptom_obj = target_onto.Symptom(symptom_name, namespace=target_onto)
                 created_symptoms.append(symptom_obj)
-            new_plant.hasSymptom.append(symptom_obj)
+
+            observed_objs.append(symptom_obj)
+            new_plant.hasObservation.append(symptom_obj)
+
+            # Assign to specific subproperty based on evidence category (4-A)
+            prop_name = OBSERVATION_CATEGORIES.get(symptom_name, "hasSymptom")
+            if hasattr(new_plant, prop_name):
+                getattr(new_plant, prop_name).append(symptom_obj)
+
+        if observed_objs:
+            AllDifferent(observed_objs)
 
         sync_reasoner_pellet(x=target_onto.world, infer_property_values=True, infer_data_property_values=True)
 
+        # Inferred classes & relations
+        all_inferred_classes = set(new_plant.is_a) | set(new_plant.INDIRECT_is_a)
         confirmed_names = {t.name for t in getattr(new_plant, "hasConfirmedThreat", [])}
         suspected_names = {t.name for t in getattr(new_plant, "hasSuspectedThreat", [])}
         flat_threat_names = {t.name for t in (list(getattr(new_plant, "hasPest", [])) + list(getattr(new_plant, "hasDisease", [])))}
+
+        # Also inspect direct/indirect defined class membership
+        for t_name in ALL_DIAGNOSES:
+            conf_cls = getattr(target_onto, f"{t_name}Confirmed", None)
+            susp_cls = getattr(target_onto, f"{t_name}Suspect", None)
+            if conf_cls and conf_cls in all_inferred_classes:
+                confirmed_names.add(t_name)
+            elif susp_cls and susp_cls in all_inferred_classes:
+                suspected_names.add(t_name)
+
         all_threat_names = confirmed_names | suspected_names | flat_threat_names
 
         results = []
+        highest_grade = "unstratified"
+
         for t_name in all_threat_names:
             meta = SWRL_RULES_METADATA.get(t_name, {})
             t1_meta = meta.get("tier1", {})
@@ -516,12 +881,14 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
                     fired.append(t1_meta["rule_id"])
                 if t2_meta.get("rule_id"):
                     fired.append(t2_meta["rule_id"])
+                highest_grade = "confirmed"
             elif t_name in suspected_names:
                 grade = "suspected"
                 confidence = 0.9714
                 fired = [t2_meta["rule_id"]] if t2_meta.get("rule_id") else []
+                if highest_grade != "confirmed":
+                    highest_grade = "suspected"
             else:
-                # Flat unstratified rule inference
                 grade = "unstratified"
                 confidence = 1.0
                 fired = ["SWRL-FLAT"]
@@ -537,31 +904,35 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
             })
 
         if include_possible:
-            # Strict subset matching yields nothing when one antecedent is unobserved.
-            # Score the Tier-2 rules that did not fire and surface the strongest partial
-            # evidence as a weaker grade, keeping the matched and unmet antecedents visible
-            # so the derivation stays auditable.
             for t_name, meta in SWRL_RULES_METADATA.items():
                 if t_name in all_threat_names:
                     continue
                 t2_ants = meta.get("tier2", {}).get("antecedents", [])
                 if not t2_ants:
                     continue
+
+                poss_cls = getattr(target_onto, f"{t_name}Possible", None)
                 matched = [s for s in t2_ants if s in input_symptom_set]
                 coverage = round(len(matched) / len(t2_ants), 4)
-                if coverage < POSSIBLE_COVERAGE_THRESHOLD or not matched:
-                    continue
-                results.append({
-                    "threat": t_name,
-                    "grade": "possible",
-                    "confidence": round(0.5 * coverage, 4),
-                    "antecedent_coverage": coverage,
-                    "fired_rules": [],
-                    "matched_symptoms": matched,
-                    "missing_symptoms": [s for s in t2_ants if s not in input_symptom_set]
-                })
 
-        # If no in-scope threats diagnosed, check if observed symptoms indicate out-of-scope insect damage
+                if coverage >= POSSIBLE_COVERAGE_THRESHOLD and matched:
+                    results.append({
+                        "threat": t_name,
+                        "grade": "possible",
+                        "confidence": round(0.5 * coverage, 4),
+                        "antecedent_coverage": coverage,
+                        "fired_rules": [],
+                        "matched_symptoms": matched,
+                        "missing_symptoms": [s for s in t2_ants if s not in input_symptom_set]
+                    })
+                    if highest_grade not in ("confirmed", "suspected"):
+                        highest_grade = "possible"
+
+        # Assert diagnostic confidence datatype property into the ontology graph (CQ09)
+        if results:
+            new_plant.hasDiagnosticConfidence = [highest_grade]
+
+        # Negative controls and Out-of-Scope differential diagnosis (4-J & 5-B)
         if not results:
             insect_matched = insect_damage_evidence(input_symptom_set)
             if insect_matched:
@@ -575,13 +946,26 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
                     "missing_symptoms": [],
                     "message": INSECT_OUT_OF_SCOPE_RESPONSE
                 })
+            else:
+                neg_matched = negative_control_evidence(input_symptom_set)
+                if neg_matched:
+                    results.append({
+                        "threat": NEGATIVE_CONTROL_OUT_OF_SCOPE_TARGET,
+                        "grade": "out_of_scope",
+                        "confidence": 0.0,
+                        "antecedent_coverage": 0.0,
+                        "fired_rules": [],
+                        "matched_symptoms": neg_matched,
+                        "missing_symptoms": [],
+                        "message": NEGATIVE_CONTROL_OUT_OF_SCOPE_RESPONSE
+                    })
 
         # Rank: confirmed first, then antecedent coverage desc, then name
         grade_rank = {"confirmed": 3, "unstratified": 2, "suspected": 2, "possible": 1, "out_of_scope": 0}
         results.sort(key=lambda x: (grade_rank.get(x["grade"], 0), x["antecedent_coverage"], x["threat"]), reverse=True)
 
         if flat:
-            return [item["threat"] for item in results]
+            return [item["threat"] for item in results if item.get("grade") != "out_of_scope"]
         return results
 
     finally:
@@ -628,7 +1012,6 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
     candidate_rules_by_threat = {}
     evaluated_rules_trace = []
 
-    # Map diagnosed threats and grades if provided
     diagnosed_map = {}
     if diagnosed_threats:
         for item in diagnosed_threats:
@@ -637,7 +1020,7 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
             else:
                 diagnosed_map[str(item)] = {"threat": str(item), "grade": "confirmed", "confidence": 1.0}
 
-    # Evaluate all 20 production rules in standard stratified execution order (Tier 1 then Tier 2)
+    # Evaluate all production rules in standard stratified execution order (Tier 1 then Tier 2)
     for rule in RULE_REGISTRY:
         threat = rule["threat"]
         antecedents = rule["antecedents"]
@@ -661,8 +1044,10 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
             "antecedents": antecedents,
             "satisfied_antecedents": satisfied,
             "unmet_antecedents": unmet,
-            "formula": " ^ ".join(f"hasSymptom(?Rice, {a})" for a in antecedents) + f" -> {rule['consequent_property']}(?Rice, {threat})",
-            "rationale": rule.get("rationale", "")
+            "formula": " ∧ ".join(f"hasObservation(?Rice, {a})" for a in antecedents) + f" → {rule['consequent_property']}(?Rice, {threat})",
+            "rationale": rule.get("rationale", ""),
+            "literature": rule.get("literature", ""),
+            "doi": rule.get("doi", "")
         }
 
         evaluated_rules_trace.append(trace_entry)
@@ -724,7 +1109,7 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
                 premises.append({
                     "symptom_id": ant,
                     "symptom_name": ant.replace("_", " "),
-                    "predicate": f"hasSymptom(Rice_Sample, {ant})",
+                    "predicate": f"hasObservation(Rice_Sample, {ant})",
                     "observed": observed,
                     "status": "SATISFIED" if observed else "UNMET"
                 })
@@ -767,31 +1152,20 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
     """
     Generates explainable deductive proof traces for all inferred diagnoses.
     Identifies whether Tier 1 (canonical) or Tier 2 (relaxed) rule fired,
-    maps observed vs unobserved rule antecedents, and attaches full proof trees.
+    and maps observed vs unobserved rule antecedents.
 
     :param selected_symptoms: List of user-selected symptom ID strings.
-    :param diagnosed_threats: List of diagnosed threat key strings or result dicts.
+    :param diagnosed_threats: List of diagnosed threat key strings or dicts.
     :return: Dictionary mapping threat key to proof trace explanation.
     """
     selected_set = set(selected_symptoms)
     explanations = {}
 
-    trace_data = get_derivation_trace(selected_symptoms, diagnosed_threats)
-    proof_trees = trace_data["proof_trees"]
-
-    threat_items = []
     for item in diagnosed_threats:
-        if isinstance(item, dict) and "threat" in item:
-            threat_items.append((item["threat"], item))
-        else:
-            threat_items.append((str(item), None))
-
-    for threat_key, diag_dict in threat_items:
-        proof_tree = proof_trees.get(threat_key)
+        threat_key = item["threat"] if isinstance(item, dict) and "threat" in item else str(item)
         meta = SWRL_RULES_METADATA.get(threat_key)
-
         if not meta:
-            if threat_key == INSECT_OUT_OF_SCOPE_TARGET or (diag_dict and diag_dict.get("grade") == "out_of_scope"):
+            if threat_key == INSECT_OUT_OF_SCOPE_TARGET:
                 explanations[threat_key] = {
                     "rule_id": "OUT-OF-SCOPE-INSECT",
                     "name": "Insect Damage (Outside Diagnostic Scope)",
@@ -799,35 +1173,45 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
                     "tier_badge": "tier-relaxed",
                     "formula": f"≥{INSECT_GATE_MIN_SIGNS} distinct insect-specific signs ∧ no in-scope rule fires → OutOfScope(?Rice)",
                     "rationale": INSECT_OUT_OF_SCOPE_RESPONSE,
-                    "antecedents_status": [{"symptom": s, "symptom_name": s.replace("_", " "), "observed": True} for s in insect_damage_evidence(selected_symptoms)],
-                    "proof_tree": proof_tree
+                    "antecedents_status": [{"symptom": s, "symptom_name": s.replace("_", " "), "observed": True} for s in insect_damage_evidence(selected_symptoms)]
+                }
+                continue
+            elif threat_key == NEGATIVE_CONTROL_OUT_OF_SCOPE_TARGET:
+                explanations[threat_key] = {
+                    "rule_id": "OUT-OF-SCOPE-DISEASE",
+                    "name": "Non-Modeled Pathogen Signs (Outside Diagnostic Scope)",
+                    "tier": "Scope Boundary Assessment",
+                    "tier_badge": "tier-relaxed",
+                    "formula": "NonModeledPathogenSign(?s) ∧ hasObservation(?Rice, ?s) ∧ no in-scope rule fires → NegativeControl(?Rice)",
+                    "rationale": NEGATIVE_CONTROL_OUT_OF_SCOPE_RESPONSE,
+                    "antecedents_status": [{"symptom": s, "symptom_name": s.replace("_", " "), "observed": True} for s in negative_control_evidence(selected_symptoms)]
                 }
                 continue
 
             explanations[threat_key] = {
-                "rule_id": "SWRL-GENERIC",
-                "name": f"Deductive Rule for {threat_key.replace('_', ' ')}",
-                "tier": "First-Order Logic Inference",
+                "rule_id": "DL-CLASSIFICATION",
+                "name": f"Deductive Classification for {threat_key.replace('_', ' ')}",
+                "tier": "Description Logic Inference",
                 "tier_badge": "tier-relaxed",
-                "formula": f"hasSymptom(?Rice, ...) → hasThreat(?Rice, {threat_key})",
-                "rationale": "Inferred via Pellet description logic tableau algorithm.",
-                "antecedents_status": [{"symptom": s, "observed": True} for s in selected_symptoms],
-                "proof_tree": proof_tree
+                "formula": f"hasObservation(?Rice, ...) → {threat_key}(?Rice)",
+                "rationale": "Inferred via Pellet description logic tableau classification.",
+                "antecedents_status": [{"symptom": s, "symptom_name": s.replace("_", " "), "observed": True} for s in selected_symptoms]
             }
             continue
 
-        t1 = meta["tier1"]
-        t2 = meta["tier2"]
+        # Check if Tier 1 (canonical) rule fully satisfied
+        t1 = meta.get("tier1", {})
+        t2 = meta.get("tier2", {})
 
-        if diag_dict and "grade" in diag_dict:
-            t1_satisfied = (diag_dict["grade"] == "confirmed")
+        if isinstance(item, dict) and "grade" in item:
+            t1_satisfied = (item["grade"] == "confirmed")
         else:
-            t1_satisfied = all(ant in selected_set for ant in t1["antecedents"])
+            t1_satisfied = all(ant in selected_set for ant in t1.get("antecedents", []))
 
-        active_rule = t1 if t1_satisfied else t2
+        active_rule = t1 if (t1_satisfied and t1) else t2
 
         ant_status = []
-        for ant in active_rule["antecedents"]:
+        for ant in active_rule.get("antecedents", []):
             ant_status.append({
                 "symptom": ant,
                 "symptom_name": ant.replace("_", " "),
@@ -835,17 +1219,18 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
             })
 
         explanations[threat_key] = {
-            "rule_id": active_rule["rule_id"],
-            "name": active_rule["name"],
-            "tier": active_rule["tier"],
-            "tier_badge": active_rule["tier_badge"],
-            "formula": active_rule["formula"],
-            "rationale": active_rule["rationale"],
-            "antecedents": active_rule["antecedents"],
+            "rule_id": active_rule.get("rule_id", ""),
+            "name": active_rule.get("name", ""),
+            "tier": active_rule.get("tier", ""),
+            "tier_badge": active_rule.get("tier_badge", "tier-relaxed"),
+            "formula": active_rule.get("formula", ""),
+            "rationale": active_rule.get("rationale", ""),
+            "literature": active_rule.get("literature", ""),
+            "doi": active_rule.get("doi", ""),
+            "antecedents": active_rule.get("antecedents", []),
             "antecedents_status": ant_status,
-            "rule_level": "Tier 1 (Canonical)" if t1_satisfied else "Tier 2 (Relaxed Composite)",
-            "proof_tree": proof_tree,
-            "candidate_rules": trace_data["candidate_rules_by_threat"].get(threat_key, [])
+            "rule_level": "Tier 1 (Canonical)" if t1_satisfied else "Tier 2 (Relaxed Composite)"
         }
 
     return explanations
+

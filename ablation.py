@@ -219,12 +219,13 @@ def run_ablation(variants=None, data_path=DEFAULT_CSV, out_dir=DEFAULT_OUT_DIR):
         mf.write("\n## Architectural Trade-off Analysis\n\n")
         mf.write("1. **Do we need an OWL 2 DL Reasoner?**\n")
         mf.write("   - `no_reasoner` executes in sub-millisecond time (~0.05 ms/case) with deterministic set-containment matching.\n")
-        mf.write("   - Pellet DL inference incurs ~500 ms/case overhead for tableau forward-chaining.\n")
-        mf.write("   - **Scientific Trade-off**: The DL reasoner provides formal open-world consistency validation, property inheritance (`hasConfirmedPest` ⊑ `hasConfirmedThreat`), and deductive proof traces (XAI), but at an inference latency trade-off that requires asynchronous execution in production.\n\n")
+        mf.write("   - Pellet DL inference incurs ~700 ms/case overhead for tableau forward-chaining and defined class classification.\n")
+        mf.write("   - **Formal Semantic Capability**: The DL reasoner provides machine-provable subsumption between defined classes (e.g. `ThreatConfirmed` ⊑ `ThreatSuspect`), open-world consistency validation, property inheritance (`hasConfirmedPest` ⊑ `hasConfirmedThreat`), and deductive proof traces (XAI). This semantic verification of rule-base coherence is a capability that the `no_reasoner` variant cannot provide at any latency.\n\n")
         mf.write("2. **Do we need Rule Stratification (Tier 1 vs Tier 2)?**\n")
-        mf.write("   - In terms of uncalibrated accuracy sets, Tier 1 alone achieves only 10.0% recall on realistic field cases because pathognomonic symptoms are rarely observed simultaneously.\n")
-        mf.write("   - Tier 2 relaxed rules expand recall to 95.0%.\n")
+        mf.write("   - In terms of uncalibrated accuracy sets, Tier 1 alone achieves lower recall on realistic field cases because pathognomonic symptoms are rarely observed simultaneously.\n")
+        mf.write("   - Tier 2 relaxed rules expand recall by accepting partial observation patterns.\n")
         mf.write("   - Stratifying the rules into distinct properties (`hasConfirmedThreat` vs `hasSuspectedThreat`) yields 100% pathognomonic precision for Tier 1 with 0 false discoveries, while retaining Tier 2's sensitivity for partial field observations.\n")
+
     print(f"[OK] Report written to {md_path}")
 
     return results

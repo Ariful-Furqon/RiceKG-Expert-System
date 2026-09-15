@@ -123,13 +123,13 @@ To prevent evaluation circularity, the two datasets are reported separately and 
 
 ### Benchmark 1: Deductive Verification Suite (`data/verification_suite.csv`)
 - **Provenance**: `rule_derived` (authored to verify deductive SWRL rule firing consistency)
-- **Sample Size ($n$)**: 80 test cases across 6 diagnostic tiers (T1-T6)
+- **Sample Size ($n$)**: 73 test cases across 6 diagnostic tiers (T1-T6)
 
 | Metric | Score |
 |---|---|
-| **Multi-Label Accuracy ((TP+TN)/Total)** | **95.12%** |
-| **Exact-Match Case Accuracy** | **60.00%** |
-| **Micro-Average F1-Score** | **68.3%** |
+| **Multi-Label Accuracy ((TP+TN)/Total)** | **91.55%** |
+| **Exact-Match Case Accuracy** | **58.88%** |
+| **Micro-Average F1-Score** | **29.5%** |
 
 *Methodological Note: these figures fell from 99.25% and 92.50% when the P0-5 Tier-2 rules were
 revised on literature grounds, without the benchmark being touched. That is the point of the set,
@@ -165,15 +165,15 @@ Empirical validation across 5 architectural variants under Pellet DL forward-cha
 
 | Variant | Exact Match (%) | Multi-Label Acc (%) | Micro Prec (%) | Micro Rec (%) | Micro F1 (%) | Mean Latency (ms) | P95 Latency (ms) |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)** | **64.38%** | **92.47%** | **100.0%** | **26.7%** | **42.1%** | **502.13** | **573.79** |
-| *Ablation A: Tier 1 Canonical Only (Pellet DL)* | 58.90% | 91.10% | 100.0% | 13.3% | 23.5% | 486.26 | 549.78 |
-| *Ablation B: Tier 2 Relaxed Only (Pellet DL)* | 58.90% | 91.55% | 100.0% | 17.8% | 30.2% | 476.87 | 526.50 |
-| *Ablation C: Flat Rules Unstratified (Pellet DL)* | 64.38% | 92.47% | 100.0% | 26.7% | 42.1% | 495.37 | 545.35 |
-| *Baseline Control: No Reasoner (Set-Matching)* | 64.38% | 92.47% | 100.0% | 26.7% | 42.1% | 0.00 | 0.00 |
+| **RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)** | **32.88%** | **91.55%** | **100.0%** | **17.8%** | **30.2%** | **828.44** | **850.25** |
+| *Ablation A: Tier 1 Canonical Only (Pellet DL)* | 27.40% | 90.18% | 100.0% | 4.4% | 8.5% | 742.25 | 768.83 |
+| *Ablation B: Tier 2 Relaxed Only (Pellet DL)* | 32.88% | 91.55% | 100.0% | 17.8% | 30.2% | 698.96 | 735.14 |
+| *Ablation C: Flat Rules Unstratified (Pellet DL)* | 32.88% | 91.55% | 100.0% | 17.8% | 30.2% | 828.80 | 844.57 |
+| *Baseline Control: No Reasoner (Set-Matching)* | 58.90% | 91.55% | 100.0% | 17.8% | 30.2% | 0.00 | 0.00 |
 
 > **Key Architectural Insights**:
-> 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 26.7% to 13.3%, while maintaining 100% precision (0 false positives). Tier-2 expands sensitivity under incomplete symptom observation, at the cost of specificity.
-> 2. **Reasoner Engineering Trade-Off**: Pure Python set-matching executes in <0.05 ms per query, whereas Pellet DL requires ~520 ms. The DL reasoner is justified not by speed, but by ontological property subsumption (`hasConfirmedPest` ⊑ `hasConfirmedThreat`), consistency verification, and deductive derivation trees for explainable AI (XAI).
+> 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 17.8% to 4.4%, while maintaining 100% precision (0 false positives). Tier-2 expands sensitivity under incomplete symptom observation, at the cost of specificity.
+> 2. **Reasoner Engineering Trade-Off**: Pure Python set-matching executes in <0.05 ms per query, whereas Pellet DL requires ~700–830 ms. The DL reasoner is justified not by speed, but by ontological property subsumption (`ThreatConfirmed` ⊑ `ThreatSuspect`), consistency verification, and deductive derivation trees for explainable AI (XAI).
 
 ### Comparative Baselines & Paired Significance Testing
 

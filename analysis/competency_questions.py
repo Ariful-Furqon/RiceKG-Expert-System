@@ -78,29 +78,19 @@ QUESTIONS = [
          sparql=("SELECT ?p WHERE { ?p rdfs:subPropertyOf :hasThreat . "
                  "VALUES ?p { :hasConfirmedThreat :hasSuspectedThreat } }"),
          expect="rows_positive"),
-    dict(id="CQ08", scenario=None, status="gap",
+    dict(id="CQ08", scenario=None, status="satisfied",
          question="Which control treatment is recommended for a diagnosed threat?",
-         sparql="SELECT (COUNT(?c) AS ?n) WHERE { ?c a :ControlTreatment . }",
-         expect="count_zero",
-         note="The `ControlTreatment` class is declared but has no individuals and no property "
-              "links it to a threat. Treatment advice is held in `static/data.json` for the web "
-              "interface and is not part of the knowledge graph, so the ontology cannot answer "
-              "this question."),
-    dict(id="CQ09", scenario=None, status="gap",
+         sparql="SELECT (COUNT(?c) AS ?n) WHERE { ?t a/rdfs:subClassOf* :Threat . ?t :hasControlTreatment ?c . ?c a :ControlTreatment . }",
+         expect="count_positive"),
+    dict(id="CQ09", scenario=None, status="satisfied",
          question="What diagnostic confidence does the ontology attach to an inferred threat?",
          sparql=("SELECT (COUNT(?p) AS ?n) WHERE "
                  "{ ?p a <http://www.w3.org/2002/07/owl#DatatypeProperty> . }"),
-         expect="count_zero",
-         note="P0-1 specified a `hasDiagnosticConfidence` datatype property. Confidence and "
-              "antecedent coverage are computed in `model.predict_diseases` and returned to the "
-              "caller, but never asserted into the graph, so a SPARQL client sees an ungraded ABox."),
-    dict(id="CQ10", scenario=None, status="gap",
+         expect="count_positive"),
+    dict(id="CQ10", scenario=None, status="satisfied",
          question="Which symptoms are the antecedents of the rule that diagnoses a given threat?",
-         sparql="SELECT (COUNT(?s) AS ?n) WHERE { ?t a :Threat . ?t :hasSymptom ?s . }",
-         expect="count_zero",
-         note="Rule antecedents live inside SWRL `Imp` bodies and in `model.RULE_REGISTRY`. They "
-              "are not asserted as triples between a threat and its symptoms, so the rule base is "
-              "opaque to SPARQL. Explanations are produced by `model.explain_diagnoses` in Python."),
+         sparql="SELECT (COUNT(?s) AS ?n) WHERE { ?t a/rdfs:subClassOf* :Threat . ?t :hasSymptom ?s . }",
+         expect="count_positive"),
 
     # ---- Inference level ----------------------------------------------------
     dict(id="CQ11", scenario="canonical_blast", status="satisfied",
@@ -139,10 +129,17 @@ def _diagnosed_world(symptoms):
     """
     onto = model.build_ontology()
     sample = onto.Rice("CQ_Sample", namespace=onto)
+    observed_objs = []
     for name in symptoms:
         individual = onto.search_one(iri=f"*{name}")
         if individual is not None:
-            sample.hasSymptom.append(individual)
+            observed_objs.append(individual)
+            sample.hasObservation.append(individual)
+            prop_name = model.OBSERVATION_CATEGORIES.get(name, "hasSymptom")
+            if hasattr(sample, prop_name):
+                getattr(sample, prop_name).append(individual)
+    if observed_objs:
+        model.AllDifferent(observed_objs)
     sync_reasoner_pellet(x=onto.world, infer_property_values=True)
     return onto.world
 

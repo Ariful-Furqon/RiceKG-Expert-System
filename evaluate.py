@@ -184,6 +184,8 @@ def run_evaluation(csv_path=None, dataset_name="verification", split=None, tier=
 
     tp_conf = fp_conf = 0
     tp_susp = fp_susp = 0
+    ctrl_total = ctrl_rejected = 0
+    mapped_ctrl_total = mapped_ctrl_rejected = 0
 
     for item in dataset:
         graded_preds = model.predict_diseases(item["symptoms"])
@@ -192,7 +194,23 @@ def run_evaluation(csv_path=None, dataset_name="verification", split=None, tier=
         predicted_set = set(predicted)
         expected_set = set(item["expected"])
 
-        is_exact_match = (predicted_set == expected_set)
+        # Exact match logic: out-of-scope negative control responses count as correct negative identification
+        if item["raw_target"] == "No_Diagnosis":
+            is_exact_match = (predicted_set == set() or predicted_set == {model.NEGATIVE_CONTROL_OUT_OF_SCOPE_TARGET})
+        else:
+            is_exact_match = (predicted_set == expected_set)
+
+        # Track negative control specificity & earned discrimination
+        if item["raw_target"] == "No_Diagnosis":
+            ctrl_total += 1
+            in_scope_preds = predicted_set & set(ALL_DIAGNOSES)
+            if not in_scope_preds:
+                ctrl_rejected += 1
+            has_mapped_sign = any(s in model.ALL_SYMPTOMS for s in item["symptoms"])
+            if has_mapped_sign:
+                mapped_ctrl_total += 1
+                if not in_scope_preds:
+                    mapped_ctrl_rejected += 1
 
         # Grade-aware precision tracking (in-sample counts)
         for p in graded_preds:
@@ -222,7 +240,7 @@ def run_evaluation(csv_path=None, dataset_name="verification", split=None, tier=
             else:
                 per_class_matrix[cls_name]["TN"] += 1
 
-        extra_preds = predicted_set - expected_set
+        extra_preds = (predicted_set - {model.NEGATIVE_CONTROL_OUT_OF_SCOPE_TARGET, model.INSECT_OUT_OF_SCOPE_TARGET}) - expected_set
         if extra_preds:
             false_positives_log.append({
                 "case_id": item["case_id"],
@@ -288,6 +306,14 @@ def run_evaluation(csv_path=None, dataset_name="verification", split=None, tier=
     print(f"{'TOTAL (MICRO AVG)':<25} | {total_tp:<4} | {total_fp:<4} | {total_fn:<4} | {total_tn:<4} | {micro_prec:>8.1f} | {micro_rec:>8.1f} | {micro_f1:>8.1f}")
     print(f"\nOverall Multi-Label Accuracy ((TP+TN)/Total): {accuracy_overall:.2f}%")
     print(f"Exact-Match Case Accuracy: {exact_match_acc:.2f}%")
+
+    if ctrl_total > 0:
+        spec_all = (ctrl_rejected / ctrl_total * 100) if ctrl_total > 0 else 100.0
+        spec_mapped = (mapped_ctrl_rejected / mapped_ctrl_total * 100) if mapped_ctrl_total > 0 else 100.0
+        print("\nNEGATIVE CONTROL SPECIFICITY ANALYSIS (DISCRIMINATION METRICS):")
+        print(f"  - Specificity on all negative controls       : {spec_all:.1f}% ({ctrl_rejected}/{ctrl_total})")
+        print(f"  - Specificity on mapped-sign controls only   : {spec_mapped:.1f}% ({mapped_ctrl_rejected}/{mapped_ctrl_total}) [Earned Discrimination]")
+
 
     # =========================================================================
     # OUT-OF-SAMPLE STRATIFIED K-FOLD CALIBRATION & RELIABILITY DIAGRAM

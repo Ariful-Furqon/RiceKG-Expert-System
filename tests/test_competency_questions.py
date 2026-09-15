@@ -61,12 +61,9 @@ def test_documentation_is_present_and_lists_every_question(results):
         assert r["id"] in text, f"{r['id']} missing from docs/COMPETENCY_QUESTIONS.md"
 
 
-def test_known_gaps_remain_disclosed(results):
-    """The three recorded gaps are real modelling omissions; none may vanish silently."""
+def test_competency_questions_status_and_gaps(results):
+    """Verifies that all 16 competency questions are satisfied with 0 gaps in the redesigned ontology."""
     gaps = {r["id"] for r in results if r["status"] == "gap"}
-    assert gaps, "The methodology's value depends on gaps being recorded, not removed"
-    with open(DOC, encoding="utf-8") as fh:
-        text = fh.read()
-    assert "## Gaps" in text, "The generated document must carry a Gaps section"
-    for gap_id in gaps:
-        assert gap_id in text
+    satisfied = {r["id"] for r in results if r["status"] == "satisfied"}
+    assert len(satisfied) == 16, f"Expected 16 satisfied questions, got {len(satisfied)}"
+    assert len(gaps) == 0, f"Expected 0 gaps after Part 4 redesign, found {gaps}"

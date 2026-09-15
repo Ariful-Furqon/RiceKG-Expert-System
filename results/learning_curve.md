@@ -1,6 +1,6 @@
 # Cold-Start Learning-Curve Evaluation: Sample Efficiency vs. Knowledge Base
 
-> **Generated**: 2026-09-14 07:44:38 UTC  
+> **Generated**: 2026-09-15 04:13:48 UTC  
 > **Target Venue**: *Inteligencia Artificial* (IBERAMIA)  
 > **Evaluation Protocol**: Fixed held-out test set (`data/benchmark_field.csv`, `eval` split, $n=23$: 5 positives, 18 negative controls). $R=200$ stratified resamples without replacement per budget; reported with dual uncertainty decomposition (training-subsample variance across draws and test-set sampling variance via non-parametric paired bootstrap over the test cases, $B=1,000$).
 
@@ -24,10 +24,10 @@ Training cases drawn from `data/verification_suite.csv` ($n=73$, provenance `rul
 
 | Model | N=5 | N=10 | N=20 | N=40 | N=73 | Crossover Budget $N^*$ | First Non-Zero $N$ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Decision Tree** | 12.5% [8, 18] | 28.6% [13, 43] | 35.2% [16, 58] | 41.7% [16, 72] | 40.9% [10, 71] | None (≤ 73) | 5 |
-| **Random Forest** | 6.8% [2, 12] | 19.2% [3, 35] | 27.4% [5, 51] | 40.8% [11, 76] | 45.3% [10, 80] | None (≤ 73) | 5 |
-| **Multinomial Naive Bayes** | 16.2% [9, 23] | 29.7% [11, 48] | 41.4% [18, 65] | 42.9% [16, 76] | 20.0% [0, 60] | None (≤ 73) | 5 |
-| **k-NN** | 4.6% [2, 8] | 21.9% [6, 38] | 40.1% [12, 69] | 49.3% [19, 84] | 60.0% [20, 100] | None (≤ 73) | 5 |
+| **Decision Tree** | 12.6% [7, 18] | 29.8% [15, 44] | 37.0% [17, 58] | 40.7% [16, 72] | 39.2% [9, 70] | None (≤ 73) | 5 |
+| **Random Forest** | 7.0% [2, 12] | 18.8% [4, 34] | 27.5% [5, 51] | 39.8% [9, 76] | 46.4% [11, 82] | None (≤ 73) | 5 |
+| **Multinomial Naive Bayes** | 15.9% [9, 23] | 28.5% [10, 47] | 40.3% [16, 65] | 46.7% [19, 81] | 20.0% [0, 60] | None (≤ 73) | 5 |
+| **k-NN** | 5.2% [4, 7] | 20.8% [5, 37] | 39.6% [12, 68] | 49.0% [20, 82] | 60.0% [20, 100] | None (≤ 73) | 5 |
 | **Logistic Regression (OvR)** | 8.0% [4, 12] | 22.1% [6, 38] | 28.5% [4, 56] | 36.8% [1, 73] | 40.0% [0, 80] | None (≤ 73) | 5 |
 
 *Zero-shot references on same eval set*: **RiceKG Full Proposed** = **35.00%** (5x2 CV) / **40.0%** runtime point recall [95% CI 0.0, 80.0]; **Nearest Prototype** = **17.50%**; **Flat Single-Tier** = **35.00%**.
@@ -40,9 +40,9 @@ Training cases drawn from the independent field `dev` split of `data/benchmark_f
 
 | Model | N=2 | N=4 | N=8 | N=16 | Crossover Budget $N^*$ | First Non-Zero $N$ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Decision Tree** | 9.3% [0, 19] | 36.2% [0, 76] | 33.1% [0, 73] | 40.0% [0, 80] | None (≤ 16) | 2 |
-| **Random Forest** | 9.7% [0, 20] | 34.3% [0, 74] | 31.2% [0, 71] | 40.0% [0, 80] | None (≤ 16) | 2 |
-| **Multinomial Naive Bayes** | 9.9% [0, 20] | 25.4% [0, 60] | 8.5% [0, 19] | 20.0% [0, 60] | None (≤ 16) | 2 |
+| **Decision Tree** | 9.3% [0, 19] | 36.5% [0, 76] | 33.5% [0, 74] | 40.0% [0, 80] | None (≤ 16) | 2 |
+| **Random Forest** | 9.8% [0, 20] | 34.7% [0, 75] | 31.2% [0, 71] | 40.0% [0, 80] | None (≤ 16) | 2 |
+| **Multinomial Naive Bayes** | 9.9% [0, 20] | 25.4% [0, 60] | 8.2% [0, 18] | 20.0% [0, 60] | None (≤ 16) | 2 |
 | **k-NN** | 0.4% [0, 1] | 0.0% [0, 0] | 9.3% [0, 19] | 40.0% [0, 80] | None (≤ 16) | 2 |
 | **Logistic Regression (OvR)** | 8.8% [0, 19] | 35.6% [0, 76] | 19.0% [0, 47] | 20.0% [0, 60] | None (≤ 16) | 2 |
 

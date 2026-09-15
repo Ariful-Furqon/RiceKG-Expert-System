@@ -4,1412 +4,1312 @@
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
          xmlns:owl="http://www.w3.org/2002/07/owl#"
          xml:base="http://www.semanticweb.org/ontologies/rice_pest_disease.owl"
-         xmlns="http://www.semanticweb.org/ontologies/rice_pest_disease.owl#"
-         xmlns:swrl="http://www.w3.org/2003/11/swrl#">
+         xmlns="http://www.semanticweb.org/ontologies/rice_pest_disease.owl#">
 
 <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/rice_pest_disease.owl"/>
 
+<owl:ObjectProperty rdf:about="#hasObservation">
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associates a rice plant sample with an observed field sign or context.</rdfs:comment>
+</owl:ObjectProperty>
+
 <owl:ObjectProperty rdf:about="#hasSymptom">
+  <rdfs:subPropertyOf rdf:resource="#hasObservation"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associates a rice plant sample with a plant pathological symptom.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasOrganismSighting">
+  <rdfs:subPropertyOf rdf:resource="#hasObservation"/>
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#OrganismSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associates a rice plant sample with an observed organism presence.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasVectorSighting">
+  <rdfs:subPropertyOf rdf:resource="#hasObservation"/>
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#VectorSighting"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associates a rice plant sample with an observed insect vector presence.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasEpidemiologicalContext">
+  <rdfs:subPropertyOf rdf:resource="#hasObservation"/>
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#EpidemiologicalContext"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Associates a rice plant sample with stand-level epidemiological context.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasThreat">
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#Threat"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Inferred threat affecting the rice plant individual.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasConfirmedThreat">
+  <rdfs:subPropertyOf rdf:resource="#hasThreat"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">High-specificity, pathognomonic diagnostic inference (Tier 1).</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSuspectedThreat">
+  <rdfs:subPropertyOf rdf:resource="#hasThreat"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">High-sensitivity, partial scouting diagnostic inference (Tier 2).</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="#hasDisease">
+  <rdfs:subPropertyOf rdf:resource="#hasThreat"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Disease"/>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="#hasPest">
+  <rdfs:subPropertyOf rdf:resource="#hasThreat"/>
   <rdfs:domain rdf:resource="#Rice"/>
   <rdfs:range rdf:resource="#Pest"/>
 </owl:ObjectProperty>
 
+<owl:ObjectProperty rdf:about="#hasConfirmedDisease">
+  <rdfs:subPropertyOf rdf:resource="#hasConfirmedThreat"/>
+  <rdfs:subPropertyOf rdf:resource="#hasDisease"/>
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#Disease"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSuspectedDisease">
+  <rdfs:subPropertyOf rdf:resource="#hasSuspectedThreat"/>
+  <rdfs:subPropertyOf rdf:resource="#hasDisease"/>
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#Disease"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasConfirmedPest">
+  <rdfs:subPropertyOf rdf:resource="#hasConfirmedThreat"/>
+  <rdfs:subPropertyOf rdf:resource="#hasPest"/>
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#Pest"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSuspectedPest">
+  <rdfs:subPropertyOf rdf:resource="#hasSuspectedThreat"/>
+  <rdfs:subPropertyOf rdf:resource="#hasPest"/>
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="#Pest"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasControlTreatment">
+  <rdfs:domain rdf:resource="#Threat"/>
+  <rdfs:range rdf:resource="#ControlTreatment"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Links a diagnosed threat to its peer-reviewed IPM recommendation.</rdfs:comment>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="#hasDiagnosticConfidence">
+  <rdfs:domain rdf:resource="#Rice"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Datatype property recording the diagnostic confidence grade (confirmed, suspected, possible).</rdfs:comment>
+</owl:DatatypeProperty>
+
+<owl:AnnotationProperty rdf:about="#exactMatch"/>
+
+<owl:AnnotationProperty rdf:about="#closeMatch"/>
+
+<owl:AnnotationProperty rdf:about="#title"/>
+
+<owl:AnnotationProperty rdf:about="#creator"/>
+
+<owl:AnnotationProperty rdf:about="#license"/>
+
 <owl:Class rdf:about="#Rice">
   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Oryza sativa plant individual under diagnosis.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_5438</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#Observation">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Top-level entity for any empirical observation made in a rice field or scout report.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Symptom">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Direct plant sign or phenotypic manifestation of biotic injury on Oryza sativa.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_7568</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#OrganismSighting">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Direct physical sighting of an insect or pest organism (adults, nymphs, egg clutches, frass).</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#VectorSighting">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Entomological sighting of a known insect vector of viral phytopathogens.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#EpidemiologicalContext">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stand-level, environmental, or temporal condition modulating outbreak probability.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#LeafSign">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the leaf blade or sheath.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0025034</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#StemSign">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the culm or tiller stem.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0009047</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#RootSign">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the root system or subterranean crowns.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0009005</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#PanicleSign">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the inflorescence, panicle neck, or rachis.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0009049</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#GrainSign">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pathological sign manifested on the spikelet, caryopsis, or mature grain.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0009010</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#WholePlantSign">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Systemic sign manifested across the entire rice plant architecture.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/PO_0000003</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#Chlorosis">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Foliar yellowing, discoloration, or loss of chlorophyll pigments.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_1568</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#Necrosis">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Localized or extensive death and breakdown of plant cells and tissues.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_5097</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#Stunting">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Suppression of plant elongation, height reduction, or dwarfing.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_2404</exactMatch>
+</owl:Class>
+
+<owl:Class rdf:about="#MechanicalDamage">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Physical perforation, chewing, severance, or feeding injury.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#GrainAbnormality">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Spikelet sterility, empty glumes, spore replacement, or grain spotting.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#OutOfScopeSign">
+  <rdfs:subClassOf rdf:resource="#Symptom"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sign associated with threats outside the primary diagnostic scope of the six core diseases.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#InsectDamageSign">
+  <rdfs:subClassOf rdf:resource="#OutOfScopeSign"/>
+  <rdfs:subClassOf rdf:resource="#MechanicalDamage"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Damage symptom caused specifically by insect feeding.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Threat">
   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Biotic causal agent (pathogen or parasitic pest) inflicting economic injury on rice.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="#Disease">
-  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:subClassOf rdf:resource="#Threat"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Infectious disease of rice caused by fungal, bacterial, or viral phytopathogens.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_5969</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#Pest">
-  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:subClassOf rdf:resource="#Threat"/>
+  <owl:disjointWith rdf:resource="#Disease"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Animal or nematode pest infesting rice crops.</rdfs:comment>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_5739</exactMatch>
 </owl:Class>
 
 <owl:Class rdf:about="#ControlTreatment">
   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Pest Management (IPM) recommendation or intervention for managing a threat.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Root_NematodeSuspect">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Hook_Like_Root_Swelling"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Stunted_Growth"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Yellowing_Leaves"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasSuspectedThreat"/>
+      <owl:hasValue rdf:resource="#Rice_Root_Nematode"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 2 composite definition for suspected Rice_Root_Nematode.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Root_NematodeConfirmed">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Hook_Like_Root_Swelling"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Stunted_Growth"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Yellowing_Leaves"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Root_Knot_Swelling"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Deformed_Roots"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Necrotic_Spots"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasConfirmedThreat"/>
+      <owl:hasValue rdf:resource="#Rice_Root_Nematode"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 1 pathognomonic definition for confirmed Rice_Root_Nematode.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Root_NematodeObservation">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Root_NematodePossible">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:onClass rdf:resource="#Rice_Root_NematodeObservation"/>
+          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Rice_Root_Nematode.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Bacterial_Leaf_BlightSuspect">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Water_Soaked_Lesions"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Yellowing_Leaf_Tips"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasSuspectedThreat"/>
+      <owl:hasValue rdf:resource="#Bacterial_Leaf_Blight"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 2 composite definition for suspected Bacterial_Leaf_Blight.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Bacterial_Leaf_BlightConfirmed">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Water_Soaked_Lesions"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Yellowing_Leaf_Tips"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Yellowing_Leaf_Veins"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Leaf_Discoloration_Yellow"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Uniform_Field_Infection"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Rapid_Disease_Spread"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasConfirmedThreat"/>
+      <owl:hasValue rdf:resource="#Bacterial_Leaf_Blight"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 1 pathognomonic definition for confirmed Bacterial_Leaf_Blight.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Bacterial_Leaf_BlightObservation">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Bacterial_Leaf_BlightPossible">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:onClass rdf:resource="#Bacterial_Leaf_BlightObservation"/>
+          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Bacterial_Leaf_Blight.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#False_SmutSuspect">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Rusty_Grain_Balls"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Blackened_Grain_Balls"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasSuspectedThreat"/>
+      <owl:hasValue rdf:resource="#False_Smut"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 2 composite definition for suspected False_Smut.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#False_SmutConfirmed">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Rusty_Grain_Balls"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Blackened_Grain_Balls"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Uniform_Field_Infection"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Rainy_Season_Outbreak"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Slight_Panicle_Infection"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Milky_Stage_Vulnerability"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasConfirmedThreat"/>
+      <owl:hasValue rdf:resource="#False_Smut"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 1 pathognomonic definition for confirmed False_Smut.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#False_SmutObservation">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+</owl:Class>
+
+<owl:Class rdf:about="#False_SmutPossible">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:onClass rdf:resource="#False_SmutObservation"/>
+          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible False_Smut.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_BlastSuspect">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Diamond_Shaped_Lesions"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Necrotic_Spots"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasSuspectedThreat"/>
+      <owl:hasValue rdf:resource="#Rice_Blast"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 2 composite definition for suspected Rice_Blast.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_BlastConfirmed">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Diamond_Shaped_Lesions"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Necrotic_Spots"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Panicle_Neck_Rot"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Uniform_Field_Infection"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Infected_Seedlings"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasConfirmedThreat"/>
+      <owl:hasValue rdf:resource="#Rice_Blast"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 1 pathognomonic definition for confirmed Rice_Blast.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_BlastObservation">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_BlastPossible">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:onClass rdf:resource="#Rice_BlastObservation"/>
+          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Rice_Blast.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Grassy_StuntSuspect">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Severe_Stunting"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Excessive_Tillering"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasSuspectedThreat"/>
+      <owl:hasValue rdf:resource="#Rice_Grassy_Stunt"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 2 composite definition for suspected Rice_Grassy_Stunt.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Grassy_StuntConfirmed">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Severe_Stunting"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Excessive_Tillering"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Brown_Planthopper_Present"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Necrotic_Spots"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#No_Panicle_Formation"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasConfirmedThreat"/>
+      <owl:hasValue rdf:resource="#Rice_Grassy_Stunt"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 1 pathognomonic definition for confirmed Rice_Grassy_Stunt.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Grassy_StuntObservation">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Grassy_StuntPossible">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:onClass rdf:resource="#Rice_Grassy_StuntObservation"/>
+          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Rice_Grassy_Stunt.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Tungro_VirusSuspect">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Stunted_Growth"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Orange_Leaf_Discoloration"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasSuspectedThreat"/>
+      <owl:hasValue rdf:resource="#Rice_Tungro_Virus"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 2 composite definition for suspected Rice_Tungro_Virus.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Tungro_VirusConfirmed">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Stunted_Growth"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Orange_Leaf_Discoloration"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Green_Leafhopper_Present"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Necrotic_Spots"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Yellowing_Leaves"/>
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:hasValue rdf:resource="#Whitehead_Empty_Panicles"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#hasConfirmedThreat"/>
+      <owl:hasValue rdf:resource="#Rice_Tungro_Virus"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 1 pathognomonic definition for confirmed Rice_Tungro_Virus.</rdfs:comment>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Tungro_VirusObservation">
+  <rdfs:subClassOf rdf:resource="#Observation"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Rice_Tungro_VirusPossible">
+  <rdfs:subClassOf rdf:resource="#Rice"/>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Rice"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasObservation"/>
+          <owl:onClass rdf:resource="#Rice_Tungro_VirusObservation"/>
+          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tier 3 qualified cardinality definition (min 1) for possible Rice_Tungro_Virus.</rdfs:comment>
 </owl:Class>
 
 <owl:NamedIndividual rdf:about="#Brown_Nymphs">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#OrganismSighting"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellow_Nymphs">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#OrganismSighting"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Eggs_On_Plant">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#OrganismSighting"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Broad_Leaf_Damage">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#MechanicalDamage"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Severed_Panicles">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#PanicleSign"/>
+  <rdf:type rdf:resource="#MechanicalDamage"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Chewing_Damage">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#MechanicalDamage"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Hook_Like_Root_Swelling">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#RootSign"/>
+  <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Root_Knot_Swelling">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#RootSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Deformed_Roots">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#RootSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Necrotic_Spots">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+  <rdf:type rdf:resource="#Rice_BlastObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaves">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+  <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Stunted_Growth">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#WholePlantSign"/>
+  <rdf:type rdf:resource="#Stunting"/>
+  <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
+  <rdf:type rdf:resource="#Rice_Tungro_VirusObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Frass_In_Stem">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#OrganismSighting"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Bore_Holes_In_Stem">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#StemSign"/>
+  <rdf:type rdf:resource="#MechanicalDamage"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Deadheart_Seedling">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#WholePlantSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Easily_Pulled_Tillers">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#StemSign"/>
+  <rdf:type rdf:resource="#MechanicalDamage"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Whitehead_Empty_Panicles">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#PanicleSign"/>
+  <rdf:type rdf:resource="#GrainAbnormality"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Nymphs_Present">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#OrganismSighting"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Adult_Insects_Present">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#OrganismSighting"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Margin_Sap_Sucking">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#MechanicalDamage"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rotten_Panicles">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#PanicleSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Random_Feeding_Pattern">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#EpidemiologicalContext"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Localized_Leaf_Yellowing">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Empty_Grains">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#GrainSign"/>
+  <rdf:type rdf:resource="#GrainAbnormality"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Plant_Yellowing">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#WholePlantSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Hopperburn_Drying">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Circular_Hopperburn_Patches">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#EpidemiologicalContext"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Blackened_Feeding_Punctures">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#StemSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+  <rdf:type rdf:resource="#InsectDamageSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaf_Veins">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Discoloration_Yellow">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaf_Tips">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+  <rdf:type rdf:resource="#Bacterial_Leaf_BlightObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rapid_Disease_Spread">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#EpidemiologicalContext"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rusty_Grain_Balls">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#GrainSign"/>
+  <rdf:type rdf:resource="#GrainAbnormality"/>
+  <rdf:type rdf:resource="#False_SmutObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Blackened_Grain_Balls">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#GrainSign"/>
+  <rdf:type rdf:resource="#GrainAbnormality"/>
+  <rdf:type rdf:resource="#False_SmutObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rainy_Season_Outbreak">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#EpidemiologicalContext"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Uniform_Field_Infection">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#EpidemiologicalContext"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Slight_Panicle_Infection">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#EpidemiologicalContext"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Milky_Stage_Vulnerability">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#EpidemiologicalContext"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Panicle_Neck_Rot">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#PanicleSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Diamond_Shaped_Lesions">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+  <rdf:type rdf:resource="#Rice_BlastObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Infected_Seedlings">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#EpidemiologicalContext"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Brown_Planthopper_Present">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#VectorSighting"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Severe_Stunting">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#WholePlantSign"/>
+  <rdf:type rdf:resource="#Stunting"/>
+  <rdf:type rdf:resource="#Rice_Grassy_StuntObservation"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#No_Panicle_Formation">
   <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#PanicleSign"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Green_Leafhopper_Present">
-  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#VectorSighting"/>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#Grasshopper">
-  <rdf:type rdf:resource="#Pest"/>
+<owl:NamedIndividual rdf:about="#Water_Soaked_Lesions">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+  <rdf:type rdf:resource="#Bacterial_Leaf_BlightObservation"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Bacterial_Ooze">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#StemSign"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Leaf_Mottling">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Interveinal_Chlorosis">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Grain_Discoloration">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#GrainSign"/>
+  <rdf:type rdf:resource="#GrainAbnormality"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Leaf_Sheath_Lesions">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Stem_Rot_Lesions">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#StemSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Excessive_Tillering">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#WholePlantSign"/>
+  <rdf:type rdf:resource="#Rice_Grassy_StuntObservation"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Orange_Leaf_Discoloration">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+  <rdf:type rdf:resource="#Rice_Tungro_VirusObservation"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Leaf_Desiccation">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Chlorotic_Streaks">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Brown_Streaks">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Leaf_Bleaching">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Whitened_Leaf_Tips">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#LeafSign"/>
+  <rdf:type rdf:resource="#Chlorosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Leaf_Wilting">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#WholePlantSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Discolored_Roots">
+  <rdf:type rdf:resource="#Symptom"/>
+  <rdf:type rdf:resource="#RootSign"/>
+  <rdf:type rdf:resource="#Necrosis"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Control_Bacterial_Leaf_Blight">
+  <rdf:type rdf:resource="#ControlTreatment"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Bacterial Leaf Blight: Use certified disease-free seed, balanced nitrogen fertilisation, resistant cultivars (IRBB lines), and preventative copper bactericide application at early tillering. Citation: CABI Plantwise Knowledge Bank (2014), Management of bacterial leaf blight of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI. DOI: 10.1079/pwkb.20147801451</rdfs:comment>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Control_False_Smut">
+  <rdf:type rdf:resource="#ControlTreatment"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of False Smut: Apply triazole fungicides (propiconazole, tebuconazole) at late booting stage, avoid excessive late-season nitrogen, and perform hot-water seed sanitation. Citation: CABI Plantwise Knowledge Bank (2019), False smut of rice; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI. DOI: 10.1079/pwkb.20197800044</rdfs:comment>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Control_Rice_Blast">
+  <rdf:type rdf:resource="#ControlTreatment"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Blast: Deploy multi-line resistant varieties, apply silicon soil amendments, avoid excessive nitrogen fertilization, and apply tricyclazole or azoxystrobin at panicle initiation. Citation: Plant Disease (2014), Sensitivity of Magnaporthe oryzae from Rice to Tricyclazole and Azoxystrobin; Ou, S.H. (1985), Rice Diseases, 2nd ed., CMI. DOI: 10.1094/pdis-04-13-0432-re</rdfs:comment>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Control_Rice_Grassy_Stunt">
+  <rdf:type rdf:resource="#ControlTreatment"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Grassy Stunt Virus: Manage the brown planthopper (BPH, Nilaparvata lugens) vector with synchronous planting, crop-free fallow periods, conservation of mirid predators (Cyrtorhinus lividipennis), and BPH-resistant cultivars. Citation: Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor. DOI: 10.1146/annurev.phyto.34.1.249</rdfs:comment>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Control_Rice_Tungro_Virus">
+  <rdf:type rdf:resource="#ControlTreatment"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Tungro Virus: Control the green leafhopper (GLH, Nephotettix virescens) vector, practice synchronous planting, eradicate ratoon and weed reservoir hosts, and plant tungro-resistant cultivars. Citation: Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274; IRRI Rice Doctor. DOI: 10.1146/annurev.phyto.34.1.249</rdfs:comment>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Control_Rice_Root_Nematode">
+  <rdf:type rdf:resource="#ControlTreatment"/>
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Integrated Management of Rice Root-Knot Nematode: Continuous soil flooding in lowland paddies, crop rotation with non-host legumes (mungbean, sesbania), nursery bed solarization, and biological nematicides. Citation: Bridge, J., Plowright, R.A. &amp; Peng, D. (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI Publishing. DOI: 10.1079/9780851997278.0087</rdfs:comment>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Root_Nematode">
   <rdf:type rdf:resource="#Pest"/>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#Rice_Stem_Borer">
-  <rdf:type rdf:resource="#Pest"/>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#Rice_Bug">
-  <rdf:type rdf:resource="#Pest"/>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="#Brown_Planthopper">
-  <rdf:type rdf:resource="#Pest"/>
+  <hasControlTreatment rdf:resource="#Control_Rice_Root_Nematode"/>
+  <hasSymptom rdf:resource="#Hook_Like_Root_Swelling"/>
+  <hasSymptom rdf:resource="#Necrotic_Spots"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaves"/>
+  <hasSymptom rdf:resource="#Root_Knot_Swelling"/>
+  <hasSymptom rdf:resource="#Stunted_Growth"/>
+  <hasSymptom rdf:resource="#Deformed_Roots"/>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_34645</exactMatch>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Bacterial_Leaf_Blight">
   <rdf:type rdf:resource="#Disease"/>
+  <hasControlTreatment rdf:resource="#Control_Bacterial_Leaf_Blight"/>
+  <hasSymptom rdf:resource="#Water_Soaked_Lesions"/>
+  <hasSymptom rdf:resource="#Leaf_Discoloration_Yellow"/>
+  <hasSymptom rdf:resource="#Rapid_Disease_Spread"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaf_Veins"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaf_Tips"/>
+  <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_8457</exactMatch>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#False_Smut">
   <rdf:type rdf:resource="#Disease"/>
+  <hasControlTreatment rdf:resource="#Control_False_Smut"/>
+  <hasSymptom rdf:resource="#Milky_Stage_Vulnerability"/>
+  <hasSymptom rdf:resource="#Blackened_Grain_Balls"/>
+  <hasSymptom rdf:resource="#Slight_Panicle_Infection"/>
+  <hasSymptom rdf:resource="#Rainy_Season_Outbreak"/>
+  <hasSymptom rdf:resource="#Rusty_Grain_Balls"/>
+  <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_8109</exactMatch>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Blast">
   <rdf:type rdf:resource="#Disease"/>
+  <hasControlTreatment rdf:resource="#Control_Rice_Blast"/>
+  <hasSymptom rdf:resource="#Necrotic_Spots"/>
+  <hasSymptom rdf:resource="#Infected_Seedlings"/>
+  <hasSymptom rdf:resource="#Diamond_Shaped_Lesions"/>
+  <hasSymptom rdf:resource="#Panicle_Neck_Rot"/>
+  <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_330663</exactMatch>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Grassy_Stunt">
   <rdf:type rdf:resource="#Disease"/>
+  <hasControlTreatment rdf:resource="#Control_Rice_Grassy_Stunt"/>
+  <hasSymptom rdf:resource="#Necrotic_Spots"/>
+  <hasSymptom rdf:resource="#Excessive_Tillering"/>
+  <hasSymptom rdf:resource="#Severe_Stunting"/>
+  <hasSymptom rdf:resource="#Brown_Planthopper_Present"/>
+  <hasSymptom rdf:resource="#No_Panicle_Formation"/>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_24853</exactMatch>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Tungro_Virus">
   <rdf:type rdf:resource="#Disease"/>
+  <hasControlTreatment rdf:resource="#Control_Rice_Tungro_Virus"/>
+  <hasSymptom rdf:resource="#Necrotic_Spots"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaves"/>
+  <hasSymptom rdf:resource="#Whitehead_Empty_Panicles"/>
+  <hasSymptom rdf:resource="#Stunted_Growth"/>
+  <hasSymptom rdf:resource="#Green_Leafhopper_Present"/>
+  <hasSymptom rdf:resource="#Orange_Leaf_Discoloration"/>
+  <exactMatch rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://aims.fao.org/aos/agrovoc/c_6615</exactMatch>
 </owl:NamedIndividual>
 
-<swrl:Variable rdf:about="urn:swrl#Rice"/>
+<owl:AllDifferent>
+  <owl:distinctMembers rdf:parseType="Collection">
+    <rdf:Description rdf:about="#Rice_Root_Nematode"/>
+    <rdf:Description rdf:about="#Bacterial_Leaf_Blight"/>
+    <rdf:Description rdf:about="#False_Smut"/>
+    <rdf:Description rdf:about="#Rice_Blast"/>
+    <rdf:Description rdf:about="#Rice_Grassy_Stunt"/>
+    <rdf:Description rdf:about="#Rice_Tungro_Virus"/>
+  </owl:distinctMembers>
+</owl:AllDifferent>
 
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Green_Leafhopper_Present"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Yellowing_Leaves"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Tungro_Virus"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Brown_Planthopper_Present"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Severe_Stunting"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Grassy_Stunt"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Panicle_Neck_Rot"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Diamond_Shaped_Lesions"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Blast"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rusty_Grain_Balls"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Blackened_Grain_Balls"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#False_Smut"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Yellowing_Leaf_Veins"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Uniform_Field_Infection"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Bacterial_Leaf_Blight"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Hopperburn_Drying"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Circular_Hopperburn_Patches"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Brown_Planthopper"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Nymphs_Present"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Adult_Insects_Present"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Empty_Grains"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Bug"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Frass_In_Stem"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Bore_Holes_In_Stem"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Stem_Borer"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Hook_Like_Root_Swelling"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Root_Knot_Swelling"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Root_Nematode"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Severed_Panicles"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Leaf_Chewing_Damage"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Grasshopper"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Green_Leafhopper_Present"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Necrotic_Spots"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Yellowing_Leaves"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Whitehead_Empty_Panicles"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Tungro_Virus"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Brown_Planthopper_Present"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Necrotic_Spots"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Severe_Stunting"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#No_Panicle_Formation"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Grassy_Stunt"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Panicle_Neck_Rot"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Diamond_Shaped_Lesions"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Uniform_Field_Infection"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Infected_Seedlings"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Blast"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rusty_Grain_Balls"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Blackened_Grain_Balls"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Uniform_Field_Infection"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Rainy_Season_Outbreak"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest>
-                    <rdf:Description>
-                      <rdf:first>
-                        <swrl:IndividualPropertyAtom>
-                          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                          <swrl:argument2 rdf:resource="#Slight_Panicle_Infection"/>
-                        </swrl:IndividualPropertyAtom>
-                      </rdf:first>
-                      <rdf:rest>
-                        <rdf:Description>
-                          <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                              <swrl:argument2 rdf:resource="#Milky_Stage_Vulnerability"/>
-                            </swrl:IndividualPropertyAtom>
-                          </rdf:first>
-                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                        </rdf:Description>
-                      </rdf:rest>
-                    </rdf:Description>
-                  </rdf:rest>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#False_Smut"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Yellowing_Leaf_Veins"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Leaf_Discoloration_Yellow"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Yellowing_Leaf_Tips"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Uniform_Field_Infection"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest>
-                    <rdf:Description>
-                      <rdf:first>
-                        <swrl:IndividualPropertyAtom>
-                          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                          <swrl:argument2 rdf:resource="#Rapid_Disease_Spread"/>
-                        </swrl:IndividualPropertyAtom>
-                      </rdf:first>
-                      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                    </rdf:Description>
-                  </rdf:rest>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasDisease"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Bacterial_Leaf_Blight"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Nymphs_Present"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Adult_Insects_Present"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Plant_Yellowing"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Hopperburn_Drying"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest>
-                    <rdf:Description>
-                      <rdf:first>
-                        <swrl:IndividualPropertyAtom>
-                          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                          <swrl:argument2 rdf:resource="#Circular_Hopperburn_Patches"/>
-                        </swrl:IndividualPropertyAtom>
-                      </rdf:first>
-                      <rdf:rest>
-                        <rdf:Description>
-                          <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                              <swrl:argument2 rdf:resource="#Blackened_Feeding_Punctures"/>
-                            </swrl:IndividualPropertyAtom>
-                          </rdf:first>
-                          <rdf:rest>
-                            <rdf:Description>
-                              <rdf:first>
-                                <swrl:IndividualPropertyAtom>
-                                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                                  <swrl:argument2 rdf:resource="#Empty_Grains"/>
-                                </swrl:IndividualPropertyAtom>
-                              </rdf:first>
-                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                            </rdf:Description>
-                          </rdf:rest>
-                        </rdf:Description>
-                      </rdf:rest>
-                    </rdf:Description>
-                  </rdf:rest>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Brown_Planthopper"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Nymphs_Present"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Adult_Insects_Present"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Leaf_Margin_Sap_Sucking"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Rotten_Panicles"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest>
-                    <rdf:Description>
-                      <rdf:first>
-                        <swrl:IndividualPropertyAtom>
-                          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                          <swrl:argument2 rdf:resource="#Random_Feeding_Pattern"/>
-                        </swrl:IndividualPropertyAtom>
-                      </rdf:first>
-                      <rdf:rest>
-                        <rdf:Description>
-                          <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                              <swrl:argument2 rdf:resource="#Localized_Leaf_Yellowing"/>
-                            </swrl:IndividualPropertyAtom>
-                          </rdf:first>
-                          <rdf:rest>
-                            <rdf:Description>
-                              <rdf:first>
-                                <swrl:IndividualPropertyAtom>
-                                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                                  <swrl:argument2 rdf:resource="#Empty_Grains"/>
-                                </swrl:IndividualPropertyAtom>
-                              </rdf:first>
-                              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                            </rdf:Description>
-                          </rdf:rest>
-                        </rdf:Description>
-                      </rdf:rest>
-                    </rdf:Description>
-                  </rdf:rest>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Bug"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Frass_In_Stem"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Bore_Holes_In_Stem"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Deadheart_Seedling"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Easily_Pulled_Tillers"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest>
-                    <rdf:Description>
-                      <rdf:first>
-                        <swrl:IndividualPropertyAtom>
-                          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                          <swrl:argument2 rdf:resource="#Whitehead_Empty_Panicles"/>
-                        </swrl:IndividualPropertyAtom>
-                      </rdf:first>
-                      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                    </rdf:Description>
-                  </rdf:rest>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Stem_Borer"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Hook_Like_Root_Swelling"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Root_Knot_Swelling"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Deformed_Roots"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Necrotic_Spots"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest>
-                    <rdf:Description>
-                      <rdf:first>
-                        <swrl:IndividualPropertyAtom>
-                          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                          <swrl:argument2 rdf:resource="#Yellowing_Leaves"/>
-                        </swrl:IndividualPropertyAtom>
-                      </rdf:first>
-                      <rdf:rest>
-                        <rdf:Description>
-                          <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                              <swrl:argument2 rdf:resource="#Stunted_Growth"/>
-                            </swrl:IndividualPropertyAtom>
-                          </rdf:first>
-                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                        </rdf:Description>
-                      </rdf:rest>
-                    </rdf:Description>
-                  </rdf:rest>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Rice_Root_Nematode"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
-
-<swrl:Imp>
-  <swrl:body>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Brown_Nymphs"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest>
-        <rdf:Description>
-          <rdf:first>
-            <swrl:IndividualPropertyAtom>
-              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-              <swrl:argument2 rdf:resource="#Yellow_Nymphs"/>
-            </swrl:IndividualPropertyAtom>
-          </rdf:first>
-          <rdf:rest>
-            <rdf:Description>
-              <rdf:first>
-                <swrl:IndividualPropertyAtom>
-                  <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                  <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                  <swrl:argument2 rdf:resource="#Eggs_On_Plant"/>
-                </swrl:IndividualPropertyAtom>
-              </rdf:first>
-              <rdf:rest>
-                <rdf:Description>
-                  <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                      <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                      <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                      <swrl:argument2 rdf:resource="#Broad_Leaf_Damage"/>
-                    </swrl:IndividualPropertyAtom>
-                  </rdf:first>
-                  <rdf:rest>
-                    <rdf:Description>
-                      <rdf:first>
-                        <swrl:IndividualPropertyAtom>
-                          <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                          <swrl:argument2 rdf:resource="#Severed_Panicles"/>
-                        </swrl:IndividualPropertyAtom>
-                      </rdf:first>
-                      <rdf:rest>
-                        <rdf:Description>
-                          <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                              <swrl:propertyPredicate rdf:resource="#hasSymptom"/>
-                              <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-                              <swrl:argument2 rdf:resource="#Leaf_Chewing_Damage"/>
-                            </swrl:IndividualPropertyAtom>
-                          </rdf:first>
-                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                        </rdf:Description>
-                      </rdf:rest>
-                    </rdf:Description>
-                  </rdf:rest>
-                </rdf:Description>
-              </rdf:rest>
-            </rdf:Description>
-          </rdf:rest>
-        </rdf:Description>
-      </rdf:rest>
-    </rdf:Description>
-  </swrl:body>
-  <swrl:head>
-    <rdf:Description>
-      <rdf:first>
-        <swrl:IndividualPropertyAtom>
-          <swrl:propertyPredicate rdf:resource="#hasPest"/>
-          <swrl:argument1 rdf:resource="urn:swrl#Rice"/>
-          <swrl:argument2 rdf:resource="#Grasshopper"/>
-        </swrl:IndividualPropertyAtom>
-      </rdf:first>
-      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-    </rdf:Description>
-  </swrl:head>
-</swrl:Imp>
+<owl:AllDifferent>
+  <owl:distinctMembers rdf:parseType="Collection">
+    <rdf:Description rdf:about="#Brown_Nymphs"/>
+    <rdf:Description rdf:about="#Yellow_Nymphs"/>
+    <rdf:Description rdf:about="#Eggs_On_Plant"/>
+    <rdf:Description rdf:about="#Broad_Leaf_Damage"/>
+    <rdf:Description rdf:about="#Severed_Panicles"/>
+    <rdf:Description rdf:about="#Leaf_Chewing_Damage"/>
+    <rdf:Description rdf:about="#Hook_Like_Root_Swelling"/>
+    <rdf:Description rdf:about="#Root_Knot_Swelling"/>
+    <rdf:Description rdf:about="#Deformed_Roots"/>
+    <rdf:Description rdf:about="#Necrotic_Spots"/>
+    <rdf:Description rdf:about="#Yellowing_Leaves"/>
+    <rdf:Description rdf:about="#Stunted_Growth"/>
+    <rdf:Description rdf:about="#Frass_In_Stem"/>
+    <rdf:Description rdf:about="#Bore_Holes_In_Stem"/>
+    <rdf:Description rdf:about="#Deadheart_Seedling"/>
+    <rdf:Description rdf:about="#Easily_Pulled_Tillers"/>
+    <rdf:Description rdf:about="#Whitehead_Empty_Panicles"/>
+    <rdf:Description rdf:about="#Nymphs_Present"/>
+    <rdf:Description rdf:about="#Adult_Insects_Present"/>
+    <rdf:Description rdf:about="#Leaf_Margin_Sap_Sucking"/>
+    <rdf:Description rdf:about="#Rotten_Panicles"/>
+    <rdf:Description rdf:about="#Random_Feeding_Pattern"/>
+    <rdf:Description rdf:about="#Localized_Leaf_Yellowing"/>
+    <rdf:Description rdf:about="#Empty_Grains"/>
+    <rdf:Description rdf:about="#Plant_Yellowing"/>
+    <rdf:Description rdf:about="#Hopperburn_Drying"/>
+    <rdf:Description rdf:about="#Circular_Hopperburn_Patches"/>
+    <rdf:Description rdf:about="#Blackened_Feeding_Punctures"/>
+    <rdf:Description rdf:about="#Yellowing_Leaf_Veins"/>
+    <rdf:Description rdf:about="#Leaf_Discoloration_Yellow"/>
+    <rdf:Description rdf:about="#Yellowing_Leaf_Tips"/>
+    <rdf:Description rdf:about="#Rapid_Disease_Spread"/>
+    <rdf:Description rdf:about="#Rusty_Grain_Balls"/>
+    <rdf:Description rdf:about="#Blackened_Grain_Balls"/>
+    <rdf:Description rdf:about="#Rainy_Season_Outbreak"/>
+    <rdf:Description rdf:about="#Uniform_Field_Infection"/>
+    <rdf:Description rdf:about="#Slight_Panicle_Infection"/>
+    <rdf:Description rdf:about="#Milky_Stage_Vulnerability"/>
+    <rdf:Description rdf:about="#Panicle_Neck_Rot"/>
+    <rdf:Description rdf:about="#Diamond_Shaped_Lesions"/>
+    <rdf:Description rdf:about="#Infected_Seedlings"/>
+    <rdf:Description rdf:about="#Brown_Planthopper_Present"/>
+    <rdf:Description rdf:about="#Severe_Stunting"/>
+    <rdf:Description rdf:about="#No_Panicle_Formation"/>
+    <rdf:Description rdf:about="#Green_Leafhopper_Present"/>
+    <rdf:Description rdf:about="#Water_Soaked_Lesions"/>
+    <rdf:Description rdf:about="#Bacterial_Ooze"/>
+    <rdf:Description rdf:about="#Leaf_Mottling"/>
+    <rdf:Description rdf:about="#Interveinal_Chlorosis"/>
+    <rdf:Description rdf:about="#Grain_Discoloration"/>
+    <rdf:Description rdf:about="#Leaf_Sheath_Lesions"/>
+    <rdf:Description rdf:about="#Stem_Rot_Lesions"/>
+    <rdf:Description rdf:about="#Excessive_Tillering"/>
+    <rdf:Description rdf:about="#Orange_Leaf_Discoloration"/>
+    <rdf:Description rdf:about="#Leaf_Desiccation"/>
+    <rdf:Description rdf:about="#Chlorotic_Streaks"/>
+    <rdf:Description rdf:about="#Brown_Streaks"/>
+    <rdf:Description rdf:about="#Leaf_Bleaching"/>
+    <rdf:Description rdf:about="#Whitened_Leaf_Tips"/>
+    <rdf:Description rdf:about="#Leaf_Wilting"/>
+    <rdf:Description rdf:about="#Discolored_Roots"/>
+  </owl:distinctMembers>
+</owl:AllDifferent>
 
 
 </rdf:RDF>
