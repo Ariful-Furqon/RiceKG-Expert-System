@@ -1,7 +1,9 @@
 # Holdout Field Partition — Sourcing Log
 
-Status: **in progress** — 18 positive cases staged (9 tier A, 6 tier B, 3 tier C). Two tier-C cases
-(former HOLD_17, HOLD_19) were removed on source verification; see "Tier-C verification".
+Status: **LOCKED** (2026-09-15) — Sourcing closed per 6-D and author decision.
+Final row count: **18 positive cases** (9 tier A, 6 tier B, 3 tier C).
+SHA-256 (`data/field_holdout_staging.csv`): `8616419d0781ae2f9c62ba80f3bee8581d0f10798a6d1598ec837e7f29aa9aaa`
+Two tier-C cases (former HOLD_17, HOLD_19) were removed on source verification; see "Tier-C verification".
 
 ## Protocol
 
