@@ -24,12 +24,12 @@ import math
 import os
 from typing import Any, Collection, Dict, List, Optional, Set, Tuple
 
-import model
+from ricekg import model
 
 PRIOR: float = 0.10
 DECISION_THRESHOLD: float = 0.50
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_PARAMS_CSV = os.path.join(BASE_DIR, "data", "noisy_or_parameters.csv")
 DEFAULT_LEAKS_CSV = os.path.join(BASE_DIR, "data", "noisy_or_leaks.csv")
 

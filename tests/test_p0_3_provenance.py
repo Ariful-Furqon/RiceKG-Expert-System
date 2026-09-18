@@ -5,7 +5,7 @@ import pytest
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import evaluate
+from ricekg import evaluate
 from analysis.agreement import compute_cohens_kappa, compute_fleiss_kappa, run_agreement_analysis
 
 

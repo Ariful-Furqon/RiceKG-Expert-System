@@ -6,9 +6,9 @@ gate precedence, and schema compatibility (PART 8-B.5).
 
 import math
 import pytest
-import model
-import probabilistic
-from probabilistic import NoisyOrParameters, posterior_scores, predict_probabilistic, rank_differential_probabilistic
+from ricekg import model
+from ricekg import probabilistic
+from ricekg.probabilistic import NoisyOrParameters, posterior_scores, predict_probabilistic, rank_differential_probabilistic
 
 
 def test_hand_computed_toy_example_matches_to_1e9():

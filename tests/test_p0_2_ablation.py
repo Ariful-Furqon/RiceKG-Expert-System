@@ -10,8 +10,8 @@ Unit test suite verifying P0-2 implementation:
 
 import pytest
 import owlready2
-import model
-import ablation
+from ricekg import model
+from analysis import ablation
 
 
 class TestP02AblationArchitecture:

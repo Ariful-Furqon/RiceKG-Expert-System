@@ -11,8 +11,8 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import model
-from model import predict_top_k, TOP_K_GRADE_ORDINAL
+from ricekg import model
+from ricekg.model import predict_top_k, TOP_K_GRADE_ORDINAL
 
 
 def test_ordering_key_hierarchy():

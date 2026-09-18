@@ -7,7 +7,7 @@ and not an in-scope disease diagnosis.
 """
 
 import pytest
-import model
+from ricekg import model
 
 
 def test_purely_insect_damage_yields_out_of_scope_response():

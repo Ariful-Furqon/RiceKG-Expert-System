@@ -49,8 +49,8 @@ def _repo_relative(path: str) -> str:
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-import model
-import evaluate
+from ricekg import model
+from ricekg import evaluate
 
 # Canonical 10 target threat classes (5 pests + 5 diseases)
 ALL_THREATS: List[str] = model.PESTS + model.DISEASES

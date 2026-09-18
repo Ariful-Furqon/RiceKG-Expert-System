@@ -39,8 +39,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-import model
-import evaluate
+from ricekg import model
+from ricekg import evaluate
 from baselines import ml_baselines, rule_baselines
 
 RESULTS_DIR = os.path.join(BASE_DIR, "results")

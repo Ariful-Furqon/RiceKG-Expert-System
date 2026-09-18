@@ -37,7 +37,8 @@ test = [
 ]
 
 [tool.setuptools]
-py-modules = ["model", "evaluate", "ablation", "app"]
+packages = ["ricekg"]
+py-modules = ["app"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

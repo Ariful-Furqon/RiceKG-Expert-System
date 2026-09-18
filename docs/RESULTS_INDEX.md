@@ -1,11 +1,11 @@
 <!-- GENERATED FILE — DO NOT EDIT BY HAND -->
-<!-- content-sha256: b6e00ff1fb69dc42eb0d7588d53908394ba0b14ea361b2ba2d869c766884c024 -->
+<!-- content-sha256: 6c4735e86e6483849a3df287403e976505cf6155a459ff4f23cee8d59ee9bff8 -->
 <!-- Regenerate with: python analysis/build_results_index.py -->
 <!-- Wired into: make reproduce, CI (check_readme_consistency.py) -->
 
 # Results Index
 
-Auto-generated on 2026-09-15T11:49:31Z from `results/*.json`.
+Auto-generated on 2026-09-18T13:35:04Z from `results/*.json`.
 Each row maps a manuscript claim to the command that produces it and the
 source artifact that stores the value. Edit
 `analysis/build_results_index.py` to change what is indexed.
@@ -26,21 +26,21 @@ source artifact that stores the value. Edit
 | Multinomial Naive Bayes field positive-recall (5×2-fold CV) | `python baselines/run_baselines.py` | `results/baselines.json` | 0.00% |
 | k-NN field positive-recall (5×2-fold CV) | `python baselines/run_baselines.py` | `results/baselines.json` | 0.00% |
 | Logistic Regression (OvR) field positive-recall (5×2-fold CV) | `python baselines/run_baselines.py` | `results/baselines.json` | 0.00% |
-| Ablation: full exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 32.88% |
-| Ablation: full multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 91.55% |
-| Ablation: full positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 17.78% |
-| Ablation: tier1_only exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 27.40% |
-| Ablation: tier1_only multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 90.18% |
-| Ablation: tier1_only positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 4.44% |
-| Ablation: tier2_only exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 32.88% |
-| Ablation: tier2_only multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 91.55% |
-| Ablation: tier2_only positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 17.78% |
-| Ablation: flat_rules exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 32.88% |
-| Ablation: flat_rules multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 91.55% |
-| Ablation: flat_rules positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 17.78% |
-| Ablation: no_reasoner exact match (verification suite) | `python ablation.py` | `results/ablation.json` | 58.90% |
-| Ablation: no_reasoner multi-label accuracy (verification suite) | `python ablation.py` | `results/ablation.json` | 91.55% |
-| Ablation: no_reasoner positive recall (verification suite) | `python ablation.py` | `results/ablation.json` | 17.78% |
+| Ablation: full exact match (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 32.88% |
+| Ablation: full multi-label accuracy (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 91.55% |
+| Ablation: full positive recall (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 17.78% |
+| Ablation: tier1_only exact match (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 27.40% |
+| Ablation: tier1_only multi-label accuracy (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 90.18% |
+| Ablation: tier1_only positive recall (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 4.44% |
+| Ablation: tier2_only exact match (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 32.88% |
+| Ablation: tier2_only multi-label accuracy (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 91.55% |
+| Ablation: tier2_only positive recall (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 17.78% |
+| Ablation: flat_rules exact match (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 32.88% |
+| Ablation: flat_rules multi-label accuracy (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 91.55% |
+| Ablation: flat_rules positive recall (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 17.78% |
+| Ablation: no_reasoner exact match (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 58.90% |
+| Ablation: no_reasoner multi-label accuracy (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 91.55% |
+| Ablation: no_reasoner positive recall (verification suite) | `python analysis/ablation.py` | `results/ablation.json` | 17.78% |
 | Learning-curve crossover detected (Pool A (verification suite)) | `python analysis/learning_curve.py` | `results/learning_curve.json` | None (all test-set CIs include zero) |
 | Learning-curve crossover detected (Pool B (field dev)) | `python analysis/learning_curve.py` | `results/learning_curve.json` | None (all test-set CIs include zero) |
 | LC zero-shot reference: RiceKG (Full Proposed) positive recall | `python analysis/learning_curve.py` | `results/learning_curve.json` | 35.00% |

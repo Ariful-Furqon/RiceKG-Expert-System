@@ -11,7 +11,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import model
+from ricekg import model
 from baselines import rule_baselines
 from data.generator import generate_benchmark
 from analysis.degradation_curve import (

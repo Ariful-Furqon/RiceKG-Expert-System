@@ -8,7 +8,7 @@ response, distinct from both a positive diagnosis and the insect out-of-scope re
 """
 
 import pytest
-import model
+from ricekg import model
 
 
 def test_unmodeled_pathogen_signs_yield_negative_control_response():

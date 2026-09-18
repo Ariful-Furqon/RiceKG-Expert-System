@@ -18,7 +18,7 @@ import copy
 import pytest
 from owlready2 import sync_reasoner_pellet
 
-import model
+from ricekg import model
 
 
 def _classify(onto):

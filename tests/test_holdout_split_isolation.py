@@ -49,7 +49,7 @@ def test_field_benchmark_split_counts():
 
 
 def test_evaluate_load_data_split_isolation():
-    import evaluate
+    from ricekg import evaluate
 
     # 1. Dev split only
     dev_data = evaluate.load_data(FIELD_CSV, split="dev")

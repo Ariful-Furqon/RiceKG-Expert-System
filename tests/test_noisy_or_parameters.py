@@ -7,7 +7,7 @@ no duplicates, and 100% coverage of ALL_SYMPTOMS in leak definitions.
 import csv
 import os
 import pytest
-import model
+from ricekg import model
 from analysis.verify_citations import verify_noisy_or_citations
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

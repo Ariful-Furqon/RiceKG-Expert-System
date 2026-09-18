@@ -18,14 +18,19 @@ Outputs:
 """
 
 import os
+import sys
 import csv
 import time
 import math
 import json
 import argparse
-import model
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
+from ricekg import model
+
 DEFAULT_VERIFICATION = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 DEFAULT_CSV = DEFAULT_VERIFICATION
 DEFAULT_OUT_DIR = os.path.join(BASE_DIR, "results")
@@ -34,7 +39,7 @@ ALL_CLASSES = list(model.SWRL_RULES_METADATA.keys())
 
 def load_benchmark(csv_path=DEFAULT_CSV):
     """Loads benchmark cases with symptom profiles and ground truth diagnoses."""
-    import evaluate
+    from ricekg import evaluate
     return evaluate.load_data(csv_path)
 
 

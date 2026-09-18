@@ -41,8 +41,8 @@ def _repo_relative(path: str) -> str:
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-import model
-import evaluate
+from ricekg import model
+from ricekg import evaluate
 from baselines import ml_baselines, rule_baselines
 from analysis import significance
 

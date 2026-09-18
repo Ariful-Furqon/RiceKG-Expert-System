@@ -20,7 +20,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import evaluate
+from ricekg import evaluate
 from baselines import ml_baselines
 from analysis import differential_analysis as da
 

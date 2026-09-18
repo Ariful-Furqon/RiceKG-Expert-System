@@ -32,8 +32,8 @@ from owlready2 import (
     World, AnnotationProperty
 )
 
-import model
-OUTPUT_OWL = os.path.join(BASE_DIR, "rice_ontology.owl")
+from ricekg import model
+OUTPUT_OWL = os.path.join(BASE_DIR, "ontology", "rice_ontology.owl")
 
 SKOS_IRI = "http://www.w3.org/2004/02/skos/core#"
 DCTERMS_IRI = "http://purl.org/dc/terms/"

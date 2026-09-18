@@ -14,7 +14,7 @@ Verifies:
 """
 
 import pytest
-import model
+from ricekg import model
 
 
 class TestP01SubsumptionResolution:

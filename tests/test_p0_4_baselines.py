@@ -14,8 +14,8 @@ Test suite verifying P0-4 implementation:
 
 import pytest
 import numpy as np
-import model
-import evaluate
+from ricekg import model
+from ricekg import evaluate
 from baselines import ml_baselines, rule_baselines
 from analysis import significance
 

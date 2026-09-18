@@ -20,7 +20,7 @@ existence here.
 import csv
 import os
 
-import evaluate
+from ricekg import evaluate
 
 FIELD_CSV = os.path.join(evaluate.BASE_DIR, "data", "benchmark_field.csv")
 REJECTED_CSV = os.path.join(evaluate.BASE_DIR, "data", "rejected_field_candidates.csv")

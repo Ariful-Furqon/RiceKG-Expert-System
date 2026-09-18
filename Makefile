@@ -5,7 +5,7 @@ VENV_BIN ?= $(VENV)/bin
 # Include standard Homebrew / JVM paths in execution PATH
 export PATH := /opt/homebrew/opt/openjdk/bin:/usr/local/opt/openjdk/bin:$(PATH)
 
-.PHONY: help install test ablate baselines failure-analysis competency check-docs results-index reproduce anon-bundle clean
+.PHONY: help install test ablate baselines failure-analysis competency check-docs degradation results-index reproduce anon-bundle clean
 
 help:
 	@echo "RiceKG Expert System - Makefile commands"
@@ -16,6 +16,7 @@ help:
 	@echo "  make failure-analysis - Regenerate per-case field failure diagnosis"
 	@echo "  make competency    - Regenerate the ontology competency-question report"
 	@echo "  make check-docs    - Verify README/docs figures match results/"
+	@echo "  make degradation   - Regenerate the observation-occlusion degradation curve"
 	@echo "  make results-index - Regenerate docs/RESULTS_INDEX.md from results/*.json"
 	@echo "  make reproduce     - Regenerate every result artifact end to end"
 	@echo "  make anon-bundle   - Produce an anonymised review copy in anon_bundle/"
@@ -32,7 +33,7 @@ test:
 	$(VENV_BIN)/pytest -v tests/
 
 ablate:
-	$(VENV_BIN)/python3 ablation.py
+	$(VENV_BIN)/python3 analysis/ablation.py
 
 baselines:
 	$(VENV_BIN)/python3 baselines/run_baselines.py

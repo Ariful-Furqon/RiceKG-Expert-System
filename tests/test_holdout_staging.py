@@ -12,7 +12,7 @@ import os
 import re
 import pytest
 
-import model
+from ricekg import model
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STAGING_CSV = os.path.join(BASE_DIR, "data", "field_holdout_staging.csv")

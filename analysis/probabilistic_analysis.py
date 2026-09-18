@@ -53,9 +53,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-import model
-import evaluate
-import probabilistic
+from ricekg import model
+from ricekg import evaluate
+from ricekg import probabilistic
 from baselines import ml_baselines, rule_baselines
 from analysis import significance, differential_analysis
 from analysis.degradation_curve import fast_predict_ricekg, fast_predict_ricekg_possible

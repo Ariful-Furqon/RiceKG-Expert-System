@@ -172,7 +172,7 @@ def verify_citations(csv_path: str = "data/benchmark_field.csv") -> bool:
 
 def verify_rule_citations() -> bool:
     """Verifies that every rule in model.RULE_REGISTRY carries a valid DOI and title."""
-    import model
+    from ricekg import model
     print(f"\nVerifying {len(model.RULE_REGISTRY)} rule citations in model.RULE_REGISTRY...")
     headers = {
         "User-Agent": "RiceKG-CitationVerifier/1.0 (mailto:ariful.furqon@unej.ac.id)"
@@ -236,7 +236,7 @@ def verify_rule_citations() -> bool:
 
 def verify_treatment_citations() -> bool:
     """Verifies that every IPM control treatment in model.CONTROL_TREATMENTS carries a valid DOI and title."""
-    import model
+    from ricekg import model
     print(f"\nVerifying {len(model.CONTROL_TREATMENTS)} control treatment citations in model.CONTROL_TREATMENTS...")
     headers = {
         "User-Agent": "RiceKG-CitationVerifier/1.0 (mailto:ariful.furqon@unej.ac.id)"

@@ -23,7 +23,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import model  # noqa: E402
+from ricekg import model  # noqa: E402
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")

@@ -2,8 +2,8 @@ import os
 import json
 import time
 from flask import Flask, request, render_template, redirect, url_for, jsonify
-import model
-from model import predict_diseases, predict_diseases_flat, predict_top_k, explain_diagnoses, get_derivation_trace, SWRL_RULES_METADATA
+from ricekg import model
+from ricekg.model import predict_diseases, predict_diseases_flat, predict_top_k, explain_diagnoses, get_derivation_trace, SWRL_RULES_METADATA
 
 app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

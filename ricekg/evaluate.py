@@ -7,9 +7,9 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from sklearn.linear_model import LinearRegression
 
-import model
+from ricekg import model
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_VERIFICATION_CSV = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 DEFAULT_VERIFICATION_CSV = DEFAULT_VERIFICATION_CSV  # alias for backwards compatibility
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")

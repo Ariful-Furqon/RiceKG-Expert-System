@@ -88,13 +88,5 @@ scratch/
 RiceKG_Manuscript_Remake.md
 Response_to_Reviewers.md
 
-# Project-specific: AI instructions, prompts & task briefs
-*PROMPT*.md
-*TASK*.md
-*TASKS*.md
-AIP_REVISION_TASKS.md
-ANTIGRAVITY_PROMPT*.md
-PROBABILISTIC_REASONING_TASK.md
-
 # Anonymous review bundle (produced by make anon-bundle; never commit)
 anon_bundle/

@@ -1,5 +1,5 @@
 import pytest
-import model
+from ricekg import model
 
 def get_rule_antecedents(rule_id: str) -> list:
     """Helper to dynamically fetch antecedents from model.RULE_REGISTRY."""

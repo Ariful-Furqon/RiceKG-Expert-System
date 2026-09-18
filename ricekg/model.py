@@ -51,8 +51,8 @@ def _configure_java_runtime():
 
 _configure_java_runtime()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ONTOLOGY_PATH = os.path.join(BASE_DIR, "rice_ontology.owl")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ONTOLOGY_PATH = os.path.join(BASE_DIR, "ontology", "rice_ontology.owl")
 ONTOLOGY_IRI = "http://www.semanticweb.org/ontologies/rice_pest_disease.owl"
 
 # =========================================================================
@@ -985,7 +985,7 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
 def predict_diseases_flat(symptoms, onto=None):
     """
     Backwards-compatible wrapper returning List[str] of diagnosed threat names.
-    Preserves compatibility with test.py, evaluate.py, and legacy callers.
+    Preserves compatibility with tests/test_canonical_diagnoses.py, ricekg/evaluate.py, and legacy callers.
 
     :param symptoms: List of symptom identifier strings (English).
     :param onto: Optional owlready2.Ontology instance.

@@ -163,20 +163,20 @@ def _extract_ablation(path: Path) -> list[dict]:
         exact = r.get("exact_acc", r.get("exact_match", 0.0))
         rows.append({
             "claim": f"Ablation: {r['variant']} exact match (verification suite)",
-            "command": "python ablation.py",
+            "command": "python analysis/ablation.py",
             "artifact": "results/ablation.json",
             "value": f"{_fmt(exact)}%",
         })
         rows.append({
             "claim": f"Ablation: {r['variant']} multi-label accuracy (verification suite)",
-            "command": "python ablation.py",
+            "command": "python analysis/ablation.py",
             "artifact": "results/ablation.json",
             "value": f"{_fmt(r.get('multi_acc', 0.0))}%",
         })
         if "recall" in r:
             rows.append({
                 "claim": f"Ablation: {r['variant']} positive recall (verification suite)",
-                "command": "python ablation.py",
+                "command": "python analysis/ablation.py",
                 "artifact": "results/ablation.json",
                 "value": f"{_fmt(r['recall'])}%",
             })

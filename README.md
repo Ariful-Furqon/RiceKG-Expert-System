@@ -82,21 +82,37 @@ them drifts from the regenerated data.
 
 ---
 
+## Repository Layout
+
+```
+ricekg/        Core package: OWL/SWRL reasoner (model.py), noisy-OR layer (probabilistic.py), evaluation harness (evaluate.py)
+ontology/      Published OWL 2 DL ontology (rice_ontology.owl)
+analysis/      Experiment and reporting scripts (ablation, learning/degradation curves, significance, ...)
+baselines/     ML and rule-based comparison baselines
+data/          Verification suite, field benchmark, symptom mapping, noisy-OR parameters
+results/       Generated result artifacts (JSON, Markdown, figures)
+docs/          Ontology, protocol, limitations and positioning documents
+tests/         pytest suite
+app.py         Flask web application (templates/, static/)
+```
+
+---
+
 ## Usage
 
 ### Run Automated Test Suite
 ```bash
-python -m pytest test.py -v
+python -m pytest tests/ -v
 ```
 
 ### Run Benchmark Evaluation (Confusion Matrix)
 ```bash
-python evaluate.py
+python -m ricekg.evaluate
 ```
 
 ### Run Architectural Ablation Study
 ```bash
-python ablation.py
+python analysis/ablation.py
 ```
 
 ### Launch Web Application

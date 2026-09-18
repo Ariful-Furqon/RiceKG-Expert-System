@@ -10,8 +10,8 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import model
-import evaluate
+from ricekg import model
+from ricekg import evaluate
 from data.generator import (
     generate_benchmark,
     export_benchmark_to_csv,

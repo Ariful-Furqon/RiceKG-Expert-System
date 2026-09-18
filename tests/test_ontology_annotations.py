@@ -20,10 +20,10 @@ import pytest
 import rdflib
 from rdflib.namespace import OWL, RDF, RDFS, SKOS
 
-import model
+from ricekg import model
 from analysis import build_ontology_owl as builder
 
-OWL_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "rice_ontology.owl")
+OWL_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "ontology", "rice_ontology.owl")
 BASE = rdflib.Namespace(model.ONTOLOGY_IRI + "#")
 DCTERMS = rdflib.Namespace("http://purl.org/dc/terms/")
 VANN = rdflib.Namespace("http://purl.org/vocab/vann/")

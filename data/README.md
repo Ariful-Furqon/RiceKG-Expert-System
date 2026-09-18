@@ -140,17 +140,17 @@ normalization.
 
 ## 3. Usage in Evaluation Pipeline
 
-The evaluation script (`evaluate.py`) supports separate dataset evaluation via `--dataset`:
+The evaluation script (`ricekg/evaluate.py`) supports separate dataset evaluation via `--dataset`:
 
 ```bash
 # Evaluate deductive verification suite
-python evaluate.py --dataset verification
+python -m ricekg.evaluate --dataset verification
 
 # Evaluate independent field/literature benchmark
-python evaluate.py --dataset field
+python -m ricekg.evaluate --dataset field
 
 # Specify custom CSV file
-python evaluate.py --csv-path data/custom_eval.csv
+python -m ricekg.evaluate --csv-path data/custom_eval.csv
 ```
 
 Verification-suite and independent field metrics are **never pooled into a single composite accuracy score**: the first measures deductive consistency, the second measures diagnostic accuracy.

@@ -36,11 +36,11 @@ jobs:
 
       - name: Run automated pytest test suite
         run: |
-          python -m pytest tests/ test.py -v
+          python -m pytest tests/ -v
 
       - name: Run benchmark evaluation suite
         run: |
-          python evaluate.py
+          python -m ricekg.evaluate
 
       - name: Verify benchmark citations against Crossref API
         run: |
@@ -48,7 +48,7 @@ jobs:
 
       - name: Run ablation study suite
         run: |
-          python ablation.py
+          python analysis/ablation.py
 
       - name: Run comparative baselines and significance tests
         run: |

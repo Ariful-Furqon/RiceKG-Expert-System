@@ -176,7 +176,7 @@ Following the locked single-run evaluation (`results/holdout_evaluation.md`), th
 4. **Symptom Mapping Integration**:
    - 9 new unmapped slugs from holdout cases (`plant_spreading_growth`, `leaves_deformity_serration_twisting_curling`, `plant_premature_death`, `leaves_grayish_white_mold_layer`, `leaves_rust_spots`, `plant_few_tillers`, `leaves_short_blades`, `daun_kuning_kecoklatan`, `pinggir_bercak_coklat`) were mapped into `data/symptom_mapping.csv` with agronomic justifications.
 5. **Split Isolation Enforcement**:
-   - `evaluate.py`, `analysis/field_failure_analysis.py`, and `baselines/ml_baselines.py` isolate `dev` and `eval` from `holdout`.
+   - `ricekg/evaluate.py`, `analysis/field_failure_analysis.py`, and `baselines/ml_baselines.py` isolate `dev` and `eval` from `holdout`.
    - Enforced by unit tests in `tests/test_holdout_split_isolation.py` and `tests/test_p0_5_field.py`.
 
 ### Benchmark Dev & Eval Comparative Performance Across Tiers
