@@ -5,7 +5,7 @@ VENV_BIN ?= $(VENV)/bin
 # Include standard Homebrew / JVM paths in execution PATH
 export PATH := /opt/homebrew/opt/openjdk/bin:/usr/local/opt/openjdk/bin:$(PATH)
 
-.PHONY: help install test ablate baselines failure-analysis graded-eval verify-kb competency check-docs degradation results-index reproduce anon-bundle clean
+.PHONY: help install test ablate baselines failure-analysis graded-eval verify-kb annotation-packet import-annotations expert-validation competency check-docs degradation results-index reproduce anon-bundle clean
 
 help:
 	@echo "RiceKG Expert System - Makefile commands"
@@ -16,6 +16,9 @@ help:
 	@echo "  make failure-analysis - Regenerate per-case field failure diagnosis"
 	@echo "  make graded-eval   - Single-run graded case-level field evaluation (headline figures)"
 	@echo "  make verify-kb     - Knowledge-base verification (consistency, subsumption, coverage)"
+	@echo "  make annotation-packet  - Build multi-rater workbooks in annotation/packet/ (see docs/ANNOTATION_PROTOCOL.md)"
+	@echo "  make import-annotations - Import completed workbooks from annotation/returned/"
+	@echo "  make expert-validation  - Expert-based validation from imported annotations"
 	@echo "  make competency    - Regenerate the ontology competency-question report"
 	@echo "  make check-docs    - Verify README/docs figures match results/"
 	@echo "  make degradation   - Regenerate the observation-occlusion degradation curve"
@@ -60,6 +63,15 @@ degradation:
 
 results-index:
 	$(VENV_BIN)/python3 analysis/build_results_index.py
+
+annotation-packet:
+	$(VENV_BIN)/python3 annotation/build_packet.py --raters 3
+
+import-annotations:
+	$(VENV_BIN)/python3 annotation/import_returns.py
+
+expert-validation:
+	$(VENV_BIN)/python3 analysis/expert_validation.py --rerun
 
 reproduce: ablate baselines failure-analysis graded-eval verify-kb competency degradation results-index check-docs
 	@echo "All result artifacts regenerated and documentation figures verified."

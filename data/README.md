@@ -89,7 +89,7 @@ When the diagnostic scope was narrowed from 10 classes to 6 evidence-backed clas
    - Real publication titles are strictly preserved in `citation` without alteration.
    - Every DOI is audited and verified against the official Crossref API (`api.crossref.org/works/{doi}`).
 2. **Stage B (Vocabulary Mapping & Annotator Status)**:
-   - `annotator_id` is set to `"unassigned"` pending formal human agronomist multi-rater trial.
+   - `annotator_id` is set to `"unassigned"` pending formal human agronomist multi-rater trial. The multi-rater instrument is ready (`docs/ANNOTATION_PROTOCOL.md`); its de-identified answers will be written to `data/annotations_*.csv` and `data/definition_review.csv`.
    - Symptoms mapped in this stage are uncurated/preliminary draft mappings pending full agronomic adjudication.
    - `raw_symptom_text` is preserved in the CSV as a permanent verbatim audit trail.
 

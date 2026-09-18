@@ -37,8 +37,8 @@ gives the right answers.
 | V1. Knowledge-base verification | Is the rule base consistent, non-redundant and grounded? | [`results/kb_verification.md`](../results/kb_verification.md) | Done |
 | V2. Competency | Can the ontology answer the questions it was built for? | [`docs/COMPETENCY_QUESTIONS.md`](COMPETENCY_QUESTIONS.md) | Done |
 | A1. Validation against field ground truth | On published cases, does it name the right disease, and how does it fail? | [`results/graded_evaluation.md`](../results/graded_evaluation.md) | Done |
-| A2. Validation against experts | Given the same text, does it agree with agronomists as often as they agree with each other? | multi-rater study | Planned |
-| A3. Explanation quality | Do experts judge the derivation trace correct and useful? | multi-rater study | Planned |
+| A2. Validation against experts | Given the same text, does it agree with agronomists as often as they agree with each other? | [`ANNOTATION_PROTOCOL.md`](ANNOTATION_PROTOCOL.md), `analysis/expert_validation.py` | Instrument ready; awaiting raters |
+| A3. Explanation quality | Do experts judge the derivation trace correct and useful? | [`ANNOTATION_PROTOCOL.md`](ANNOTATION_PROTOCOL.md), `analysis/expert_validation.py` | Instrument ready; awaiting raters |
 | R. Robustness | How does performance fall as observations go missing? | [`results/degradation_curve.md`](../results/degradation_curve.md) | Done |
 | C. Comparison | How do baselines do under the same protocol? | [`results/graded_evaluation.md`](../results/graded_evaluation.md) (rule baselines); [`results/learning_curve.md`](../results/learning_curve.md) (ML trained on `dev`, tested on `eval`) | Done |
 
@@ -77,7 +77,7 @@ Reported per split, each as a count with an exact Clopper–Pearson 95% interval
 Systems are compared on the same cases with an exact McNemar test on per-case success
 (positive: `correct`; control: no committed alarm).
 
-### A2 and A3. Expert-based validation (planned)
+### A2 and A3. Expert-based validation (instrument ready)
 
 Two or three agronomists read each case's symptom text with disease and pathogen names
 redacted, and independently:

@@ -90,3 +90,7 @@ Response_to_Reviewers.md
 
 # Anonymous review bundle (produced by make anon-bundle; never commit)
 anon_bundle/
+
+# Multi-rater annotation packet (contains the coordinator key) and returned workbooks
+annotation/packet/
+annotation/returned/
