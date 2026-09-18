@@ -24,6 +24,8 @@ classifiers = [
 dependencies = [
     "Flask>=2.3.0,<4.0.0",
     "Owlready2>=0.40,<0.50",
+    "rdflib>=7.0.0",
+    "openpyxl>=3.1.0",
     "numpy>=1.20.0",
     "scikit-learn>=1.0.0",
     "scipy>=1.10.0",
@@ -37,7 +39,7 @@ test = [
 ]
 
 [tool.setuptools]
-packages = ["ricekg"]
+packages = ["ricekg", "annotation"]
 py-modules = ["app"]
 
 [tool.pytest.ini_options]

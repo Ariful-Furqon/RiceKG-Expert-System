@@ -1,6 +1,8 @@
 # RiceKG Expert System - Core Dependencies
 Flask>=2.3.0,<4.0.0
 Owlready2>=0.40,<0.50
+rdflib>=7.0.0
+openpyxl>=3.1.0
 
 
 # Testing, Statistical Analysis & Evaluation
