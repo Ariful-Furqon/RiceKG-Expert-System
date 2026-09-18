@@ -13,12 +13,16 @@ Generates the OWL 2 DL ontology file `rice_ontology.owl` for PART 4 (4-A through
   skos:exactMatch / closeMatch / broadMatch / relatedMatch assertions
 - Dublin Core (dcterms), VANN and owl:versionInfo ontology metadata, and an
   rdfs:comment on every class, property and individual
+- Bilingual (en/id) skos:prefLabel, operational skos:definition and skos:scopeNote
+  for every observation term and threat, read from ontology/term_definitions.csv;
+  dcterms:source cites only DOIs already verified in data/noisy_or_parameters.csv
 
 Every AGROVOC concept below was checked against the AGROVOC Skosmos REST API
 (https://agrovoc.fao.org/browse/rest/v1/) on 2026-09-15; the preferred label is
 recorded next to each IRI. `tests/test_ontology_annotations.py` pins the mapping.
 """
 
+import csv
 import math
 import os
 import sys
@@ -29,11 +33,12 @@ sys.path.insert(0, BASE_DIR)
 
 from owlready2 import (
     Thing, AllDifferent, AllDisjoint,
-    World, AnnotationProperty
+    World, AnnotationProperty, locstr
 )
 
 from ricekg import model
 OUTPUT_OWL = os.path.join(BASE_DIR, "ontology", "rice_ontology.owl")
+DEFINITIONS_CSV = os.path.join(BASE_DIR, "ontology", "term_definitions.csv")
 
 SKOS_IRI = "http://www.w3.org/2004/02/skos/core#"
 DCTERMS_IRI = "http://purl.org/dc/terms/"
@@ -41,7 +46,10 @@ VANN_IRI = "http://purl.org/vocab/vann/"
 AGROVOC = "http://aims.fao.org/aos/agrovoc/"
 OBO = "http://purl.obolibrary.org/obo/"
 
-ONTOLOGY_VERSION = "2.0.0"
+ONTOLOGY_VERSION = "2.1.0"
+
+DRAFT_NOTE = ("Operational definition drafted by the RiceKG authors from the cited source and "
+              "standard rice pathology descriptions; pending review by independent agronomists.")
 
 # (entity name, SKOS relation, target IRI, verified preferred label)
 CLASS_ALIGNMENTS = [
@@ -74,6 +82,11 @@ THREAT_ALIGNMENTS = [
 ]
 
 
+def load_term_definitions(path=DEFINITIONS_CSV):
+    with open(path, encoding="utf-8", newline="") as f:
+        return {row["term"]: row for row in csv.DictReader(f)}
+
+
 def build_and_save_ontology(output_path=OUTPUT_OWL):
     world = World()
     onto = world.get_ontology(model.ONTOLOGY_IRI)
@@ -86,11 +99,17 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
         class closeMatch(AnnotationProperty): pass
         class broadMatch(AnnotationProperty): pass
         class relatedMatch(AnnotationProperty): pass
+        class prefLabel(AnnotationProperty): pass
+        class altLabel(AnnotationProperty): pass
+        class definition(AnnotationProperty): pass
+        class scopeNote(AnnotationProperty): pass
+        class editorialNote(AnnotationProperty): pass
     with dcterms:
         class title(AnnotationProperty): pass
         class creator(AnnotationProperty): pass
         class license(AnnotationProperty): pass
         class description(AnnotationProperty): pass
+        class source(AnnotationProperty): pass
     with vann:
         class preferredNamespacePrefix(AnnotationProperty): pass
         class preferredNamespaceUri(AnnotationProperty): pass
@@ -100,6 +119,26 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
     def link(entity, relation, iri):
         """Assert an IRI-valued (not string-literal) annotation triple."""
         onto._add_obj_triple_spo(entity.storid, skos_props[relation].storid, onto._abbreviate(iri))
+
+    definitions = load_term_definitions()
+
+    def describe(entity):
+        """Attach the curated labels, definition and supporting source for one term."""
+        row = definitions[entity.name]
+        entity.label = [locstr(row["label_en"], lang="en")]
+        entity.prefLabel = [locstr(row["label_en"], lang="en"), locstr(row["label_id"], lang="id")]
+        if row["alt_label_en"]:
+            entity.altLabel = [locstr(a.strip(), lang="en") for a in row["alt_label_en"].split(";")]
+        entity.definition = [locstr(row["definition"], lang="en")]
+        if row["scope_note"]:
+            entity.scopeNote = [locstr(row["scope_note"], lang="en")]
+        if row["source_doi"]:
+            onto._add_obj_triple_spo(entity.storid, source.storid,
+                                     onto._abbreviate("https://doi.org/" + row["source_doi"]))
+        elif row["source_citation"]:
+            entity.source = [f"{row['source_citation']} {row['source_locator']}".strip()]
+        if row["status"] == "draft":
+            entity.editorialNote = [locstr(DRAFT_NOTE, lang="en")]
 
     with onto:
         # -------------------------------------------------------------
@@ -315,6 +354,7 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
             for extra_type in types_list[1:]:
                 inst.is_a.append(extra_type)
             inst.comment = [f"Observation term '{s_name.replace('_', ' ')}': " + "; ".join(descr) + "."]
+            describe(inst)
             obs_individuals[s_name] = inst
 
         AllDifferent(list(obs_individuals.values()))
@@ -351,6 +391,7 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
                 f"In-scope {kind.lower()} '{t_name.replace('_', ' ')}'. hasSymptom lists its Tier-1 "
                 f"canonical antecedents; hasControlTreatment links its cited IPM recommendation."
             ]
+            describe(t_inst)
             if t_name in control_individuals:
                 t_inst.hasControlTreatment = [control_individuals[t_name]]
             t1_meta = model.SWRL_RULES_METADATA.get(t_name, {}).get("tier1", {})

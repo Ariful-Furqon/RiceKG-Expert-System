@@ -71,3 +71,38 @@ def test_possible_cardinality_matches_model(graph):
         assert restriction is not None
         values = {int(o) for o in graph.objects(None, OWL.minQualifiedCardinality)}
         assert k in values, f"{threat}: expected min {k}"
+
+
+# ---------------------------------------------------------------------------
+# Curated term definitions (ontology/term_definitions.csv)
+# ---------------------------------------------------------------------------
+
+ALL_TERMS = model.ALL_SYMPTOMS + model.PESTS + model.DISEASES
+
+
+def test_definitions_file_covers_exactly_the_model_vocabulary():
+    assert set(builder.load_term_definitions()) == set(ALL_TERMS)
+
+
+@pytest.mark.parametrize("term", ALL_TERMS)
+def test_term_has_bilingual_label_and_definition(graph, term):
+    labels = {o.language: str(o) for o in graph.objects(BASE[term], SKOS.prefLabel)}
+    assert labels.get("en") and labels.get("id"), f"{term}: needs en and id skos:prefLabel"
+    definitions = list(graph.objects(BASE[term], SKOS.definition))
+    assert len(definitions) == 1 and len(str(definitions[0])) > 30, f"{term}: missing or trivial skos:definition"
+
+
+def test_definitions_are_distinct():
+    defs = [row["definition"] for row in builder.load_term_definitions().values()]
+    assert len(defs) == len(set(defs))
+
+
+def test_sources_cite_only_verified_dois(graph):
+    """dcterms:source may only point at DOIs that the citation verifier already checks."""
+    import csv
+    params = os.path.join(os.path.dirname(OWL_PATH), "..", "data", "noisy_or_parameters.csv")
+    with open(params, encoding="utf-8") as f:
+        verified = {"https://doi.org/" + r["doi"] for r in csv.DictReader(f) if r["doi"]}
+    cited = {str(o) for o in graph.objects(None, DCTERMS.source) if isinstance(o, rdflib.URIRef)}
+    assert cited, "expected at least one DOI-valued dcterms:source"
+    assert cited <= verified, f"unverified DOIs: {sorted(cited - verified)}"

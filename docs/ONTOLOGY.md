@@ -445,3 +445,38 @@ Because top-$k$ differential expansion inflates recall by construction, every Hi
 - On the held-out field `eval` split ($n=5$ positive cases, $n=18$ negative controls), RiceKG expands from Hit@1 = **40.0%** to Hit@3 = **100.0%** (MRR = 0.667), capturing partial-evidence field cases while preserving 50.0% specificity on negative controls.
 - Under the identical protocol, standard ML classifiers collapse to a 100.0% false alarm rate (0.0% specificity) on negative controls.
 
+
+---
+
+## Term definitions (ontology v2.1.0)
+
+Until v2.0.0 every observation term carried only a structural `rdfs:comment`
+("Observation term 'X': plant symptom; anatomical axis ..."), which says where a term
+sits in the taxonomy but not what an observer must see to record it. Two annotators
+could not apply such a vocabulary consistently.
+
+From v2.1.0 each of the 61 observation terms and 6 threats carries:
+
+| Annotation | Content |
+|---|---|
+| `skos:prefLabel` | English and Indonesian labels (`@en`, `@id`) |
+| `skos:altLabel` | Synonyms found in the field literature |
+| `skos:definition` | Operational definition: what must be visible to record the term |
+| `skos:scopeNote` | How to tell the term apart from its nearest neighbours |
+| `dcterms:source` | Supporting source for the sign |
+| `skos:editorialNote` | Review status |
+
+The curated source is [`ontology/term_definitions.csv`](../ontology/term_definitions.csv);
+`analysis/build_ontology_owl.py` reads it, so the OWL file is never edited by hand.
+The annotations do not change reasoning: `model.build_ontology` builds its own in-memory
+ontology, and the regenerated OWL keeps every v2.0.0 triple.
+
+**Source rule.** `dcterms:source` points only at DOIs already present in
+`data/noisy_or_parameters.csv`, which `analysis/verify_citations.py` checks against Crossref,
+or at the Ou (1985) monograph with a page locator. No new, unverified reference was added;
+terms without such a source have none. `tests/test_ontology_annotations.py` enforces this.
+
+**Status.** Every definition is marked `draft` in the CSV and carries an
+`skos:editorialNote` saying it awaits independent agronomist review. The multi-rater
+annotation study is the intended review: once raters have applied the definitions, change
+`status` to `reviewed` for each accepted term and rebuild.

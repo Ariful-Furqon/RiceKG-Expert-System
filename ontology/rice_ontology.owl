@@ -16,7 +16,7 @@
   <term:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Six in-scope rice disease classes (five pathogens and one plant-parasitic nematode) defined by OWL 2 defined classes over a two-axis symptom taxonomy; insect damage is represented as out-of-scope evidence.</term:description>
   <vann:preferredNamespacePrefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ricekg</vann:preferredNamespacePrefix>
   <vann:preferredNamespaceUri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.semanticweb.org/ontologies/rice_pest_disease.owl#</vann:preferredNamespaceUri>
-  <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2.0.0</owl:versionInfo>
+  <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2.1.0</owl:versionInfo>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RiceKG: OWL 2 DL ontology for rice disease diagnosis with defined classes, a symptom taxonomy and provable tier subsumption.</rdfs:comment>
 </owl:Ontology>
 
@@ -136,6 +136,16 @@
 
 <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#relatedMatch"/>
 
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#altLabel"/>
+
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#definition"/>
+
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+
+<owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#editorialNote"/>
+
 <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
 
 <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/creator"/>
@@ -143,6 +153,8 @@
 <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
 
 <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
+
+<owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/source"/>
 
 <owl:AnnotationProperty rdf:about="http://purl.org/vocab/vann/preferredNamespacePrefix"/>
 
@@ -817,16 +829,34 @@
 <owl:NamedIndividual rdf:about="#Brown_Nymphs">
   <rdf:type rdf:resource="#OrganismSighting"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Brown Nymphs': organism sighting.</rdfs:comment>
+  <rdfs:label xml:lang="en">brown nymphs</rdfs:label>
+  <core:prefLabel xml:lang="en">brown nymphs</core:prefLabel>
+  <core:prefLabel xml:lang="id">nimfa cokelat</core:prefLabel>
+  <core:definition xml:lang="en">Brown-coloured nymphs (immature, wingless insect stages) seen on the plant, usually at the base of tillers or on lower leaf sheaths.</core:definition>
+  <core:scopeNote xml:lang="en">Records the insect, not plant damage. Colour-specific variant of Nymphs_Present; use Nymphs_Present when colour is not reported.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellow_Nymphs">
   <rdf:type rdf:resource="#OrganismSighting"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Yellow Nymphs': organism sighting.</rdfs:comment>
+  <rdfs:label xml:lang="en">yellow nymphs</rdfs:label>
+  <core:prefLabel xml:lang="en">yellow nymphs</core:prefLabel>
+  <core:prefLabel xml:lang="id">nimfa kuning</core:prefLabel>
+  <core:definition xml:lang="en">Yellow- or pale-coloured nymphs (immature, wingless insect stages) seen on the plant.</core:definition>
+  <core:scopeNote xml:lang="en">Colour-specific variant of Nymphs_Present; use Nymphs_Present when colour is not reported.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Eggs_On_Plant">
   <rdf:type rdf:resource="#OrganismSighting"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Eggs On Plant': organism sighting.</rdfs:comment>
+  <rdfs:label xml:lang="en">insect eggs on plant</rdfs:label>
+  <core:prefLabel xml:lang="id">telur serangga pada tanaman</core:prefLabel>
+  <core:prefLabel xml:lang="en">insect eggs on plant</core:prefLabel>
+  <core:definition xml:lang="en">Insect eggs or egg masses deposited on leaf blades or leaf sheaths and visible without dissection.</core:definition>
+  <core:scopeNote xml:lang="en">Excludes nematode egg masses inside root tissue, which are not field-visible.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Broad_Leaf_Damage">
@@ -835,6 +865,12 @@
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Broad Leaf Damage': plant symptom; anatomical axis LeafSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">broad leaf damage</rdfs:label>
+  <core:prefLabel xml:lang="id">kerusakan daun luas</core:prefLabel>
+  <core:prefLabel xml:lang="en">broad leaf damage</core:prefLabel>
+  <core:definition xml:lang="en">Loss of a large part of the leaf blade to insect feeding, leaving much of the blade missing.</core:definition>
+  <core:scopeNote xml:lang="en">Use Leaf_Chewing_Damage for localized notches or holes.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Severed_Panicles">
@@ -843,6 +879,12 @@
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Severed Panicles': plant symptom; anatomical axis PanicleSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">severed panicles</rdfs:label>
+  <core:prefLabel xml:lang="id">malai terpotong</core:prefLabel>
+  <core:prefLabel xml:lang="en">severed panicles</core:prefLabel>
+  <core:definition xml:lang="en">Panicles or panicle branches cut off at the neck or peduncle by insect feeding.</core:definition>
+  <core:scopeNote xml:lang="en">A mechanical cut, not a lesion; use Panicle_Neck_Rot when the neck is necrotic and the panicle remains attached.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Chewing_Damage">
@@ -851,55 +893,114 @@
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Chewing Damage': plant symptom; anatomical axis LeafSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">leaf chewing damage</rdfs:label>
+  <core:prefLabel xml:lang="en">leaf chewing damage</core:prefLabel>
+  <core:prefLabel xml:lang="id">bekas gigitan pada daun</core:prefLabel>
+  <core:definition xml:lang="en">Irregular notches, holes or ragged margins on the leaf blade caused by the mouthparts of chewing insects.</core:definition>
+  <core:scopeNote xml:lang="en">Localized feeding marks; use Broad_Leaf_Damage when most of the blade is consumed.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Hook_Like_Root_Swelling">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#RootSign"/>
+  <term:source rdf:resource="https://doi.org/10.1111/mpp.12394"/>
   <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Hook Like Root Swelling': plant symptom; anatomical axis RootSign.</rdfs:comment>
+  <rdfs:label xml:lang="en">hook-shaped root galls</rdfs:label>
+  <core:prefLabel xml:lang="id">puru akar berbentuk kait</core:prefLabel>
+  <core:prefLabel xml:lang="en">hook-shaped root galls</core:prefLabel>
+  <core:altLabel xml:lang="en">hooked root tips</core:altLabel>
+  <core:definition xml:lang="en">Galls (swellings) at the root tips that bend the tip into a curved, hook-like shape.</core:definition>
+  <core:scopeNote xml:lang="en">Use Root_Knot_Swelling for galls not described as hooked. Nematode cysts attached to the root surface are not galls.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Root_Knot_Swelling">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#RootSign"/>
+  <term:source rdf:resource="https://doi.org/10.1079/9780851997278.0087"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Root Knot Swelling': plant symptom; anatomical axis RootSign.</rdfs:comment>
+  <rdfs:label xml:lang="en">root galls</rdfs:label>
+  <core:prefLabel xml:lang="en">root galls</core:prefLabel>
+  <core:prefLabel xml:lang="id">puru akar</core:prefLabel>
+  <core:altLabel xml:lang="en">root knots</core:altLabel>
+  <core:definition xml:lang="en">Round or spindle-shaped swellings (galls) formed along the root axis, not specifically at a hooked tip.</core:definition>
+  <core:scopeNote xml:lang="en">Galls are swellings of root tissue; nematode cysts (e.g. Heterodera) are external bodies attached to the root and are not galls.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Deformed_Roots">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#RootSign"/>
+  <term:source rdf:resource="https://doi.org/10.1079/9780851997278.0087"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Deformed Roots': plant symptom; anatomical axis RootSign.</rdfs:comment>
+  <rdfs:label xml:lang="en">deformed roots</rdfs:label>
+  <core:prefLabel xml:lang="en">deformed roots</core:prefLabel>
+  <core:prefLabel xml:lang="id">akar cacat bentuk</core:prefLabel>
+  <core:definition xml:lang="en">Roots that are bent, twisted, shortened or thickened in shape beyond discrete galls.</core:definition>
+  <core:scopeNote xml:lang="en">Use Discolored_Roots for a colour change without a change in shape.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Necrotic_Spots">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <term:source rdf:resource="https://doi.org/10.3389/fpls.2015.00886"/>
   <rdf:type rdf:resource="#Rice_BlastObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Necrotic Spots': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">necrotic spots</rdfs:label>
+  <core:prefLabel xml:lang="id">bercak nekrotik</core:prefLabel>
+  <core:prefLabel xml:lang="en">necrotic spots</core:prefLabel>
+  <core:altLabel xml:lang="en">leaf spots</core:altLabel>
+  <core:definition xml:lang="en">Small discrete spots or lesions of dead tissue (brown, grey or black) on the plant, of any shape.</core:definition>
+  <core:scopeNote xml:lang="en">General lesion term. Use Diamond_Shaped_Lesions for spindle or diamond lesions with a grey centre, and Brown_Streaks for narrow lesions running along the veins.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaves">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <term:source rdf:resource="https://doi.org/10.3390/v14102258"/>
   <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Yellowing Leaves': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">yellowing leaves</rdfs:label>
+  <core:prefLabel xml:lang="id">daun menguning</core:prefLabel>
+  <core:prefLabel xml:lang="en">yellowing leaves</core:prefLabel>
+  <core:altLabel xml:lang="en">leaf chlorosis</core:altLabel>
+  <core:definition xml:lang="en">Pale green to yellow colour (chlorosis) over whole leaf blades on one or more leaves.</core:definition>
+  <core:scopeNote xml:lang="en">Use Plant_Yellowing when the whole plant is uniformly yellow, Yellowing_Leaf_Tips when yellowing starts at the tip, Orange_Leaf_Discoloration for a yellow-orange hue, and Leaf_Mottling for a patchy pattern.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Stunted_Growth">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#WholePlantSign"/>
   <rdf:type rdf:resource="#Stunting"/>
+  <term:source rdf:resource="https://doi.org/10.1111/mpp.12394"/>
   <rdf:type rdf:resource="#Rice_Root_NematodeObservation"/>
   <rdf:type rdf:resource="#Rice_Tungro_VirusObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Stunted Growth': plant symptom; anatomical axis WholePlantSign; phenomenological axis Stunting.</rdfs:comment>
+  <rdfs:label xml:lang="en">stunted growth</rdfs:label>
+  <core:prefLabel xml:lang="id">tanaman kerdil</core:prefLabel>
+  <core:prefLabel xml:lang="en">stunted growth</core:prefLabel>
+  <core:altLabel xml:lang="en">stunting</core:altLabel>
+  <core:definition xml:lang="en">Plants noticeably shorter than healthy plants of the same age and cultivar.</core:definition>
+  <core:scopeNote xml:lang="en">Use Severe_Stunting when the source describes marked dwarfing.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Frass_In_Stem">
   <rdf:type rdf:resource="#OrganismSighting"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Frass In Stem': organism sighting.</rdfs:comment>
+  <rdfs:label xml:lang="en">frass in stem</rdfs:label>
+  <core:prefLabel xml:lang="en">frass in stem</core:prefLabel>
+  <core:prefLabel xml:lang="id">kotoran larva di dalam batang</core:prefLabel>
+  <core:definition xml:lang="en">Insect excrement and boring debris found inside the stem or at entry holes in the culm.</core:definition>
+  <core:scopeNote xml:lang="en">Direct evidence of a stem-boring insect.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Bore_Holes_In_Stem">
@@ -908,6 +1009,11 @@
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Bore Holes In Stem': plant symptom; anatomical axis StemSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">bore holes in stem</rdfs:label>
+  <core:prefLabel xml:lang="id">lubang gerekan pada batang</core:prefLabel>
+  <core:prefLabel xml:lang="en">bore holes in stem</core:prefLabel>
+  <core:definition xml:lang="en">Small entry or exit holes in the culm or leaf sheath made by stem-boring larvae.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Deadheart_Seedling">
@@ -916,6 +1022,12 @@
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Deadheart Seedling': plant symptom; anatomical axis WholePlantSign; phenomenological axis Necrosis; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">deadheart</rdfs:label>
+  <core:prefLabel xml:lang="en">deadheart</core:prefLabel>
+  <core:prefLabel xml:lang="id">sundep</core:prefLabel>
+  <core:definition xml:lang="en">At the vegetative stage, the central (youngest) leaf whorl of a tiller turns brown and dries while the outer leaves stay green.</core:definition>
+  <core:scopeNote xml:lang="en">Vegetative-stage sign; the reproductive-stage counterpart is an empty white panicle (Whitehead_Empty_Panicles).</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Easily_Pulled_Tillers">
@@ -924,23 +1036,47 @@
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Easily Pulled Tillers': plant symptom; anatomical axis StemSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">easily pulled tillers</rdfs:label>
+  <core:prefLabel xml:lang="id">anakan mudah dicabut</core:prefLabel>
+  <core:prefLabel xml:lang="en">easily pulled tillers</core:prefLabel>
+  <core:definition xml:lang="en">Affected tillers or central shoots come away with little resistance when pulled, because the stem base is severed internally.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Whitehead_Empty_Panicles">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#PanicleSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
+  <term:source rdf:resource="https://doi.org/10.3390/v14102258"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Whitehead Empty Panicles': plant symptom; anatomical axis PanicleSign; phenomenological axis GrainAbnormality.</rdfs:comment>
+  <rdfs:label xml:lang="en">white empty panicles</rdfs:label>
+  <core:prefLabel xml:lang="en">white empty panicles</core:prefLabel>
+  <core:prefLabel xml:lang="id">malai putih hampa (beluk)</core:prefLabel>
+  <core:altLabel xml:lang="en">whiteheads</core:altLabel>
+  <core:definition xml:lang="en">Panicles that emerge white or straw-coloured, stay erect and carry mostly unfilled grains.</core:definition>
+  <core:scopeNote xml:lang="en">Records the whole panicle as empty, whatever the cause (stem borer, virus-induced poor heading). Use Empty_Grains when only some grains are unfilled.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Nymphs_Present">
   <rdf:type rdf:resource="#OrganismSighting"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Nymphs Present': organism sighting.</rdfs:comment>
+  <rdfs:label xml:lang="en">nymphs present</rdfs:label>
+  <core:prefLabel xml:lang="en">nymphs present</core:prefLabel>
+  <core:prefLabel xml:lang="id">ada nimfa</core:prefLabel>
+  <core:definition xml:lang="en">Immature, wingless stages of insects observed on the plant, colour not specified.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Adult_Insects_Present">
   <rdf:type rdf:resource="#OrganismSighting"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Adult Insects Present': organism sighting.</rdfs:comment>
+  <rdfs:label xml:lang="en">adult insects present</rdfs:label>
+  <core:prefLabel xml:lang="en">adult insects present</core:prefLabel>
+  <core:prefLabel xml:lang="id">ada serangga dewasa</core:prefLabel>
+  <core:definition xml:lang="en">Adult insects observed feeding or resting on the plant.</core:definition>
+  <core:scopeNote xml:lang="en">Use Brown_Planthopper_Present or Green_Leafhopper_Present when the insect is identified as a virus vector.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Margin_Sap_Sucking">
@@ -949,6 +1085,11 @@
   <rdf:type rdf:resource="#MechanicalDamage"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Margin Sap Sucking': plant symptom; anatomical axis LeafSign; phenomenological axis MechanicalDamage; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">sap-sucking injury on leaf margins</rdfs:label>
+  <core:prefLabel xml:lang="id">bekas isapan di tepi daun</core:prefLabel>
+  <core:prefLabel xml:lang="en">sap-sucking injury on leaf margins</core:prefLabel>
+  <core:definition xml:lang="en">Feeding injury from piercing-sucking insects along the leaf margins, seen as small discoloured or drying spots.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rotten_Panicles">
@@ -957,11 +1098,23 @@
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Rotten Panicles': plant symptom; anatomical axis PanicleSign; phenomenological axis Necrosis; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">rotten panicles</rdfs:label>
+  <core:prefLabel xml:lang="id">malai busuk</core:prefLabel>
+  <core:prefLabel xml:lang="en">rotten panicles</core:prefLabel>
+  <core:definition xml:lang="en">Panicles whose spikelets or grains are discoloured, shrivelled or decaying.</core:definition>
+  <core:scopeNote xml:lang="en">Use Panicle_Neck_Rot when the lesion is at the panicle neck node.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Random_Feeding_Pattern">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Random Feeding Pattern': epidemiological context.</rdfs:comment>
+  <rdfs:label xml:lang="en">random feeding pattern</rdfs:label>
+  <core:prefLabel xml:lang="id">pola serangan acak</core:prefLabel>
+  <core:prefLabel xml:lang="en">random feeding pattern</core:prefLabel>
+  <core:definition xml:lang="en">Damage scattered irregularly across the field rather than in patches, rows or foci.</core:definition>
+  <core:scopeNote xml:lang="en">Field-level context, not a sign on a single plant.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Localized_Leaf_Yellowing">
@@ -970,6 +1123,12 @@
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Localized Leaf Yellowing': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">localized leaf yellowing</rdfs:label>
+  <core:prefLabel xml:lang="en">localized leaf yellowing</core:prefLabel>
+  <core:prefLabel xml:lang="id">kuning setempat pada daun</core:prefLabel>
+  <core:definition xml:lang="en">Yellowing confined to discrete patches on individual leaves while the rest of the blade stays green.</core:definition>
+  <core:scopeNote xml:lang="en">Use Yellowing_Leaves when whole blades are yellow.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Empty_Grains">
@@ -978,6 +1137,14 @@
   <rdf:type rdf:resource="#GrainAbnormality"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Empty Grains': plant symptom; anatomical axis GrainSign; phenomenological axis GrainAbnormality; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">empty grains</rdfs:label>
+  <core:prefLabel xml:lang="en">empty grains</core:prefLabel>
+  <core:prefLabel xml:lang="id">gabah hampa</core:prefLabel>
+  <core:altLabel xml:lang="en">unfilled grains</core:altLabel>
+  <core:altLabel xml:lang="en">chaffy grains</core:altLabel>
+  <core:definition xml:lang="en">Spikelets that are unfilled or only partly filled (chaffy) at grain filling or maturity.</core:definition>
+  <core:scopeNote xml:lang="en">Use Whitehead_Empty_Panicles when the whole panicle is white and empty.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Plant_Yellowing">
@@ -986,6 +1153,12 @@
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Plant Yellowing': plant symptom; anatomical axis WholePlantSign; phenomenological axis Chlorosis; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">whole-plant yellowing</rdfs:label>
+  <core:prefLabel xml:lang="id">seluruh tanaman menguning</core:prefLabel>
+  <core:prefLabel xml:lang="en">whole-plant yellowing</core:prefLabel>
+  <core:definition xml:lang="en">Yellowing that affects the whole plant or nearly all of its leaves uniformly.</core:definition>
+  <core:scopeNote xml:lang="en">Use Yellowing_Leaves when yellowing is reported for leaves rather than the whole plant.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Hopperburn_Drying">
@@ -994,11 +1167,23 @@
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Hopperburn Drying': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">hopperburn</rdfs:label>
+  <core:prefLabel xml:lang="en">hopperburn</core:prefLabel>
+  <core:prefLabel xml:lang="id">hopperburn (tanaman mengering seperti terbakar)</core:prefLabel>
+  <core:definition xml:lang="en">Plants yellow, then brown and dry from the base upward after heavy planthopper feeding, looking burnt.</core:definition>
+  <core:scopeNote xml:lang="en">Insect-caused; use Leaf_Desiccation for drying of leaves from disease.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Circular_Hopperburn_Patches">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Circular Hopperburn Patches': epidemiological context.</rdfs:comment>
+  <rdfs:label xml:lang="en">circular hopperburn patches</rdfs:label>
+  <core:prefLabel xml:lang="id">petak hopperburn melingkar</core:prefLabel>
+  <core:prefLabel xml:lang="en">circular hopperburn patches</core:prefLabel>
+  <core:definition xml:lang="en">Circular or oval patches of dried, collapsed plants within the field that enlarge outward.</core:definition>
+  <core:scopeNote xml:lang="en">Field-level context.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Blackened_Feeding_Punctures">
@@ -1007,6 +1192,11 @@
   <rdf:type rdf:resource="#Necrosis"/>
   <rdf:type rdf:resource="#InsectDamageSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Blackened Feeding Punctures': plant symptom; anatomical axis StemSign; phenomenological axis Necrosis; insect damage, out of diagnostic scope.</rdfs:comment>
+  <rdfs:label xml:lang="en">blackened feeding punctures</rdfs:label>
+  <core:prefLabel xml:lang="en">blackened feeding punctures</core:prefLabel>
+  <core:prefLabel xml:lang="id">bekas tusukan hitam</core:prefLabel>
+  <core:definition xml:lang="en">Small dark or black spots at the feeding sites of piercing-sucking insects on stems, sheaths or grains.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaf_Veins">
@@ -1014,127 +1204,273 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Yellowing Leaf Veins': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">yellowing along leaf veins</rdfs:label>
+  <core:prefLabel xml:lang="en">yellowing along leaf veins</core:prefLabel>
+  <core:prefLabel xml:lang="id">kuning mengikuti tulang daun</core:prefLabel>
+  <core:definition xml:lang="en">Yellow discoloration or yellow lesions that extend along the leaf veins, for example a lesion whose wavy yellow margin follows the veins.</core:definition>
+  <core:scopeNote xml:lang="en">Refers to lesion progress along the veins. The term name suggests vein yellowing, but the knowledge base uses it for this lesion pattern.</core:scopeNote>
+  <term:source rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ou, S.H. (1985). Rice Diseases, 2nd edition. Commonwealth Mycological Institute, Kew, Surrey, UK. p. 65</term:source>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Discoloration_Yellow">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <term:source rdf:resource="https://doi.org/10.1186/s12870-025-07928-2"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Discoloration Yellow': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">yellow lesions along leaf margins</rdfs:label>
+  <core:prefLabel xml:lang="en">yellow lesions along leaf margins</core:prefLabel>
+  <core:prefLabel xml:lang="id">lesi kuning di tepi daun</core:prefLabel>
+  <core:definition xml:lang="en">Yellow lesions or yellow bands that run along the leaf margins.</core:definition>
+  <core:scopeNote xml:lang="en">Marginal lesions; use Yellowing_Leaves when whole blades are yellow and Yellowing_Leaf_Tips when yellowing starts at the tip.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Yellowing_Leaf_Tips">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <term:source rdf:resource="https://doi.org/10.1186/s12870-025-07928-2"/>
   <rdf:type rdf:resource="#Bacterial_Leaf_BlightObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Yellowing Leaf Tips': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">yellowing leaf tips</rdfs:label>
+  <core:prefLabel xml:lang="en">yellowing leaf tips</core:prefLabel>
+  <core:prefLabel xml:lang="id">ujung daun menguning</core:prefLabel>
+  <core:definition xml:lang="en">Yellowing that begins at the leaf tip and progresses toward the base.</core:definition>
+  <core:scopeNote xml:lang="en">Use Whitened_Leaf_Tips when the tip turns white, and Orange_Leaf_Discoloration when the colour is yellow-orange.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rapid_Disease_Spread">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Rapid Disease Spread': epidemiological context.</rdfs:comment>
+  <rdfs:label xml:lang="en">rapid disease spread</rdfs:label>
+  <core:prefLabel xml:lang="en">rapid disease spread</core:prefLabel>
+  <core:prefLabel xml:lang="id">penyebaran penyakit cepat</core:prefLabel>
+  <core:definition xml:lang="en">The number of affected plants or the affected area is reported to increase quickly across the field.</core:definition>
+  <core:scopeNote xml:lang="en">Field-level context, often reported after storms or heavy rain.</core:scopeNote>
+  <term:source rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ou, S.H. (1985). Rice Diseases, 2nd edition. Commonwealth Mycological Institute, Kew, Surrey, UK. p. 70</term:source>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rusty_Grain_Balls">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#GrainSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
+  <term:source rdf:resource="https://doi.org/10.3390/plants12040741"/>
   <rdf:type rdf:resource="#False_SmutObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Rusty Grain Balls': plant symptom; anatomical axis GrainSign; phenomenological axis GrainAbnormality.</rdfs:comment>
+  <rdfs:label xml:lang="en">yellow to orange spore balls</rdfs:label>
+  <core:prefLabel xml:lang="en">yellow to orange spore balls</core:prefLabel>
+  <core:prefLabel xml:lang="id">bola spora kuning-oranye pada gabah</core:prefLabel>
+  <core:altLabel xml:lang="en">false smut balls (immature)</core:altLabel>
+  <core:definition xml:lang="en">Individual grains replaced by velvety spore balls, orange-yellow to yellowish-green, larger than a normal grain.</core:definition>
+  <core:scopeNote xml:lang="en">Immature stage; use Blackened_Grain_Balls when the balls have turned dark green to black.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Blackened_Grain_Balls">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#GrainSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
+  <term:source rdf:resource="https://doi.org/10.3390/plants12040741"/>
   <rdf:type rdf:resource="#False_SmutObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Blackened Grain Balls': plant symptom; anatomical axis GrainSign; phenomenological axis GrainAbnormality.</rdfs:comment>
+  <rdfs:label xml:lang="en">dark green to black spore balls</rdfs:label>
+  <core:prefLabel xml:lang="id">bola spora hijau gelap-hitam</core:prefLabel>
+  <core:prefLabel xml:lang="en">dark green to black spore balls</core:prefLabel>
+  <core:altLabel xml:lang="en">false smut balls (mature)</core:altLabel>
+  <core:definition xml:lang="en">Mature spore balls replacing grains that have turned dark olive-green to greenish-black.</core:definition>
+  <core:scopeNote xml:lang="en">Mature stage of the balls described in Rusty_Grain_Balls.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rainy_Season_Outbreak">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Rainy Season Outbreak': epidemiological context.</rdfs:comment>
+  <rdfs:label xml:lang="en">rainy-season outbreak</rdfs:label>
+  <core:prefLabel xml:lang="id">ledakan pada musim hujan</core:prefLabel>
+  <core:prefLabel xml:lang="en">rainy-season outbreak</core:prefLabel>
+  <core:definition xml:lang="en">Disease occurs during or after a period of frequent rain and high humidity, especially around flowering.</core:definition>
+  <core:scopeNote xml:lang="en">Field-level context.</core:scopeNote>
+  <term:source rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ou, S.H. (1985). Rice Diseases, 2nd edition. Commonwealth Mycological Institute, Kew, Surrey, UK. p. 320</term:source>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Uniform_Field_Infection">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Uniform Field Infection': epidemiological context.</rdfs:comment>
+  <rdfs:label xml:lang="en">uniform field infection</rdfs:label>
+  <core:prefLabel xml:lang="en">uniform field infection</core:prefLabel>
+  <core:prefLabel xml:lang="id">serangan merata di hamparan</core:prefLabel>
+  <core:definition xml:lang="en">Symptoms affect plants throughout large continuous areas of the field rather than isolated plants or patches.</core:definition>
+  <core:scopeNote xml:lang="en">Field-level context.</core:scopeNote>
+  <term:source rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ou, S.H. (1985). Rice Diseases, 2nd edition. Commonwealth Mycological Institute, Kew, Surrey, UK. p. 116</term:source>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Slight_Panicle_Infection">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
+  <term:source rdf:resource="https://doi.org/10.3390/plants12040741"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Slight Panicle Infection': epidemiological context.</rdfs:comment>
+  <rdfs:label xml:lang="en">few spikelets affected per panicle</rdfs:label>
+  <core:prefLabel xml:lang="id">infeksi ringan pada malai</core:prefLabel>
+  <core:prefLabel xml:lang="en">few spikelets affected per panicle</core:prefLabel>
+  <core:definition xml:lang="en">Only a few spikelets per panicle are affected, with small early lesions confined to the glumes.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Milky_Stage_Vulnerability">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Milky Stage Vulnerability': epidemiological context.</rdfs:comment>
+  <rdfs:label xml:lang="en">onset at flowering to milky stage</rdfs:label>
+  <core:prefLabel xml:lang="id">muncul pada fase berbunga hingga masak susu</core:prefLabel>
+  <core:prefLabel xml:lang="en">onset at flowering to milky stage</core:prefLabel>
+  <core:definition xml:lang="en">Infection or first symptoms are noted between flowering and the milky grain stage.</core:definition>
+  <core:scopeNote xml:lang="en">Crop-stage context.</core:scopeNote>
+  <term:source rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ou, S.H. (1985). Rice Diseases, 2nd edition. Commonwealth Mycological Institute, Kew, Surrey, UK. p. 319</term:source>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Panicle_Neck_Rot">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#PanicleSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <term:source rdf:resource="https://doi.org/10.3389/fpls.2015.00886"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Panicle Neck Rot': plant symptom; anatomical axis PanicleSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">panicle neck rot</rdfs:label>
+  <core:prefLabel xml:lang="id">busuk leher malai</core:prefLabel>
+  <core:prefLabel xml:lang="en">panicle neck rot</core:prefLabel>
+  <core:altLabel xml:lang="en">neck blast</core:altLabel>
+  <core:definition xml:lang="en">Brown to black necrotic lesion on the panicle neck node; the panicle may break over or stay partly unfilled.</core:definition>
+  <core:scopeNote xml:lang="en">Panicle still attached; use Severed_Panicles when it has been cut off.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Diamond_Shaped_Lesions">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <term:source rdf:resource="https://doi.org/10.3389/fpls.2015.00886"/>
   <rdf:type rdf:resource="#Rice_BlastObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Diamond Shaped Lesions': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">diamond-shaped lesions</rdfs:label>
+  <core:prefLabel xml:lang="en">diamond-shaped lesions</core:prefLabel>
+  <core:prefLabel xml:lang="id">bercak belah ketupat</core:prefLabel>
+  <core:altLabel xml:lang="en">spindle-shaped lesions</core:altLabel>
+  <core:definition xml:lang="en">Spindle- or diamond-shaped leaf lesions with a grey or whitish centre and a brown margin.</core:definition>
+  <core:scopeNote xml:lang="en">More specific than Necrotic_Spots; record Necrotic_Spots as well only if spots of a different shape are also reported.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Infected_Seedlings">
   <rdf:type rdf:resource="#EpidemiologicalContext"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Infected Seedlings': epidemiological context.</rdfs:comment>
+  <rdfs:label xml:lang="en">infected seedlings</rdfs:label>
+  <core:prefLabel xml:lang="en">infected seedlings</core:prefLabel>
+  <core:prefLabel xml:lang="id">bibit terinfeksi</core:prefLabel>
+  <core:definition xml:lang="en">Symptomatic or dying seedlings in the nursery bed or soon after transplanting.</core:definition>
+  <core:scopeNote xml:lang="en">Crop-stage context.</core:scopeNote>
+  <term:source rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ou, S.H. (1985). Rice Diseases, 2nd edition. Commonwealth Mycological Institute, Kew, Surrey, UK. p. 115</term:source>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Brown_Planthopper_Present">
   <rdf:type rdf:resource="#VectorSighting"/>
+  <term:source rdf:resource="https://doi.org/10.3389/fmicb.2013.00313"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Brown Planthopper Present': vector sighting.</rdfs:comment>
+  <rdfs:label xml:lang="en">brown planthopper present</rdfs:label>
+  <core:prefLabel xml:lang="en">brown planthopper present</core:prefLabel>
+  <core:prefLabel xml:lang="id">ada wereng batang cokelat</core:prefLabel>
+  <core:altLabel xml:lang="en">Nilaparvata lugens present</core:altLabel>
+  <core:definition xml:lang="en">Brown planthoppers (Nilaparvata lugens) observed on the plant.</core:definition>
+  <core:scopeNote xml:lang="en">Recorded as a virus vector sighting.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Severe_Stunting">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#WholePlantSign"/>
   <rdf:type rdf:resource="#Stunting"/>
+  <term:source rdf:resource="https://doi.org/10.3389/fmicb.2013.00313"/>
   <rdf:type rdf:resource="#Rice_Grassy_StuntObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Severe Stunting': plant symptom; anatomical axis WholePlantSign; phenomenological axis Stunting.</rdfs:comment>
+  <rdfs:label xml:lang="en">severe stunting</rdfs:label>
+  <core:prefLabel xml:lang="en">severe stunting</core:prefLabel>
+  <core:prefLabel xml:lang="id">tanaman sangat kerdil</core:prefLabel>
+  <core:altLabel xml:lang="en">dwarfing</core:altLabel>
+  <core:definition xml:lang="en">Marked dwarfing: plants described as severely stunted or dwarf compared with healthy neighbours.</core:definition>
+  <core:scopeNote xml:lang="en">Use Stunted_Growth when stunting is reported without emphasis on severity.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#No_Panicle_Formation">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#PanicleSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'No Panicle Formation': plant symptom; anatomical axis PanicleSign.</rdfs:comment>
+  <rdfs:label xml:lang="en">no panicle formation</rdfs:label>
+  <core:prefLabel xml:lang="en">no panicle formation</core:prefLabel>
+  <core:prefLabel xml:lang="id">tidak membentuk malai</core:prefLabel>
+  <core:definition xml:lang="en">Plants produce no panicles, or only a few small panicles, when healthy plants have headed.</core:definition>
+  <term:source rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ou, S.H. (1985). Rice Diseases, 2nd edition. Commonwealth Mycological Institute, Kew, Surrey, UK. p. 44</term:source>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Green_Leafhopper_Present">
   <rdf:type rdf:resource="#VectorSighting"/>
+  <term:source rdf:resource="https://doi.org/10.3390/pathogens9120990"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Green Leafhopper Present': vector sighting.</rdfs:comment>
+  <rdfs:label xml:lang="en">green leafhopper present</rdfs:label>
+  <core:prefLabel xml:lang="id">ada wereng hijau</core:prefLabel>
+  <core:prefLabel xml:lang="en">green leafhopper present</core:prefLabel>
+  <core:altLabel xml:lang="en">Nephotettix present</core:altLabel>
+  <core:definition xml:lang="en">Green leafhoppers (Nephotettix spp., especially N. virescens) observed on the plant.</core:definition>
+  <core:scopeNote xml:lang="en">Recorded as a virus vector sighting.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Water_Soaked_Lesions">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
+  <term:source rdf:resource="https://doi.org/10.1186/s12870-025-07928-2"/>
   <rdf:type rdf:resource="#Bacterial_Leaf_BlightObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Water Soaked Lesions': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">water-soaked lesions</rdfs:label>
+  <core:prefLabel xml:lang="id">lesi kebasahan (water-soaked)</core:prefLabel>
+  <core:prefLabel xml:lang="en">water-soaked lesions</core:prefLabel>
+  <core:definition xml:lang="en">Dark green, translucent, water-soaked spots or stripes on the leaf, usually an early stage of lesion development.</core:definition>
+  <core:scopeNote xml:lang="en">Record even when later-stage lesions are also described.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Bacterial_Ooze">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#StemSign"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Bacterial Ooze': plant symptom; anatomical axis StemSign.</rdfs:comment>
+  <rdfs:label xml:lang="en">bacterial ooze</rdfs:label>
+  <core:prefLabel xml:lang="id">eksudat (ooze) bakteri</core:prefLabel>
+  <core:prefLabel xml:lang="en">bacterial ooze</core:prefLabel>
+  <core:altLabel xml:lang="en">bacterial exudate</core:altLabel>
+  <core:definition xml:lang="en">Droplets or dried beads of yellowish bacterial exudate on the surface of lesions.</core:definition>
+  <term:source rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ou, S.H. (1985). Rice Diseases, 2nd edition. Commonwealth Mycological Institute, Kew, Surrey, UK. p. 65</term:source>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Mottling">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <term:source rdf:resource="https://doi.org/10.3390/v14102258"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Mottling': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">leaf mottling</rdfs:label>
+  <core:prefLabel xml:lang="en">leaf mottling</core:prefLabel>
+  <core:prefLabel xml:lang="id">belang atau mosaik daun</core:prefLabel>
+  <core:altLabel xml:lang="en">mosaic</core:altLabel>
+  <core:definition xml:lang="en">An irregular pattern of light green or yellow and normal green areas on the leaf blade.</core:definition>
+  <core:scopeNote xml:lang="en">Use Yellowing_Leaves for uniform yellowing and Chlorotic_Streaks for narrow stripes.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Interveinal_Chlorosis">
@@ -1142,6 +1478,12 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Interveinal Chlorosis': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">interveinal chlorosis</rdfs:label>
+  <core:prefLabel xml:lang="id">klorosis antartulang daun</core:prefLabel>
+  <core:prefLabel xml:lang="en">interveinal chlorosis</core:prefLabel>
+  <core:definition xml:lang="en">Yellowing or translucent tissue between the leaf veins while the veins stay green.</core:definition>
+  <core:scopeNote xml:lang="en">Overlaps with Chlorotic_Streaks on parallel-veined rice leaves; pending expert review.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Grain_Discoloration">
@@ -1149,6 +1491,11 @@
   <rdf:type rdf:resource="#GrainSign"/>
   <rdf:type rdf:resource="#GrainAbnormality"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Grain Discoloration': plant symptom; anatomical axis GrainSign; phenomenological axis GrainAbnormality.</rdfs:comment>
+  <rdfs:label xml:lang="en">grain discoloration</rdfs:label>
+  <core:prefLabel xml:lang="en">grain discoloration</core:prefLabel>
+  <core:prefLabel xml:lang="id">perubahan warna gabah</core:prefLabel>
+  <core:definition xml:lang="en">Grains or hulls with brown, black, reddish or other abnormal spots or colour.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Sheath_Lesions">
@@ -1156,6 +1503,11 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Sheath Lesions': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">leaf sheath lesions</rdfs:label>
+  <core:prefLabel xml:lang="id">lesi pada pelepah daun</core:prefLabel>
+  <core:prefLabel xml:lang="en">leaf sheath lesions</core:prefLabel>
+  <core:definition xml:lang="en">Spots, blotches or rot on the leaf sheath rather than the leaf blade.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Stem_Rot_Lesions">
@@ -1163,21 +1515,39 @@
   <rdf:type rdf:resource="#StemSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Stem Rot Lesions': plant symptom; anatomical axis StemSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">stem rot</rdfs:label>
+  <core:prefLabel xml:lang="en">stem rot</core:prefLabel>
+  <core:prefLabel xml:lang="id">busuk batang</core:prefLabel>
+  <core:definition xml:lang="en">Dark lesions or rot on the culm or at the stem base, sometimes with tiller decay or lodging.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Excessive_Tillering">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#WholePlantSign"/>
+  <term:source rdf:resource="https://doi.org/10.3389/fmicb.2013.00313"/>
   <rdf:type rdf:resource="#Rice_Grassy_StuntObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Excessive Tillering': plant symptom; anatomical axis WholePlantSign.</rdfs:comment>
+  <rdfs:label xml:lang="en">excessive tillering</rdfs:label>
+  <core:prefLabel xml:lang="id">anakan berlebihan</core:prefLabel>
+  <core:prefLabel xml:lang="en">excessive tillering</core:prefLabel>
+  <core:definition xml:lang="en">An abnormally high number of tillers per hill, giving a bushy or grassy appearance.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Orange_Leaf_Discoloration">
   <rdf:type rdf:resource="#Symptom"/>
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
+  <term:source rdf:resource="https://doi.org/10.3390/pathogens9120990"/>
   <rdf:type rdf:resource="#Rice_Tungro_VirusObservation"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Orange Leaf Discoloration': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">orange leaf discoloration</rdfs:label>
+  <core:prefLabel xml:lang="id">daun berwarna oranye</core:prefLabel>
+  <core:prefLabel xml:lang="en">orange leaf discoloration</core:prefLabel>
+  <core:definition xml:lang="en">Yellow-orange to orange colouring of the leaf, usually starting from the tip.</core:definition>
+  <core:scopeNote xml:lang="en">Use Yellowing_Leaves when the colour is reported only as yellow.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Desiccation">
@@ -1185,6 +1555,12 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Desiccation': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">leaf desiccation</rdfs:label>
+  <core:prefLabel xml:lang="en">leaf desiccation</core:prefLabel>
+  <core:prefLabel xml:lang="id">daun mengering</core:prefLabel>
+  <core:definition xml:lang="en">Leaves dry out and turn straw-coloured or brown over most of the blade.</core:definition>
+  <core:scopeNote xml:lang="en">Disease-related drying; use Hopperburn_Drying for drying caused by planthopper feeding.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Chlorotic_Streaks">
@@ -1192,6 +1568,12 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Chlorotic Streaks': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">chlorotic streaks</rdfs:label>
+  <core:prefLabel xml:lang="en">chlorotic streaks</core:prefLabel>
+  <core:prefLabel xml:lang="id">garis-garis klorotik</core:prefLabel>
+  <core:definition xml:lang="en">Narrow yellow or pale stripes running along the veins.</core:definition>
+  <core:scopeNote xml:lang="en">Overlaps with Interveinal_Chlorosis; pending expert review.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Brown_Streaks">
@@ -1199,6 +1581,11 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Brown Streaks': plant symptom; anatomical axis LeafSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">brown streaks</rdfs:label>
+  <core:prefLabel xml:lang="id">garis-garis cokelat</core:prefLabel>
+  <core:prefLabel xml:lang="en">brown streaks</core:prefLabel>
+  <core:definition xml:lang="en">Narrow brown necrotic streaks running parallel to the veins.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Bleaching">
@@ -1206,6 +1593,11 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Bleaching': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">leaf bleaching</rdfs:label>
+  <core:prefLabel xml:lang="en">leaf bleaching</core:prefLabel>
+  <core:prefLabel xml:lang="id">daun memutih</core:prefLabel>
+  <core:definition xml:lang="en">Leaves turn whitish, greyish-white or pale straw-coloured (bleached).</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Whitened_Leaf_Tips">
@@ -1213,6 +1605,13 @@
   <rdf:type rdf:resource="#LeafSign"/>
   <rdf:type rdf:resource="#Chlorosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Whitened Leaf Tips': plant symptom; anatomical axis LeafSign; phenomenological axis Chlorosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">whitened leaf tips</rdfs:label>
+  <core:prefLabel xml:lang="id">ujung daun memutih</core:prefLabel>
+  <core:prefLabel xml:lang="en">whitened leaf tips</core:prefLabel>
+  <core:altLabel xml:lang="en">white tip</core:altLabel>
+  <core:definition xml:lang="en">The apical part of the leaf turns white and may later become brown or twisted.</core:definition>
+  <core:scopeNote xml:lang="en">Use Yellowing_Leaf_Tips when the tip turns yellow.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Leaf_Wilting">
@@ -1220,6 +1619,11 @@
   <rdf:type rdf:resource="#WholePlantSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Leaf Wilting': plant symptom; anatomical axis WholePlantSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">wilting</rdfs:label>
+  <core:prefLabel xml:lang="id">layu</core:prefLabel>
+  <core:prefLabel xml:lang="en">wilting</core:prefLabel>
+  <core:definition xml:lang="en">Leaves roll, droop and wilt; plants may wither and die prematurely.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Discolored_Roots">
@@ -1227,6 +1631,12 @@
   <rdf:type rdf:resource="#RootSign"/>
   <rdf:type rdf:resource="#Necrosis"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation term 'Discolored Roots': plant symptom; anatomical axis RootSign; phenomenological axis Necrosis.</rdfs:comment>
+  <rdfs:label xml:lang="en">discoloured roots</rdfs:label>
+  <core:prefLabel xml:lang="en">discoloured roots</core:prefLabel>
+  <core:prefLabel xml:lang="id">akar berubah warna</core:prefLabel>
+  <core:definition xml:lang="en">Roots that are brown or black instead of white or cream.</core:definition>
+  <core:scopeNote xml:lang="en">Colour change only; use Deformed_Roots or the root gall terms for changes in shape.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Control_Rice_Root_Nematode">
@@ -1262,78 +1672,117 @@
 <owl:NamedIndividual rdf:about="#Rice_Root_Nematode">
   <rdf:type rdf:resource="#Pest"/>
   <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_31070"/>
+  <term:source rdf:resource="https://doi.org/10.1111/mpp.12394"/>
   <hasControlTreatment rdf:resource="#Control_Rice_Root_Nematode"/>
   <hasSymptom rdf:resource="#Deformed_Roots"/>
   <hasSymptom rdf:resource="#Stunted_Growth"/>
   <hasSymptom rdf:resource="#Hook_Like_Root_Swelling"/>
-  <hasSymptom rdf:resource="#Yellowing_Leaves"/>
   <hasSymptom rdf:resource="#Necrotic_Spots"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaves"/>
   <hasSymptom rdf:resource="#Root_Knot_Swelling"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope pest 'Rice Root Nematode'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
+  <rdfs:label xml:lang="en">rice root-knot nematode</rdfs:label>
+  <core:prefLabel xml:lang="en">rice root-knot nematode</core:prefLabel>
+  <core:prefLabel xml:lang="id">nematoda puru akar</core:prefLabel>
+  <core:altLabel xml:lang="en">rice root nematode</core:altLabel>
+  <core:definition xml:lang="en">Plant-parasitic nematode Meloidogyne graminicola, which forms galls at the root tips of rice.</core:definition>
+  <core:scopeNote xml:lang="en">In the literature the common name 'rice root nematode' usually denotes Hirschmanniella oryzae. This individual is aligned to M. graminicola (AGROVOC c_31070) and its rules use root-gall signs.</core:scopeNote>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Bacterial_Leaf_Blight">
   <rdf:type rdf:resource="#Disease"/>
   <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_24383"/>
+  <term:source rdf:resource="https://doi.org/10.1186/s12870-025-07928-2"/>
   <hasControlTreatment rdf:resource="#Control_Bacterial_Leaf_Blight"/>
-  <hasSymptom rdf:resource="#Leaf_Discoloration_Yellow"/>
-  <hasSymptom rdf:resource="#Water_Soaked_Lesions"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaf_Veins"/>
+  <hasSymptom rdf:resource="#Rapid_Disease_Spread"/>
   <hasSymptom rdf:resource="#Yellowing_Leaf_Tips"/>
   <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
-  <hasSymptom rdf:resource="#Rapid_Disease_Spread"/>
-  <hasSymptom rdf:resource="#Yellowing_Leaf_Veins"/>
+  <hasSymptom rdf:resource="#Leaf_Discoloration_Yellow"/>
+  <hasSymptom rdf:resource="#Water_Soaked_Lesions"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'Bacterial Leaf Blight'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
+  <rdfs:label xml:lang="en">bacterial leaf blight</rdfs:label>
+  <core:prefLabel xml:lang="id">hawar daun bakteri (kresek)</core:prefLabel>
+  <core:prefLabel xml:lang="en">bacterial leaf blight</core:prefLabel>
+  <core:altLabel xml:lang="en">bacterial blight</core:altLabel>
+  <core:definition xml:lang="en">Bacterial disease of rice caused by Xanthomonas oryzae pv. oryzae, producing lesions that start at the leaf tips and margins.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#False_Smut">
   <rdf:type rdf:resource="#Disease"/>
   <core:broadMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_31622"/>
+  <term:source rdf:resource="https://doi.org/10.3390/plants12040741"/>
   <hasControlTreatment rdf:resource="#Control_False_Smut"/>
   <hasSymptom rdf:resource="#Slight_Panicle_Infection"/>
-  <hasSymptom rdf:resource="#Blackened_Grain_Balls"/>
+  <hasSymptom rdf:resource="#Rusty_Grain_Balls"/>
   <hasSymptom rdf:resource="#Rainy_Season_Outbreak"/>
   <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
   <hasSymptom rdf:resource="#Milky_Stage_Vulnerability"/>
-  <hasSymptom rdf:resource="#Rusty_Grain_Balls"/>
+  <hasSymptom rdf:resource="#Blackened_Grain_Balls"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'False Smut'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
+  <rdfs:label xml:lang="en">false smut</rdfs:label>
+  <core:prefLabel xml:lang="id">gosong palsu</core:prefLabel>
+  <core:prefLabel xml:lang="en">false smut</core:prefLabel>
+  <core:definition xml:lang="en">Fungal disease of rice caused by Ustilaginoidea virens, in which individual grains are replaced by spore balls.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Blast">
   <rdf:type rdf:resource="#Disease"/>
   <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_16025"/>
+  <term:source rdf:resource="https://doi.org/10.3389/fpls.2015.00886"/>
   <hasControlTreatment rdf:resource="#Control_Rice_Blast"/>
+  <hasSymptom rdf:resource="#Infected_Seedlings"/>
   <hasSymptom rdf:resource="#Panicle_Neck_Rot"/>
   <hasSymptom rdf:resource="#Uniform_Field_Infection"/>
   <hasSymptom rdf:resource="#Necrotic_Spots"/>
-  <hasSymptom rdf:resource="#Infected_Seedlings"/>
   <hasSymptom rdf:resource="#Diamond_Shaped_Lesions"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'Rice Blast'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
+  <rdfs:label xml:lang="en">rice blast</rdfs:label>
+  <core:prefLabel xml:lang="en">rice blast</core:prefLabel>
+  <core:prefLabel xml:lang="id">blas</core:prefLabel>
+  <core:definition xml:lang="en">Fungal disease of rice caused by Pyricularia oryzae (teleomorph Magnaporthe oryzae), affecting leaves, nodes and panicle necks.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Grassy_Stunt">
   <rdf:type rdf:resource="#Disease"/>
   <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_ce4b70ea"/>
+  <term:source rdf:resource="https://doi.org/10.3389/fmicb.2013.00313"/>
   <hasControlTreatment rdf:resource="#Control_Rice_Grassy_Stunt"/>
-  <hasSymptom rdf:resource="#No_Panicle_Formation"/>
   <hasSymptom rdf:resource="#Brown_Planthopper_Present"/>
+  <hasSymptom rdf:resource="#No_Panicle_Formation"/>
+  <hasSymptom rdf:resource="#Excessive_Tillering"/>
   <hasSymptom rdf:resource="#Severe_Stunting"/>
   <hasSymptom rdf:resource="#Necrotic_Spots"/>
-  <hasSymptom rdf:resource="#Excessive_Tillering"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'Rice Grassy Stunt'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
+  <rdfs:label xml:lang="en">rice grassy stunt</rdfs:label>
+  <core:prefLabel xml:lang="id">kerdil rumput</core:prefLabel>
+  <core:prefLabel xml:lang="en">rice grassy stunt</core:prefLabel>
+  <core:definition xml:lang="en">Viral disease of rice caused by rice grassy stunt virus (genus Tenuivirus), transmitted by the brown planthopper.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Rice_Tungro_Virus">
   <rdf:type rdf:resource="#Disease"/>
   <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_f6940eb3"/>
   <core:closeMatch rdf:resource="http://aims.fao.org/aos/agrovoc/c_f48899c1"/>
+  <term:source rdf:resource="https://doi.org/10.3390/pathogens9120990"/>
   <hasControlTreatment rdf:resource="#Control_Rice_Tungro_Virus"/>
-  <hasSymptom rdf:resource="#Stunted_Growth"/>
   <hasSymptom rdf:resource="#Orange_Leaf_Discoloration"/>
-  <hasSymptom rdf:resource="#Necrotic_Spots"/>
-  <hasSymptom rdf:resource="#Yellowing_Leaves"/>
   <hasSymptom rdf:resource="#Green_Leafhopper_Present"/>
   <hasSymptom rdf:resource="#Whitehead_Empty_Panicles"/>
+  <hasSymptom rdf:resource="#Stunted_Growth"/>
+  <hasSymptom rdf:resource="#Necrotic_Spots"/>
+  <hasSymptom rdf:resource="#Yellowing_Leaves"/>
   <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In-scope disease 'Rice Tungro Virus'. hasSymptom lists its Tier-1 canonical antecedents; hasControlTreatment links its cited IPM recommendation.</rdfs:comment>
+  <rdfs:label xml:lang="en">rice tungro disease</rdfs:label>
+  <core:prefLabel xml:lang="id">tungro</core:prefLabel>
+  <core:prefLabel xml:lang="en">rice tungro disease</core:prefLabel>
+  <core:definition xml:lang="en">Viral disease of rice caused by rice tungro bacilliform virus together with rice tungro spherical virus, transmitted by green leafhoppers.</core:definition>
+  <core:editorialNote xml:lang="en">Operational definition drafted by the RiceKG authors from the cited source and standard rice pathology descriptions; pending review by independent agronomists.</core:editorialNote>
 </owl:NamedIndividual>
 
 <owl:AllDifferent>
