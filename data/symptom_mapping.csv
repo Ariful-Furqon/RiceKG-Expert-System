@@ -25,7 +25,7 @@ leaves_discoloration,,unmapped,"Too generic to resolve to any single diagnostic 
 roots_discolored,Discolored_Roots,mapped,"Bridge et al. (2005): brown or black necrotic discoloration of the root system caused by Hirschmanniella or secondary rot."
 plant_malformation,,unmapped,"Generic morphological anomaly too non-specific to assign to a defined symptom class."
 plant_spreading_growth,,unmapped,Ontology models stunting but has no term for spreading or prostrate growth habit.
-leaves_deformity_serration_twisting_curling,,unmapped,Ontology has no terms for foliar serration, twisting, or leaf blade curling.
+leaves_deformity_serration_twisting_curling,,unmapped,"Ontology has no terms for foliar serration, twisting, or leaf blade curling."
 plant_premature_death,,unmapped,Ontology has no general term for premature whole-plant mortality.
 leaves_grayish_white_mold_layer,,unmapped,Ontology has no term for fungal mold layer or sporulation on foliar lesions.
 leaves_rust_spots,,unmapped,Necrotic_Spots and Diamond_Shaped_Lesions do not capture superficial foliar rust spots.

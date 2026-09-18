@@ -39,7 +39,7 @@ baselines:
 	$(VENV_BIN)/python3 baselines/run_baselines.py
 
 failure-analysis:
-	$(VENV_BIN)/python3 analysis/field_failure_analysis.py --split all
+	$(VENV_BIN)/python3 analysis/field_failure_analysis.py
 
 competency:
 	$(VENV_BIN)/python3 analysis/competency_questions.py
