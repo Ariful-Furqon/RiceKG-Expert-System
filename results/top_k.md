@@ -1,6 +1,6 @@
 # Top-k Differential Diagnosis & Ranking Analysis (PART 7)
 
-> **Generated**: 2026-09-15T11:49:21.221325+00:00  
+> **Generated**: 2026-09-18T14:29:36.742234+00:00  
 > **Evaluation Protocol**: Pre-fixed deterministic ordering key (Part 7-A), fair comparative baselines (Part 7-C), secondary diagnostic utility analysis.
 
 ---
@@ -32,20 +32,20 @@ _k-NN tie sensitivity: 10 of 16 held-out predictions have a distance tie at the 
 
 ---
 
-## 2. Dataset: Field Benchmark (Eval Split, Held-Out) ($n=23$, 5 positives, 18 negative controls)
+## 2. Dataset: Field Benchmark (Eval Split, Held-Out) ($n=22$, 5 positives, 17 negative controls)
 
 | System / Architecture | Hit@1 (%) | Hit@2 (%) | Hit@3 (%) | MRR | FAR@1 (%) | FAR@3 (%) | Spec@3 (%) | Mean Length |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | 40.0% | 80.0% | 100.0% | 0.667 | 50.0% | 50.0% | 50.0% | 0.96 |
-| **Rule: Nearest Prototype** | 80.0% | 100.0% | 100.0% | 0.900 | 72.2% | 72.2% | 27.8% | 1.65 |
+| **RiceKG (Full Proposed)** | 40.0% | 80.0% | 100.0% | 0.667 | 47.1% | 47.1% | 52.9% | 0.91 |
+| **Rule: Nearest Prototype** | 80.0% | 100.0% | 100.0% | 0.900 | 70.6% | 70.6% | 29.4% | 1.64 |
 | **Rule: Flat Single-Tier** | 40.0% | 40.0% | 40.0% | 0.400 | 0.0% | 0.0% | 100.0% | 0.09 |
-| **Decision Tree** | 20.0% | 40.0% | 40.0% | 0.300 | 100.0% | 100.0% | 0.0% | 2.52 |
-| **Random Forest** | 20.0% | 40.0% | 40.0% | 0.300 | 100.0% | 100.0% | 0.0% | 2.78 |
-| **Multinomial Naive Bayes** | 0.0% | 0.0% | 0.0% | 0.000 | 61.1% | 61.1% | 38.9% | 1.17 |
-| **k-NN** | 20.0% | 40.0% | 60.0% | 0.367 | 100.0% | 100.0% | 0.0% | 2.61 |
-| **Logistic Regression (OvR)** | 20.0% | 20.0% | 40.0% | 0.267 | 100.0% | 100.0% | 0.0% | 2.04 |
+| **Decision Tree** | 40.0% | 40.0% | 40.0% | 0.400 | 100.0% | 100.0% | 0.0% | 3.00 |
+| **Random Forest** | 40.0% | 40.0% | 40.0% | 0.400 | 100.0% | 100.0% | 0.0% | 3.00 |
+| **Multinomial Naive Bayes** | 0.0% | 20.0% | 20.0% | 0.100 | 47.1% | 47.1% | 52.9% | 0.95 |
+| **k-NN** | 40.0% | 40.0% | 40.0% | 0.400 | 100.0% | 100.0% | 0.0% | 3.00 |
+| **Logistic Regression (OvR)** | 0.0% | 40.0% | 40.0% | 0.200 | 100.0% | 100.0% | 0.0% | 2.50 |
 
-_k-NN tie sensitivity: 11 of 23 held-out predictions have a distance tie at the 3rd-neighbour boundary. Over 20 training-row orders, k-NN spans Hit@1 20.0–20.0%, Hit@3 40.0–60.0% and FAR@3 100.0–100.0%. The table row uses `algorithm="brute"` with the original row order; k-NN figures are not comparable with other systems more finely than this span._
+_k-NN tie sensitivity: 11 of 22 held-out predictions have a distance tie at the 3rd-neighbour boundary. Over 20 training-row orders, k-NN spans Hit@1 40.0–40.0%, Hit@3 40.0–40.0% and FAR@3 100.0–100.0%. The table row uses `algorithm="brute"` with the original row order; k-NN figures are not comparable with other systems more finely than this span._
 
 ---
 
@@ -87,7 +87,7 @@ _k-NN tie sensitivity: 50 of 73 held-out predictions have a distance tie at the 
 
 ## 3. Key Findings
 
-1. **Top-k raises hits and false alarms together.** On the field `eval` split (5 positives, 18 negative controls), RiceKG moves from Hit@1 = 40.0% to Hit@3 = 100.0% (MRR 0.667), with a negative-control false-alarm rate of 50.0% at k=3 (specificity 50.0%). The additional candidates are `possible`-grade threats, which are also raised on negative controls, so the list is a screening aid rather than a diagnosis. The set-based rules without partial evidence (Flat Single-Tier) stay at Hit@3 = 40.0% with FAR@3 = 0.0%.
-2. **Nearest Prototype** reaches Hit@3 = 100.0% with FAR@3 = 72.2%.
-3. **Supervised baselines** (5 models, trained on one 2-fold split of the same field cases) range over Hit@3 = 0.0–60.0% and FAR@3 = 61.1–100.0%.
+1. **Top-k raises hits and false alarms together.** On the field `eval` split (5 positives, 17 negative controls), RiceKG moves from Hit@1 = 40.0% to Hit@3 = 100.0% (MRR 0.667), with a negative-control false-alarm rate of 47.1% at k=3 (specificity 52.9%). The additional candidates are `possible`-grade threats, which are also raised on negative controls, so the list is a screening aid rather than a diagnosis. The set-based rules without partial evidence (Flat Single-Tier) stay at Hit@3 = 40.0% with FAR@3 = 0.0%.
+2. **Nearest Prototype** reaches Hit@3 = 100.0% with FAR@3 = 70.6%.
+3. **Supervised baselines** (5 models, trained on one 2-fold split of the same field cases) range over Hit@3 = 20.0–40.0% and FAR@3 = 47.1–100.0%.
 4. **Resolution.** With 5 positives, one case moves Hit@k by 20.0 points; none of the differences above is statistically established.

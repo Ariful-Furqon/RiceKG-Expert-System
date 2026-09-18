@@ -1,6 +1,6 @@
 # Probabilistic Reasoning Layer Evaluation (noisy-OR, PART 8)
 
-> **Generated**: 2026-09-15T14:39:54.721959+00:00  
+> **Generated**: 2026-09-18T14:23:27.909402+00:00  
 > **Headline Metric Preservation**: Strict RiceKG positive recall remains the headline metric.  
 > **Target Venue**: *Inteligencia Artificial* (IBERAMIA) — contribution is transparent recall vs. false-alarm trade-off under partial observation.  
 
@@ -35,15 +35,15 @@ and locked prior to benchmark execution (commit `6174e8e`).
 
 ---
 
-## 2. Field Benchmark: Eval Split (Held-Out, n=23: 5 positives, 18 controls)
+## 2. Field Benchmark: Eval Split (Held-Out, n=22: 5 positives, 17 controls)
 
 | System / Paradigm | Pos Recall (Any Hit, %) [95% CI] | Pos Recall (Exact, %) | Exact Match (%) | Micro-F1 [95% CI] | Neg FAR (All) | Neg FAR (Mapped) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG strict** | 40.0% [0.0, 100.0] | 40.0% | 87.0% | 57.1 [0.0, 100.0] | 0.0% | 0.0% |
-| **RiceKG + possible** | 100.0% [100.0, 100.0] | 40.0% | 47.8% | 37.0 [14.3, 55.2] | 50.0% | 56.2% |
-| **noisy-OR (with gates)** | 100.0% [100.0, 100.0] | 0.0% | 21.7% | 21.7 [6.7, 33.4] | 72.2% | 81.2% |
-| **noisy-OR (without gates)** | 100.0% [100.0, 100.0] | 0.0% | 21.7% | 21.7 [6.7, 33.4] | 72.2% | 81.2% |
-| **Rule: Nearest Prototype** | 100.0% [100.0, 100.0] | 20.0% | 73.9% | 52.6 [28.6, 72.7] | 11.1% | 12.5% |
+| **RiceKG strict** | 40.0% [0.0, 100.0] | 40.0% | 86.4% | 57.1 [0.0, 100.0] | 0.0% | 0.0% |
+| **RiceKG + possible** | 100.0% [100.0, 100.0] | 40.0% | 50.0% | 40.0 [18.2, 58.1] | 47.1% | 53.3% |
+| **noisy-OR (with gates)** | 100.0% [100.0, 100.0] | 0.0% | 22.7% | 23.3 [9.1, 34.1] | 70.6% | 80.0% |
+| **noisy-OR (without gates)** | 100.0% [100.0, 100.0] | 0.0% | 22.7% | 23.3 [9.1, 34.1] | 70.6% | 80.0% |
+| **Rule: Nearest Prototype** | 100.0% [100.0, 100.0] | 20.0% | 77.3% | 58.8 [40.0, 80.0] | 5.9% | 6.7% |
 
 ---
 
@@ -71,43 +71,43 @@ and locked prior to benchmark execution (commit `6174e8e`).
 
 ---
 
-## 3. Top-k Differential Ranking on Eval Split (n=23)
+## 3. Top-k Differential Ranking on Eval Split (n=22)
 
 | System | Hit@1 (%) | Hit@2 (%) | Hit@3 (%) | MRR | FAR@1 (%) | FAR@3 (%) | Spec@3 (%) | Mean Length |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **RiceKG strict** | 40.0% | 40.0% | 40.0% | 0.400 | 0.0% | 0.0% | 100.0% | 0.09 |
-| **RiceKG + possible** | 40.0% | 80.0% | 100.0% | 0.667 | 50.0% | 50.0% | 50.0% | 0.96 |
-| **noisy-OR (with gates)** | 80.0% | 80.0% | 100.0% | 0.867 | 66.7% | 66.7% | 33.3% | 2.22 |
-| **noisy-OR (without gates)** | 80.0% | 80.0% | 100.0% | 0.867 | 88.9% | 88.9% | 11.1% | 2.74 |
-| **Rule: Nearest Prototype** | 80.0% | 100.0% | 100.0% | 0.900 | 72.2% | 72.2% | 27.8% | 1.65 |
+| **RiceKG + possible** | 40.0% | 80.0% | 100.0% | 0.667 | 47.1% | 47.1% | 52.9% | 0.91 |
+| **noisy-OR (with gates)** | 80.0% | 80.0% | 100.0% | 0.867 | 64.7% | 64.7% | 35.3% | 2.18 |
+| **noisy-OR (without gates)** | 80.0% | 80.0% | 100.0% | 0.867 | 88.2% | 88.2% | 11.8% | 2.73 |
+| **Rule: Nearest Prototype** | 80.0% | 100.0% | 100.0% | 0.900 | 70.6% | 70.6% | 29.4% | 1.64 |
 
 ---
 
-## 4. Paired Significance against RiceKG Strict on Eval Split (n=23)
+## 4. Paired Significance against RiceKG Strict on Eval Split (n=22)
 
-> **Minimum Detectable Effect**: $\pm 29.5\%$ accuracy ($\alpha=0.05, 80\%$ power).
+> **Minimum Detectable Effect**: $\pm 30.2\%$ accuracy ($\alpha=0.05, 80\%$ power).
 
 | Comparison System | McNemar Test Method | Discordant Pairs | Stat ($\chi^2$) | Raw $p$-value | Holm $p$-value | Delta Acc (%) | Significant |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG + possible** | Exact Binomial Test (discordant n < 25) | 9 | 7.11 | 3.9062e-03 | 7.8125e-03 | +39.1% | **Yes** |
-| **noisy-OR (with gates)** | Exact Binomial Test (discordant n < 25) | 15 | 13.07 | 6.1035e-05 | 2.4414e-04 | +65.2% | **Yes** |
-| **noisy-OR (without gates)** | Exact Binomial Test (discordant n < 25) | 15 | 13.07 | 6.1035e-05 | 2.4414e-04 | +65.2% | **Yes** |
-| **Rule: Nearest Prototype** | Exact Binomial Test (discordant n < 25) | 3 | 1.33 | 2.5000e-01 | 2.5000e-01 | +13.0% | No |
+| **RiceKG + possible** | Exact Binomial Test (discordant n < 25) | 8 | 6.12 | 7.8125e-03 | 1.5625e-02 | +36.4% | **Yes** |
+| **noisy-OR (with gates)** | Exact Binomial Test (discordant n < 25) | 14 | 12.07 | 1.2207e-04 | 4.8828e-04 | +63.6% | **Yes** |
+| **noisy-OR (without gates)** | Exact Binomial Test (discordant n < 25) | 14 | 12.07 | 1.2207e-04 | 4.8828e-04 | +63.6% | **Yes** |
+| **Rule: Nearest Prototype** | Exact Binomial Test (discordant n < 25) | 2 | 0.50 | 5.0000e-01 | 5.0000e-01 | +9.1% | No |
 
 ---
 
-## 5. Calibration & Reliability Analysis on Eval Split (n=23)
+## 5. Calibration & Reliability Analysis on Eval Split (n=22)
 
-> **Brier Score (Multi-Label)**: `0.1595` across 138 hypothesis evaluations.  
+> **Brier Score (Multi-Label)**: `0.1491` across 132 hypothesis evaluations.  
 > **Disclaimer**: With 5 eval positives, calibration cannot be validated; do not claim calibration. The sample size is insufficient to reliably populate intermediate probability bins.
 
 | Probability Bin Range | Hypothesis Count | Mean Predicted Probability | Observed Empirical Frequency |
 |:---|:---:|:---:|:---:|
-| `[0.0, 0.2)` | 97 | 0.1000 | 0.0000 |
+| `[0.0, 0.2)` | 94 | 0.1000 | 0.0000 |
 | `[0.2, 0.4)` | 0 | 0.0000 | 0.0000 |
 | `[0.4, 0.6)` | 0 | 0.0000 | 0.0000 |
-| `[0.6, 0.8)` | 23 | 0.6184 | 0.0000 |
-| `[0.8, 1.0)` | 18 | 0.9739 | 0.2778 |
+| `[0.6, 0.8)` | 22 | 0.6187 | 0.0000 |
+| `[0.8, 1.0)` | 16 | 0.9733 | 0.3125 |
 
 ---
 
@@ -115,23 +115,23 @@ and locked prior to benchmark execution (commit `6174e8e`).
 
 | Variant | Eval Recall (%) | Eval FAR (%) | Dev Recall (%) | Dev FAR (%) |
 |:---|:---:|:---:|:---:|:---:|
-| `baseline` | 100.0% | 72.2% | 100.0% | 88.9% |
-| `p_minus_0.1` | 100.0% | 72.2% | 100.0% | 88.9% |
-| `p_plus_0.1` | 100.0% | 72.2% | 100.0% | 88.9% |
-| `alt_scale` | 100.0% | 72.2% | 100.0% | 88.9% |
-| `leaks_half` | 100.0% | 72.2% | 100.0% | 88.9% |
-| `leaks_double` | 100.0% | 38.9% | 71.4% | 11.1% |
+| `baseline` | 100.0% | 70.6% | 100.0% | 88.9% |
+| `p_minus_0.1` | 100.0% | 70.6% | 100.0% | 88.9% |
+| `p_plus_0.1` | 100.0% | 70.6% | 100.0% | 88.9% |
+| `alt_scale` | 100.0% | 70.6% | 100.0% | 88.9% |
+| `leaks_half` | 100.0% | 70.6% | 100.0% | 88.9% |
+| `leaks_double` | 100.0% | 35.3% | 71.4% | 11.1% |
 | `quantitative_only` | 0.0% | 0.0% | 0.0% | 0.0% |
-| **Parameter Span (excl. quant-only)** | **100.0–100.0%** | **38.9–72.2%** | **71.4–100.0%** | **11.1–88.9%** |
+| **Parameter Span (excl. quant-only)** | **100.0–100.0%** | **35.3–70.6%** | **71.4–100.0%** | **11.1–88.9%** |
 
 ---
 
 ## 7. Findings (computed dynamically from the evaluation JSON)
 
-1. **Recall versus False Alarm Trade-Off.** On the field `eval` split (5 positives, 18 controls), strict RiceKG achieves 40.0% any-hit recall (40.0% exact positive-case recall) with 0.0% false alarms. The `possible` grade reaches 100.0% any-hit recall (40.0% exact) with 50.0% false alarms. The noisy-OR layer at default threshold $\theta = 0.50$ attains 100.0% any-hit recall (0.0% exact single-label match due to multi-threat differential candidate generation), but incurs a 72.2% false-alarm rate on negative controls (72.2% without out-of-scope gates). Probabilistic scoring trades precision for sensitivity, operating as an aggressive screening instrument.
+1. **Recall versus False Alarm Trade-Off.** On the field `eval` split (5 positives, 17 controls), strict RiceKG achieves 40.0% any-hit recall (40.0% exact positive-case recall) with 0.0% false alarms. The `possible` grade reaches 100.0% any-hit recall (40.0% exact) with 47.1% false alarms. The noisy-OR layer at default threshold $\theta = 0.50$ attains 100.0% any-hit recall (0.0% exact single-label match due to multi-threat differential candidate generation), but incurs a 70.6% false-alarm rate on negative controls (70.6% without out-of-scope gates). Probabilistic scoring trades precision for sensitivity, operating as an aggressive screening instrument.
 2. **Comparative Equivalence to the `possible` Grade.** On `dev`, noisy-OR achieves 100.0% any-hit recall and 88.9% FAR. At no threshold operating point does noisy-OR achieve higher recall than the coverage-threshold `possible` grade without a corresponding elevation in false alarm rate.
-3. **Statistical Power & Significance Limits.** Paired McNemar testing between strict RiceKG and noisy-OR on `eval` exact-match yields $p = 6.1035e-05$ (Holm-corrected $p = 2.4414e-04$), reflecting the large difference in negative-control false alarms (strict exact-match: 87.0%, noisy-OR: 21.7%). However, with only 5 eval positive disease cases, the study has an analytical Minimum Detectable Effect of $\pm 29.5\%$ at $\alpha=0.05, 80\%$ power. Positive recall differences on this split cannot be statistically distinguished from chance.
-4. **Parameter Sensitivity Spans.** Across conditional probability shifts ($p \pm 0.1$), the alternative qualitative scale, and background leak scaling ($\times 0.5$, $\times 2.0$), noisy-OR recall spans [100.0%, 100.0%] on `eval` and [71.4%, 100.0%] on `dev`, while FAR spans [38.9%, 72.2%] on `eval` and [11.1%, 88.9%] on `dev`. Because system differences fall within these parameter perturbation envelopes, comparisons between calibrated points are formally inconclusive.
+3. **Statistical Power & Significance Limits.** Paired McNemar testing between strict RiceKG and noisy-OR on `eval` exact-match yields $p = 1.2207e-04$ (Holm-corrected $p = 4.8828e-04$), reflecting the large difference in negative-control false alarms (strict exact-match: 86.4%, noisy-OR: 22.7%). However, with only 5 eval positive disease cases, the study has an analytical Minimum Detectable Effect of $\pm 30.2\%$ at $\alpha=0.05, 80\%$ power. Positive recall differences on this split cannot be statistically distinguished from chance.
+4. **Parameter Sensitivity Spans.** Across conditional probability shifts ($p \pm 0.1$), the alternative qualitative scale, and background leak scaling ($\times 0.5$, $\times 2.0$), noisy-OR recall spans [100.0%, 100.0%] on `eval` and [71.4%, 100.0%] on `dev`, while FAR spans [35.3%, 70.6%] on `eval` and [11.1%, 88.9%] on `dev`. Because system differences fall within these parameter perturbation envelopes, comparisons between calibrated points are formally inconclusive.
 5. **Holdout Partition (Development-Exposed).** On the 18 holdout cases (18 positives, 0 controls), noisy-OR reaches 55.6% recall compared to strict RiceKG's 27.8% and `possible` grade's 66.7%. As established in Protocol 8-2.5, this partition was previously evaluated during Part 6 and Part 7; all holdout figures are development-exposed.
 6. **Quantitative-Only Ablation.** Restricting links strictly to quantitative literature sources (dropping qualitative scales) collapses recall to 0.0% on `eval` and 0.0% on `dev`, demonstrating that the rule and probabilistic layers fundamentally depend on qualitative clinical descriptions in published phytopathological monographs.
 

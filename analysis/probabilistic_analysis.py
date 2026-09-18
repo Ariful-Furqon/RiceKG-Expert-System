@@ -12,7 +12,7 @@ Evaluates 5 systems on identical cases across four datasets:
 
 Datasets:
   - Field Benchmark: dev split (n=16: 7 positives, 9 controls)
-  - Field Benchmark: eval split (n=23: 5 positives, 18 controls)
+  - Field Benchmark: eval split (5 positives + negative controls)
   - Field Benchmark: holdout split (n=18: 18 positives, 0 controls; labelled development-exposed)
   - Deductive Verification Suite (n=73: 55 positives, 18 controls)
 
@@ -62,6 +62,19 @@ from analysis.degradation_curve import fast_predict_ricekg, fast_predict_ricekg_
 
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
 FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
+FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
+
+
+def _field_split_counts(split):
+    """(total, positives, negative controls) for one split of the field benchmark."""
+    import csv as _csv
+    with open(FIELD_CSV, encoding="utf-8-sig", newline="") as f:
+        rows = [r for r in _csv.DictReader(f) if r["split"] == split]
+    pos = sum(1 for r in rows if r["diagnosis"] != "No_Diagnosis")
+    return len(rows), pos, len(rows) - pos
+
+
+EVAL_N, EVAL_POS, EVAL_NEG = _field_split_counts("eval")
 os.makedirs(RESULTS_DIR, exist_ok=True)
 os.makedirs(FIGURES_DIR, exist_ok=True)
 
@@ -514,7 +527,7 @@ def _generate_findings(results: Dict[str, Any]) -> List[str]:
     sens_dev = sens["dev"]
 
     findings = [
-        f"1. **Recall versus False Alarm Trade-Off.** On the field `eval` split (5 positives, 18 controls), strict RiceKG achieves "
+        f"1. **Recall versus False Alarm Trade-Off.** On the field `eval` split ({EVAL_POS} positives, {EVAL_NEG} controls), strict RiceKG achieves "
         f"{ev['systems']['RiceKG strict']['metrics']['positive_any_recall']:.1f}% any-hit recall ({rk_ev_rec:.1f}% exact positive-case recall) with {rk_ev_far:.1f}% false alarms. "
         f"The `possible` grade reaches {ev['systems']['RiceKG + possible']['metrics']['positive_any_recall']:.1f}% any-hit recall ({poss_ev_rec:.1f}% exact) with {poss_ev_far:.1f}% false alarms. "
         f"The noisy-OR layer at default threshold $\\theta = 0.50$ attains {ev['systems']['noisy-OR (with gates)']['metrics']['positive_any_recall']:.1f}% any-hit recall ({nor_ev_rec:.1f}% exact single-label match due to multi-threat differential candidate generation), "
@@ -574,7 +587,7 @@ def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
     # Dataset tables
     for dset_key, dset_title in [
         ("dev", "Field Benchmark: Dev Split (n=16: 7 positives, 9 controls)"),
-        ("eval", "Field Benchmark: Eval Split (Held-Out, n=23: 5 positives, 18 controls)"),
+        ("eval", f"Field Benchmark: Eval Split (Held-Out, n={EVAL_N}: {EVAL_POS} positives, {EVAL_NEG} controls)"),
         ("holdout", "Field Benchmark: Holdout Split (Development-Exposed, n=18 positives, 0 controls)"),
         ("verification_suite", "Deductive Verification Suite (Rule-Derived, n=73: 55 positives, 18 controls)"),
     ]:
@@ -599,7 +612,7 @@ def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
 
     # Differential Top-k Table for Eval
     lines.extend([
-        "## 3. Top-k Differential Ranking on Eval Split (n=23)",
+        f"## 3. Top-k Differential Ranking on Eval Split (n={EVAL_N})",
         "",
         "| System | Hit@1 (%) | Hit@2 (%) | Hit@3 (%) | MRR | FAR@1 (%) | FAR@3 (%) | Spec@3 (%) | Mean Length |",
         "|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
@@ -616,7 +629,7 @@ def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
 
     # Paired Significance Table
     lines.extend([
-        "## 4. Paired Significance against RiceKG Strict on Eval Split (n=23)",
+        f"## 4. Paired Significance against RiceKG Strict on Eval Split (n={EVAL_N})",
         "",
         f"> **Minimum Detectable Effect**: $\\pm {results['datasets']['eval']['mde']['mde_percentage_proportion']:.1f}\\%$ accuracy ($\\alpha=0.05, 80\\%$ power).",
         "",
@@ -633,7 +646,7 @@ def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
     # Calibration Table for Eval
     cal = results["datasets"]["eval"]["calibration"]
     lines.extend([
-        "## 5. Calibration & Reliability Analysis on Eval Split (n=23)",
+        f"## 5. Calibration & Reliability Analysis on Eval Split (n={EVAL_N})",
         "",
         f"> **Brier Score (Multi-Label)**: `{cal['brier_score']:.4f}` across {cal['total_pairs']} hypothesis evaluations.  ",
         f"> **Disclaimer**: {cal['calibration_disclaimer']}",

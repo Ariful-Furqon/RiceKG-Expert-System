@@ -46,7 +46,7 @@ VANN_IRI = "http://purl.org/vocab/vann/"
 AGROVOC = "http://aims.fao.org/aos/agrovoc/"
 OBO = "http://purl.obolibrary.org/obo/"
 
-ONTOLOGY_VERSION = "2.1.0"
+ONTOLOGY_VERSION = "2.2.0"
 
 DRAFT_NOTE = ("Operational definition drafted by the RiceKG authors from the cited source and "
               "standard rice pathology descriptions; pending review by independent agronomists.")

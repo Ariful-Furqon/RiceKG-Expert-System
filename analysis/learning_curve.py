@@ -9,7 +9,7 @@ Answers the fundamental reviewer question:
    the zero-shot knowledge base?"
 
 Design:
-- Fixed test set: field 'eval' split of data/benchmark_field.csv (n=23: 5 positives, 18 controls).
+- Fixed test set: field 'eval' split of data/benchmark_field.csv (5 positives; see EVAL_N for size).
 - Pool A (Rule-derived): data/verification_suite.csv (n=80). Budgets: [5, 10, 20, 40, 80].
 - Pool B (Real field dev): data/benchmark_field.csv dev split (n=16). Budgets: [2, 4, 8, 16].
 - Resampling: R=200 stratified draws without replacement per budget.
@@ -49,6 +49,18 @@ VERIFICATION_CSV = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 BASELINES_JSON = os.path.join(BASE_DIR, "results", "baselines.json")
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
 FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
+
+
+def _field_split_counts(split):
+    """(total, positives, negative controls) for one split of the field benchmark."""
+    import csv as _csv
+    with open(FIELD_CSV, encoding="utf-8-sig", newline="") as f:
+        rows = [r for r in _csv.DictReader(f) if r["split"] == split]
+    pos = sum(1 for r in rows if r["diagnosis"] != "No_Diagnosis")
+    return len(rows), pos, len(rows) - pos
+
+
+EVAL_N, EVAL_POS, EVAL_NEG = _field_split_counts("eval")
 
 
 def compute_zero_shot_references(
@@ -271,7 +283,7 @@ def run_learning_curve_for_pool(
     budgets: Optional[List[int]] = None,
     n_draws: int = 200,
     base_seed: int = 42,
-    test_set_label: str = "Field eval split (n=23)"
+    test_set_label: str = "Field eval split"
 ) -> Dict[str, Any]:
     """Executes the resampling learning curve with dual uncertainty decomposition."""
     if len(X_test) == 0 or len(test_cases) == 0:
@@ -534,7 +546,8 @@ def generate_markdown_report(
         "",
         f"> **Generated**: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())}  ",
         "> **Target Venue**: *Inteligencia Artificial* (IBERAMIA)  ",
-        "> **Evaluation Protocol**: Fixed held-out test set (`data/benchmark_field.csv`, `eval` split, $n=23$: 5 positives, 18 negative controls). $R=200$ stratified resamples without replacement per budget; reported with dual uncertainty decomposition (training-subsample variance across draws and test-set sampling variance via non-parametric paired bootstrap over the test cases, $B=1,000$).",
+        f"> **Evaluation Protocol**: Fixed held-out test set (`data/benchmark_field.csv`, `eval` split, $n={EVAL_N}$: {EVAL_POS} positives, {EVAL_NEG} negative controls)."
+        " $R=200$ stratified resamples without replacement per budget; reported with dual uncertainty decomposition (training-subsample variance across draws and test-set sampling variance via non-parametric paired bootstrap over the test cases, $B=1,000$).",
         "",
         "---",
         "",
@@ -607,7 +620,7 @@ def generate_markdown_report(
         "> *Why did supervised classifiers score 0.00% (0/5) positive recall at 11 cases/fold in Table 2, but 33.1%–40.0% at N=8 and N=16 in Pool B?*",
         "",
         "The discrepancy arises from **partition composition and training source**:",
-        "1. **`results/baselines.md` Table 2 Protocol**: Evaluated 5x2-fold cross-validation solely **within the 23 cases of the `eval` split**. In each fold, the training set held 11 cases from `eval`, where 9 cases (82%) were negative controls (`No_Diagnosis`) and at most 2 were positive cases. Crucially, the 5 positive cases in `eval` span 4 distinct threat classes; a 2-fold split ensures that viral classes (`Rice_Tungro_Virus`, `Rice_Grassy_Stunt`) present in the test fold never appeared in the training fold. Faced with an 82% negative majority and unseen classes, the classifiers predicted all-zeros (`No_Diagnosis`), yielding 0.00% recall.",
+        f"1. **`results/baselines.md` Table 2 Protocol**: Evaluated 5x2-fold cross-validation solely **within the {EVAL_N} cases of the `eval` split**. In each fold, the training set held about {EVAL_N // 2} cases from `eval`, of which about {round(100 * EVAL_NEG / EVAL_N)}% were negative controls (`No_Diagnosis`) and only {EVAL_POS // 2}–{EVAL_POS - EVAL_POS // 2} were positive cases. Crucially, the {EVAL_POS} positive cases in `eval` span 4 distinct threat classes; a 2-fold split ensures that viral classes (`Rice_Tungro_Virus`, `Rice_Grassy_Stunt`) present in the test fold never appeared in the training fold. Faced with a {round(100 * EVAL_NEG / EVAL_N)}% negative majority and unseen classes, the classifiers predicted all-zeros (`No_Diagnosis`), yielding 0.00% recall.",
         "2. **`results/learning_curve.md` Pool B Protocol**: Trained models on the **`dev` split ($n=16$)**, where 7 of 16 cases (43.8%) are in-scope positives, including multiple examples of `Bacterial_Leaf_Blight` and `Rice_Root_Nematode`. When evaluated on `eval`, the models correctly identified FIELD_34 (`Rice_Root_Nematode`) and FIELD_36 (`Bacterial_Leaf_Blight`), achieving 2/5 = 40.0% recall, while failing on the 3 viral cases that were absent from `dev`.",
         "3. **Uncertainty Resolution**: When evaluated under test-set bootstrap resampling (resampling the 5 positive test cases), the paired difference between ML (40.0%) and RiceKG (40.0%) is identically zero with a 95% CI spanning zero ($[-40.0, +20.0]$ for DT at N=4). Thus, the apparent crossover was an artifact of ignoring test-set sampling variance.",
         "",
@@ -629,7 +642,7 @@ def generate_markdown_report(
         "## 6. Granularity and Statistical Power Boundaries",
         "",
         r"1. **Staircase Quantisation Step ($\Delta = 0.20$)**: Positive recall on the 5 in-scope test cases is strictly quantised to \{0.0, 0.2, 0.4, 0.6, 0.8, 1.0\}.",
-        r"2. **Minimum Detectable Effect ($\pm 29.5\%$)**: With $n=23$ and 5 positive cases, margins below 29.5% cannot be distinguished from random sampling noise.",
+        rf"2. **Minimum Detectable Effect ($\pm 29.5\%$)**: With $n={EVAL_N}$ and {EVAL_POS} positive cases, margins below 29.5% cannot be distinguished from random sampling noise.",
         "3. **Zero Data Leakage**: In all 200 draws across both pools, training and test case IDs and DOIs were verified to be strictly disjoint."
     ])
 
@@ -686,7 +699,7 @@ def main():
             budgets=budgets_a,
             n_draws=args.draws,
             base_seed=args.seed,
-            test_set_label="Held-out Field eval split (n=23)"
+            test_set_label=f"Held-out Field eval split (n={EVAL_N})"
         )
 
     if args.pool in ("B", "both"):
@@ -703,7 +716,7 @@ def main():
             budgets=budgets_b,
             n_draws=args.draws,
             base_seed=args.seed,
-            test_set_label="Held-out Field eval split (n=23)"
+            test_set_label=f"Held-out Field eval split (n={EVAL_N})"
         )
 
     # 4. Save structured JSON

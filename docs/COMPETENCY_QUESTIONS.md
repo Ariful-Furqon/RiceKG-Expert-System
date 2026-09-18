@@ -34,7 +34,7 @@ Namespace: `http://www.semanticweb.org/ontologies/rice_pest_disease.owl#`
 
 - **Status**: satisfied
 - **Scenario**: schema only (no sample)
-- **Result**: `45`
+- **Result**: `46`
 
 ```sparql
 PREFIX : <http://www.semanticweb.org/ontologies/rice_pest_disease.owl#>

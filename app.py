@@ -1,4 +1,5 @@
 import os
+import csv
 import json
 import time
 from flask import Flask, request, render_template, redirect, url_for, jsonify
@@ -96,6 +97,20 @@ SYMPTOM_CATEGORIES = [
     }
 ]
 
+# Labels and descriptions come from the ontology's curated term definitions, so the UI
+# shows the same operational definition an annotator applies.
+def load_term_definitions():
+    with open(os.path.join(BASE_DIR, "ontology", "term_definitions.csv"), encoding="utf-8", newline="") as f:
+        return {row["term"]: row for row in csv.DictReader(f)}
+
+TERM_DEFINITIONS = load_term_definitions()
+for cat in SYMPTOM_CATEGORIES:
+    for sym in cat["symptoms"]:
+        row = TERM_DEFINITIONS.get(sym["id"])
+        if row:
+            sym["name"] = row["label_en"][:1].upper() + row["label_en"][1:]
+            sym["description"] = row["definition"]
+
 # Build lookup maps
 SYMPTOM_NAME_MAP = {}
 for cat in SYMPTOM_CATEGORIES:
@@ -119,7 +134,7 @@ for t in THREAT_CATALOG:
 BENCHMARK_SCENARIOS = [
     {
         "id": "scenario_nematode",
-        "title": "Rice Root Nematode",
+        "title": "Rice Root-Knot Nematode",
         "category": "Endoparasitic Nematode (Tier 1/2)",
         "badge_class": "badge-pest",
         "icon": "🪱",
@@ -475,7 +490,7 @@ def api_threats():
 
 @app.route("/api/v1/symptoms", methods=["GET"])
 def api_symptoms():
-    """Returns all 45 phenotypic symptoms grouped by anatomical organ."""
+    """Returns the phenotypic symptoms grouped by anatomical organ."""
     return jsonify({
         "status": "success",
         "total_symptoms": sum(len(c["symptoms"]) for c in SYMPTOM_CATEGORIES),

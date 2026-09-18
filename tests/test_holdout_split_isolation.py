@@ -38,9 +38,10 @@ def test_field_benchmark_split_counts():
     holdout_cases = [cid for cid, s in splits.items() if s == "holdout"]
 
     assert len(dev_cases) == 16, f"Expected 16 dev cases, found {len(dev_cases)}"
-    assert len(eval_cases) == 23, f"Expected 23 eval cases, found {len(eval_cases)}"
+    # FIELD_24 (eval) was rejected in ontology v2.2.0: its text describes no symptom.
+    assert len(eval_cases) == 22, f"Expected 22 eval cases, found {len(eval_cases)}"
     assert len(holdout_cases) == 18, f"Expected 18 holdout cases, found {len(holdout_cases)}"
-    assert len(rows) == 57, f"Expected 57 total cases, found {len(rows)}"
+    assert len(rows) == 56, f"Expected 56 total cases, found {len(rows)}"
 
     # Mutual disjointness
     assert not (set(dev_cases) & set(eval_cases))
@@ -59,13 +60,13 @@ def test_evaluate_load_data_split_isolation():
 
     # 2. Eval split only
     eval_data = evaluate.load_data(FIELD_CSV, split="eval")
-    assert len(eval_data) == 23
+    assert len(eval_data) == 22
     assert all(c["split"] == "eval" for c in eval_data)
     assert not any(c["split"] == "holdout" for c in eval_data)
 
     # 3. Benchmark tuple split
     bench_data = evaluate.load_data(FIELD_CSV, split=("dev", "eval"))
-    assert len(bench_data) == 39
+    assert len(bench_data) == 38
     assert all(c["split"] in ("dev", "eval") for c in bench_data)
     assert not any(c["split"] == "holdout" for c in bench_data)
 
@@ -85,7 +86,7 @@ def test_baselines_loader_split_isolation():
 
     # Eval split
     _, _, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
-    assert len(eval_cases) == 23
+    assert len(eval_cases) == 22
     assert not any(c["split"] == "holdout" for c in eval_cases)
 
 
@@ -93,7 +94,7 @@ def test_field_failure_analysis_split_isolation():
     from analysis import field_failure_analysis
 
     bench_cases = field_failure_analysis.load_cases(split="benchmark")
-    assert len(bench_cases) == 39
+    assert len(bench_cases) == 38
     assert not any(c.get("split") == "holdout" for c in bench_cases)
 
 

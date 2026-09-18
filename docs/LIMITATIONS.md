@@ -9,9 +9,11 @@ partition and **no gain on the held-out partition**.
 
 | | Before Steps 2-3 | After Steps 2-3 |
 |:--|:--:|:--:|
-| **`eval` positive-case recall** | 38.33% | **35.00%** |
-| **`eval` micro-F1** | 48.00 | **40.67** [95% CI 34.8, 74.3] |
-| **`eval` aggregate exact match** | 86.97% | **86.82%** |
+| **`eval` positive-case recall** | 38.33% | **35.00%** (now **31.67%**†) |
+| **`eval` micro-F1** | 48.00 | **40.67** (now **41.00** [95% CI 33.3, 75.7]†) |
+| **`eval` aggregate exact match** | 86.97% | **86.82%** (now **86.36%**†) |
+
+† Current values after FIELD_24 was rejected in ontology v2.2.0 (`eval` 23 → 22 cases). 31.67% is a 5×2-fold average; it was 35.00% before FIELD_24 was rejected (ontology v2.2.0). The change comes only from the fold re-partition: no diagnosis changed, and pooled recall is 2/5 = 40.0%.
 | `dev` positive-case recall | 19.17% | **63.33%** |
 | `dev` micro-F1 | 24.86 | **75.14** |
 | Positive cases resolved, both partitions | 3/12 | **6/12** |
@@ -23,9 +25,9 @@ signature of overfitting to the development set, and it should be read that way 
 individual change was argued from published agronomy rather than from a case.
 
 Against the baselines on `eval`, RiceKG exceeds the ontology-free nearest-prototype matcher by
-13.0 percentage points of exact match (Holm-adjusted $p = 0.0004$) and reaches 35.00% positive
-recall against its 17.50%. The prototype matcher nonetheless retains a marginally higher micro-F1
-(43.29 against 40.67), so the two are not cleanly separated on that measure.
+9.1 percentage points of exact match (Holm-adjusted $p = 0.0117$) and reaches 31.67% positive
+recall against its 15.00%. The prototype matcher nonetheless retains a higher micro-F1
+(57.05 against 41.00), so the two are not cleanly separated on that measure.
 
 ### An intermediate revision was withdrawn
 
@@ -66,7 +68,7 @@ that leaked into the process.
 Consequently:
 
 - `eval` figures in this repository are **development-informed**, not strictly held out.
-- The manuscript must not describe the current 35.00% positive-case recall as an independent
+- The manuscript must not describe the current 31.67% positive-case recall as an independent
   estimate of diagnostic efficacy. It is an optimistic bound.
 - A genuinely independent figure requires a **fresh partition sourced after the rule base is
   frozen**, through the P0-3 case-report gate.
@@ -76,8 +78,8 @@ the numbers.
 
 ### Composition, sourcing limits, and statistical power
 
-- Retained benchmark: 39 cases — 12 in-scope positives, 27 out-of-scope negative controls.
-  The `eval` partition holds 5 positives and 18 negative controls; `dev` holds 7 and 9.
+- Retained benchmark: 38 cases — 12 in-scope positives, 26 out-of-scope negative controls.
+  The `eval` partition holds 5 positives and 17 negative controls; `dev` holds 7 and 9.
 - P0-5 sourced 21 candidate cases and **rejected 14**: every DOI resolved against Crossref, but the
   sources were reviews, control-efficacy trials, population-genetics studies and a caged infestation
   experiment whose symptom text is textbook description rather than observation. Two supplied a
@@ -87,7 +89,7 @@ the numbers.
   Insect pests are not published as first-report disease notes the way emerging pathogens are, so the
   venue supplying case-grade evidence for diseases has no equivalent for pests. No claim about
   diagnostic performance on insect pests is supported by field evidence.
-- Held-out MDE is $\pm 29.5$ percentage points ($\alpha = 0.05$, $80\%$ power); on `dev` it is
+- Held-out MDE is $\pm 30.2$ percentage points ($\alpha = 0.05$, $80\%$ power); on `dev` it is
   $\pm 35.4$. Differences below those thresholds cannot be distinguished from chance, so every
   non-significant comparison here is underpowered rather than demonstrably equivalent.
 - Distinguishing a 10-15 point margin would require roughly **15 to 20 verified positive cases per
@@ -95,22 +97,22 @@ the numbers.
 
 ### Per-Class Field Coverage Analysis (6/6 In-Scope Coverage)
 
-The table below summarizes independent empirical validation coverage across the 6 in-scope biotic threat classes modeled in RiceKG following the Part 5 scope narrowing:
+The table below summarizes independent empirical validation coverage (`dev` and `eval` splits; the development-exposed `holdout` split is reported separately) across the 6 in-scope biotic threat classes modeled in RiceKG following the Part 5 scope narrowing:
 
 | Threat Class | Category | Independent Field Cases ($n$) | Partition Split | Field Case IDs | Empirical Validation Status |
 |:---|:---|:---:|:---:|:---|:---:|
-| **Bacterial Leaf Blight** | Pathogen (Bacterium) | 3 | 1 eval, 2 dev | FIELD_01, FIELD_33, FIELD_34 | Evaluated ($n=3$) |
-| **False Smut** | Pathogen (Fungus) | 1 | 1 eval, 0 dev | FIELD_04 | Evaluated ($n=1$) |
-| **Rice Blast** | Pathogen (Fungus) | 2 | 1 eval, 1 dev | FIELD_02, FIELD_35 | Evaluated ($n=2$) |
-| **Rice Grassy Stunt** | Pathogen (Virus) | 1 | 0 eval, 1 dev | FIELD_53 | Evaluated ($n=1$) |
-| **Rice Root Nematode** | Pathogen (Nematode) | 3 | 2 eval, 1 dev | FIELD_03, FIELD_05, FIELD_36 | Evaluated ($n=3$) |
-| **Rice Tungro Virus** | Pathogen (Virus) | 2 | 0 eval, 2 dev | FIELD_51, FIELD_52 | Evaluated ($n=2$) |
-| *Out-of-Scope Negative Controls* | Pathogen Mimics | 27 | 18 eval, 9 dev | FIELD_06–32, FIELD_37–50 | Evaluated (Specificity) |
+| **Bacterial Leaf Blight** | Pathogen (Bacterium) | 3 | 1 eval, 2 dev | FIELD_03, FIELD_35, FIELD_36 | Evaluated ($n=3$) |
+| **False Smut** | Pathogen (Fungus) | 1 | 0 eval, 1 dev | FIELD_05 | Evaluated ($n=1$) |
+| **Rice Blast** | Pathogen (Fungus) | 2 | 0 eval, 2 dev | FIELD_01, FIELD_02 | Evaluated ($n=2$) |
+| **Rice Grassy Stunt** | Pathogen (Virus) | 1 | 1 eval, 0 dev | FIELD_53 | Evaluated ($n=1$) |
+| **Rice Root-Knot Nematode** | Plant-parasitic nematode | 3 | 1 eval, 2 dev | FIELD_04, FIELD_33, FIELD_34 | Evaluated ($n=3$) |
+| **Rice Tungro Virus** | Pathogen (Virus) | 2 | 2 eval, 0 dev | FIELD_51, FIELD_52 | Evaluated ($n=2$) |
+| *Out-of-Scope Negative Controls* | Pathogen Mimics | 26 | 17 eval, 9 dev | FIELD_06–FIELD_32 except FIELD_24 | Evaluated (Specificity) |
 | *Excluded Insect Classes (Reference Only)* | Insect Pests | 0 | — | Excluded from scope | Outside Diagnostic Scope |
 
 **Key Coverage Takeaways**:
 1. **100% In-Scope Empirical Coverage (6/6 Classes)**: With the diagnostic scope narrowed to exclude insect pests, **every single in-scope threat class (6/6, 100%) possesses independent empirical field backing** in `data/benchmark_field.csv`.
-2. **Resolution of the Structural Sourcing Bottleneck**: Four insect pest classes (`Grasshopper`, `Rice_Stem_Borer`, `Rice_Bug`, `Brown_Planthopper`) were excluded from the automated diagnostic scope because phytopathology first-report disease notes report pathogens, leaving insect pests with zero empirical field reports. Rather than asserting diagnostic competence unsupported by literature evidence, the system reclassifies their 21 symptoms as out-of-scope vocabulary (`InsectDamageSign`), providing an informative differential response (*"consistent with insect damage, which is outside the diagnostic scope of this system"*). The response requires at least two distinct insect-specific signs (`model.INSECT_SPECIFIC_SIGNS`); signs shared with pathogens or abiotic stress never trigger it. It has been exercised only on rule-derived controls, so its field reliability is unmeasured.
+2. **Resolution of the Structural Sourcing Bottleneck**: Four insect pest classes (`Grasshopper`, `Rice_Stem_Borer`, `Rice_Bug`, `Brown_Planthopper`) were excluded from the automated diagnostic scope because phytopathology first-report disease notes report pathogens, leaving insect pests with zero empirical field reports. Rather than asserting diagnostic competence unsupported by literature evidence, the system reclassifies their 19 damage signs as out-of-scope vocabulary (`InsectDamageSign`), providing an informative differential response (*"consistent with insect damage, which is outside the diagnostic scope of this system"*). The response requires at least two distinct insect-specific signs (`model.INSECT_SPECIFIC_SIGNS`); signs shared with pathogens or abiotic stress never trigger it. It has been exercised only on rule-derived controls, so its field reliability is unmeasured.
 3. **Vector Sightings Retained**: Vector presence terms (`Brown_Planthopper_Present` and `Green_Leafhopper_Present`) remain in the ontology as supporting observational antecedents for the viral diseases they transmit (`Rice_Grassy_Stunt` and `Rice_Tungro_Virus`).
 
 ---
@@ -197,11 +199,11 @@ The cold-start learning curve experiment ([`results/learning_curve.md`](../resul
 This analysis reveals an inherent structural limitation of the independent field evaluation set:
 
 1. **Staircase Quantisation Step ($\Delta = 0.20$)**:
-   The held-out `eval` partition of [`data/benchmark_field.csv`](../data/benchmark_field.csv) contains strictly $n = 5$ in-scope positive disease cases (and 18 out-of-scope negative controls). As a result, positive-case recall on any single evaluation run or draw is inherently discrete and can only take values in the quantised set:
+   The held-out `eval` partition of [`data/benchmark_field.csv`](../data/benchmark_field.csv) contains strictly $n = 5$ in-scope positive disease cases (and 17 out-of-scope negative controls). As a result, positive-case recall on any single evaluation run or draw is inherently discrete and can only take values in the quantised set:
    $$\text{Recall}_{\text{pos}} \in \{0.0, 0.2, 0.4, 0.6, 0.8, 1.0\}$$
    with a coarse step size of $\Delta = 0.20$ (20.0 percentage points per case). Every single misclassification or correct prediction shifts the measured recall by a full 20.0 percentage points, creating a discrete staircase rather than a continuous curve.
 2. **Statistical Power and Wide Confidence Intervals**:
-   While aggregating across $R = 200$ stratified bootstrap draws smooths the expected mean recall, the 95% confidence intervals at small budgets remain wide. Furthermore, as established in Section 2, the minimum detectable effect size on this partition is $\pm 29.5\%$ ($\alpha = 0.05$, $80\%$ power). Consequently, apparent small margins between supervised ML models and the zero-shot symbolic knowledge base (e.g., 40.0% vs. 35.00%) lie entirely within the noise margin of random variation.
+   While aggregating across $R = 200$ stratified bootstrap draws smooths the expected mean recall, the 95% confidence intervals at small budgets remain wide. Furthermore, as established in Section 2, the minimum detectable effect size on this partition is $\pm 30.2\%$ ($\alpha = 0.05$, $80\%$ power). Consequently, apparent small margins between supervised ML models and the zero-shot symbolic knowledge base (e.g., 40.0% vs. 35.00%) lie entirely within the noise margin of random variation.
 3. **Methodological Mitigation**:
    To prevent misleading interpretations:
    - All learning-curve evaluations report per-budget non-parametric 95% bootstrap confidence intervals rather than bare point means;

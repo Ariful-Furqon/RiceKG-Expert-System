@@ -70,7 +70,7 @@ When the diagnostic scope was narrowed from 10 classes to 6 evidence-backed clas
 
 ### Zero-Loss Property Under Scope Narrowing
 > [!NOTE]
-> **Zero Empirical Loss**: Exactly **0 of the 39 cases** in `data/benchmark_field.csv` diagnose an insect class. The peer-reviewed *First Report* disease-note literature naturally reports plant pathogens and parasitic nematodes, not insect pests. Consequently, the entire independent field benchmark survived the Part 5 scope narrowing completely untouched with **100% data retention (39/39 cases)**.
+> **Zero Empirical Loss**: Exactly **0 of the 38 cases** in the `dev` and `eval` splits of `data/benchmark_field.csv` diagnose an insect class. The peer-reviewed *First Report* disease-note literature naturally reports plant pathogens and parasitic nematodes, not insect pests. Consequently, the entire independent field benchmark survived the Part 5 scope narrowing completely untouched with **100% data retention (39/39 cases)**.
 
 ### Overview
 - **File**: `data/benchmark_field.csv`

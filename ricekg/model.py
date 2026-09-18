@@ -117,7 +117,6 @@ OBSERVATION_CATEGORIES = {
     "Rapid_Disease_Spread": "hasEpidemiologicalContext",
     "Rainy_Season_Outbreak": "hasEpidemiologicalContext",
     "Uniform_Field_Infection": "hasEpidemiologicalContext",
-    "Slight_Panicle_Infection": "hasEpidemiologicalContext",
     "Milky_Stage_Vulnerability": "hasEpidemiologicalContext",
     "Infected_Seedlings": "hasEpidemiologicalContext",
     "Random_Feeding_Pattern": "hasEpidemiologicalContext",
@@ -175,6 +174,7 @@ SYMPTOM_TAXONOMY = {
     "Empty_Grains": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
     "Grain_Discoloration": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
     "Rusty_Grain_Balls": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
+    "Slight_Panicle_Infection": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
     "Blackened_Grain_Balls": {"anatomical": "GrainSign", "phenomenological": "GrainAbnormality"},
     "Whitehead_Empty_Panicles": {"anatomical": "PanicleSign", "phenomenological": "GrainAbnormality"},
 
@@ -186,16 +186,18 @@ SYMPTOM_TAXONOMY = {
     # Architecture & Other Signs
     "Excessive_Tillering": {"anatomical": "WholePlantSign", "phenomenological": None},
     "No_Panicle_Formation": {"anatomical": "PanicleSign", "phenomenological": None},
-    "Bacterial_Ooze": {"anatomical": "StemSign", "phenomenological": None}
+    "Bacterial_Ooze": {"anatomical": "LeafSign", "phenomenological": None}
 }
 
-# 21 phenotypic symptoms associated specifically with insect damage
+# 19 phenotypic symptoms associated with insect damage. Empty_Grains and Plant_Yellowing
+# were removed in ontology v2.2.0: both are recorded on in-scope disease cases (blast,
+# false smut, tungro), so typing them InsectDamageSign was a misclassification.
 INSECT_DAMAGE_SIGNS = [
     "Adult_Insects_Present", "Blackened_Feeding_Punctures", "Bore_Holes_In_Stem",
     "Broad_Leaf_Damage", "Brown_Nymphs", "Circular_Hopperburn_Patches", "Deadheart_Seedling",
-    "Easily_Pulled_Tillers", "Eggs_On_Plant", "Empty_Grains", "Frass_In_Stem", "Hopperburn_Drying",
+    "Easily_Pulled_Tillers", "Eggs_On_Plant", "Frass_In_Stem", "Hopperburn_Drying",
     "Leaf_Chewing_Damage", "Leaf_Margin_Sap_Sucking", "Localized_Leaf_Yellowing", "Nymphs_Present",
-    "Plant_Yellowing", "Random_Feeding_Pattern", "Rotten_Panicles", "Severed_Panicles", "Yellow_Nymphs"
+    "Random_Feeding_Pattern", "Rotten_Panicles", "Severed_Panicles", "Yellow_Nymphs"
 ]
 
 INSECT_SPECIFIC_SIGNS = [
@@ -332,7 +334,7 @@ RULE_REGISTRY = [
         "threat": "Rice_Root_Nematode",
         "threat_type": "Pest",
         "tier": "tier1",
-        "name": "Canonical Rice Root Nematode Diagnosis",
+        "name": "Canonical Rice Root-Knot Nematode Diagnosis",
         "antecedents": ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves", "Root_Knot_Swelling", "Deformed_Roots", "Necrotic_Spots"],
         "consequent_property": "hasConfirmedPest",
         "flat_consequent_property": "hasPest",
@@ -414,7 +416,7 @@ RULE_REGISTRY = [
         "threat": "Rice_Root_Nematode",
         "threat_type": "Pest",
         "tier": "tier2",
-        "name": "Relaxed Root Nematode Diagnosis",
+        "name": "Relaxed Root-Knot Nematode Diagnosis",
         "antecedents": ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves"],
         "consequent_property": "hasSuspectedPest",
         "flat_consequent_property": "hasPest",

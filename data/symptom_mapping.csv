@@ -2,7 +2,7 @@ field_slug,ontology_term,decision,justification
 leaves_yellowing,Yellowing_Leaves,mapped,Direct lexical and semantic identity.
 plant_stunted_short,Stunted_Growth,mapped,Direct semantic identity; both denote reduced plant height.
 roots_hook_shaped_galls,Hook_Like_Root_Swelling,mapped,Direct semantic identity; hook-shaped root gall.
-roots_nematode_cysts,Root_Knot_Swelling,mapped,Nematode cyst or knot on root; same referent in the ontology.
+roots_nematode_cysts,,unmapped,"Nematode cysts (e.g. Heterodera) are external bodies attached to the root, not root galls; the ontology has no cyst term."
 seed_empty_unfilled,Empty_Grains,mapped,Direct semantic identity; unfilled grain.
 seed_yellowish_green_velvety_balls,Rusty_Grain_Balls,mapped,Ontology term for the immature false-smut spore ball.
 seed_dark_green_spores_powder,Blackened_Grain_Balls,mapped,Ontology term for the mature darkened false-smut spore ball.

@@ -215,16 +215,16 @@ In Part 4, `hasObservation` was introduced as the top-level object property (`Ri
 1. **`hasSymptom`** (`Rice >> Symptom`): Morphological, histological, and anatomical plant disease signs.
 2. **`hasOrganismSighting`** (`Rice >> OrganismSighting`): Direct observation of non-vector pests or biological organisms (e.g. `Adult_Insects_Present`, `Nymphs_Present`, `Brown_Nymphs`, `Yellow_Nymphs`, `Eggs_On_Plant`).
 3. **`hasVectorSighting`** (`Rice >> VectorSighting`): Specific observation of insect vectors responsible for viral transmission (`Brown_Planthopper_Present` for Rice Grassy Stunt, `Green_Leafhopper_Present` for Rice Tungro).
-4. **`hasEpidemiologicalContext`** (`Rice >> EpidemiologicalContext`): Macro-environmental, phenological, or stand-level disease contexts (`Uniform_Field_Infection`, `Rapid_Disease_Spread`, `Rainy_Season_Outbreak`, `Infected_Seedlings`, `Milky_Stage_Vulnerability`).
+4. **`hasEpidemiologicalContext`** (`Rice >> EpidemiologicalContext`): Macro-environmental, phenological, or stand-level disease contexts (`Random_Feeding_Pattern`, `Circular_Hopperburn_Patches`, `Rapid_Disease_Spread`, `Rainy_Season_Outbreak`, `Uniform_Field_Infection`, `Milky_Stage_Vulnerability`, `Infected_Seedlings`).
 
 ### Complete Reclassification of all 61 Vocabulary Terms
 
 | Category | Terms Assigned | Count |
 |:---|:---|:---:|
-| **`hasOrganismSighting`** | `Adult_Insects_Present`, `Nymphs_Present`, `Brown_Nymphs`, `Yellow_Nymphs`, `Eggs_On_Plant` | 5 |
+| **`hasOrganismSighting`** | `Brown_Nymphs`, `Yellow_Nymphs`, `Eggs_On_Plant`, `Frass_In_Stem`, `Nymphs_Present`, `Adult_Insects_Present` | 6 |
 | **`hasVectorSighting`** | `Brown_Planthopper_Present`, `Green_Leafhopper_Present` | 2 |
-| **`hasEpidemiologicalContext`** | `Uniform_Field_Infection`, `Rapid_Disease_Spread`, `Rainy_Season_Outbreak`, `Infected_Seedlings`, `Milky_Stage_Vulnerability` | 5 |
-| **`hasSymptom`** | All 49 plant morphological signs (detailed in 4-B taxonomy) | 49 |
+| **`hasEpidemiologicalContext`** | `Random_Feeding_Pattern`, `Circular_Hopperburn_Patches`, `Rapid_Disease_Spread`, `Rainy_Season_Outbreak`, `Uniform_Field_Infection`, `Milky_Stage_Vulnerability`, `Infected_Seedlings` | 7 |
+| **`hasSymptom`** | All 46 plant morphological signs (detailed in 4-B taxonomy) | 46 |
 | **Total Vocabulary** | | **61** |
 
 ---
@@ -234,19 +234,19 @@ In Part 4, `hasObservation` was introduced as the top-level object property (`Ri
 To resolve vocabulary mismatches between scout field reports and rigid rule antecedents, symptoms are modeled as formal OWL classes organized along two orthogonal axes:
 
 ### 1. Anatomical Axis
-- **`LeafSign`**: `Yellowing_Leaves`, `Yellowing_Leaf_Tips`, `Yellowing_Leaf_Veins`, `Leaf_Discoloration_Yellow`, `Localized_Leaf_Yellowing`, `Interveinal_Chlorosis`, `Orange_Leaf_Discoloration`, `Leaf_Mottling`, `Chlorotic_Streaks`, `Leaf_Bleaching`, `Whitened_Leaf_Tips`, `Necrotic_Spots`, `Diamond_Shaped_Lesions`, `Water_Soaked_Lesions`, `Leaf_Sheath_Lesions`, `Hopperburn_Drying`, `Brown_Streaks`, `Leaf_Desiccation`, `Leaf_Chewing_Damage`, `Broad_Leaf_Damage`, `Leaf_Margin_Sap_Sucking`.
-- **`StemSign`**: `Stem_Rot_Lesions`, `Bore_Holes_In_Stem`, `Easily_Pulled_Tillers`, `Blackened_Feeding_Punctures`, `Bacterial_Ooze`.
+- **`LeafSign`**: `Broad_Leaf_Damage`, `Leaf_Chewing_Damage`, `Necrotic_Spots`, `Yellowing_Leaves`, `Leaf_Margin_Sap_Sucking`, `Localized_Leaf_Yellowing`, `Hopperburn_Drying`, `Yellowing_Leaf_Veins`, `Leaf_Discoloration_Yellow`, `Yellowing_Leaf_Tips`, `Diamond_Shaped_Lesions`, `Water_Soaked_Lesions`, `Bacterial_Ooze`, `Leaf_Mottling`, `Interveinal_Chlorosis`, `Leaf_Sheath_Lesions`, `Orange_Leaf_Discoloration`, `Leaf_Desiccation`, `Chlorotic_Streaks`, `Brown_Streaks`, `Leaf_Bleaching`, `Whitened_Leaf_Tips`.
+- **`StemSign`**: `Bore_Holes_In_Stem`, `Easily_Pulled_Tillers`, `Blackened_Feeding_Punctures`, `Stem_Rot_Lesions`.
 - **`RootSign`**: `Hook_Like_Root_Swelling`, `Root_Knot_Swelling`, `Deformed_Roots`, `Discolored_Roots`.
-- **`PanicleSign`**: `Panicle_Neck_Rot`, `Rotten_Panicles`, `Severed_Panicles`, `Whitehead_Empty_Panicles`, `No_Panicle_Formation`.
-- **`GrainSign`**: `Empty_Grains`, `Grain_Discoloration`, `Rusty_Grain_Balls`, `Blackened_Grain_Balls`.
-- **`WholePlantSign`**: `Plant_Yellowing`, `Stunted_Growth`, `Severe_Stunting`, `Deadheart_Seedling`, `Leaf_Wilting`, `Excessive_Tillering`.
+- **`PanicleSign`**: `Severed_Panicles`, `Whitehead_Empty_Panicles`, `Rotten_Panicles`, `Panicle_Neck_Rot`, `No_Panicle_Formation`.
+- **`GrainSign`**: `Empty_Grains`, `Rusty_Grain_Balls`, `Blackened_Grain_Balls`, `Slight_Panicle_Infection`, `Grain_Discoloration`.
+- **`WholePlantSign`**: `Stunted_Growth`, `Deadheart_Seedling`, `Plant_Yellowing`, `Severe_Stunting`, `Excessive_Tillering`, `Leaf_Wilting`.
 
 ### 2. Phenomenological Axis
-- **`Chlorosis`**: General loss of chlorophyll. Subsumes `Plant_Yellowing`, `Yellowing_Leaves`, `Yellowing_Leaf_Tips`, `Yellowing_Leaf_Veins`, `Leaf_Discoloration_Yellow`, `Localized_Leaf_Yellowing`, `Interveinal_Chlorosis`, `Orange_Leaf_Discoloration`, `Leaf_Mottling`, `Chlorotic_Streaks`, `Leaf_Bleaching`, `Whitened_Leaf_Tips`.
-- **`Necrosis`**: Localized death of plant tissues. Subsumes `Necrotic_Spots`, `Diamond_Shaped_Lesions`, `Water_Soaked_Lesions`, `Stem_Rot_Lesions`, `Leaf_Sheath_Lesions`, `Panicle_Neck_Rot`, `Rotten_Panicles`, `Hopperburn_Drying`, `Blackened_Feeding_Punctures`, `Deadheart_Seedling`, `Brown_Streaks`, `Leaf_Desiccation`, `Leaf_Wilting`, `Discolored_Roots`.
+- **`Chlorosis`**: General loss of chlorophyll. Subsumes `Yellowing_Leaves`, `Localized_Leaf_Yellowing`, `Plant_Yellowing`, `Yellowing_Leaf_Veins`, `Leaf_Discoloration_Yellow`, `Yellowing_Leaf_Tips`, `Leaf_Mottling`, `Interveinal_Chlorosis`, `Orange_Leaf_Discoloration`, `Chlorotic_Streaks`, `Leaf_Bleaching`, `Whitened_Leaf_Tips`.
+- **`Necrosis`**: Localized death of plant tissues. Subsumes `Necrotic_Spots`, `Deadheart_Seedling`, `Rotten_Panicles`, `Hopperburn_Drying`, `Blackened_Feeding_Punctures`, `Panicle_Neck_Rot`, `Diamond_Shaped_Lesions`, `Water_Soaked_Lesions`, `Leaf_Sheath_Lesions`, `Stem_Rot_Lesions`, `Leaf_Desiccation`, `Brown_Streaks`, `Leaf_Wilting`, `Discolored_Roots`.
 - **`Stunting`**: Growth retardation. Subsumes `Stunted_Growth` and `Severe_Stunting`.
-- **`MechanicalDamage`**: Structural injury. Subsumes `Leaf_Chewing_Damage`, `Broad_Leaf_Damage`, `Severed_Panicles`, `Bore_Holes_In_Stem`, `Easily_Pulled_Tillers`, `Leaf_Margin_Sap_Sucking`.
-- **`GrainAbnormality`**: Kernel defects and malformations. Subsumes `Empty_Grains`, `Grain_Discoloration`, `Rusty_Grain_Balls`, `Blackened_Grain_Balls`, `Whitehead_Empty_Panicles`.
+- **`MechanicalDamage`**: Structural injury. Subsumes `Broad_Leaf_Damage`, `Severed_Panicles`, `Leaf_Chewing_Damage`, `Bore_Holes_In_Stem`, `Easily_Pulled_Tillers`, `Leaf_Margin_Sap_Sucking`.
+- **`GrainAbnormality`**: Kernel defects and malformations. Subsumes `Whitehead_Empty_Panicles`, `Empty_Grains`, `Rusty_Grain_Balls`, `Blackened_Grain_Balls`, `Slight_Panicle_Infection`, `Grain_Discoloration`.
 
 ---
 
@@ -480,3 +480,25 @@ terms without such a source have none. `tests/test_ontology_annotations.py` enfo
 `skos:editorialNote` saying it awaits independent agronomist review. The multi-rater
 annotation study is the intended review: once raters have applied the definitions, change
 `status` to `reviewed` for each accepted term and rebuild.
+
+---
+
+## Semantic corrections (ontology v2.2.0)
+
+Writing operational definitions for v2.1.0 exposed five places where a term's type or use
+contradicted its own meaning. Each correction below follows from the definition and its source,
+not from a benchmark score; none changes a rule antecedent.
+
+| # | Change | Reason | Effect on reasoning |
+|---|---|---|---|
+| 1 | `FIELD_24` moved from `benchmark_field.csv` to `rejected_field_candidates.csv`; `roots_nematode_cysts` changed from `Root_Knot_Swelling` to `unmapped` in `symptom_mapping.csv` | The source text states only that *Heterodera elachista* cysts were detected and describes no plant symptom. The earlier encoding (`Root_Knot_Swelling`, `Yellowing_Leaves`, `Stunted_Growth`) was not in the text, and a cyst is an external body on the root, not a gall. This is the verbatim-extraction gate applied late, with the same rejection reason as `HREJ_08`. | `eval` loses one negative control (23 → 22 cases, 18 → 17 controls) |
+| 2 | Display name of `Rice_Root_Nematode` changed to "rice root-knot nematode"; identifier unchanged | The individual is aligned to *Meloidogyne graminicola* (AGROVOC `c_31070`), whose common name is rice root-knot nematode; "rice root nematode" usually denotes *Hirschmanniella oryzae*. The identifier is kept because every result artifact refers to it. | None |
+| 3 | `Empty_Grains` and `Plant_Yellowing` removed from `INSECT_DAMAGE_SIGNS` | Both are recorded on in-scope disease cases (blast, false smut, tungro), so typing them `InsectDamageSign` asserted that disease evidence was out-of-scope insect evidence. The insect gate uses `INSECT_SPECIFIC_SIGNS`, which never contained them. | None (OWL typing only) |
+| 4 | `Bacterial_Ooze` anatomical axis `StemSign` → `LeafSign` | Ooze is exuded on leaf lesions (Ou 1985, p. 65). | None (defined classes match on `hasObservation`) |
+| 5 | `Slight_Panicle_Infection` moved from `hasEpidemiologicalContext` to `hasSymptom` (`GrainSign`, `GrainAbnormality`) | Its source describes small lesions confined to the glumes (Yang et al. 2023), a sign on the spikelet, not a field condition. | None for diagnosis; the synthetic generator no longer samples it as a contextual distractor |
+
+Left for the multi-rater calibration round: `Yellowing_Leaf_Veins` and
+`Leaf_Discoloration_Yellow` are named for a colour pattern but used for lesion patterns
+(along veins, along margins), and `Interveinal_Chlorosis` overlaps `Chlorotic_Streaks`.
+`Rotten_Panicles` and `Localized_Leaf_Yellowing` remain typed `InsectDamageSign` although both
+can arise from disease.
