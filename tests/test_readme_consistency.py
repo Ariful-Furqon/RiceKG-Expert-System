@@ -66,7 +66,7 @@ def test_guard_catches_stale_scope_claims():
 def test_guard_catches_false_positive_drift(monkeypatch):
     """README quoting 0 false positives while the failure analysis reports 3 must fail."""
     monkeypatch.setattr(checker, "negative_control_false_positives", lambda: (3, 27))
-    stale = "| **False Positives on Negative Controls** | **0 of 27** | [link] |"
+    stale = "| **False alarm on negative controls** | **0/17** [0.0, 19.5] | **0 of 27** [0.0, 12.8] | [link] |"
     assert checker.check_false_positive_claim(stale)
     assert not checker.check_false_positive_claim(stale.replace("0 of 27", "3 of 27"))
 

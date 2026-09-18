@@ -5,7 +5,7 @@ VENV_BIN ?= $(VENV)/bin
 # Include standard Homebrew / JVM paths in execution PATH
 export PATH := /opt/homebrew/opt/openjdk/bin:/usr/local/opt/openjdk/bin:$(PATH)
 
-.PHONY: help install test ablate baselines failure-analysis competency check-docs degradation results-index reproduce anon-bundle clean
+.PHONY: help install test ablate baselines failure-analysis graded-eval verify-kb competency check-docs degradation results-index reproduce anon-bundle clean
 
 help:
 	@echo "RiceKG Expert System - Makefile commands"
@@ -14,6 +14,8 @@ help:
 	@echo "  make ablate        - Run reasoner ablation experiments"
 	@echo "  make baselines     - Run comparative ML and rule baselines"
 	@echo "  make failure-analysis - Regenerate per-case field failure diagnosis"
+	@echo "  make graded-eval   - Single-run graded case-level field evaluation (headline figures)"
+	@echo "  make verify-kb     - Knowledge-base verification (consistency, subsumption, coverage)"
 	@echo "  make competency    - Regenerate the ontology competency-question report"
 	@echo "  make check-docs    - Verify README/docs figures match results/"
 	@echo "  make degradation   - Regenerate the observation-occlusion degradation curve"
@@ -41,6 +43,12 @@ baselines:
 failure-analysis:
 	$(VENV_BIN)/python3 analysis/field_failure_analysis.py
 
+graded-eval:
+	$(VENV_BIN)/python3 analysis/graded_evaluation.py
+
+verify-kb:
+	$(VENV_BIN)/python3 analysis/kb_verification.py
+
 competency:
 	$(VENV_BIN)/python3 analysis/competency_questions.py
 
@@ -53,7 +61,7 @@ degradation:
 results-index:
 	$(VENV_BIN)/python3 analysis/build_results_index.py
 
-reproduce: ablate baselines failure-analysis competency degradation results-index check-docs
+reproduce: ablate baselines failure-analysis graded-eval verify-kb competency degradation results-index check-docs
 	@echo "All result artifacts regenerated and documentation figures verified."
 
 # ---------------------------------------------------------------------------

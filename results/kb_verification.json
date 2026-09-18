@@ -1,0 +1,442 @@
+{
+  "generated_at": "2026-09-18T14:45:50.764995+00:00",
+  "consistency": {
+    "consistent": true,
+    "detail": "Pellet found no inconsistency in the TBox and rule base."
+  },
+  "reachability": {
+    "Rice_Root_Nematode": [
+      "tier1",
+      "tier2"
+    ],
+    "Bacterial_Leaf_Blight": [
+      "tier1",
+      "tier2"
+    ],
+    "False_Smut": [
+      "tier1",
+      "tier2"
+    ],
+    "Rice_Blast": [
+      "tier1",
+      "tier2"
+    ],
+    "Rice_Grassy_Stunt": [
+      "tier1",
+      "tier2"
+    ],
+    "Rice_Tungro_Virus": [
+      "tier1",
+      "tier2"
+    ]
+  },
+  "tier_subsumption": [
+    {
+      "threat": "Rice_Root_Nematode",
+      "tier1": "SWRL-R02",
+      "tier2": "SWRL-R12",
+      "tier2_subset_of_tier1": true
+    },
+    {
+      "threat": "Bacterial_Leaf_Blight",
+      "tier1": "SWRL-R06",
+      "tier2": "SWRL-R16",
+      "tier2_subset_of_tier1": true
+    },
+    {
+      "threat": "False_Smut",
+      "tier1": "SWRL-R07",
+      "tier2": "SWRL-R17",
+      "tier2_subset_of_tier1": true
+    },
+    {
+      "threat": "Rice_Blast",
+      "tier1": "SWRL-R08",
+      "tier2": "SWRL-R18",
+      "tier2_subset_of_tier1": true
+    },
+    {
+      "threat": "Rice_Grassy_Stunt",
+      "tier1": "SWRL-R09",
+      "tier2": "SWRL-R19",
+      "tier2_subset_of_tier1": true
+    },
+    {
+      "threat": "Rice_Tungro_Virus",
+      "tier1": "SWRL-R10",
+      "tier2": "SWRL-R20",
+      "tier2_subset_of_tier1": true
+    }
+  ],
+  "cross_threat_subsumption": [],
+  "shared_antecedents": {
+    "Necrotic_Spots": [
+      "Rice_Blast",
+      "Rice_Grassy_Stunt",
+      "Rice_Root_Nematode",
+      "Rice_Tungro_Virus"
+    ],
+    "Uniform_Field_Infection": [
+      "Bacterial_Leaf_Blight",
+      "False_Smut",
+      "Rice_Blast"
+    ],
+    "Stunted_Growth": [
+      "Rice_Root_Nematode",
+      "Rice_Tungro_Virus"
+    ],
+    "Yellowing_Leaves": [
+      "Rice_Root_Nematode",
+      "Rice_Tungro_Virus"
+    ]
+  },
+  "overlap_tier1": [
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [
+        "Necrotic_Spots",
+        "Stunted_Growth",
+        "Yellowing_Leaves"
+      ],
+      "jaccard": 0.333
+    },
+    {
+      "pair": [
+        "Rice_Blast",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [
+        "Necrotic_Spots"
+      ],
+      "jaccard": 0.111
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Rice_Blast"
+      ],
+      "shared": [
+        "Necrotic_Spots"
+      ],
+      "jaccard": 0.1
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [
+        "Necrotic_Spots"
+      ],
+      "jaccard": 0.1
+    },
+    {
+      "pair": [
+        "Bacterial_Leaf_Blight",
+        "Rice_Blast"
+      ],
+      "shared": [
+        "Uniform_Field_Infection"
+      ],
+      "jaccard": 0.1
+    },
+    {
+      "pair": [
+        "False_Smut",
+        "Rice_Blast"
+      ],
+      "shared": [
+        "Uniform_Field_Infection"
+      ],
+      "jaccard": 0.1
+    },
+    {
+      "pair": [
+        "Rice_Blast",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [
+        "Necrotic_Spots"
+      ],
+      "jaccard": 0.1
+    },
+    {
+      "pair": [
+        "Rice_Grassy_Stunt",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [
+        "Necrotic_Spots"
+      ],
+      "jaccard": 0.1
+    },
+    {
+      "pair": [
+        "Bacterial_Leaf_Blight",
+        "False_Smut"
+      ],
+      "shared": [
+        "Uniform_Field_Infection"
+      ],
+      "jaccard": 0.091
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Bacterial_Leaf_Blight"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "False_Smut"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Bacterial_Leaf_Blight",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Bacterial_Leaf_Blight",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "False_Smut",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "False_Smut",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    }
+  ],
+  "overlap_tier2": [
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [
+        "Stunted_Growth"
+      ],
+      "jaccard": 0.25
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Bacterial_Leaf_Blight"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "False_Smut"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Rice_Blast"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Bacterial_Leaf_Blight",
+        "False_Smut"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Bacterial_Leaf_Blight",
+        "Rice_Blast"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Bacterial_Leaf_Blight",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Bacterial_Leaf_Blight",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "False_Smut",
+        "Rice_Blast"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "False_Smut",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "False_Smut",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Blast",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Blast",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Grassy_Stunt",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    }
+  ],
+  "vocabulary": {
+    "total": 61,
+    "used_by_rules": [
+      "Blackened_Grain_Balls",
+      "Brown_Planthopper_Present",
+      "Deformed_Roots",
+      "Diamond_Shaped_Lesions",
+      "Excessive_Tillering",
+      "Green_Leafhopper_Present",
+      "Hook_Like_Root_Swelling",
+      "Infected_Seedlings",
+      "Leaf_Discoloration_Yellow",
+      "Milky_Stage_Vulnerability",
+      "Necrotic_Spots",
+      "No_Panicle_Formation",
+      "Orange_Leaf_Discoloration",
+      "Panicle_Neck_Rot",
+      "Rainy_Season_Outbreak",
+      "Rapid_Disease_Spread",
+      "Root_Knot_Swelling",
+      "Rusty_Grain_Balls",
+      "Severe_Stunting",
+      "Slight_Panicle_Infection",
+      "Stunted_Growth",
+      "Uniform_Field_Infection",
+      "Water_Soaked_Lesions",
+      "Whitehead_Empty_Panicles",
+      "Yellowing_Leaf_Tips",
+      "Yellowing_Leaf_Veins",
+      "Yellowing_Leaves"
+    ],
+    "gate_only": [
+      "Adult_Insects_Present",
+      "Blackened_Feeding_Punctures",
+      "Bore_Holes_In_Stem",
+      "Broad_Leaf_Damage",
+      "Brown_Nymphs",
+      "Brown_Streaks",
+      "Chlorotic_Streaks",
+      "Circular_Hopperburn_Patches",
+      "Discolored_Roots",
+      "Eggs_On_Plant",
+      "Frass_In_Stem",
+      "Grain_Discoloration",
+      "Hopperburn_Drying",
+      "Leaf_Bleaching",
+      "Leaf_Chewing_Damage",
+      "Leaf_Desiccation",
+      "Leaf_Margin_Sap_Sucking",
+      "Leaf_Sheath_Lesions",
+      "Leaf_Wilting",
+      "Nymphs_Present",
+      "Severed_Panicles",
+      "Stem_Rot_Lesions",
+      "Whitened_Leaf_Tips",
+      "Yellow_Nymphs"
+    ],
+    "unused": [
+      "Bacterial_Ooze",
+      "Deadheart_Seedling",
+      "Easily_Pulled_Tillers",
+      "Empty_Grains",
+      "Interveinal_Chlorosis",
+      "Leaf_Mottling",
+      "Localized_Leaf_Yellowing",
+      "Plant_Yellowing",
+      "Random_Feeding_Pattern",
+      "Rotten_Panicles"
+    ]
+  },
+  "literature_backing": {
+    "antecedent_links": 34,
+    "sourced_links": 31,
+    "unsourced_links": [
+      "Rice_Grassy_Stunt:Necrotic_Spots",
+      "Rice_Root_Nematode:Necrotic_Spots",
+      "Rice_Tungro_Virus:Necrotic_Spots"
+    ],
+    "rules_with_literature": 12,
+    "rules_total": 12,
+    "terms_with_definition": 61,
+    "terms_total": 61
+  }
+}

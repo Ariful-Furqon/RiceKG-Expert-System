@@ -17,6 +17,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASELINES_JSON = os.path.join(BASE_DIR, "results", "baselines.json")
 ABLATION_JSON = os.path.join(BASE_DIR, "results", "ablation.json")
+GRADED_JSON = os.path.join(BASE_DIR, "results", "graded_evaluation.json")
 LEARNING_CURVE_JSON = os.path.join(BASE_DIR, "results", "learning_curve.json")
 README = os.path.join(BASE_DIR, "README.md")
 LIMITATIONS = os.path.join(BASE_DIR, "docs", "LIMITATIONS.md")
@@ -61,6 +62,37 @@ def required_figures():
         ("ablation exact match", f"{full['exact_acc']:.2f}%",
          [README]),
     ]
+    checks += graded_figures()
+    return checks
+
+
+def graded_figures():
+    """Headline single-run figures from results/graded_evaluation.json."""
+    with open(GRADED_JSON, encoding="utf-8") as fh:
+        graded = json.load(fh)["groups"]
+
+    def count(r):
+        return f"{r['k']}/{r['n']}"
+
+    def ci(r):
+        return f"[{r['ci95'][0]:.1f}, {r['ci95'][1]:.1f}]"
+
+    checks = []
+    for group, label in (("eval", "eval"), ("dev+eval", "dev+eval")):
+        strict = graded[group]["RiceKG strict"]
+        loose = graded[group]["RiceKG + possible"]
+        alarms = loose["control_outcomes"]["possible_alarm"]
+        checks += [
+            (f"{label} committed recall", count(strict["committed_recall"]), [README]),
+            (f"{label} committed recall CI", ci(strict["committed_recall"]), [README]),
+            (f"{label} recall incl. possible", count(loose["recall_incl_possible"]), [README]),
+            (f"{label} recall incl. possible CI", ci(loose["recall_incl_possible"]), [README]),
+            (f"{label} misfire", count(strict["misfire_rate"]), [README]),
+            (f"{label} false-alarm CI", ci(strict["false_alarm_rate"]), [README]),
+            (f"{label} possible-grade alarms", f"{alarms}/{loose['n_control']}", [README]),
+        ]
+    ev = graded["eval"]["RiceKG strict"]
+    checks.append(("eval committed recall", f"**{count(ev['committed_recall'])}**", [POSITIONING]))
     return checks
 
 
@@ -116,12 +148,13 @@ def negative_control_false_positives() -> tuple[int, int]:
 
 
 def check_false_positive_claim(readme_text: str) -> list[str]:
-    """README's 'False Positives on Negative Controls' row must match the failure analysis."""
+    """README's 'False alarm on negative controls' row must match the failure analysis
+    (dev + eval controls, quoted as '**k of n**')."""
     import re
     fp, n = negative_control_false_positives()
-    m = re.search(r"False Positives on Negative Controls\*\*\s*\|\s*\*\*(\d+) of (\d+)\*\*", readme_text)
+    m = re.search(r"False alarm on negative controls\*\*\s*\|.*?\*\*(\d+) of (\d+)\*\*", readme_text)
     if not m:
-        return ["  README.md: 'False Positives on Negative Controls' row not found"]
+        return ["  README.md: 'False alarm on negative controls' row not found"]
     if (int(m.group(1)), int(m.group(2))) != (fp, n):
         return [f"  README.md: quotes {m.group(1)} of {m.group(2)} negative-control false positives; "
                 f"results/field_failure_analysis.md reports {fp} of {n}"]
@@ -164,7 +197,7 @@ def check_results_index() -> list[str]:
 
 
 def main():
-    for path in (BASELINES_JSON, ABLATION_JSON):
+    for path in (BASELINES_JSON, ABLATION_JSON, GRADED_JSON):
         if not os.path.exists(path):
             print(f"FAIL: missing {os.path.relpath(path, BASE_DIR)}; run `make baselines` and `make ablate`")
             return 1

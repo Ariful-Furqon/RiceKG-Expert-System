@@ -1,7 +1,10 @@
 # Scientific Positioning: Accuracy, Explainability, and What the Evidence Supports
 
 On the `eval` partition of the field benchmark ([`data/benchmark_field.csv`](../data/benchmark_field.csv),
-*n*=22, of which 5 are in-scope disease cases), RiceKG attains **31.67%** positive-case recall and a
+*n*=22, of which 5 are in-scope disease cases), RiceKG commits to the correct disease in **2/5** positive
+cases (exact 95% CI 5.3–85.3%), never names a wrong disease, and raises no false alarm on the
+17 negative controls ([`results/graded_evaluation.md`](../results/graded_evaluation.md)). Under the
+5×2-fold protocol used for the ML comparison the same outputs average to **31.67%** positive recall and a
 micro-F1 of **41.00** [95% CI 33.3, 75.7]. Its aggregate exact match of 86.36% is not a diagnostic
 result: 17 of the 22 cases are out-of-scope negative controls on which returning `No_Diagnosis` is
 correct. Across both partitions RiceKG resolves **6 of 12** positive cases. **Diagnostic efficacy on

@@ -58,6 +58,14 @@ jobs:
         run: |
           python analysis/field_failure_analysis.py
 
+      - name: Graded case-level field evaluation (single run, exact CIs)
+        run: |
+          python analysis/graded_evaluation.py
+
+      - name: Knowledge-base verification
+        run: |
+          python analysis/kb_verification.py
+
       - name: Execute ontology competency questions
         run: |
           python analysis/competency_questions.py
