@@ -78,6 +78,15 @@ antecedents) was written after the two-rater annotations had been analysed, with
 literature-based criterion fixed before any re-run. [`LIMITATIONS.md`](LIMITATIONS.md) Section 2
 records the resulting exposure; the rule base is now frozen at v2.4.0.
 
+## Conduct of the first round
+
+Two raters (R1, R2) took part; a third could not be recruited, so there is no Fleiss' κ. Workbooks
+were returned over WhatsApp, and the file times in `annotation/returned/` are the coordinator's
+download times, not completion times: R2's Stage A and Stage B files share a time because they were
+downloaded together. The coordinator confirmed that R2 completed the workbooks without help. The
+high agreement between them (diagnosis κ = 0.885, encoding Jaccard 0.929) therefore rests on that
+account; the files themselves cannot demonstrate independence.
+
 ## Re-rating after ruleset v2.4.0
 
 The Stage B ratings of the first round were given on RiceKG v2.3 outputs for the authors'
