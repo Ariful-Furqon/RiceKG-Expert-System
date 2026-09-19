@@ -190,10 +190,11 @@ class TestP04FieldReportingSeparation:
 
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         json_path = os.path.join(base_dir, "results", "baselines.json")
-        md_path = os.path.join(base_dir, "results", "baselines.md")
+        from analysis import report
 
         assert os.path.exists(json_path), f"Missing {json_path}"
-        assert os.path.exists(md_path), f"Missing {md_path}"
+        md_content = report.read_section("baselines")
+        assert md_content, "results/REPORT.md has no baselines section"
 
         with open(json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -217,9 +218,6 @@ class TestP04FieldReportingSeparation:
             "Aggregate exact match cannot stand in for positive recall!"
         )
 
-        with open(md_path, "r", encoding="utf-8") as f:
-            md_content = f.read()
-
         # Markdown table must have explicit Positive Recall column for field benchmark
         assert "Positive Recall (%)" in md_content
 
@@ -240,12 +238,10 @@ class TestP04FieldReportingSeparation:
         import os
 
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        analysis_path = os.path.join(base_dir, "results", "field_failure_analysis.md")
+        from analysis import report
         field_csv = os.path.join(base_dir, "data", "benchmark_field.csv")
-        assert os.path.exists(analysis_path), f"Missing {analysis_path}"
-
-        with open(analysis_path, "r", encoding="utf-8") as f:
-            content = f.read()
+        content = report.read_section("field-failure-analysis")
+        assert content, "results/REPORT.md has no field-failure-analysis section"
 
         with open(field_csv, newline="", encoding="utf-8") as f:
             positives = [

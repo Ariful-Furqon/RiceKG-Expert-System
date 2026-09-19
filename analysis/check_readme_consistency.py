@@ -3,6 +3,8 @@ import os
 import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 BASELINES_JSON = os.path.join(BASE_DIR, "results", "baselines.json")
 ABLATION_JSON = os.path.join(BASE_DIR, "results", "ablation.json")
 GRADED_JSON = os.path.join(BASE_DIR, "results", "graded_evaluation.json")
@@ -118,14 +120,13 @@ STALE_SCOPE_PATTERNS = [
     r"Rice Pest (and|&) Disease Diagnosis",
 ]
 
-FIELD_FAILURE_MD = os.path.join(BASE_DIR, "results", "field_failure_analysis.md")
 
 
 def negative_control_false_positives() -> tuple[int, int]:
     # Read (false positives, negative controls) from the generated failure analysis.
     import re
-    with open(FIELD_FAILURE_MD, encoding="utf-8") as fh:
-        text = fh.read()
+    from analysis import report
+    text = report.read_section("field-failure-analysis")
     m = re.search(r"(\d+) of (\d+) negative controls produced a false positive", text)
     if m:
         return int(m.group(1)), int(m.group(2))
