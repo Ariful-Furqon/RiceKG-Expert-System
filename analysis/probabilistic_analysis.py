@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from analysis import report
 from ricekg import model
 from ricekg import evaluate
 from ricekg import probabilistic
@@ -520,8 +521,8 @@ def _generate_findings(results: Dict[str, Any]) -> List[str]:
     return findings
 
 
-def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
-    # Writes results/probabilistic.md.
+def generate_markdown(results: Dict[str, Any]) -> None:
+    # Writes results/REPORT.md#probabilistic.
     meta = results["metadata"]
     lines = [
         "# Probabilistic Reasoning Layer Evaluation (noisy-OR, PART 8)",
@@ -660,8 +661,7 @@ def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
         "",
     ])
 
-    with open(output_md, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+    report.write_section("probabilistic", "\n".join(lines))
 
 
 # ---------------------------------------------------------------------------
@@ -805,9 +805,8 @@ def main():
     print(f"Saved: {png_path}")
 
     # Generate markdown report
-    md_path = os.path.join(RESULTS_DIR, "probabilistic.md")
-    generate_markdown(results, md_path)
-    print(f"Saved: {md_path}")
+    generate_markdown(results)
+    print("Saved: \"probabilistic\" section of results/REPORT.md")
 
 
 if __name__ == "__main__":

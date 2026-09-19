@@ -74,11 +74,11 @@ them drifts from the regenerated data.
 
 | Reported table | Command | Output |
 |---|---|---|
-| Architecture ablation (reasoner equivalence, rule components) | `make ablate` | [`results/ablation.md`](results/ablation.md), [`results/ablation.json`](results/ablation.json) |
-| Benchmark 2 (independent field) and baseline comparison | `make baselines` | [`results/baselines.md`](results/baselines.md), [`results/baselines.json`](results/baselines.json) |
-| Per-case field failure diagnosis | `make failure-analysis` | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
-| Graded case-level evaluation (headline field figures) | `make graded-eval` | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
-| Knowledge-base verification | `make verify-kb` | [`results/kb_verification.md`](results/kb_verification.md) |
+| Architecture ablation (reasoner equivalence, rule components) | `make ablate` | [`results/REPORT.md#ablation`](results/REPORT.md#ablation), [`results/ablation.json`](results/ablation.json) |
+| Benchmark 2 (independent field) and baseline comparison | `make baselines` | [`results/REPORT.md#baselines`](results/REPORT.md#baselines), [`results/baselines.json`](results/baselines.json) |
+| Per-case field failure diagnosis | `make failure-analysis` | [`results/REPORT.md#field-failure-analysis`](results/REPORT.md#field-failure-analysis) |
+| Graded case-level evaluation (headline field figures) | `make graded-eval` | [`results/REPORT.md#graded-evaluation`](results/REPORT.md#graded-evaluation) |
+| Knowledge-base verification | `make verify-kb` | [`results/REPORT.md#kb-verification`](results/REPORT.md#kb-verification) |
 | Documentation consistency gate | `make check-docs` | exit status |
 | Ontology competency questions | `make competency` | [`docs/COMPETENCY_QUESTIONS.md`](docs/COMPETENCY_QUESTIONS.md) |
 
@@ -153,19 +153,19 @@ A *committed* diagnosis is graded confirmed or suspected; a *misfire* names the 
 
 | Metric (RiceKG strict) | `eval` (5 positives, 17 controls) | `dev` + `eval` (12 positives, 26 controls) | Traceable File |
 |---|---|---|---|
-| **Committed recall** | **4/5** [28.4, 99.5] | **9/12** [42.8, 94.5] | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
-| **Recall including `possible` grade** | 5/5 [47.8, 100.0] | 11/12 [61.5, 99.8] | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
-| **Misfire (wrong disease committed)** | 0/5 | 0/12 | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
-| **Precision of committed diagnoses** | 4/4 | 9/9 | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
-| **False alarm on negative controls** | **0/17** [0.0, 19.5] | **0 of 26** [0.0, 13.2] | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
-| **`possible`-grade alarms on controls** | 3/17 | 5/26 | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
+| **Committed recall** | **4/5** [28.4, 99.5] | **9/12** [42.8, 94.5] | [`results/REPORT.md#graded-evaluation`](results/REPORT.md#graded-evaluation) |
+| **Recall including `possible` grade** | 5/5 [47.8, 100.0] | 11/12 [61.5, 99.8] | [`results/REPORT.md#graded-evaluation`](results/REPORT.md#graded-evaluation) |
+| **Misfire (wrong disease committed)** | 0/5 | 0/12 | [`results/REPORT.md#graded-evaluation`](results/REPORT.md#graded-evaluation) |
+| **Precision of committed diagnoses** | 4/4 | 9/9 | [`results/REPORT.md#graded-evaluation`](results/REPORT.md#graded-evaluation) |
+| **False alarm on negative controls** | **0/17** [0.0, 19.5] | **0 of 26** [0.0, 13.2] | [`results/REPORT.md#field-failure-analysis`](results/REPORT.md#field-failure-analysis) |
+| **`possible`-grade alarms on controls** | 3/17 | 5/26 | [`results/REPORT.md#graded-evaluation`](results/REPORT.md#graded-evaluation) |
 
 No field case reaches the `confirmed` grade: every correct diagnosis comes from a Tier-2 rule. On
 the 18 development-exposed `holdout` positives, committed recall is 12/18 with one misfire (a grassy
 stunt report encoded as stunting with orange leaves, which is tungro's rule). The 5×2-fold
 cross-validated figures used against the supervised baselines (positive recall 85.00%, micro-F1
 91.14 [77.4, 97.6], exact match 95.45%, MDE ±30.2 points) are in
-[`results/baselines.md`](results/baselines.md); for RiceKG they average fold partitions of a fixed
+[`results/REPORT.md#baselines`](results/REPORT.md#baselines); for RiceKG they average fold partitions of a fixed
 output and are not its headline estimate.
 
 *Scientific Disclosure & Scope Limitations:*
@@ -178,14 +178,14 @@ output and are not its headline estimate.
 ### Expert-based validation
 
 Two independent agronomists diagnosed all 56 cases from the redacted text
-([`results/expert_validation.md`](results/expert_validation.md)). They agree with each other at
+([`results/REPORT.md#expert-validation`](results/REPORT.md#expert-validation)). They agree with each other at
 κ = 0.885 and with RiceKG at a mean κ of 0.569 (difference −0.317 [−0.467, −0.164]). From the same
 text they name the published disease in 26 and 25 of 30 positive cases; RiceKG strict names it in 21.
 The explanation ratings were collected on the previous ruleset's outputs.
 
 ### Ablation
 
-[`results/ablation.md`](results/ablation.md) asks what each part of the architecture contributes:
+[`results/REPORT.md#ablation`](results/REPORT.md#ablation) asks what each part of the architecture contributes:
 
 - **Reasoner**: Pellet and a pure set-matching implementation give identical graded output on 129/129 inputs (all field cases and the verification suite), at about 900 ms against 0.014 ms per case. The DL layer adds proof of `ThreatConfirmed ⊑ ThreatSuspect`, consistency checking and the derivation trace, not accuracy.
 - **Diagnostic-sign rules**: without them, committed recall on `dev`+`eval` falls from 9/12 to 7/12 (holdout: 12/18 to 4/18), with no change in misfires or false alarms; under 30% occlusion, positive recall falls from 67.9% to 44.3%.
@@ -202,10 +202,10 @@ serves as regression input to the reasoner-equivalence check. See
 
 ### Comparative Baselines & Paired Significance Testing
 
-Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
+Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/REPORT.md#baselines`](results/REPORT.md#baselines) and [`results/baselines.json`](results/baselines.json):
 
 - **Field Benchmark, `eval` ($n=22$, development-informed)**: under this cross-validation protocol RiceKG attains **85.00%** positive-case recall (micro-F1 **91.14%**, 95% CI [77.4, 97.6]) and exceeds the nearest-prototype matcher by 9.1 points of exact match (**95.45%** vs 86.36%, Holm-adjusted $p = 0.0039$) and on micro-F1 (91.14 vs 74.83). Every supervised baseline scores 0.00% positive recall under 5×2-fold CV within `eval`, an artifact of 11-case training folds that miss whole classes; trained on `dev` and tested on `eval` (learning-curve Pool B) they reach 20.0–40.0%. The single-run graded figures above are the headline estimate for RiceKG itself. With 5 positive cases and an MDE of $\pm 30.2$ percentage points, comparisons remain underpowered.
-- **Observation occlusion** ([`results/degradation_curve.md`](results/degradation_curve.md)): on generated cases, supervised classifiers trained on the same generator lose recall more slowly than strict RiceKG, which keeps 100% precision throughout.
+- **Observation occlusion** ([`results/REPORT.md#degradation-curve`](results/REPORT.md#degradation-curve)): on generated cases, supervised classifiers trained on the same generator lose recall more slowly than strict RiceKG, which keeps 100% precision throughout.
 - **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
 

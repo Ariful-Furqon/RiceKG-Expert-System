@@ -9,11 +9,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from analysis import report
 from ricekg import model
 
 STAGING_CSV = os.path.join(BASE_DIR, "data", "field_holdout_staging.csv")
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
-OUTPUT_MD = os.path.join(RESULTS_DIR, "holdout_evaluation.md")
 OUTPUT_JSON = os.path.join(RESULTS_DIR, "holdout_evaluation.json")
 
 ALL_DIAGNOSES = [
@@ -163,7 +163,7 @@ def main():
     if not os.path.exists(STAGING_CSV):
         sys.exit("Archived script: data/field_holdout_staging.csv was merged into "
                  "data/benchmark_field.csv. Check out commit 46e2c3e to reproduce this report; "
-                 "current holdout figures are in results/graded_evaluation.md.")
+                 "current holdout figures are in results/REPORT.md#graded-evaluation.")
     lock_hash = compute_sha256(STAGING_CSV)
     expected_lock_hash = "8616419d0781ae2f9c62ba80f3bee8581d0f10798a6d1598ec837e7f29aa9aaa"
 
@@ -298,9 +298,8 @@ def main():
         "",
     ])
 
-    with open(OUTPUT_MD, "w", encoding="utf-8") as f:
-        f.write("\n".join(md_lines))
-    print(f"\nWrote Markdown report to {OUTPUT_MD}")
+    report.write_section("holdout-archived", "\n".join(md_lines))
+    print('Wrote the "holdout-archived" section of results/REPORT.md')
 
     # Build JSON document
     json_data = {

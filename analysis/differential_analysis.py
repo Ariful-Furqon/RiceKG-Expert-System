@@ -14,6 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from analysis import report
 from ricekg import model
 from ricekg import evaluate
 from baselines import ml_baselines, rule_baselines
@@ -376,7 +377,7 @@ def _key_findings(all_evals: List[Dict[str, Any]]) -> List[str]:
     return findings
 
 
-def format_markdown_report(all_evals: List[Dict[str, Any]], output_md: str) -> None:
+def format_markdown_report(all_evals: List[Dict[str, Any]]) -> None:
     # Formats top-k differential evaluation findings into Markdown.
     lines = [
         "# Top-k Differential Diagnosis & Ranking Analysis (PART 7)",
@@ -438,14 +439,12 @@ def format_markdown_report(all_evals: List[Dict[str, Any]], output_md: str) -> N
     lines.extend(_key_findings(all_evals))
     lines.append("")
 
-    with open(output_md, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(lines))
+    report.write_section("top-k", "\n".join(lines))
 
 
 def main():
     parser = argparse.ArgumentParser(description="Run top-k differential diagnosis evaluation.")
     parser.add_argument("--output-json", default=os.path.join(RESULTS_DIR, "top_k.json"))
-    parser.add_argument("--output-md", default=os.path.join(RESULTS_DIR, "top_k.md"))
     args = parser.parse_args()
 
     onto = model.build_ontology()
@@ -477,8 +476,8 @@ def main():
         }, fh, indent=2)
     print(f"Saved: {args.output_json}")
 
-    format_markdown_report(evaluations, args.output_md)
-    print(f"Saved: {args.output_md}")
+    format_markdown_report(evaluations)
+    print("Saved: \"top-k\" section of results/REPORT.md")
 
 
 if __name__ == "__main__":

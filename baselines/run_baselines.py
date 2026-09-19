@@ -26,6 +26,7 @@ def _repo_relative(path: str) -> str:
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from analysis import report
 from ricekg import model
 from ricekg import evaluate
 from baselines import ml_baselines, rule_baselines
@@ -281,7 +282,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "the vocabulary extension; most of its positive cases cannot fire the current Tier-2 rules because the "
         "signs those rules require did not yet exist. A score on it measures agreement with that earlier rule "
         "base, and a nearest-prototype matcher built from the (barely changed) Tier-1 antecedents is favoured "
-        "by construction. The suite is therefore used only as regression input: `results/ablation.md` checks "
+        "by construction. The suite is therefore used only as regression input: `results/REPORT.md#ablation` checks "
         "that Pellet and set matching give identical output on it. Per-system figures remain in "
         "`results/baselines.json` under `verification_suite` for reproducibility and are not reported here.",
         "",
@@ -289,7 +290,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "",
         f"## 2. Field benchmark, `eval` split (`benchmark_field.csv`, $n={f_n}$), 5x2-fold protocol",
         "",
-        "The headline field figures are the single-run graded counts in `results/graded_evaluation.md`; "
+        "The headline field figures are the single-run graded counts in `results/REPORT.md#graded-evaluation`; "
         "RiceKG is not trained, so cross-validation only adds fold-partition noise to its figures. This "
         "section keeps the 5x2 protocol because the supervised baselines need training folds.",
         "",
@@ -352,7 +353,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         f"2. **Every supervised baseline scores zero on positive cases**: all five ML classifiers attain 0.00% "
         f"positive-case recall, having at most {f_pos} positive training examples split across folds. Their aggregate "
         "accuracy comes from predicting the majority `No_Diagnosis` class.",
-        "3. **Per-case causes**: `results/field_failure_analysis.md` assigns a cause to every remaining failure.",
+        "3. **Per-case causes**: `results/REPORT.md#field-failure-analysis` assigns a cause to every remaining failure.",
         f"4. **Negative Control Artifact**: {f_neg} of {f_n} cases ({100.0 * f_neg / f_n:.1f}%) are out-of-scope "
         "emerging pathogens. Reporting aggregate exact match alone would conceal positive-case performance entirely, "
         "which is why the two are separated above.",
@@ -412,11 +413,8 @@ def run_all_baselines():
     print(f"\n[OUTPUT] Saved structured results to {json_path}")
 
     # Write Markdown report
-    md_path = os.path.join(RESULTS_DIR, "baselines.md")
-    md_content = generate_markdown_report(verification_res, field_res, field_dev_res)
-    with open(md_path, "w", encoding="utf-8") as f:
-        f.write(md_content)
-    print(f"[OUTPUT] Saved publication report to {md_path}")
+    report.write_section("baselines", generate_markdown_report(verification_res, field_res, field_dev_res))
+    print("[OUTPUT] Saved \"baselines\" section of results/REPORT.md")
     print(f"Total execution time: {elapsed:.2f}s")
 
 

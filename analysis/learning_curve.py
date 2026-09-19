@@ -17,6 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from analysis import report
 from ricekg import model
 from ricekg import evaluate
 from baselines import ml_baselines, rule_baselines
@@ -504,7 +505,7 @@ def generate_markdown_report(
     pool_a_res: Dict[str, Any],
     pool_b_res: Dict[str, Any]
 ) -> str:
-    # Generates the comprehensive research report for results/learning_curve.md.
+    # Generates the comprehensive research report for results/REPORT.md#learning-curve.
     b_a_max = max(pool_a_res["budgets"])
     b_b_max = max(pool_b_res["budgets"])
 
@@ -640,11 +641,11 @@ def generate_markdown_report(
         "",
         "## 4. Resolution of the Baseline Discrepancy",
         "",
-        f"> *Why do supervised classifiers reach {ml_cv_best:.2f}% positive recall under the 5x2-fold protocol of `results/baselines.md`, but up to {pool_b_best:.1f}% in Pool B?*",
+        f"> *Why do supervised classifiers reach {ml_cv_best:.2f}% positive recall under the 5x2-fold protocol of `results/REPORT.md#baselines`, but up to {pool_b_best:.1f}% in Pool B?*",
         "",
         "The discrepancy arises from **partition composition and training source**:",
-        f"1. **`results/baselines.md` Table 2 Protocol**: 5x2-fold cross-validation solely **within the {EVAL_N} cases of the `eval` split**. Each training fold holds about {EVAL_N // 2} cases, about {round(100 * EVAL_NEG / EVAL_N)}% of them negative controls and only {EVAL_POS // 2}–{EVAL_POS - EVAL_POS // 2} positive cases spread over several threat classes, so a class present in the test fold is often absent from the training fold.",
-        f"2. **`results/learning_curve.md` Pool B Protocol**: models are trained on the `dev` split ($n={pool_b_res['pool_size']}$, {pool_b_res['pool_n_positive']} positives) and tested on `eval`. At $N={b_b_max}$ they reach {terminal_b_range} positive recall, against RiceKG's {rk_pt_ref:.1f}%.",
+        f"1. **`results/REPORT.md#baselines` Table 2 Protocol**: 5x2-fold cross-validation solely **within the {EVAL_N} cases of the `eval` split**. Each training fold holds about {EVAL_N // 2} cases, about {round(100 * EVAL_NEG / EVAL_N)}% of them negative controls and only {EVAL_POS // 2}–{EVAL_POS - EVAL_POS // 2} positive cases spread over several threat classes, so a class present in the test fold is often absent from the training fold.",
+        f"2. **`results/REPORT.md#learning-curve` Pool B Protocol**: models are trained on the `dev` split ($n={pool_b_res['pool_size']}$, {pool_b_res['pool_n_positive']} positives) and tested on `eval`. At $N={b_b_max}$ they reach {terminal_b_range} positive recall, against RiceKG's {rk_pt_ref:.1f}%.",
         f"3. **Uncertainty**: at $N={b_b_max}$ the paired test-set bootstrap differences (model − RiceKG, 95% CI) are {terminal_b_diffs}.",
         "",
         "---",
@@ -763,11 +764,8 @@ def main():
     print(f"\n[OUTPUT] Saved structured results to {json_path}")
 
     # 5. Save Markdown report
-    md_path = os.path.join(args.out_dir, "learning_curve.md")
-    report_md = generate_markdown_report(res_a or res_b, res_b or res_a)
-    with open(md_path, "w", encoding="utf-8") as f:
-        f.write(report_md)
-    print(f"[OUTPUT] Saved publication report to {md_path}")
+    report.write_section("learning-curve", generate_markdown_report(res_a or res_b, res_b or res_a))
+    print("[OUTPUT] Saved \"learning-curve\" section of results/REPORT.md")
 
     # 6. Generate Publication Figure
     fig_path = os.path.join(FIGURES_DIR, "learning_curve.png")

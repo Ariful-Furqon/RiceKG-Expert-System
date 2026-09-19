@@ -19,6 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from analysis import report
 from ricekg import model
 from data.generator import generate_benchmark
 from baselines import ml_baselines, rule_baselines
@@ -400,7 +401,7 @@ def _findings(results: Dict[str, Any]) -> List[str]:
     return out
 
 
-def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
+def generate_markdown(results: Dict[str, Any]) -> None:
     # Write comprehensive experimental findings to Markdown.
     meta = results["metadata"]
     systems = results["systems"]
@@ -501,8 +502,7 @@ def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
         "",
     ])
 
-    with open(output_md, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(lines))
+    report.write_section("degradation-curve", "\n".join(lines))
 
 
 def main():
@@ -532,9 +532,8 @@ def main():
     generate_plot(results, png_path)
     print(f"Saved: {png_path}")
 
-    md_path = os.path.join(RESULTS_DIR, "degradation_curve.md")
-    generate_markdown(results, md_path)
-    print(f"Saved: {md_path}")
+    generate_markdown(results)
+    print("Saved: \"degradation-curve\" section of results/REPORT.md")
 
 
 if __name__ == "__main__":

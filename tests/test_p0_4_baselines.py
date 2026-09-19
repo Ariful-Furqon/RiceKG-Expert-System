@@ -183,7 +183,7 @@ class TestP04FieldReportingSeparation:
         )
 
     def test_field_results_report_positive_recall_distinctly(self):
-        # Asserts results/baselines.json and results/baselines.md distinctly publish
+        # Asserts results/baselines.json and results/REPORT.md#baselines distinctly publish
         # positive-case recall and do not allow aggregate accuracy to stand in for positive recall.
         import os
         import json
@@ -226,7 +226,7 @@ class TestP04FieldReportingSeparation:
         # The narrative must quote the measured positive-case recall, not an aggregate
         # figure and not a hand-written constant. This fails if the prose goes stale.
         assert f"{ricekg_summary['mean_positive_recall']:.2f}% positive-case recall" in md_content, (
-            "results/baselines.md must state the measured positive-case recall verbatim"
+            "results/REPORT.md#baselines must state the measured positive-case recall verbatim"
         )
         assert f"{field_data['n_positive']} in-scope disease cases" in md_content
 

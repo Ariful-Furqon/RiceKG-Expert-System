@@ -83,7 +83,7 @@ already plant-level signs that a field report supplies.
 
 All Tier-2 rules continue to assert `hasSuspectedThreat`, preserving the confidence grading
 established in P0-1. Tier-1 rules are untouched, so the pathognomonic precision reported in
-`results/ablation.md` is unaffected by these revisions.
+`results/REPORT.md#ablation` is unaffected by these revisions.
 
 ## Graded partial matching: the `possible` grade
 
@@ -396,7 +396,7 @@ This is distinct from both a positive diagnosis and the insect out-of-scope resp
 On the 27 negative controls (FIELD_06 to FIELD_32, true label `No_Diagnosis`):
 - **Specificity across all 27 negative controls**: **100.0% (27/27)**.
 - **Specificity across mapped-sign controls only**: **100.0% (24/24) [Earned Discrimination]**.
-**Caveat: this second figure is not yet earned discrimination.** The seven newly mapped terms are antecedents of no rule, so no in-scope diagnosis can fire on them, and they populate `model.NON_MODELED_PATHOGEN_SIGNS`, the list that triggers the "not consistent with any disease in scope" response. The terms were selected because they occur in negative-control rows. A mapped-sign control is therefore still rejected by construction, now with a more informative message. Earned discrimination would require controls whose mapped signs overlap in-scope antecedents; on those, the `possible`-grade differential raises candidates on 9 of the 18 `eval` controls (`results/top_k.md`).
+**Caveat: this second figure is not yet earned discrimination.** The seven newly mapped terms are antecedents of no rule, so no in-scope diagnosis can fire on them, and they populate `model.NON_MODELED_PATHOGEN_SIGNS`, the list that triggers the "not consistent with any disease in scope" response. The terms were selected because they occur in negative-control rows. A mapped-sign control is therefore still rejected by construction, now with a more informative message. Earned discrimination would require controls whose mapped signs overlap in-scope antecedents; on those, the `possible`-grade differential raises candidates on 9 of the 18 `eval` controls (`results/REPORT.md#top-k`).
 
 ### 4. Evaluation Across Benchmark Splits
 - **Dev Split ($n=16$)**: Exact-Match Accuracy: **81.25%**, Precision: **100.0%**, Recall: **57.1%**, F1: **72.7%**. Specificity on controls: 100.0% (9/9 all, 8/8 mapped-sign).
@@ -510,7 +510,7 @@ can arise from disease.
 One independent agronomist (R1 in the multi-rater study, [`ANNOTATION_PROTOCOL.md`](ANNOTATION_PROTOCOL.md))
 rated all 67 definitions: 53 adequate, 14 needing revision. Each revision follows the reviewer's
 wording (translated from Indonesian); the per-rater review is kept locally, not in the public
-repository, and [`results/expert_validation.md`](../results/expert_validation.md) reports it in aggregate;
+repository, and [`results/REPORT.md#expert-validation`](../results/REPORT.md#expert-validation) reports it in aggregate;
 `ontology/term_definitions.csv` now marks every term `reviewed` or `revised`, and
 `skos:editorialNote` says which. The second rater did not complete the review, so every definition
 rests on a single reviewer.
@@ -528,7 +528,7 @@ unaffected.
 
 ## Diagnostic-sign rules and unsourced antecedents (ruleset and ontology v2.4.0)
 
-The degradation sweep ([`results/degradation_curve.md`](../results/degradation_curve.md)) showed
+The degradation sweep ([`results/REPORT.md#degradation-curve`](../results/REPORT.md#degradation-curve)) showed
 strict RiceKG losing recall fastest of all systems as observations go missing: a conjunctive rule
 fails as soon as any one of its antecedents is unobserved, so recall falls roughly as
 $(1-p)^k$ for a rule of $k$ antecedents. The expert-consensus re-encoding showed the same defect

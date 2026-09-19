@@ -11,6 +11,7 @@ if BASE_DIR not in sys.path:
 
 from owlready2 import World, sync_reasoner_pellet, OwlReadyInconsistentOntologyError
 
+from analysis import report
 from ricekg import model
 
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
@@ -129,7 +130,7 @@ def run():
     return report
 
 
-def write_markdown(rep, path):
+def write_markdown(rep):
     voc, lit = rep["vocabulary"], rep["literature_backing"]
     tier_ok = sum(r["tier2_subset_of_tier1"] for r in rep["tier_subsumption"])
     unreachable = [t for t, tiers in rep["reachability"].items() if not tiers]
@@ -173,8 +174,7 @@ def write_markdown(rep, path):
     if lit["unsourced_links"]:
         L += ["", "## Antecedent links without a cited source", "",
               ", ".join(f"`{x}`" for x in lit["unsourced_links"])]
-    with open(path, "w", encoding="utf-8") as f:
-        f.write("\n".join(L) + "\n")
+    report.write_section("kb-verification", "\n".join(L))
 
 
 if __name__ == "__main__":
@@ -182,5 +182,5 @@ if __name__ == "__main__":
     os.makedirs(RESULTS_DIR, exist_ok=True)
     with open(os.path.join(RESULTS_DIR, "kb_verification.json"), "w", encoding="utf-8") as f:
         json.dump(rep, f, indent=2)
-    write_markdown(rep, os.path.join(RESULTS_DIR, "kb_verification.md"))
-    print("Written: results/kb_verification.json, results/kb_verification.md")
+    write_markdown(rep)
+    print("Written: results/kb_verification.json and the \"kb-verification\" section of results/REPORT.md")

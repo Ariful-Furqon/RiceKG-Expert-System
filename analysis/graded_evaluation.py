@@ -10,6 +10,7 @@ if BASE_DIR not in sys.path:
 
 from scipy.stats import beta, binomtest
 
+from analysis import report
 from ricekg import model, evaluate
 from baselines import rule_baselines
 
@@ -171,7 +172,7 @@ def fmt(r):
     return f"{r['k']}/{r['n']} ({r['pct']:.1f}%) [{lo:.1f}, {hi:.1f}]"
 
 
-def write_markdown(rep, path):
+def write_markdown(rep):
     L = [
         "# Graded Case-Level Evaluation (Field Benchmark)",
         "",
@@ -212,8 +213,7 @@ def write_markdown(rep, path):
         out = ", ".join(f"{t} ({g})" for t, g in c["outputs"]["RiceKG + possible"]) or "—"
         L.append(f"| {c['case_id']} | {c['split']} | {', '.join(c['truth']) or 'No_Diagnosis'} | "
                  f"{c['outcome']['RiceKG + possible']} | {out} |")
-    with open(path, "w", encoding="utf-8") as f:
-        f.write("\n".join(L) + "\n")
+    report.write_section("graded-evaluation", "\n".join(L))
 
 
 if __name__ == "__main__":
@@ -221,5 +221,5 @@ if __name__ == "__main__":
     os.makedirs(RESULTS_DIR, exist_ok=True)
     with open(os.path.join(RESULTS_DIR, "graded_evaluation.json"), "w", encoding="utf-8") as f:
         json.dump(rep, f, indent=2)
-    write_markdown(rep, os.path.join(RESULTS_DIR, "graded_evaluation.md"))
-    print("Written: results/graded_evaluation.json, results/graded_evaluation.md")
+    write_markdown(rep)
+    print("Written: results/graded_evaluation.json and the \"graded-evaluation\" section of results/REPORT.md")

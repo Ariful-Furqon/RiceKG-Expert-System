@@ -132,7 +132,7 @@ def negative_control_false_positives() -> tuple[int, int]:
     m = re.search(r"None of the (\d+) out-of-scope negative controls produced a false positive", text)
     if m:
         return 0, int(m.group(1))
-    raise ValueError("results/field_failure_analysis.md has no negative-control summary line")
+    raise ValueError("results/REPORT.md#field-failure-analysis has no negative-control summary line")
 
 
 def check_false_positive_claim(readme_text: str) -> list[str]:
@@ -145,7 +145,7 @@ def check_false_positive_claim(readme_text: str) -> list[str]:
         return ["  README.md: 'False alarm on negative controls' row not found"]
     if (int(m.group(1)), int(m.group(2))) != (fp, n):
         return [f"  README.md: quotes {m.group(1)} of {m.group(2)} negative-control false positives; "
-                f"results/field_failure_analysis.md reports {fp} of {n}"]
+                f"results/REPORT.md#field-failure-analysis reports {fp} of {n}"]
     return []
 
 

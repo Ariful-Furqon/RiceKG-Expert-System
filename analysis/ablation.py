@@ -12,6 +12,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from analysis import report
 from ricekg import model, evaluate
 from analysis import graded_evaluation as ge
 
@@ -235,7 +236,7 @@ def _findings(rep):
     return L
 
 
-def write_markdown(rep, path):
+def write_markdown(rep):
     eq = rep["reasoner_equivalence"]
     L = [
         "# Ablation of the RiceKG Architecture",
@@ -264,7 +265,7 @@ def write_markdown(rep, path):
                                            for d in eq["disagreements"]]
 
     L += ["", "## B. Rule components on the field benchmark", "",
-          "Graded outcomes as in `results/graded_evaluation.md`: *committed* means confirmed or suspected; a "
+          "Graded outcomes as in `results/REPORT.md#graded-evaluation`: *committed* means confirmed or suspected; a "
           "misfire names the wrong disease; counts with exact Clopper–Pearson 95% intervals."]
     for g, d in rep["field"]["groups"].items():
         any_s = d["summary"]["full"]
@@ -287,7 +288,7 @@ def write_markdown(rep, path):
     occ = rep["occlusion"]
     L += ["", "## C. Rule components under observation occlusion", "",
           f"Positive-case recall (%), mean of {occ['n_seeds']} seeds × {occ['n_cases']} generated cases, same "
-          "generator settings as `results/degradation_curve.md`. Generated cases derive from the Tier-1 "
+          "generator settings as `results/REPORT.md#degradation-curve`. Generated cases derive from the Tier-1 "
           "antecedents, so the 0.0 column is 100% by construction.", "",
           "| Variant | " + " | ".join(str(o) for o in occ["occlusion_sweep"]) + " |",
           "|:---|" + ":---:|" * len(occ["occlusion_sweep"])]
@@ -300,8 +301,7 @@ def write_markdown(rep, path):
     for k, data in occ["systems"].items():
         L.append(f"| {rep['variants'][k]} | " + " | ".join(
             f"{data[str(o)]['micro_precision_mean']:.1f}" for o in occ["occlusion_sweep"]) + " |")
-    with open(path, "w", encoding="utf-8") as f:
-        f.write("\n".join(L) + "\n")
+    report.write_section("ablation", "\n".join(L))
 
 
 def main():
@@ -310,8 +310,8 @@ def main():
     serial = json.loads(json.dumps(rep, default=lambda o: sorted(o) if isinstance(o, set) else str(o)))
     with open(os.path.join(RESULTS_DIR, "ablation.json"), "w", encoding="utf-8") as f:
         json.dump(serial, f, indent=2)
-    write_markdown(rep, os.path.join(RESULTS_DIR, "ablation.md"))
-    print("Written: results/ablation.json, results/ablation.md")
+    write_markdown(rep)
+    print("Written: results/ablation.json and the \"ablation\" section of results/REPORT.md")
 
 
 if __name__ == "__main__":

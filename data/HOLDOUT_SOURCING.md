@@ -157,7 +157,7 @@ Items 6–7 matter most: they are the only remaining candidates for a tier-A Ric
 
 ## Benchmark Merger and Evidence Tiering (6-H.5, 6-H.6)
 
-Following the locked single-run evaluation (`results/holdout_evaluation.md`), the holdout partition was merged into `data/benchmark_field.csv` per NEXT_TASK.md 6-H.5 and 6-H.6:
+Following the locked single-run evaluation (`results/REPORT.md#holdout-archived`), the holdout partition was merged into `data/benchmark_field.csv` per NEXT_TASK.md 6-H.5 and 6-H.6:
 
 1. **Schema Extension**: `data/benchmark_field.csv` was extended to 25 columns matching the staging format:
    `evidence_tier,tier_note,raw_symptom_text_en,source_url,accessed,archive_url`.

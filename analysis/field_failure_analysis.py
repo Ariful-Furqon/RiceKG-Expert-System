@@ -4,12 +4,12 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from analysis import report
 from ricekg import model, evaluate  # noqa: E402
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
 MAPPING_CSV = os.path.join(BASE_DIR, "data", "symptom_mapping.csv")
-OUT_MD = os.path.join(BASE_DIR, "results", "field_failure_analysis.md")
 
 SYM_COLS = [f"symptom_{i}" for i in range(1, 7)]
 
@@ -179,10 +179,9 @@ def main(split="all"):
                  "construction rather than by discrimination.")
     L.append("")
 
-    with open(OUT_MD, "w", newline="", encoding="utf-8") as fh:
-        fh.write("\n".join(L) + "\n")
+    report.write_section("field-failure-analysis", "\n".join(L))
 
-    print(f"[OUTPUT] {OUT_MD}")
+    print("[OUTPUT] \"field-failure-analysis\" section of results/REPORT.md")
     print(f"positive-case recall: {n_resolved}/{len(positives)}")
     for r in rows:
         print(f"  {r['case']['case_id']:<9} {r['cause']}")

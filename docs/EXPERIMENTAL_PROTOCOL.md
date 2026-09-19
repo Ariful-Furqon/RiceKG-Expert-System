@@ -356,7 +356,7 @@ Pool B budgets: 2, 4, 8, 16 cases.
 
 At the terminal Pool A budget, the only possible subsample is the full
 pool, so all draws are identical and the training-subsample
-variance collapses to zero. This is noted in `results/learning_curve.md`
+variance collapses to zero. This is noted in `results/REPORT.md#learning-curve`
 and must not be presented as if it were a regular confidence interval.
 
 ### 6.3 Resampling

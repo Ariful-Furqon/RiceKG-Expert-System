@@ -23,7 +23,7 @@ insufficient in four ways.
 4. **Aggregate accuracy is dominated by controls.** 17 of the 22 `eval` cases are negative
    controls on which `No_Diagnosis` is correct.
 
-The confusion-matrix figures remain in [`results/baselines.md`](../results/baselines.md), where they
+The confusion-matrix figures remain in [`results/REPORT.md#baselines`](../results/REPORT.md#baselines), where they
 compare RiceKG with the supervised models under one common protocol.
 
 ## The framework
@@ -34,13 +34,13 @@ gives the right answers.
 
 | Part | Question | Evidence | Status |
 |---|---|---|---|
-| V1. Knowledge-base verification | Is the rule base consistent, non-redundant and grounded? | [`results/kb_verification.md`](../results/kb_verification.md) | Done |
+| V1. Knowledge-base verification | Is the rule base consistent, non-redundant and grounded? | [`results/REPORT.md#kb-verification`](../results/REPORT.md#kb-verification) | Done |
 | V2. Competency | Can the ontology answer the questions it was built for? | [`docs/COMPETENCY_QUESTIONS.md`](COMPETENCY_QUESTIONS.md) | Done |
-| A1. Validation against field ground truth | On published cases, does it name the right disease, and how does it fail? | [`results/graded_evaluation.md`](../results/graded_evaluation.md) | Done |
-| A2. Validation against experts | Given the same text, does it agree with agronomists as often as they agree with each other? | [`results/expert_validation.md`](../results/expert_validation.md) | Done (2 raters) |
-| A3. Explanation quality | Do experts judge the derivation trace correct and useful? | [`results/expert_validation.md`](../results/expert_validation.md) | Done (2 raters) |
-| R. Robustness | How does performance fall as observations go missing? | [`results/degradation_curve.md`](../results/degradation_curve.md) | Done |
-| C. Comparison | How do baselines do under the same protocol? | [`results/graded_evaluation.md`](../results/graded_evaluation.md) (rule baselines); [`results/learning_curve.md`](../results/learning_curve.md) (ML trained on `dev`, tested on `eval`) | Done |
+| A1. Validation against field ground truth | On published cases, does it name the right disease, and how does it fail? | [`results/REPORT.md#graded-evaluation`](../results/REPORT.md#graded-evaluation) | Done |
+| A2. Validation against experts | Given the same text, does it agree with agronomists as often as they agree with each other? | [`results/REPORT.md#expert-validation`](../results/REPORT.md#expert-validation) | Done (2 raters) |
+| A3. Explanation quality | Do experts judge the derivation trace correct and useful? | [`results/REPORT.md#expert-validation`](../results/REPORT.md#expert-validation) | Done (2 raters) |
+| R. Robustness | How does performance fall as observations go missing? | [`results/REPORT.md#degradation-curve`](../results/REPORT.md#degradation-curve) | Done |
+| C. Comparison | How do baselines do under the same protocol? | [`results/REPORT.md#graded-evaluation`](../results/REPORT.md#graded-evaluation) (rule baselines); [`results/REPORT.md#learning-curve`](../results/REPORT.md#learning-curve) (ML trained on `dev`, tested on `eval`) | Done |
 
 ### V1. Knowledge-base verification
 
@@ -101,7 +101,7 @@ Ruleset v2.4.0 ([`docs/ONTOLOGY.md`](ONTOLOGY.md)) adds single-sign Tier-2 rules
 literature calls characteristic of one threat, and removes three unsourced antecedents. It was
 written after every result below had been seen under v2.3; no split is held out for it.
 
-RiceKG strict, `eval` / `dev`+`eval` ([`results/graded_evaluation.md`](../results/graded_evaluation.md)):
+RiceKG strict, `eval` / `dev`+`eval` ([`results/REPORT.md#graded-evaluation`](../results/REPORT.md#graded-evaluation)):
 
 - Committed recall **4/5** / **9/12**, with no misfire and no false alarm on 17 / 26 controls.
   Every committed diagnosis is correct (4/4, 9/9). On the development-exposed `holdout`: 12/18,
@@ -118,19 +118,19 @@ committed to 2/5 and 6/12; the expert consensus encoding moved this to 4/5 and 7
 whose specific signs the authors had missed and losing cases that relied on terms the text does not
 state. The v2.4.0 diagnostic-sign rules then recovered the nematode and blast cases that report
 only the characteristic sign: 9/12 on `dev`+`eval` and 12/18 on `holdout`, against 7/12 and 4/18
-without them ([`results/ablation.md`](../results/ablation.md)).
+without them ([`results/REPORT.md#ablation`](../results/REPORT.md#ablation)).
 
-Knowledge-base verification ([`results/kb_verification.md`](../results/kb_verification.md)): every
+Knowledge-base verification ([`results/REPORT.md#kb-verification`](../results/REPORT.md#kb-verification)): every
 (threat, antecedent) link now has a cited source (31/31); `Uniform_Field_Infection`,
 `Stunted_Growth` and `Yellowing_Leaves` are shared by more than one threat, and 10 vocabulary terms,
 including `Bacterial_Ooze`, are used by no rule or gate.
 
-Ablation ([`results/ablation.md`](../results/ablation.md)): Pellet and set matching give identical
+Ablation ([`results/REPORT.md#ablation`](../results/REPORT.md#ablation)): Pellet and set matching give identical
 graded output on 129/129 inputs, so the reasoner is justified by proofs, consistency checking and
 traces, not accuracy; Tier-1 rules alone commit nothing on field cases; the out-of-scope gates turn
 14 of 26 silent abstentions into explicit rejections.
 
-Expert-based validation (two agronomists, all 56 cases; [`results/expert_validation.md`](../results/expert_validation.md)):
+Expert-based validation (two agronomists, all 56 cases; [`results/REPORT.md#expert-validation`](../results/REPORT.md#expert-validation)):
 
 - The raters agree with each other at Cohen's κ = 0.885; RiceKG agrees with them at a mean
   κ of 0.569 (difference −0.317, 95% CI −0.467 to −0.164). From the same redacted text the raters

@@ -74,7 +74,7 @@ Consequently:
 - A genuinely independent figure requires a **fresh partition sourced after the rule base is
   frozen**, through the P0-3 case-report gate.
 
-`results/baselines.md` carries this downgrade in its own header so the qualification travels with
+`results/REPORT.md#baselines` carries this downgrade in its own header so the qualification travels with
 the numbers.
 
 ### Ruleset v2.4.0 was written after every split had been seen
@@ -171,8 +171,8 @@ consistency with whichever rule base generated the cases.
 
 The set retains one legitimate use: verifying that rule firing remains deductively consistent.
 Since the ablation redesign it serves only as input to the reasoner-equivalence check
-(`results/ablation.md`, Pellet against set matching); no system is scored or compared on it, and
-`results/baselines.md` no longer tabulates it. Its labels are the outputs of an earlier rule base:
+(`results/REPORT.md#ablation`, Pellet against set matching); no system is scored or compared on it, and
+`results/REPORT.md#baselines` no longer tabulates it. Its labels are the outputs of an earlier rule base:
 for example, a lone `Rusty_Grain_Balls` is labelled `No_Diagnosis`, whereas v2.4.0 deliberately
 reports it as suspected false smut.
 It cannot be interpreted as empirical clinical or field diagnostic accuracy, and outperforming
@@ -215,7 +215,7 @@ The valid scientific contribution of the multi-tier architecture is qualitative 
 
 ## 6. Cold-Start Learning Curve and Coarse Granularity of the Field Evaluation Set
 
-The cold-start learning curve experiment ([`results/learning_curve.md`](../results/learning_curve.md)) quantifies the sample efficiency of RiceKG's zero-shot symbolic knowledge base relative to five supervised machine learning models across scaling training budgets (Pool A: $N \in [5, 80]$ rule-derived cases; Pool B: $N \in [2, 16]$ real field cases).
+The cold-start learning curve experiment ([`results/REPORT.md#learning-curve`](../results/REPORT.md#learning-curve)) quantifies the sample efficiency of RiceKG's zero-shot symbolic knowledge base relative to five supervised machine learning models across scaling training budgets (Pool A: $N \in [5, 80]$ rule-derived cases; Pool B: $N \in [2, 16]$ real field cases).
 
 This analysis reveals an inherent structural limitation of the independent field evaluation set:
 

@@ -62,7 +62,7 @@ editing the pattern list and rebuilding, never by hand-editing a rater's workboo
    and writes the de-identified tables in `data/`. It stops on any value outside the options;
    ask the rater, do not guess.
 6. `python analysis/agreement.py` (diagnosis κ) and
-   `python analysis/expert_validation.py --rerun` produce `results/expert_validation.md`.
+   `python analysis/expert_validation.py --rerun` produce `results/REPORT.md#expert-validation`.
 7. The import also writes `data/symptom_encoding_consensus.csv` (terms chosen by a strict
    majority of raters), which `ricekg.evaluate.load_data` then uses as the field benchmark's
    encoding. Regenerate every field result afterwards (`make reproduce`).
