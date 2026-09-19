@@ -46,10 +46,16 @@ VANN_IRI = "http://purl.org/vocab/vann/"
 AGROVOC = "http://aims.fao.org/aos/agrovoc/"
 OBO = "http://purl.obolibrary.org/obo/"
 
-ONTOLOGY_VERSION = "2.2.0"
+ONTOLOGY_VERSION = "2.3.0"
 
-DRAFT_NOTE = ("Operational definition drafted by the RiceKG authors from the cited source and "
-              "standard rice pathology descriptions; pending review by independent agronomists.")
+EDITORIAL_NOTES = {
+    "draft": ("Operational definition drafted by the RiceKG authors from the cited source and "
+              "standard rice pathology descriptions; pending review by independent agronomists."),
+    "reviewed": ("Operational definition reviewed and judged adequate by an independent agronomist "
+                 "(reviewer R1, RiceKG multi-rater study, September 2026)."),
+    "revised": ("Operational definition revised following review by an independent agronomist "
+                "(reviewer R1, RiceKG multi-rater study, September 2026)."),
+}
 
 # (entity name, SKOS relation, target IRI, verified preferred label)
 CLASS_ALIGNMENTS = [
@@ -137,8 +143,7 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
                                      onto._abbreviate("https://doi.org/" + row["source_doi"]))
         elif row["source_citation"]:
             entity.source = [f"{row['source_citation']} {row['source_locator']}".strip()]
-        if row["status"] == "draft":
-            entity.editorialNote = [locstr(DRAFT_NOTE, lang="en")]
+        entity.editorialNote = [locstr(EDITORIAL_NOTES[row["status"]], lang="en")]
 
     with onto:
         # -------------------------------------------------------------

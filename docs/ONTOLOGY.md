@@ -502,3 +502,25 @@ Left for the multi-rater calibration round: `Yellowing_Leaf_Veins` and
 (along veins, along margins), and `Interveinal_Chlorosis` overlaps `Chlorotic_Streaks`.
 `Rotten_Panicles` and `Localized_Leaf_Yellowing` remain typed `InsectDamageSign` although both
 can arise from disease.
+
+---
+
+## Definition review (ontology v2.3.0)
+
+One independent agronomist (R1 in the multi-rater study, [`ANNOTATION_PROTOCOL.md`](ANNOTATION_PROTOCOL.md))
+rated all 67 definitions: 53 adequate, 14 needing revision. Each revision follows the reviewer's
+wording (translated from Indonesian) and is recorded in [`data/definition_review.csv`](../data/definition_review.csv);
+`ontology/term_definitions.csv` now marks every term `reviewed` or `revised`, and
+`skos:editorialNote` says which. The second rater did not complete the review, so every definition
+rests on a single reviewer.
+
+The reviewer also proposed renaming six identifiers whose names contradict their meaning
+(`Yellowing_Leaf_Veins`, `Leaf_Discoloration_Yellow`, `Deadheart_Seedling`,
+`Milky_Stage_Vulnerability`, `Rice_Root_Nematode`, `Rice_Tungro_Virus`), and using
+`Chlorotic_Streaks` for every striped chlorosis, keeping `Interveinal_Chlorosis` for explicitly
+interveinal reports. Identifiers are kept, because every result artifact
+refers to them; labels, definitions and scope notes now carry the corrected meaning, and each
+scope note states where the identifier is historical.
+
+These are annotation changes only: no rule antecedent changed, and the reasoner's outputs are
+unaffected.
