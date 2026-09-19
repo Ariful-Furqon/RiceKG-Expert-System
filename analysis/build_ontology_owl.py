@@ -1,27 +1,3 @@
-"""
-analysis/build_ontology_owl.py
-------------------------------
-Generates the OWL 2 DL ontology file `rice_ontology.owl` for PART 4 (4-A through 4-H):
-- Stratified observation property hierarchy (hasObservation, hasSymptom, hasOrganismSighting, hasVectorSighting, hasEpidemiologicalContext)
-- Two-axis symptom taxonomy (anatomical and phenomenological)
-- OWL 2 Defined Classes (ThreatConfirmed, ThreatSuspect, ThreatPossible)
-- Control treatments with cited IPM recommendations and DOIs (CQ08)
-- Datatype property hasDiagnosticConfidence (CQ09)
-- OWL-introspectable antecedent relations threat.hasSymptom (CQ10)
-- AllDifferent axioms and Pest/Disease disjointness
-- SKOS alignments to AGROVOC and Plant Ontology (PO), written as IRI-valued
-  skos:exactMatch / closeMatch / broadMatch / relatedMatch assertions
-- Dublin Core (dcterms), VANN and owl:versionInfo ontology metadata, and an
-  rdfs:comment on every class, property and individual
-- Bilingual (en/id) skos:prefLabel, operational skos:definition and skos:scopeNote
-  for every observation term and threat, read from ontology/term_definitions.csv;
-  dcterms:source cites only DOIs already verified in data/noisy_or_parameters.csv
-
-Every AGROVOC concept below was checked against the AGROVOC Skosmos REST API
-(https://agrovoc.fao.org/browse/rest/v1/) on 2026-09-15; the preferred label is
-recorded next to each IRI. `tests/test_ontology_annotations.py` pins the mapping.
-"""
-
 import csv
 import math
 import os
@@ -123,13 +99,13 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
     skos_props = {p.name: p for p in (exactMatch, closeMatch, broadMatch, relatedMatch)}
 
     def link(entity, relation, iri):
-        """Assert an IRI-valued (not string-literal) annotation triple."""
+        # Assert an IRI-valued (not string-literal) annotation triple.
         onto._add_obj_triple_spo(entity.storid, skos_props[relation].storid, onto._abbreviate(iri))
 
     definitions = load_term_definitions()
 
     def describe(entity):
-        """Attach the curated labels, definition and supporting source for one term."""
+        # Attach the curated labels, definition and supporting source for one term.
         row = definitions[entity.name]
         entity.label = [locstr(row["label_en"], lang="en")]
         entity.prefLabel = [locstr(row["label_en"], lang="en"), locstr(row["label_id"], lang="id")]

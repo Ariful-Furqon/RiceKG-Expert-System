@@ -1,29 +1,3 @@
-#!/usr/bin/env python3
-"""Build an anonymised review bundle for double-blind submission.
-
-Pure Python: needs neither `make` nor `rsync`, so it runs on Windows Git Bash
-as well as CI. Steps:
-
-1.  Collect the tracked files via `git ls-files` (this honours .gitignore and
-    never touches the working tree).
-2.  Copy them into the bundle directory, skipping the files listed in
-    `exclude_from_bundle` — the anonymisation tooling itself, which by
-    construction contains the identifiers it removes.
-3.  Apply the substitution rules to every text file.
-4.  Initialise a fresh git repository with a single anonymous commit, so the
-    original authored history does not travel with the bundle.
-5.  **Verify**: scan every file in the finished bundle, plus every path, against
-    the deny list. Any hit removes the bundle and exits non-zero.
-
-Step 5 is the point of the script. Substitution rules only cover the leaks
-someone thought of; the deny-list scan is what makes an unnoticed leak fail
-loudly instead of reaching a reviewer.
-
-Usage:
-    python analysis/build_anon_bundle.py [--out anon_bundle/ricekg-review]
-                                         [--no-git] [--quiet]
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -41,12 +15,11 @@ DEFAULT_OUT = BASE_DIR / "anon_bundle" / "ricekg-review"
 
 
 def rmtree(path: Path, attempts: int = 5) -> None:
-    """Remove a directory tree, tolerating Windows/OneDrive locking.
-
-    Cloud-sync clients hold transient handles on freshly written files, and git
-    marks objects read-only, so a plain shutil.rmtree raises PermissionError
-    here. Clear the read-only bit and retry briefly before giving up.
-    """
+    # Remove a directory tree, tolerating Windows/OneDrive locking.
+    #
+    # Cloud-sync clients hold transient handles on freshly written files, and git
+    # marks objects read-only, so a plain shutil.rmtree raises PermissionError
+    # here. Clear the read-only bit and retry briefly before giving up.
     def on_error(func, target, _exc):
         os.chmod(target, 0o700)
         func(target)
@@ -73,7 +46,7 @@ def load_rules() -> dict:
 
 
 def tracked_files() -> list[str]:
-    """Repo-relative paths of all git-tracked files (POSIX separators)."""
+    # Repo-relative paths of all git-tracked files (POSIX separators).
     out = subprocess.run(
         ["git", "ls-files", "-z"],
         cwd=BASE_DIR, capture_output=True, check=True,
@@ -123,7 +96,7 @@ def copy_and_anonymise(out_dir: Path, rules: dict, quiet: bool) -> int:
 
 
 def verify(out_dir: Path, rules: dict) -> list[str]:
-    """Return a list of deny-list violations found anywhere in the bundle."""
+    # Return a list of deny-list violations found anywhere in the bundle.
     violations: list[str] = []
     deny = rules["deny_list"]
     for path in sorted(out_dir.rglob("*")):
@@ -162,7 +135,7 @@ def squash_history(out_dir: Path, quiet: bool) -> None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
+    ap = argparse.ArgumentParser(description="Build an anonymised review bundle for double-blind submission.")
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
     ap.add_argument("--no-git", action="store_true",
                     help="skip git init/commit (used by the test suite)")

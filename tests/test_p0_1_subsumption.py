@@ -1,26 +1,23 @@
-"""
-tests/test_p0_1_subsumption.py
-------------------------------
-Unit test suite verifying P0-1 fix:
-Eliminate the Tier-1 / Tier-2 subsumption defect in model.py.
-
-Verifies:
-1. Canonical inputs yield distinguishable output from relaxed inputs (confirmed vs suspected).
-2. Diagnostic confidence property (1.0 vs 0.7).
-3. Rule firing traceability (both T1+T2 vs T2 only).
-4. Missing symptoms identification in suspected diagnoses.
-5. Backwards-compatible predict_diseases_flat returning List[str].
-6. Object property hierarchy: hasConfirmedThreat and hasSuspectedThreat inherit to hasPest/hasDisease/hasThreat.
-"""
+# tests/test_p0_1_subsumption.py
+# ------------------------------
+# Unit test suite verifying P0-1 fix:
+# Eliminate the Tier-1 / Tier-2 subsumption defect in model.py.
+#
+# Verifies:
+# 1. Canonical inputs yield distinguishable output from relaxed inputs (confirmed vs suspected).
+# 2. Diagnostic confidence property (1.0 vs 0.7).
+# 3. Rule firing traceability (both T1+T2 vs T2 only).
+# 4. Missing symptoms identification in suspected diagnoses.
+# 5. Backwards-compatible predict_diseases_flat returning List[str].
+# 6. Object property hierarchy: hasConfirmedThreat and hasSuspectedThreat inherit to hasPest/hasDisease/hasThreat.
 
 import pytest
 from ricekg import model
 
 
 class TestP01SubsumptionResolution:
-    """Proves Tier 1 and Tier 2 yield distinguishable outputs for inputs
-    where they previously yielded identical output.
-    """
+    # Proves Tier 1 and Tier 2 yield distinguishable outputs for inputs
+    # where they previously yielded identical output.
 
     def test_rice_root_nematode_canonical_vs_relaxed_distinguishable(self):
         canonical = next(r for r in model.RULE_REGISTRY if r["id"] == "SWRL-R02")
@@ -50,11 +47,10 @@ class TestP01SubsumptionResolution:
         assert len(rrn_relax["missing_symptoms"]) > 0
 
     def test_rice_blast_canonical_vs_relaxed_distinguishable(self):
-        """Tier-1 and Tier-2 must yield distinguishable output for Rice_Blast.
-
-        The antecedent sets are read from RULE_REGISTRY rather than hardcoded, so a
-        literature-justified rule revision does not read as a regression of P0-1.
-        """
+        # Tier-1 and Tier-2 must yield distinguishable output for Rice_Blast.
+        #
+        # The antecedent sets are read from RULE_REGISTRY rather than hardcoded, so a
+        # literature-justified rule revision does not read as a regression of P0-1.
         canonical = next(r for r in model.RULE_REGISTRY if r["id"] == "SWRL-R08")
         relaxed = next(r for r in model.RULE_REGISTRY if r["id"] == "SWRL-R18")
 
@@ -117,9 +113,8 @@ class TestP01SubsumptionResolution:
         assert "False_Smut" in flat_out
 
     def test_ontology_property_hierarchy(self):
-        """Verifies that hasConfirmedPest and hasSuspectedPest properly inherit
-        from hasConfirmedThreat/hasSuspectedThreat and hasPest/hasThreat.
-        """
+        # Verifies that hasConfirmedPest and hasSuspectedPest properly inherit
+        # from hasConfirmedThreat/hasSuspectedThreat and hasPest/hasThreat.
         onto = model.onto
         with onto:
             assert issubclass(onto.hasConfirmedPest, onto.hasConfirmedThreat)

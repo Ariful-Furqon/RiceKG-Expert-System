@@ -182,7 +182,7 @@ BENCHMARK_SCENARIOS = [
 
 @app.route("/")
 def index_page():
-    """Renders the main diagnostic form with quick-load demonstration scenarios."""
+    # Renders the main diagnostic form with quick-load demonstration scenarios.
     return render_template(
         "index.html",
         symptom_categories=SYMPTOM_CATEGORIES,
@@ -193,7 +193,7 @@ def index_page():
 
 @app.route('/result', methods=['GET', 'POST'])
 def diagnose():
-    """Handles symptom selection and executes ontology-based reasoning with XAI proof traces."""
+    # Handles symptom selection and executes ontology-based reasoning with XAI proof traces.
     if request.method == 'POST':
         start_time = time.time()
         selected_symptoms = request.form.getlist('mycheckbox')
@@ -282,14 +282,14 @@ def diagnose():
 
 @app.route("/about/")
 def about():
-    """Renders about page."""
+    # Renders about page.
     return render_template("about.html")
 
 
 @app.route("/threats")
 @app.route("/knowledge-base")
 def threat_catalog():
-    """Renders the biotic threats knowledge base catalog."""
+    # Renders the biotic threats knowledge base catalog.
     return render_template("threats.html", threats=THREAT_CATALOG)
 
 
@@ -299,11 +299,9 @@ def threat_catalog():
 
 @app.route("/api/v1/diagnose", methods=["POST"])
 def api_diagnose():
-    """
-    REST API endpoint for RiceKG automated diagnosis.
-    Accepts JSON: {"symptoms": ["Symptom_1", "Symptom_2", ...]}
-    Returns JSON with inferred biotic threats, XAI proof traces, and reference management measures.
-    """
+    # REST API endpoint for RiceKG automated diagnosis.
+    # Accepts JSON: {"symptoms": ["Symptom_1", "Symptom_2", ...]}
+    # Returns JSON with inferred biotic threats, XAI proof traces, and reference management measures.
     data = request.get_json(silent=True)
     if not data or "symptoms" not in data:
         return jsonify({
@@ -385,22 +383,20 @@ def api_diagnose():
 
 @app.route("/api/v2/diagnose", methods=["POST"])
 def api_diagnose_v2():
-    """
-    REST API v2 endpoint for RiceKG automated diagnosis with full Explainable AI (XAI)
-    derivation trace, rule evaluation order, unsatisfied antecedents, and formal proof trees.
-
-    Accepts JSON:
-    {
-        "symptoms": ["Symptom_1", "Symptom_2", ...],
-        "include_possible": false
-    }
-
-    Returns JSON with:
-    - Diagnosed threats with grades (confirmed, suspected, possible)
-    - Full derivation trace per threat (rules fired, candidate rules, unmet symptoms)
-    - Hierarchical Horn-clause Modus Ponens proof trees
-    - Global derivation execution summary
-    """
+    # REST API v2 endpoint for RiceKG automated diagnosis with full Explainable AI (XAI)
+    # derivation trace, rule evaluation order, unsatisfied antecedents, and formal proof trees.
+    #
+    # Accepts JSON:
+    # {
+    #     "symptoms": ["Symptom_1", "Symptom_2", ...],
+    #     "include_possible": false
+    # }
+    #
+    # Returns JSON with:
+    # - Diagnosed threats with grades (confirmed, suspected, possible)
+    # - Full derivation trace per threat (rules fired, candidate rules, unmet symptoms)
+    # - Hierarchical Horn-clause Modus Ponens proof trees
+    # - Global derivation execution summary
     data = request.get_json(silent=True)
     if not data or "symptoms" not in data:
         return jsonify({
@@ -486,7 +482,7 @@ def api_diagnose_v2():
 
 @app.route("/api/v1/threats", methods=["GET"])
 def api_threats():
-    """Returns all 10 formalized rice biotic threats and metadata."""
+    # Returns all 10 formalized rice biotic threats and metadata.
     return jsonify({
         "status": "success",
         "total_threats": len(THREAT_CATALOG),
@@ -496,7 +492,7 @@ def api_threats():
 
 @app.route("/api/v1/symptoms", methods=["GET"])
 def api_symptoms():
-    """Returns the phenotypic symptoms grouped by anatomical organ."""
+    # Returns the phenotypic symptoms grouped by anatomical organ.
     return jsonify({
         "status": "success",
         "total_symptoms": sum(len(c["symptoms"]) for c in SYMPTOM_CATEGORIES),
@@ -506,7 +502,7 @@ def api_symptoms():
 
 @app.route("/api/v1/scenarios", methods=["GET"])
 def api_scenarios():
-    """Returns preset benchmark field scenarios."""
+    # Returns preset benchmark field scenarios.
     return jsonify({
         "status": "success",
         "scenarios": BENCHMARK_SCENARIOS

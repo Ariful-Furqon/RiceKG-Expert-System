@@ -1,23 +1,21 @@
-"""
-baselines/ml_baselines.py
--------------------------
-Multi-label machine learning baselines for RiceKG evaluation.
-
-Encodes cases into a 45-dimensional binary symptom vector (indexed strictly
-by model.ALL_SYMPTOMS) and multi-label targets across 10 biotic threat classes
-(model.PESTS + model.DISEASES), with 'No_Diagnosis' represented as an all-zero
-label vector.
-
-Implements 5 ML architectures:
-1. Decision Tree (DecisionTreeClassifier, random_state=42)
-2. Random Forest (RandomForestClassifier, random_state=42)
-3. Multinomial Naive Bayes (OneVsRestClassifier(MultinomialNB()))
-4. k-Nearest Neighbors (KNeighborsClassifier(n_neighbors=3, algorithm="brute"))
-5. One-vs-Rest Logistic Regression (OneVsRestClassifier(LogisticRegression(random_state=42)))
-
-Evaluates via stratified 5x2-fold cross-validation with transparent fallback
-to KFold when multi-label combination counts are < 2.
-"""
+# baselines/ml_baselines.py
+# -------------------------
+# Multi-label machine learning baselines for RiceKG evaluation.
+#
+# Encodes cases into a 45-dimensional binary symptom vector (indexed strictly
+# by model.ALL_SYMPTOMS) and multi-label targets across 10 biotic threat classes
+# (model.PESTS + model.DISEASES), with 'No_Diagnosis' represented as an all-zero
+# label vector.
+#
+# Implements 5 ML architectures:
+# 1. Decision Tree (DecisionTreeClassifier, random_state=42)
+# 2. Random Forest (RandomForestClassifier, random_state=42)
+# 3. Multinomial Naive Bayes (OneVsRestClassifier(MultinomialNB()))
+# 4. k-Nearest Neighbors (KNeighborsClassifier(n_neighbors=3, algorithm="brute"))
+# 5. One-vs-Rest Logistic Regression (OneVsRestClassifier(LogisticRegression(random_state=42)))
+#
+# Evaluates via stratified 5x2-fold cross-validation with transparent fallback
+# to KFold when multi-label combination counts are < 2.
 
 import os
 import pathlib
@@ -36,11 +34,10 @@ from sklearn.model_selection import KFold
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def _repo_relative(path: str) -> str:
-    """Return `path` relative to the repository root with POSIX separators.
-
-    Absolute paths leak the author's username and institution into
-    results/*.json, which breaks double-blind anonymisation.
-    """
+    # Return `path` relative to the repository root with POSIX separators.
+    #
+    # Absolute paths leak the author's username and institution into
+    # results/*.json, which breaks double-blind anonymisation.
     try:
         return pathlib.PurePath(os.path.relpath(path, BASE_DIR)).as_posix()
     except ValueError:
@@ -63,9 +60,8 @@ SYMPTOM_TO_IDX: Dict[str, int] = {symptom: idx for idx, symptom in enumerate(SYM
 
 
 def encode_symptoms(symptoms: List[str]) -> np.ndarray:
-    """Encodes an iterable of symptom strings into a 45-dimensional binary numpy vector.
-    Indices strictly correspond to model.ALL_SYMPTOMS.
-    """
+    # Encodes an iterable of symptom strings into a 45-dimensional binary numpy vector.
+    # Indices strictly correspond to model.ALL_SYMPTOMS.
     vec = np.zeros(len(SYMPTOM_ORDER), dtype=int)
     s_set = set(symptoms)
     for s in s_set:
@@ -75,15 +71,14 @@ def encode_symptoms(symptoms: List[str]) -> np.ndarray:
 
 
 def decode_symptoms(vec: np.ndarray) -> List[str]:
-    """Inverse mapping: converts a 45-dimensional binary vector back to symptom strings."""
+    # Inverse mapping: converts a 45-dimensional binary vector back to symptom strings.
     return [SYMPTOM_ORDER[i] for i in range(len(SYMPTOM_ORDER)) if vec[i] == 1]
 
 
 def encode_labels(raw_target: Any) -> np.ndarray:
-    """Encodes a diagnosis target string or list into a binary vector over ALL_THREATS.
-    'No_Diagnosis', 'insect damage, out of scope', or empty input produces an all-zero vector.
-    Multiple threats joined by ' and ' are each marked with 1.
-    """
+    # Encodes a diagnosis target string or list into a binary vector over ALL_THREATS.
+    # 'No_Diagnosis', 'insect damage, out of scope', or empty input produces an all-zero vector.
+    # Multiple threats joined by ' and ' are each marked with 1.
     vec = np.zeros(len(ALL_THREATS), dtype=int)
     if not raw_target:
         return vec
@@ -106,18 +101,16 @@ def encode_labels(raw_target: Any) -> np.ndarray:
 
 
 def decode_labels(vec: np.ndarray) -> List[str]:
-    """Inverse mapping: converts a 10-dimensional binary vector back to a list of threat names.
-    An all-zero vector returns an empty list, representing No_Diagnosis.
-    """
+    # Inverse mapping: converts a 10-dimensional binary vector back to a list of threat names.
+    # An all-zero vector returns an empty list, representing No_Diagnosis.
     return [ALL_THREATS[i] for i in range(len(ALL_THREATS)) if vec[i] == 1]
 
 
 def load_and_encode_dataset(csv_path: str, split: str = None) -> Tuple[np.ndarray, np.ndarray, List[Dict[str, Any]]]:
-    """Loads a benchmark CSV via evaluate.load_data() and encodes features (X) and multi-labels (Y).
-
-    `split` restricts the rows to one dataset split ('dev' or 'eval'); None uses every row.
-    Returns (X, Y, raw_cases).
-    """
+    # Loads a benchmark CSV via evaluate.load_data() and encodes features (X) and multi-labels (Y).
+    #
+    # `split` restricts the rows to one dataset split ('dev' or 'eval'); None uses every row.
+    # Returns (X, Y, raw_cases).
     cases = evaluate.load_data(csv_path, split=split)
     n = len(cases)
     X = np.zeros((n, len(SYMPTOM_ORDER)), dtype=int)
@@ -131,13 +124,12 @@ def load_and_encode_dataset(csv_path: str, split: str = None) -> Tuple[np.ndarra
 
 
 def get_5x2_splits(X: np.ndarray, Y: np.ndarray, random_state: int = 42) -> List[Dict[str, Any]]:
-    """Generates stratified 5x2-fold cross-validation splits.
-    
-    Examines if exact multi-label tuples can be split with StratifiedKFold (requires >=2
-    instances per label combination). When rare combinations appear once (n=80 and n=32
-    benchmarks), transparently logs and falls back to plain KFold(n_splits=2, shuffle=True),
-    recording the split type for honest reporting.
-    """
+    # Generates stratified 5x2-fold cross-validation splits.
+    #
+    # Examines if exact multi-label tuples can be split with StratifiedKFold (requires >=2
+    # instances per label combination). When rare combinations appear once (n=80 and n=32
+    # benchmarks), transparently logs and falls back to plain KFold(n_splits=2, shuffle=True),
+    # recording the split type for honest reporting.
     n_samples = len(X)
     splits = []
 
@@ -176,7 +168,7 @@ def get_5x2_splits(X: np.ndarray, Y: np.ndarray, random_state: int = 42) -> List
 
 
 def get_ml_models(random_state: int = 42) -> Dict[str, Any]:
-    """Instantiates the 5 baseline machine learning classifiers with fixed random_state."""
+    # Instantiates the 5 baseline machine learning classifiers with fixed random_state.
     return {
         "Decision Tree": DecisionTreeClassifier(random_state=random_state),
         "Random Forest": RandomForestClassifier(n_estimators=100, random_state=random_state),
@@ -190,7 +182,7 @@ def get_ml_models(random_state: int = 42) -> Dict[str, Any]:
 
 
 def compute_multilabel_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
-    """Computes exact match ratio, micro-precision, micro-recall, and micro-F1."""
+    # Computes exact match ratio, micro-precision, micro-recall, and micro-F1.
     n_cases = len(y_true)
     if n_cases == 0:
         return {"exact_match": 0.0, "micro_precision": 0.0, "micro_recall": 0.0, "micro_f1": 0.0}
@@ -238,9 +230,8 @@ def compute_multilabel_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[s
 
 
 def evaluate_ml_baselines(csv_path: str, random_state: int = 42) -> Dict[str, Any]:
-    """Runs 5x2-fold cross validation for all ML baselines on the specified benchmark dataset.
-    Returns detailed fold-level and summary results.
-    """
+    # Runs 5x2-fold cross validation for all ML baselines on the specified benchmark dataset.
+    # Returns detailed fold-level and summary results.
     X, Y, cases = load_and_encode_dataset(csv_path)
     splits = get_5x2_splits(X, Y, random_state=random_state)
 

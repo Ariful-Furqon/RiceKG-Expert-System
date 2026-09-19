@@ -1,16 +1,14 @@
-"""
-baselines/run_baselines.py
---------------------------
-Orchestration script for comparative baselines, fair-comparison 5x2-fold protocol,
-paired statistical significance testing, and results artifact generation.
-
-Generates:
-- results/baselines.json
-- results/baselines.md
-
-Strictly separates the deductive verification suite from the independent field benchmark,
-and reports the field benchmark's dev and held-out eval splits separately.
-"""
+# baselines/run_baselines.py
+# --------------------------
+# Orchestration script for comparative baselines, fair-comparison 5x2-fold protocol,
+# paired statistical significance testing, and results artifact generation.
+#
+# Generates:
+# - results/baselines.json
+# - results/baselines.md
+#
+# Strictly separates the deductive verification suite from the independent field benchmark,
+# and reports the field benchmark's dev and held-out eval splits separately.
 
 import os
 import pathlib
@@ -28,11 +26,10 @@ warnings.filterwarnings("ignore", category=UserWarning)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def _repo_relative(path: str) -> str:
-    """Return `path` relative to the repository root with POSIX separators.
-
-    Absolute paths leak the author's username and institution into
-    results/*.json, which breaks double-blind anonymisation.
-    """
+    # Return `path` relative to the repository root with POSIX separators.
+    #
+    # Absolute paths leak the author's username and institution into
+    # results/*.json, which breaks double-blind anonymisation.
     try:
         return pathlib.PurePath(os.path.relpath(path, BASE_DIR)).as_posix()
     except ValueError:
@@ -51,9 +48,8 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 
 
 def precompute_rule_predictions(cases: List[Dict[str, Any]]) -> Dict[str, np.ndarray]:
-    """Precomputes deterministic rule-based predictions across all cases once.
-    This avoids redundant Pellet DL reasoning across cross-validation folds.
-    """
+    # Precomputes deterministic rule-based predictions across all cases once.
+    # This avoids redundant Pellet DL reasoning across cross-validation folds.
     n = len(cases)
     flat_onto = rule_baselines.get_flat_ontology()
 
@@ -96,11 +92,10 @@ def evaluate_dataset_with_fair_protocol(
     n_resamples: int = 1000,
     split: str = None
 ) -> Dict[str, Any]:
-    """Executes the fair-comparison 5x2-fold cross-validation protocol on a dataset.
-
-    `split` restricts evaluation to one dataset split ('dev' or 'eval'). The held-out
-    'eval' split is the only figure the manuscript may cite as independent.
-    """
+    # Executes the fair-comparison 5x2-fold cross-validation protocol on a dataset.
+    #
+    # `split` restricts evaluation to one dataset split ('dev' or 'eval'). The held-out
+    # 'eval' split is the only figure the manuscript may cite as independent.
     X, Y, cases = ml_baselines.load_and_encode_dataset(csv_path, split=split)
     n_samples = len(cases)
     splits = ml_baselines.get_5x2_splits(X, Y, random_state=random_state)
@@ -246,11 +241,10 @@ def evaluate_dataset_with_fair_protocol(
 
 
 def render_dev_split_table(dev: Dict[str, Any]) -> List[str]:
-    """Compact companion table for the development split.
-
-    Development figures may inform engineering decisions but must never be cited as
-    independent evidence; the held-out eval split carries that role.
-    """
+    # Compact companion table for the development split.
+    #
+    # Development figures may inform engineering decisions but must never be cited as
+    # independent evidence; the held-out eval split carries that role.
     lines = [
         "",
         "### Companion: development split (not independent)",
@@ -274,7 +268,7 @@ def render_dev_split_table(dev: Dict[str, Any]) -> List[str]:
 
 def generate_markdown_report(augmented_results: Dict[str, Any], field_results: Dict[str, Any],
                              field_dev_results: Dict[str, Any] = None) -> str:
-    """Generates the publication-grade Markdown comparison report."""
+    # Generates the publication-grade Markdown comparison report.
     # Field benchmark composition, used by the narrative below
     f_n = field_results["n_samples"]
     f_pos = field_results["n_positive"]
@@ -398,7 +392,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
 
 
 def run_all_baselines():
-    """Runs complete comparative baselines on the verification suite and the field benchmark."""
+    # Runs complete comparative baselines on the verification suite and the field benchmark.
     verification_csv = evaluate.DEFAULT_VERIFICATION_CSV if os.path.exists(evaluate.DEFAULT_VERIFICATION_CSV) else evaluate.DEFAULT_VERIFICATION_CSV
     field_csv = evaluate.FIELD_CSV
 

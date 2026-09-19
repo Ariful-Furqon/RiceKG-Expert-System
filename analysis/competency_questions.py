@@ -1,18 +1,3 @@
-"""
-Competency questions for the RiceKG ontology (Gruninger & Fox methodology).
-
-Each question is paired with the SPARQL query that answers it and a declared
-`status`: `satisfied` when the ontology answers it, or `gap` when it cannot. Gaps are
-first-class results in this methodology — a competency question that the artefact fails
-is how the method exposes a modelling omission, so they are recorded rather than removed.
-
-Running this module regenerates `docs/COMPETENCY_QUESTIONS.md` from live query output,
-so the document cannot drift from the ontology. `tests/test_competency_questions.py`
-executes every query and fails if a declared status no longer matches reality — in either
-direction, so closing a gap without documenting it is also a failure.
-
-Usage:  python analysis/competency_questions.py
-"""
 import os
 import sys
 
@@ -121,12 +106,11 @@ QUESTIONS = [
 
 
 def _diagnosed_world(symptoms):
-    """Build an ontology, assert one observed sample, and run the reasoner over it.
-
-    `model.predict_diseases` destroys its temporary individual once it has extracted the
-    diagnosis, which leaves nothing for a SPARQL client to query. The competency questions
-    need the inferred ABox to persist, so the sample is constructed here and kept.
-    """
+    # Build an ontology, assert one observed sample, and run the reasoner over it.
+    #
+    # `model.predict_diseases` destroys its temporary individual once it has extracted the
+    # diagnosis, which leaves nothing for a SPARQL client to query. The competency questions
+    # need the inferred ABox to persist, so the sample is constructed here and kept.
     onto = model.build_ontology()
     sample = onto.Rice("CQ_Sample", namespace=onto)
     observed_objs = []
@@ -145,7 +129,7 @@ def _diagnosed_world(symptoms):
 
 
 def _check(expect, rows):
-    """Evaluate a query result against its declared expectation."""
+    # Evaluate a query result against its declared expectation.
     if expect == "rows_positive":
         return len(rows) > 0
     value = rows[0][0] if rows and rows[0] else 0
@@ -159,7 +143,7 @@ def _check(expect, rows):
 
 
 def run_all():
-    """Execute every competency question, returning one result record per question."""
+    # Execute every competency question, returning one result record per question.
     schema_onto = model.build_ontology()
     worlds = {None: schema_onto.world}
 

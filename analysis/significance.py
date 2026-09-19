@@ -1,22 +1,3 @@
-"""
-analysis/significance.py
-------------------------
-Paired statistical significance testing and effect size estimation for RiceKG
-comparative evaluations against machine learning and rule-based baselines.
-
-Implements:
-1. McNemar's test on paired exact-match case agreement (with continuity correction
-   and exact binomial test for small sample sizes).
-2. Paired effect size estimation: difference in proportions (Delta Acc), Odds Ratio,
-   and Cohen's g.
-3. Non-parametric bootstrap 95% confidence intervals on Micro-F1 and Delta Micro-F1
-   (fixed random seed, explicit resample count).
-4. Holm-Bonferroni step-down correction controlling Family-Wise Error Rate (FWER)
-   across multiple baseline comparisons.
-5. Minimum Detectable Effect (MDE) analytical calculations for n=80 and n=32 to
-   prevent misinterpreting underpowered null results as equivalence.
-"""
-
 import math
 import numpy as np
 from typing import List, Dict, Any, Tuple, Optional
@@ -24,15 +5,14 @@ from scipy import stats
 
 
 def compute_mcnemar_test(y_true: np.ndarray, y_pred_a: np.ndarray, y_pred_b: np.ndarray) -> Dict[str, Any]:
-    """Computes paired McNemar's test between Model A (RiceKG) and Model B (Baseline)
-    on exact-match correctness across identical test cases.
-
-    Contingency table:
-      a: Both correct
-      b: Model A correct, Model B incorrect (favorable to A)
-      c: Model A incorrect, Model B correct (favorable to B)
-      d: Both incorrect
-    """
+    # Computes paired McNemar's test between Model A (RiceKG) and Model B (Baseline)
+    # on exact-match correctness across identical test cases.
+    #
+    # Contingency table:
+    #   a: Both correct
+    #   b: Model A correct, Model B incorrect (favorable to A)
+    #   c: Model A incorrect, Model B correct (favorable to B)
+    #   d: Both incorrect
     correct_a = np.all(y_true == y_pred_a, axis=1)
     correct_b = np.all(y_true == y_pred_b, axis=1)
     n = len(y_true)
@@ -105,7 +85,7 @@ def compute_mcnemar_test(y_true: np.ndarray, y_pred_a: np.ndarray, y_pred_b: np.
 
 
 def compute_micro_f1(y_true: np.ndarray, y_pred: np.ndarray) -> float:
-    """Computes micro-averaged F1 score in percentage [0.0, 100.0]."""
+    # Computes micro-averaged F1 score in percentage [0.0, 100.0].
     tp = np.sum((y_true == 1) & (y_pred == 1))
     fp = np.sum((y_true == 0) & (y_pred == 1))
     fn = np.sum((y_true == 1) & (y_pred == 0))
@@ -123,9 +103,8 @@ def bootstrap_micro_f1_ci(
     random_state: int = 42,
     ci_level: float = 0.95
 ) -> Dict[str, Any]:
-    """Calculates non-parametric bootstrap percentile confidence intervals
-    for Micro-F1 and paired difference (Delta Micro-F1 = F1_a - F1_b).
-    """
+    # Calculates non-parametric bootstrap percentile confidence intervals
+    # for Micro-F1 and paired difference (Delta Micro-F1 = F1_a - F1_b).
     rng = np.random.default_rng(random_state)
     n = len(y_true)
 
@@ -174,9 +153,8 @@ def bootstrap_micro_f1_ci(
 
 
 def apply_holm_bonferroni(p_values: List[float], alpha: float = 0.05) -> List[Dict[str, Any]]:
-    """Applies Holm-Bonferroni step-down correction across a list of p-values.
-    Returns ordered results with adjusted p-values and significance flags.
-    """
+    # Applies Holm-Bonferroni step-down correction across a list of p-values.
+    # Returns ordered results with adjusted p-values and significance flags.
     m = len(p_values)
     # Sort indices by unadjusted p-value ascending
     sorted_indices = sorted(range(m), key=lambda i: p_values[i])
@@ -205,9 +183,8 @@ def apply_holm_bonferroni(p_values: List[float], alpha: float = 0.05) -> List[Di
 
 
 def calculate_minimum_detectable_effect(n: int, alpha: float = 0.05, power: float = 0.80, baseline_rate: float = 0.85) -> Dict[str, Any]:
-    """Calculates the Minimum Detectable Effect (MDE) in proportion for a given sample size n,
-    significance level alpha (two-tailed), and power (1 - beta).
-    """
+    # Calculates the Minimum Detectable Effect (MDE) in proportion for a given sample size n,
+    # significance level alpha (two-tailed), and power (1 - beta).
     z_alpha = stats.norm.ppf(1.0 - alpha / 2.0)  # ~1.96 for 0.05
     z_beta = stats.norm.ppf(power)                # ~0.84 for 0.80
     z_sum = z_alpha + z_beta

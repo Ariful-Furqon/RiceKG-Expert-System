@@ -2,7 +2,7 @@ import pytest
 from ricekg import model
 
 def get_rule_antecedents(rule_id: str) -> list:
-    """Helper to dynamically fetch antecedents from model.RULE_REGISTRY."""
+    # Helper to dynamically fetch antecedents from model.RULE_REGISTRY.
     for r in model.RULE_REGISTRY:
         if r["id"] == rule_id:
             return list(r["antecedents"])
@@ -10,7 +10,7 @@ def get_rule_antecedents(rule_id: str) -> list:
 
 
 class TestCanonicalDiagnoses:
-    """Tests that canonical (Tier 1) full-symptom profiles produce correct diagnoses."""
+    # Tests that canonical (Tier 1) full-symptom profiles produce correct diagnoses.
 
     def test_rice_root_nematode(self):
         symptoms = get_rule_antecedents("SWRL-R02")
@@ -44,7 +44,7 @@ class TestCanonicalDiagnoses:
 
 
 class TestRelaxedRules:
-    """Tests that Tier 2 relaxed (partial-symptom) rules also fire correctly."""
+    # Tests that Tier 2 relaxed (partial-symptom) rules also fire correctly.
 
     def test_rice_root_nematode_relaxed(self):
         symptoms = get_rule_antecedents("SWRL-R12")
@@ -78,7 +78,7 @@ class TestRelaxedRules:
 
 
 class TestEdgeCases:
-    """Tests for edge cases and boundary conditions."""
+    # Tests for edge cases and boundary conditions.
 
     def test_empty_symptoms(self):
         result = model.predict_diseases_flat([])

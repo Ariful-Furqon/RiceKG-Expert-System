@@ -1,17 +1,3 @@
-"""
-Verification script for field benchmark and holdout staging citations.
-
-Queries Crossref API (https://api.crossref.org/works/{doi}) for every DOI row,
-asserts HTTP 200, and verifies that the paper's real title appears verbatim
-(modulo whitespace/case/HTML markup) in the citation.
-
-For tier-C outbreak report rows (with no DOI), asserts that the archive_url
-resolves (HTTP 200). A dead source_url with a live archive is reported as a
-warning, not a failure.
-
-Exits with code 1 if any title mismatches, archive fails, or DOI fails to resolve.
-"""
-
 import argparse
 import csv
 import json
@@ -34,20 +20,20 @@ if hasattr(sys.stdout, "reconfigure"):
 
 
 def clean_html(text: str) -> str:
-    """Remove HTML/XML tags and normalize whitespace."""
+    # Remove HTML/XML tags and normalize whitespace.
     text = re.sub(r"<[^>]+>", "", text)
     return " ".join(text.split())
 
 
 def normalize_for_comparison(text: str) -> str:
-    """Normalize text for robust string matching (case-insensitive, alphanumeric only)."""
+    # Normalize text for robust string matching (case-insensitive, alphanumeric only).
     text = clean_html(text).lower()
     text = unicodedata.normalize("NFKD", text)
     return re.sub(r"[^a-z0-9]", "", text)
 
 
 def check_url_status(url: str, timeout: int = 15, headers: dict = None) -> tuple[int, str]:
-    """Attempts a GET request with a range/stream to verify HTTP status."""
+    # Attempts a GET request with a range/stream to verify HTTP status.
     if headers is None:
         headers = {
             "User-Agent": "RiceKG-CitationVerifier/1.0 (mailto:ariful.furqon@unej.ac.id)"
@@ -171,7 +157,7 @@ def verify_citations(csv_path: str = "data/benchmark_field.csv") -> bool:
 
 
 def verify_rule_citations() -> bool:
-    """Verifies that every rule in model.RULE_REGISTRY carries a valid DOI and title."""
+    # Verifies that every rule in model.RULE_REGISTRY carries a valid DOI and title.
     from ricekg import model
     print(f"\nVerifying {len(model.RULE_REGISTRY)} rule citations in model.RULE_REGISTRY...")
     headers = {
@@ -235,7 +221,7 @@ def verify_rule_citations() -> bool:
 
 
 def verify_treatment_citations() -> bool:
-    """Verifies that every IPM control treatment in model.CONTROL_TREATMENTS carries a valid DOI and title."""
+    # Verifies that every IPM control treatment in model.CONTROL_TREATMENTS carries a valid DOI and title.
     from ricekg import model
     print(f"\nVerifying {len(model.CONTROL_TREATMENTS)} control treatment citations in model.CONTROL_TREATMENTS...")
     headers = {
@@ -298,11 +284,9 @@ def verify_treatment_citations() -> bool:
 
 
 def verify_noisy_or_citations(csv_path: str = "data/noisy_or_parameters.csv") -> bool:
-    """
-    Verifies literature provenance citations in data/noisy_or_parameters.csv:
-    - Every DOI resolves on Crossref and its title appears in citation.
-    - Rows without DOI are listed as unverified warnings (not failures).
-    """
+    # Verifies literature provenance citations in data/noisy_or_parameters.csv:
+    # - Every DOI resolves on Crossref and its title appears in citation.
+    # - Rows without DOI are listed as unverified warnings (not failures).
     if not os.path.exists(csv_path):
         print(f"ERROR: File not found at {csv_path}")
         return False

@@ -1,11 +1,3 @@
-"""
-Inter-Annotator Agreement Analysis (Cohen's Kappa & Fleiss' Kappa)
-
-Computes chance-corrected inter-rater agreement over independent expert diagnoses
-with non-parametric bootstrap confidence intervals. Refuses to run on empty
-or missing annotation data.
-"""
-
 import os
 import sys
 import csv
@@ -15,7 +7,7 @@ from collections import Counter
 
 
 def compute_cohens_kappa(r1, r2, categories):
-    """Computes Cohen's kappa for two raters over categorical diagnoses."""
+    # Computes Cohen's kappa for two raters over categorical diagnoses.
     n = len(r1)
     if n == 0:
         return 0.0, 0.0, 0.0
@@ -36,10 +28,8 @@ def compute_cohens_kappa(r1, r2, categories):
 
 
 def compute_fleiss_kappa(ratings_matrix, categories):
-    """
-    Computes Fleiss' kappa for 3 or more raters.
-    ratings_matrix: list of lists, where row i is ratings by m raters for item i.
-    """
+    # Computes Fleiss' kappa for 3 or more raters.
+    # ratings_matrix: list of lists, where row i is ratings by m raters for item i.
     N = len(ratings_matrix)  # number of subjects
     if N == 0:
         return 0.0, 0.0, 0.0

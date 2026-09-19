@@ -1,9 +1,8 @@
-"""Guards that documentation figures stay traceable to results/.
-
-The P0-4 revision twice shipped prose that contradicted its own regenerated numbers.
-`analysis/check_readme_consistency.py` exists to catch that; these tests verify the
-guard both passes on the current tree and actually fails when a figure drifts.
-"""
+# Guards that documentation figures stay traceable to results/.
+#
+# The P0-4 revision twice shipped prose that contradicted its own regenerated numbers.
+# `analysis/check_readme_consistency.py` exists to catch that; these tests verify the
+# guard both passes on the current tree and actually fails when a figure drifts.
 import os
 import sys
 
@@ -31,7 +30,7 @@ def test_documentation_matches_results():
 
 
 def test_guard_detects_drift(tmp_path, monkeypatch):
-    """A document that omits the measured figures must be reported as drift."""
+    # A document that omits the measured figures must be reported as drift.
     stale = tmp_path / "STALE.md"
     stale.write_text(
         "RiceKG identifies 0 out of 5 positive cases (0.0% recall, micro-F1 0.00).\n",
@@ -46,7 +45,7 @@ def test_guard_detects_drift(tmp_path, monkeypatch):
 
 
 def test_guard_catches_stale_line_185_claim():
-    """A regression test asserting that stale line-185 text is flagged by the consistency scanner."""
+    # A regression test asserting that stale line-185 text is flagged by the consistency scanner.
     fixture_text = "RiceKG achieves 92.50% ± 2.24% exact match, significantly outperforming ML baselines... all p < 0.001"
     errs = checker.scan_for_stale_metrics(fixture_text, "README.md")
     assert len(errs) > 0, "Guard must detect stale pre-P0-5 line-185 claim 'RiceKG achieves 92.50% exact match'"
@@ -54,7 +53,7 @@ def test_guard_catches_stale_line_185_claim():
 
 
 def test_guard_catches_stale_scope_claims():
-    """Pre-Part-5 text claiming insect classes are diagnosed must be flagged."""
+    # Pre-Part-5 text claiming insect classes are diagnosed must be flagged.
     fixture_text = (
         "- **Four Threat Classes Have No Field Case**: `Grasshopper` ... are unrepresented.\n"
         "title = {Expert System for Rice Pest and Disease Diagnosis}\n"
@@ -64,7 +63,7 @@ def test_guard_catches_stale_scope_claims():
 
 
 def test_guard_catches_false_positive_drift(monkeypatch):
-    """README quoting 0 false positives while the failure analysis reports 3 must fail."""
+    # README quoting 0 false positives while the failure analysis reports 3 must fail.
     monkeypatch.setattr(checker, "negative_control_false_positives", lambda: (3, 27))
     stale = "| **False alarm on negative controls** | **0/17** [0.0, 19.5] | **0 of 27** [0.0, 12.8] | [link] |"
     assert checker.check_false_positive_claim(stale)

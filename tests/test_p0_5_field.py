@@ -1,21 +1,19 @@
-"""
-tests/test_p0_5_field.py
-------------------------
-Integrity gates for the independent field benchmark (P0-5).
-
-These tests fix *structural* requirements — the case-report gate, split hygiene, and
-source-level separation — not a desired level of coverage. Coverage that the peer-reviewed
-literature does not supply must be disclosed in `docs/LIMITATIONS.md`, never asserted into
-existence here.
-
-1. `split` column exists with values strictly in {"dev", "eval"}, disjoint by case id.
-2. No source publication (DOI) straddles the dev/eval boundary.
-3. Every retained row is a case report (`case_type`), the P0-3 extraction gate.
-4. Rejected candidates are preserved with a stated reason and excluded from the benchmark.
-5. Both splits contain positives and negatives.
-6. Threat classes with no positive case are disclosed in docs/LIMITATIONS.md.
-7. Authentic DOIs and citations for all rows.
-"""
+# tests/test_p0_5_field.py
+# ------------------------
+# Integrity gates for the independent field benchmark (P0-5).
+#
+# These tests fix *structural* requirements — the case-report gate, split hygiene, and
+# source-level separation — not a desired level of coverage. Coverage that the peer-reviewed
+# literature does not supply must be disclosed in `docs/LIMITATIONS.md`, never asserted into
+# existence here.
+#
+# 1. `split` column exists with values strictly in {"dev", "eval"}, disjoint by case id.
+# 2. No source publication (DOI) straddles the dev/eval boundary.
+# 3. Every retained row is a case report (`case_type`), the P0-3 extraction gate.
+# 4. Rejected candidates are preserved with a stated reason and excluded from the benchmark.
+# 5. Both splits contain positives and negatives.
+# 6. Threat classes with no positive case are disclosed in docs/LIMITATIONS.md.
+# 7. Authentic DOIs and citations for all rows.
 
 import csv
 import os
@@ -49,11 +47,10 @@ def test_split_column_present_and_disjoint():
 
 
 def test_no_source_publication_straddles_the_split():
-    """Two cases drawn from one paper leak development information into the held-out set.
-
-    Case-id disjointness does not catch this: FIELD_42 and FIELD_43 were sourced from a
-    single DOI and assigned to different splits during P0-5 Step 1.
-    """
+    # Two cases drawn from one paper leak development information into the held-out set.
+    #
+    # Case-id disjointness does not catch this: FIELD_42 and FIELD_43 were sourced from a
+    # single DOI and assigned to different splits during P0-5 Step 1.
     rows = _rows()
     by_doi = {}
     for r in rows:
@@ -69,7 +66,7 @@ def test_no_source_publication_straddles_the_split():
 
 
 def test_every_retained_case_is_a_case_report():
-    """The P0-3 gate admits observed-case reports only, not reviews or trials."""
+    # The P0-3 gate admits observed-case reports only, not reviews or trials.
     rows = _rows()
     assert "case_type" in rows[0], "data/benchmark_field.csv must carry a 'case_type' column"
 
@@ -108,11 +105,10 @@ def test_both_splits_contain_positives_and_negatives():
 
 
 def test_uncovered_threat_classes_are_disclosed():
-    """Classes with no positive case are a real sourcing limitation, not a test failure.
-
-    The requirement is that the gap is stated in the limitations document, so a reader
-    never infers coverage the benchmark does not have.
-    """
+    # Classes with no positive case are a real sourcing limitation, not a test failure.
+    #
+    # The requirement is that the gap is stated in the limitations document, so a reader
+    # never infers coverage the benchmark does not have.
     rows = _rows()
     covered = set()
     for r in rows:

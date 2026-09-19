@@ -1,8 +1,6 @@
-"""
-tests/test_benchmark_generator.py
----------------------------------
-Unit tests verifying the parameterised benchmark generator (data/generator.py).
-"""
+# tests/test_benchmark_generator.py
+# ---------------------------------
+# Unit tests verifying the parameterised benchmark generator (data/generator.py).
 
 import os
 import sys
@@ -22,7 +20,7 @@ from data.generator import (
 
 
 def test_generator_determinism():
-    """Identical seeds must yield byte-identical outputs across repeated calls."""
+    # Identical seeds must yield byte-identical outputs across repeated calls.
     run_1 = generate_benchmark(
         n_cases=50,
         occlusion_rate=0.25,
@@ -43,7 +41,7 @@ def test_generator_determinism():
 
 
 def test_generator_seed_divergence():
-    """Different seeds must yield distinct stochastic draws."""
+    # Different seeds must yield distinct stochastic draws.
     run_a = generate_benchmark(
         n_cases=30,
         occlusion_rate=0.3,
@@ -64,7 +62,7 @@ def test_generator_seed_divergence():
 
 
 def test_rule_registry_linkage():
-    """All antecedents and threat names must be derived dynamically from RULE_REGISTRY."""
+    # All antecedents and threat names must be derived dynamically from RULE_REGISTRY.
     threats = get_in_scope_threats()
     canonical = get_canonical_antecedents()
 
@@ -80,7 +78,7 @@ def test_rule_registry_linkage():
 
 
 def test_provenance_and_metadata_embedding():
-    """Every generated case must declare provenance='rule_derived' and parameter metadata."""
+    # Every generated case must declare provenance='rule_derived' and parameter metadata.
     cases = generate_benchmark(
         n_cases=25,
         occlusion_rate=0.35,
@@ -104,7 +102,7 @@ def test_provenance_and_metadata_embedding():
 
 
 def test_zero_occlusion_preserves_canonical_profiles():
-    """At occlusion_rate=0.0 and distractor_rate=0.0, single-threat cases retain 100% canonical symptoms."""
+    # At occlusion_rate=0.0 and distractor_rate=0.0, single-threat cases retain 100% canonical symptoms.
     cases = generate_benchmark(
         n_cases=50,
         occlusion_rate=0.0,
@@ -123,7 +121,7 @@ def test_zero_occlusion_preserves_canonical_profiles():
 
 
 def test_occlusion_monotonicity():
-    """Higher occlusion rates must monotonically decrease the average symptom count per positive case."""
+    # Higher occlusion rates must monotonically decrease the average symptom count per positive case.
     low_occ = generate_benchmark(
         n_cases=200,
         occlusion_rate=0.1,
@@ -148,7 +146,7 @@ def test_occlusion_monotonicity():
 
 
 def test_out_of_vocab_rate_controls():
-    """out_of_vocab_rate=1.0 must generate strictly out-of-scope controls and negative controls."""
+    # out_of_vocab_rate=1.0 must generate strictly out-of-scope controls and negative controls.
     cases = generate_benchmark(
         n_cases=60,
         occlusion_rate=0.2,
@@ -167,7 +165,7 @@ def test_out_of_vocab_rate_controls():
 
 
 def test_coinfection_rate():
-    """coinfection_rate=1.0 (with oov=0.0) must produce multi-threat pairs."""
+    # coinfection_rate=1.0 (with oov=0.0) must produce multi-threat pairs.
     cases = generate_benchmark(
         n_cases=40,
         occlusion_rate=0.0,
@@ -182,7 +180,7 @@ def test_coinfection_rate():
 
 
 def test_csv_export_and_evaluation_compatibility(tmp_path):
-    """Exported CSV must be cleanly readable by evaluate.load_data()."""
+    # Exported CSV must be cleanly readable by evaluate.load_data().
     cases = generate_benchmark(
         n_cases=30,
         occlusion_rate=0.2,
@@ -204,7 +202,7 @@ def test_csv_export_and_evaluation_compatibility(tmp_path):
 
 
 def test_historical_suite_reproducibility_documentation():
-    """explain_historical_suite_reproducibility() must provide complete formal mappings."""
+    # explain_historical_suite_reproducibility() must provide complete formal mappings.
     info = explain_historical_suite_reproducibility()
     assert "tier_mappings" in info
     assert "non_reproducible_aspects_of_legacy_csv" in info

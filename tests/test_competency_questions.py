@@ -1,10 +1,9 @@
-"""Executes every competency question against the ontology (P1-5).
-
-The test fixes the *declared* status of each question, not a desired one. A satisfied
-question that stops being answerable fails here, and so does a gap that quietly becomes
-answerable without `docs/COMPETENCY_QUESTIONS.md` being regenerated — the methodology
-depends on the recorded gaps staying honest in both directions.
-"""
+# Executes every competency question against the ontology (P1-5).
+#
+# The test fixes the *declared* status of each question, not a desired one. A satisfied
+# question that stops being answerable fails here, and so does a gap that quietly becomes
+# answerable without `docs/COMPETENCY_QUESTIONS.md` being regenerated — the methodology
+# depends on the recorded gaps staying honest in both directions.
 import os
 import sys
 
@@ -21,12 +20,12 @@ DOC = os.path.join(
 
 @pytest.fixture(scope="module")
 def results():
-    """Run the full competency-question suite once; each run invokes Pellet per scenario."""
+    # Run the full competency-question suite once; each run invokes Pellet per scenario.
     return cq.run_all()
 
 
 def test_at_least_fifteen_questions_are_declared():
-    """P1-5 requires no fewer than fifteen competency questions."""
+    # P1-5 requires no fewer than fifteen competency questions.
     assert len(cq.QUESTIONS) >= 15, (
         f"Only {len(cq.QUESTIONS)} competency questions declared; the methodology requires 15+"
     )
@@ -45,7 +44,7 @@ def test_every_question_is_well_formed():
 
 
 def test_declared_status_matches_the_ontology(results):
-    """Each query must behave as declared. Divergence in either direction is a failure."""
+    # Each query must behave as declared. Divergence in either direction is a failure.
     mismatched = [r["id"] for r in results if not r["holds"]]
     assert not mismatched, (
         "These competency questions no longer behave as documented: "
@@ -62,7 +61,7 @@ def test_documentation_is_present_and_lists_every_question(results):
 
 
 def test_competency_questions_status_and_gaps(results):
-    """Verifies that all 16 competency questions are satisfied with 0 gaps in the redesigned ontology."""
+    # Verifies that all 16 competency questions are satisfied with 0 gaps in the redesigned ontology.
     gaps = {r["id"] for r in results if r["status"] == "gap"}
     satisfied = {r["id"] for r in results if r["status"] == "satisfied"}
     assert len(satisfied) == 16, f"Expected 16 satisfied questions, got {len(satisfied)}"

@@ -1,7 +1,5 @@
-"""
-Tests for the case-level graded evaluation (analysis/graded_evaluation.py) and the
-knowledge-base verification (analysis/kb_verification.py).
-"""
+# Tests for the case-level graded evaluation (analysis/graded_evaluation.py) and the
+# knowledge-base verification (analysis/kb_verification.py).
 
 import json
 import os
@@ -38,7 +36,7 @@ def test_classify(outputs, truth, expected):
 
 
 def test_committed_diagnosis_outranks_possible():
-    """A wrong committed diagnosis is a misfire even if the true threat is also `possible`."""
+    # A wrong committed diagnosis is a misfire even if the true threat is also `possible`.
     outputs = [("False_Smut", "suspected"), ("Rice_Blast", "possible")]
     assert ge.classify(outputs, {"Rice_Blast"}) == "misfire"
 
@@ -73,7 +71,7 @@ def test_outcome_counts_partition_the_cases(graded):
 
 
 def test_strict_and_possible_agree_on_committed_outcomes(graded):
-    """The `possible` grade adds candidates but never changes a committed diagnosis."""
+    # The `possible` grade adds candidates but never changes a committed diagnosis.
     for c in graded["cases"]:
         strict, loose = c["outcome"]["RiceKG strict"], c["outcome"]["RiceKG + possible"]
         if strict in ("correct", "misfire", "false_alarm"):

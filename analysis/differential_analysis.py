@@ -1,29 +1,3 @@
-"""
-analysis/differential_analysis.py
----------------------------------
-Top-k Differential Diagnosis & Ranking Evaluation (PART 7).
-
-Evaluates RiceKG and comparative baselines under a top-k ranking protocol:
-- Metrics: Hit@1, Hit@2, Hit@3, MRR, Mean List Length, and Negative-Control False Alarm Rate (FAR@k).
-- Evaluates:
-    1. RiceKG Full Proposed (graded DL / Defined Classes)
-    2. Rule: Nearest Prototype (ranked via Jaccard/overlap scores)
-    3. Rule: Flat Single-Tier (unranked; reported as top-1 only per Part 7-C)
-    4. Decision Tree (ranked via predict_proba)
-    5. Random Forest (ranked via predict_proba)
-    6. Multinomial Naive Bayes (ranked via predict_proba)
-    7. k-NN (ranked via predict_proba)
-    8. Logistic Regression (OvR) (ranked via decision_function / predict_proba)
-- Datasets:
-    - Field benchmark (dev, eval, holdout), expert-consensus encoding
-    The verification suite is not evaluated: its labels come from an earlier rule base
-    (docs/LIMITATIONS.md Section 4).
-
-Generates:
-    results/top_k.json
-    results/top_k.md
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -55,7 +29,7 @@ ALL_THREATS = model.ALL_DIAGNOSES
 # ---------------------------------------------------------------------------
 
 def rank_nearest_prototype(symptoms: List[str], k: int = 3) -> List[str]:
-    """Rank in-scope threats using Nearest Prototype similarity scores."""
+    # Rank in-scope threats using Nearest Prototype similarity scores.
     obs_set = set(symptoms)
     if not obs_set:
         return []
@@ -73,7 +47,7 @@ def rank_nearest_prototype(symptoms: List[str], k: int = 3) -> List[str]:
 
 
 def rank_ml_predictions(probs: np.ndarray, k: int = 3, threshold: float = 0.05) -> List[str]:
-    """Rank in-scope threats from ML classifier probability estimates."""
+    # Rank in-scope threats from ML classifier probability estimates.
     ranked_indices = np.argsort(-probs)
     candidates = []
     for idx in ranked_indices:
@@ -94,7 +68,7 @@ def compute_top_k_metrics_for_system(
     system_name: str,
     k_vals: Tuple[int, ...] = (1, 2, 3),
 ) -> Dict[str, Any]:
-    """Computes Hit@k, MRR, Mean List Length, and Negative-Control False Alarm Rate at k."""
+    # Computes Hit@k, MRR, Mean List Length, and Negative-Control False Alarm Rate at k.
     pos_cases = []
     neg_cases = []
 
@@ -175,7 +149,7 @@ def compute_top_k_metrics_for_system(
 
 
 def _positive_class_probs(probs) -> np.ndarray:
-    """Stack per-label positive-class probabilities from a multi-output predict_proba."""
+    # Stack per-label positive-class probabilities from a multi-output predict_proba.
     if isinstance(probs, list):
         return np.column_stack([p[:, 1] if p.shape[1] > 1 else p[:, 0] for p in probs])
     return probs
@@ -190,14 +164,13 @@ def knn_tie_sensitivity(
     n_orders: int = 20,
     seed: int = 0,
 ) -> Dict[str, Any]:
-    """Quantify how much the k-NN top-k metrics depend on neighbour tie-breaking.
-
-    Binary symptom vectors yield many equidistant neighbours, and sklearn resolves ties by
-    training-row order. The same 2-fold split is re-run with `n_orders` permutations of the
-    training rows; the returned spans show the range of metrics attributable to tie-breaking
-    alone. `tie_at_k_boundary` counts held-out predictions whose 3rd and 4th nearest training
-    rows are equally distant.
-    """
+    # Quantify how much the k-NN top-k metrics depend on neighbour tie-breaking.
+    #
+    # Binary symptom vectors yield many equidistant neighbours, and sklearn resolves ties by
+    # training-row order. The same 2-fold split is re-run with `n_orders` permutations of the
+    # training rows; the returned spans show the range of metrics attributable to tie-breaking
+    # alone. `tie_at_k_boundary` counts held-out predictions whose 3rd and 4th nearest training
+    # rows are equally distant.
     tr, te = np.asarray(train_idx), np.asarray(test_idx)
     k = ml_baselines.get_ml_models()["k-NN"].n_neighbors
 
@@ -249,7 +222,7 @@ def evaluate_dataset_differential(
     onto=None,
     verbose: bool = True,
 ) -> Dict[str, Any]:
-    """Evaluates top-k differential diagnosis for all systems across a dataset."""
+    # Evaluates top-k differential diagnosis for all systems across a dataset.
     cases = evaluate.load_data(csv_path, split=split, tier=tier)
     if verbose:
         print(f"\nEvaluating Top-k Differential on {dataset_label} (n={len(cases)})...")
@@ -368,7 +341,7 @@ def _pct(value) -> str:
 
 
 def _key_findings(all_evals: List[Dict[str, Any]]) -> List[str]:
-    """Derive the findings from the eval-split metrics; no figure is typed by hand."""
+    # Derive the findings from the eval-split metrics; no figure is typed by hand.
     ev = next((e for e in all_evals if e.get("split") == "eval"), None)
     if ev is None:
         return ["No `eval` split was evaluated."]
@@ -404,7 +377,7 @@ def _key_findings(all_evals: List[Dict[str, Any]]) -> List[str]:
 
 
 def format_markdown_report(all_evals: List[Dict[str, Any]], output_md: str) -> None:
-    """Formats top-k differential evaluation findings into Markdown."""
+    # Formats top-k differential evaluation findings into Markdown.
     lines = [
         "# Top-k Differential Diagnosis & Ranking Analysis (PART 7)",
         "",

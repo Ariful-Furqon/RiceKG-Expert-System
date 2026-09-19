@@ -1,22 +1,3 @@
-"""
-annotation/build_packet.py
---------------------------
-Builds the multi-rater annotation packet: one Excel workbook per rater and stage, plus a
-coordinator key. See docs/ANNOTATION_PROTOCOL.md.
-
-  Stage A (Tahap A): from the redacted symptom text, each rater encodes the observations with
-      the ontology vocabulary and gives a diagnosis. Also: practice cases and a review of the
-      draft term definitions.
-  Stage B (Tahap B): each rater rates RiceKG's conclusion and derivation trace for every case.
-      Sent only after the rater's Stage A has been returned, because the trace reveals the
-      system's diagnosis.
-
-Cases get pseudonymous codes (K01...) from a fixed seed, and each rater sees them in a
-different order. Outputs go to annotation/packet/ (git-ignored: it contains the key).
-
-    python annotation/build_packet.py --raters 3
-"""
-
 import argparse
 import csv
 import os
@@ -86,7 +67,7 @@ LEGACY_LABELS = {
 
 
 def symptom_labels(defs, include_legacy=False):
-    """Dropdown label -> term for every observation term; labels must be unique."""
+    # Dropdown label -> term for every observation term; labels must be unique.
     out = dict(LEGACY_LABELS) if include_legacy else {}
     for term, row in defs.items():
         if row["kind"] != "observation":
@@ -98,7 +79,7 @@ def symptom_labels(defs, include_legacy=False):
 
 
 def case_text(row):
-    """Text shown to raters: English (translated if needed), redacted; original kept if translated."""
+    # Text shown to raters: English (translated if needed), redacted; original kept if translated.
     main, removed = redact(row.get("raw_symptom_text_en") or row["raw_symptom_text"])
     if row.get("raw_symptom_text_en"):
         original, removed_orig = redact(row["raw_symptom_text"])
@@ -191,7 +172,7 @@ def ricekg_conclusion(outputs, defs):
 
 
 def shown_category(conclusion):
-    """Category of the RiceKG output a rater saw, from the Stage B conclusion text."""
+    # Category of the RiceKG output a rater saw, from the Stage B conclusion text.
     text = conclusion or ""
     if text.startswith("Tidak ada diagnosis"):
         return "no_output"
@@ -228,7 +209,7 @@ def header(ws, titles, widths):
 
 
 def list_sheet(wb, lists):
-    """Hidden sheet holding dropdown lists; returns name -> absolute range."""
+    # Hidden sheet holding dropdown lists; returns name -> absolute range.
     ws = wb.create_sheet("Daftar")
     ranges = {}
     for col, (name, values) in enumerate(lists.items(), 1):
@@ -422,7 +403,7 @@ def build(out_dir=DEFAULT_OUT, n_raters=3, with_explanations=True):
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(description="Build the multi-rater annotation packet: one workbook per rater and stage, plus the coordinator key.")
     ap.add_argument("--raters", type=int, default=3)
     ap.add_argument("--out", default=DEFAULT_OUT)
     args = ap.parse_args()

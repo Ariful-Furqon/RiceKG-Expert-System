@@ -1,15 +1,3 @@
-"""
-Fail if a headline metric quoted in the documentation has drifted from `results/`.
-
-Every figure reported in `README.md` and `docs/` must be regenerable by a script in this
-repository and traceable to a results file. Twice during the P0-4 revision the prose went
-stale while the underlying measurements changed — once claiming 0/5 positive-case recall
-after the measured value had become 20.83%. This check makes that failure mode a CI error
-rather than something a reader has to catch.
-
-Usage:  python analysis/check_readme_consistency.py
-Exit:   0 if every required figure is present, 1 otherwise.
-"""
 import json
 import os
 import sys
@@ -25,7 +13,7 @@ POSITIONING = os.path.join(BASE_DIR, "docs", "POSITIONING.md")
 
 
 def required_figures():
-    """Build the (label, rendered value, documents that must quote it) checklist."""
+    # Build the (label, rendered value, documents that must quote it) checklist.
     with open(BASELINES_JSON, encoding="utf-8") as fh:
         base = json.load(fh)
     with open(ABLATION_JSON, encoding="utf-8") as fh:
@@ -67,7 +55,7 @@ def required_figures():
 
 
 def graded_figures():
-    """Headline single-run figures from results/graded_evaluation.json."""
+    # Headline single-run figures from results/graded_evaluation.json.
     with open(GRADED_JSON, encoding="utf-8") as fh:
         graded = json.load(fh)["groups"]
 
@@ -97,7 +85,7 @@ def graded_figures():
 
 
 def scan_for_stale_metrics(text: str, filename: str) -> list:
-    """Detects stale pre-P0-5 figures quoted as current RiceKG performance."""
+    # Detects stale pre-P0-5 figures quoted as current RiceKG performance.
     failures = []
     import re
     # 1. Stale claim of 92.50% exact match outperforming baselines
@@ -134,7 +122,7 @@ FIELD_FAILURE_MD = os.path.join(BASE_DIR, "results", "field_failure_analysis.md"
 
 
 def negative_control_false_positives() -> tuple[int, int]:
-    """Read (false positives, negative controls) from the generated failure analysis."""
+    # Read (false positives, negative controls) from the generated failure analysis.
     import re
     with open(FIELD_FAILURE_MD, encoding="utf-8") as fh:
         text = fh.read()
@@ -148,8 +136,8 @@ def negative_control_false_positives() -> tuple[int, int]:
 
 
 def check_false_positive_claim(readme_text: str) -> list[str]:
-    """README's 'False alarm on negative controls' row must match the failure analysis
-    (dev + eval controls, quoted as '**k of n**')."""
+    # README's 'False alarm on negative controls' row must match the failure analysis
+    # (dev + eval controls, quoted as '**k of n**').
     import re
     fp, n = negative_control_false_positives()
     m = re.search(r"False alarm on negative controls\*\*\s*\|.*?\*\*(\d+) of (\d+)\*\*", readme_text)
@@ -166,7 +154,7 @@ _GENERATED_MARKER = "<!-- GENERATED FILE — DO NOT EDIT BY HAND -->"
 
 
 def check_results_index() -> list[str]:
-    """Fail if docs/RESULTS_INDEX.md is missing or was hand-edited."""
+    # Fail if docs/RESULTS_INDEX.md is missing or was hand-edited.
     errs = []
     if not os.path.exists(RESULTS_INDEX):
         errs.append(

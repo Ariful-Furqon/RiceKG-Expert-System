@@ -1,31 +1,3 @@
-"""
-analysis/expert_validation.py
------------------------------
-Expert-based validation of RiceKG (parts A2 and A3 of docs/EVALUATION_FRAMEWORK.md), computed
-from the tables written by annotation/import_returns.py.
-
-A2. Diagnosis
-    - inter-rater agreement: Fleiss' kappa and pairwise Cohen's kappa (the ceiling);
-    - system-rater agreement: Cohen's kappa of RiceKG against each rater, and its difference from
-      mean rater-rater kappa with a case-bootstrap 95% CI. The criterion is whether RiceKG falls
-      within the range of expert-expert agreement;
-    - agreement of each rater, the rater majority and RiceKG with the published label.
-    RiceKG labels: the committed threat; an out-of-scope rejection -> Other; no committed output
-    (abstention or `possible` only) -> Undetermined. The published No_Diagnosis -> Other.
-
-A2. Symptom encoding
-    - per-term Fleiss' kappa on presence/absence, mean pairwise Jaccard per case;
-    - agreement of the authors' benchmark encoding with the rater-majority encoding;
-    - optional (--rerun): RiceKG re-run on the rater-majority encoding.
-
-A3. Explanations and definitions
-    - distribution of B1 (acceptable?) and B2-B4 ratings, overall and by RiceKG outcome category;
-    - definition-review counts and every term flagged by at least one rater.
-
-Refuses to run without annotation data, so no figure can be produced from an empty study.
-Outputs results/expert_validation.json and results/expert_validation.md.
-"""
-
 import argparse
 import csv
 import itertools
@@ -60,7 +32,7 @@ def _read(path):
 
 
 def system_label(outputs):
-    """RiceKG strict output -> one categorical label comparable with a rater's answer."""
+    # RiceKG strict output -> one categorical label comparable with a rater's answer.
     committed = sorted(t for t, g in outputs if g in ("confirmed", "suspected"))
     if committed:
         return committed[0] if len(committed) == 1 else "Multiple"
@@ -318,7 +290,7 @@ def write_markdown(rep, path):
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(description="Expert-based validation of RiceKG from the imported rater tables.")
     ap.add_argument("--data-dir", default=DATA_DIR)
     ap.add_argument("--rerun", action="store_true", help="Re-run RiceKG on the rater-majority encoding (Pellet).")
     args = ap.parse_args()

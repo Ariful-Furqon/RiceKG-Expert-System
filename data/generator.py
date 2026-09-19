@@ -1,23 +1,21 @@
-"""
-data/generator.py
------------------
-Parameterised benchmark generator for RiceKG expert system evaluation.
-
-Lifts the static rule-derived verification suite (T1–T6) described in data/README.md
-into a parameterised generative model with controllable experimental axes:
-- occlusion_rate: fraction of canonical antecedents hidden/masked (observation incompleteness)
-- distractor_rate: non-diagnostic environmental context symptoms added (epidemiological noise)
-- coinfection_rate: fraction of multi-threat cases combining disjoint antecedents
-- out_of_vocab_rate: out-of-scope controls (insect damage, unmodeled pathogens, isolated signs)
-- seed: random seed ensuring byte-identical determinism across runs.
-
-Guarantees:
-1. Dynamic Antecedent Sourcing: Antecedents are read from model.RULE_REGISTRY at runtime;
-   no symptom lists are hardcoded.
-2. Provenance Integrity: Every generated record carries provenance='rule_derived' and
-   an embedded dictionary of the generative parameters that produced it.
-3. Strict Determinism: Running with identical seeds yields identical outputs.
-"""
+# data/generator.py
+# -----------------
+# Parameterised benchmark generator for RiceKG expert system evaluation.
+#
+# Lifts the static rule-derived verification suite (T1–T6) described in data/README.md
+# into a parameterised generative model with controllable experimental axes:
+# - occlusion_rate: fraction of canonical antecedents hidden/masked (observation incompleteness)
+# - distractor_rate: non-diagnostic environmental context symptoms added (epidemiological noise)
+# - coinfection_rate: fraction of multi-threat cases combining disjoint antecedents
+# - out_of_vocab_rate: out-of-scope controls (insect damage, unmodeled pathogens, isolated signs)
+# - seed: random seed ensuring byte-identical determinism across runs.
+#
+# Guarantees:
+# 1. Dynamic Antecedent Sourcing: Antecedents are read from model.RULE_REGISTRY at runtime;
+#    no symptom lists are hardcoded.
+# 2. Provenance Integrity: Every generated record carries provenance='rule_derived' and
+#    an embedded dictionary of the generative parameters that produced it.
+# 3. Strict Determinism: Running with identical seeds yields identical outputs.
 
 from __future__ import annotations
 
@@ -37,12 +35,12 @@ from ricekg import model
 
 
 def get_in_scope_threats() -> List[str]:
-    """Return sorted list of active in-scope threat classes from RULE_REGISTRY."""
+    # Return sorted list of active in-scope threat classes from RULE_REGISTRY.
     return sorted(list({r["threat"] for r in model.RULE_REGISTRY}))
 
 
 def get_canonical_antecedents() -> Dict[str, List[str]]:
-    """Return dictionary mapping threat name to sorted list of Tier-1 canonical antecedents."""
+    # Return dictionary mapping threat name to sorted list of Tier-1 canonical antecedents.
     canonical = {}
     for r in model.RULE_REGISTRY:
         if r.get("tier") == "tier1":
@@ -51,7 +49,7 @@ def get_canonical_antecedents() -> Dict[str, List[str]]:
 
 
 def get_relaxed_antecedents() -> Dict[str, List[str]]:
-    """Return dictionary mapping threat name to the sorted antecedents of its primary Tier-2 rule."""
+    # Return dictionary mapping threat name to the sorted antecedents of its primary Tier-2 rule.
     relaxed = {}
     for r in model.RULE_REGISTRY:
         if r.get("tier") == "tier2":
@@ -60,7 +58,7 @@ def get_relaxed_antecedents() -> Dict[str, List[str]]:
 
 
 def get_distractor_pool() -> List[str]:
-    """Return pool of non-diagnostic environmental / contextual symptoms."""
+    # Return pool of non-diagnostic environmental / contextual symptoms.
     pool = [
         s for s, cat in model.OBSERVATION_CATEGORIES.items()
         if cat == "hasEpidemiologicalContext"
@@ -80,16 +78,15 @@ def generate_benchmark(
     out_of_vocab_rate: float,
     seed: int,
 ) -> List[Dict[str, Any]]:
-    """Generate a parameterised diagnostic benchmark dataset.
-
-    :param n_cases: Total number of test cases to generate.
-    :param occlusion_rate: Probability of masking each canonical antecedent [0.0, 1.0].
-    :param distractor_rate: Probability of adding non-diagnostic contextual symptoms [0.0, 1.0].
-    :param coinfection_rate: Fraction of in-scope cases carrying two simultaneous threats [0.0, 1.0].
-    :param out_of_vocab_rate: Fraction of cases representing out-of-scope / negative controls [0.0, 1.0].
-    :param seed: Random seed guaranteeing byte-identical determinism.
-    :return: List of case dictionaries with symptoms, target, expected, and provenance.
-    """
+    # Generate a parameterised diagnostic benchmark dataset.
+    #
+    # :param n_cases: Total number of test cases to generate.
+    # :param occlusion_rate: Probability of masking each canonical antecedent [0.0, 1.0].
+    # :param distractor_rate: Probability of adding non-diagnostic contextual symptoms [0.0, 1.0].
+    # :param coinfection_rate: Fraction of in-scope cases carrying two simultaneous threats [0.0, 1.0].
+    # :param out_of_vocab_rate: Fraction of cases representing out-of-scope / negative controls [0.0, 1.0].
+    # :param seed: Random seed guaranteeing byte-identical determinism.
+    # :return: List of case dictionaries with symptoms, target, expected, and provenance.
     if not (0.0 <= occlusion_rate <= 1.0):
         raise ValueError(f"occlusion_rate must be between 0.0 and 1.0, got {occlusion_rate}")
     if not (0.0 <= distractor_rate <= 1.0):
@@ -203,7 +200,7 @@ def generate_benchmark(
 
 
 def export_benchmark_to_csv(cases: List[Dict[str, Any]], filepath: str) -> None:
-    """Export generated benchmark cases to a CSV conforming to evaluate.load_data()."""
+    # Export generated benchmark cases to a CSV conforming to evaluate.load_data().
     os.makedirs(os.path.dirname(os.path.abspath(filepath)), exist_ok=True)
 
     max_symptoms = max((len(c["symptoms"]) for c in cases), default=6)
@@ -223,7 +220,7 @@ def export_benchmark_to_csv(cases: List[Dict[str, Any]], filepath: str) -> None:
 
 
 def explain_historical_suite_reproducibility() -> Dict[str, Any]:
-    """Document how the parameterised generator formalizes the static T1–T6 construction."""
+    # Document how the parameterised generator formalizes the static T1–T6 construction.
     return {
         "tier_mappings": {
             "T1_canonical": "Corresponds to generate_benchmark with occlusion_rate=0.0, distractor_rate=0.0, coinfection_rate=0.0, out_of_vocab_rate=0.0.",

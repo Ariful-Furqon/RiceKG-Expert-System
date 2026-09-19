@@ -1,24 +1,3 @@
-"""
-annotation/build_rerating_packet.py
------------------------------------
-Builds the follow-up packet after ruleset v2.4.0 (docs/ANNOTATION_PROTOCOL.md, "Re-rating"):
-
-  R<i>_TahapB_v24.xlsx     Stage B again, on RiceKG v2.4.0 outputs for the expert-consensus
-                           encoding. Same case codes as the first packet, same per-rater order.
-  R<i>_ReviewDefinisi.xlsx the definition review, for raters listed in --review (R2 did not
-                           return it in the first round).
-  Surat_R<i>.txt           cover letter in Indonesian.
-
-By default every case is included, because 47 of the 56 cases now look different to the rater
-(changed conclusion, encoding or explanation text). --only-changed keeps only cases whose
-conclusion differs from the one shown in annotation/returned/R1_TahapB.xlsx.
-
-Outputs go to annotation/packet/v24/ (git-ignored). No key is written: the codes are those of the
-first packet.
-
-    python annotation/build_rerating_packet.py --raters 2 --review R2 [--only-changed]
-"""
-
 import argparse
 import os
 import sys
@@ -87,7 +66,7 @@ Tim RiceKG
 
 
 def v24_cases():
-    """First-packet cases with RiceKG v2.4.0 outputs on the expert-consensus encoding."""
+    # First-packet cases with RiceKG v2.4.0 outputs on the expert-consensus encoding.
     from ricekg import evaluate
     defs = bp.load_definitions()
     consensus = evaluate.load_symptom_encoding(evaluate.CONSENSUS_ENCODING_CSV)
@@ -142,7 +121,7 @@ def build(out_dir=DEFAULT_OUT, n_raters=2, review=("R2",), only_changed=False):
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(description="Build the ruleset v2.4.0 re-rating packet for the raters.")
     ap.add_argument("--raters", type=int, default=2)
     ap.add_argument("--review", nargs="*", default=["R2"], help="Raters who also receive the definition review.")
     ap.add_argument("--only-changed", action="store_true")

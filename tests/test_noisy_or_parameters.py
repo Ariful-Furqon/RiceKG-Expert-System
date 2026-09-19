@@ -1,8 +1,6 @@
-"""
-Unit tests for Noisy-OR parameter files and leak priors (PART 8-A).
-Verifies schema, validity of domain terms, value ranges, qualitative scales,
-no duplicates, and 100% coverage of ALL_SYMPTOMS in leak definitions.
-"""
+# Unit tests for Noisy-OR parameter files and leak priors (PART 8-A).
+# Verifies schema, validity of domain terms, value ranges, qualitative scales,
+# no duplicates, and 100% coverage of ALL_SYMPTOMS in leak definitions.
 
 import csv
 import os
@@ -18,7 +16,7 @@ QUALITATIVE_SCALE = {0.90, 0.70, 0.40, 0.15}
 
 
 def test_noisy_or_parameters_schema_and_integrity():
-    """Verify schema, domain taxonomy validity, and value constraints in parameters.csv."""
+    # Verify schema, domain taxonomy validity, and value constraints in parameters.csv.
     assert os.path.exists(PARAMS_CSV), f"Missing {PARAMS_CSV}"
 
     with open(PARAMS_CSV, mode="r", encoding="utf-8") as f:
@@ -54,7 +52,7 @@ def test_noisy_or_parameters_schema_and_integrity():
 
 
 def test_no_duplicate_threat_observation_pairs():
-    """Verify that each (threat, observation) link is unique."""
+    # Verify that each (threat, observation) link is unique.
     with open(PARAMS_CSV, mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         pairs = set()
@@ -65,7 +63,7 @@ def test_no_duplicate_threat_observation_pairs():
 
 
 def test_noisy_or_leaks_schema_and_coverage():
-    """Verify schema, leak range, justification, and 100% coverage of ALL_SYMPTOMS."""
+    # Verify schema, leak range, justification, and 100% coverage of ALL_SYMPTOMS.
     assert os.path.exists(LEAKS_CSV), f"Missing {LEAKS_CSV}"
 
     with open(LEAKS_CSV, mode="r", encoding="utf-8") as f:
@@ -95,6 +93,6 @@ def test_noisy_or_leaks_schema_and_coverage():
 
 
 def test_noisy_or_citations_verifier_passes():
-    """Verify that verify_noisy_or_citations runs without failure."""
+    # Verify that verify_noisy_or_citations runs without failure.
     assert verify_noisy_or_citations(PARAMS_CSV) is True
 

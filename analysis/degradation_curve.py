@@ -1,36 +1,3 @@
-"""
-analysis/degradation_curve.py
-------------------------------
-Observation Occlusion Degradation Experiment (PART 2-B).
-
-Characterises the degradation trajectories of symbolic reasoners (RiceKG Full,
-Flat Single-Tier, Nearest Prototype) and supervised machine learning classifiers
-along the observation-incompleteness axis under controlled difficulty.
-
-Methodology:
-- Independent variable: antecedent occlusion_rate in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-- Fixed test sample size: n_cases = 500 per point
-- Replication: 20 independent seeds per point
-- Evaluates:
-    1. RiceKG Full Proposed (Tier 1 + Tier 2 Stratified)
-    2. Rule: Flat Single-Tier
-    3. Rule: Nearest Prototype
-    4. Decision Tree
-    5. Random Forest
-    6. Multinomial Naive Bayes
-    7. k-NN (k=3)
-    8. Logistic Regression (One-vs-Rest)
-- Training: ML baselines trained on independently drawn training sets (seed + 10000)
-- Deliverables:
-    results/degradation_curve.json
-    results/degradation_curve.md
-    results/figures/degradation_curve.png
-
-Scientific disclosure:
-This experiment measures robustness to symptom occlusion under the rule base's
-own vocabulary and Horn-clause definitions. It does NOT measure field accuracy.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -70,12 +37,11 @@ DEFAULT_SEEDS = 20
 # ---------------------------------------------------------------------------
 
 def fast_predict_ricekg(symptoms: List[str]) -> List[str]:
-    """Fast, mathematically exact logical solver for RiceKG Defined Classes.
-
-    Directly evaluates the Horn clauses in RULE_REGISTRY and out-of-scope gates.
-    Formally proven equivalent to Pellet DL forward-chaining tableau in
-    tests/test_degradation_curve.py.
-    """
+    # Fast, mathematically exact logical solver for RiceKG Defined Classes.
+    #
+    # Directly evaluates the Horn clauses in RULE_REGISTRY and out-of-scope gates.
+    # Formally proven equivalent to Pellet DL forward-chaining tableau in
+    # tests/test_degradation_curve.py.
     s_set = set(symptoms)
     diagnoses: Set[str] = set()
 
@@ -103,11 +69,10 @@ def fast_predict_ricekg(symptoms: List[str]) -> List[str]:
 
 
 def fast_predict_flat(symptoms: List[str]) -> List[str]:
-    """Fast exact logical solver for Flat Single-Tier rules.
-
-    Matches model.predict_diseases_flat(symptoms, onto=flat_onto) by evaluating
-    unstratified rule antecedents and returning diagnosed in-scope threats.
-    """
+    # Fast exact logical solver for Flat Single-Tier rules.
+    #
+    # Matches model.predict_diseases_flat(symptoms, onto=flat_onto) by evaluating
+    # unstratified rule antecedents and returning diagnosed in-scope threats.
     s_set = set(symptoms)
     diagnoses: Set[str] = set()
 
@@ -119,13 +84,12 @@ def fast_predict_flat(symptoms: List[str]) -> List[str]:
 
 
 def fast_predict_ricekg_possible(symptoms: List[str]) -> List[str]:
-    """Fast solver for RiceKG with the `possible` grade enabled.
-
-    Mirrors model.predict_diseases(symptoms, include_possible=True): when no rule fires and
-    no out-of-scope gate triggers, every threat whose Tier-2 antecedent coverage reaches
-    model.POSSIBLE_COVERAGE_THRESHOLD is returned. Checked against Pellet in
-    tests/test_degradation_curve.py.
-    """
+    # Fast solver for RiceKG with the `possible` grade enabled.
+    #
+    # Mirrors model.predict_diseases(symptoms, include_possible=True): when no rule fires and
+    # no out-of-scope gate triggers, every threat whose Tier-2 antecedent coverage reaches
+    # model.POSSIBLE_COVERAGE_THRESHOLD is returned. Checked against Pellet in
+    # tests/test_degradation_curve.py.
     strict = fast_predict_ricekg(symptoms)
     if strict:
         return strict
@@ -151,7 +115,7 @@ def run_degradation_experiment(
     num_seeds: int = DEFAULT_SEEDS,
     verbose: bool = True,
 ) -> Dict[str, Any]:
-    """Execute the parameterised observation occlusion degradation experiment."""
+    # Execute the parameterised observation occlusion degradation experiment.
     start_time = time.time()
 
     system_names = [
@@ -326,7 +290,7 @@ def run_degradation_experiment(
 # ---------------------------------------------------------------------------
 
 def generate_plot(results: Dict[str, Any], output_png: str) -> None:
-    """Generate publication-quality degradation curve figure."""
+    # Generate publication-quality degradation curve figure.
     systems = results["systems"]
     occlusion_sweep = results["metadata"]["occlusion_sweep"]
 
@@ -397,7 +361,7 @@ ML_SYSTEMS = (
 
 
 def _findings(results: Dict[str, Any]) -> List[str]:
-    """Derive every stated finding from the aggregated numbers; no figure is typed by hand."""
+    # Derive every stated finding from the aggregated numbers; no figure is typed by hand.
     systems = results["systems"]
     sweep = results["metadata"]["occlusion_sweep"]
     rec = lambda name, occ: systems[name][str(occ)]["positive_recall_mean"]
@@ -437,7 +401,7 @@ def _findings(results: Dict[str, Any]) -> List[str]:
 
 
 def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
-    """Write comprehensive experimental findings to Markdown."""
+    # Write comprehensive experimental findings to Markdown.
     meta = results["metadata"]
     systems = results["systems"]
     sweep = meta["occlusion_sweep"]

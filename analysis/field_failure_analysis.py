@@ -1,22 +1,3 @@
-"""
-Per-case failure diagnosis for the independent field benchmark.
-
-Regenerates `results/field_failure_analysis.md` from live reasoner output, so that
-every figure in the report is traceable to a run rather than hand-written prose.
-
-Each in-scope (positive) case is assigned exactly one failure cause:
-
-  resolved              - RiceKG predicts the true label.
-  vocabulary_gating     - No recorded symptom maps into `model.ALL_SYMPTOMS`; the
-                          reasoner receives an empty assertion set and cannot fire.
-  partial_vocabulary    - Some symptoms map, some do not, and no rule fires. The
-                          dropped descriptors are candidates for ontology extension.
-  rule_recall_failure   - Every recorded symptom maps, yet no Tier-1 or Tier-2 rule
-                          fires. This is a rule-coverage defect, not a vocabulary gap.
-  misfire               - A rule fires but asserts a threat other than the true label.
-
-Usage:  python analysis/field_failure_analysis.py
-"""
 import csv
 import os
 import sys

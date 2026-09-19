@@ -1,9 +1,7 @@
-"""
-tests/test_degradation_curve.py
--------------------------------
-Unit tests verifying the degradation experiment engine (analysis/degradation_curve.py)
-and asserting formal equivalence between the fast exact solver and Pellet DL forward chaining.
-"""
+# tests/test_degradation_curve.py
+# -------------------------------
+# Unit tests verifying the degradation experiment engine (analysis/degradation_curve.py)
+# and asserting formal equivalence between the fast exact solver and Pellet DL forward chaining.
 
 import os
 import sys
@@ -23,10 +21,9 @@ from analysis.degradation_curve import (
 
 
 def test_fast_solver_equivalence_to_pellet_dl():
-    """Empirically prove that fast_predict_ricekg yields 100% identical outputs to Pellet DL.
-
-    Compares fast_predict_ricekg against model.predict_diseases(symptoms) across 20 synthetic cases.
-    """
+    # Empirically prove that fast_predict_ricekg yields 100% identical outputs to Pellet DL.
+    #
+    # Compares fast_predict_ricekg against model.predict_diseases(symptoms) across 20 synthetic cases.
     onto = model.build_ontology()
     cases = generate_benchmark(
         n_cases=20,
@@ -53,7 +50,7 @@ def test_fast_solver_equivalence_to_pellet_dl():
 
 
 def test_fast_possible_solver_equivalence_to_pellet_dl():
-    """fast_predict_ricekg_possible must match model.predict_diseases(include_possible=True)."""
+    # fast_predict_ricekg_possible must match model.predict_diseases(include_possible=True).
     onto = model.build_ontology()
     cases = generate_benchmark(
         n_cases=25,
@@ -74,7 +71,7 @@ def test_fast_possible_solver_equivalence_to_pellet_dl():
 
 
 def test_fast_flat_solver_equivalence_to_pellet():
-    """Prove that fast_predict_flat matches rule_baselines.predict_flat_rules under Pellet DL."""
+    # Prove that fast_predict_flat matches rule_baselines.predict_flat_rules under Pellet DL.
     flat_onto = rule_baselines.get_flat_ontology()
     cases = generate_benchmark(
         n_cases=15,
@@ -95,7 +92,7 @@ def test_fast_flat_solver_equivalence_to_pellet():
 
 
 def test_degradation_experiment_quick_run():
-    """Verify end-to-end execution of degradation experiment on a small sweep."""
+    # Verify end-to-end execution of degradation experiment on a small sweep.
     sweep = [0.0, 0.4, 0.8]
     res = run_degradation_experiment(
         occlusion_sweep=sweep,

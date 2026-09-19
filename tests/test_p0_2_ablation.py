@@ -1,12 +1,10 @@
-"""
-tests/test_p0_2_ablation.py
----------------------------
-Unit test suite verifying P0-2 implementation:
-1. Declarative RULE_REGISTRY in model.py.
-2. build_ontology(enabled_tiers=...) produces exact requested Imp() instances in isolated worlds.
-3. Pellet DL reasoning across isolated ontology worlds.
-4. Ablation variant execution and latency/accuracy output differences.
-"""
+# tests/test_p0_2_ablation.py
+# ---------------------------
+# Unit test suite verifying P0-2 implementation:
+# 1. Declarative RULE_REGISTRY in model.py.
+# 2. build_ontology(enabled_tiers=...) produces exact requested Imp() instances in isolated worlds.
+# 3. Pellet DL reasoning across isolated ontology worlds.
+# 4. Ablation variant execution and latency/accuracy output differences.
 
 import pytest
 import owlready2
@@ -19,17 +17,15 @@ assert N_TIER2 == sum(1 for r in model.RULE_REGISTRY if r["tier"] == "tier2")
 
 
 class TestP02AblationArchitecture:
-    """Verifies that the SWRL rule set is dynamically configurable via
-
-    build_ontology() and exercises isolated Pellet DL inference.
-    """
+    # Verifies that the SWRL rule set is dynamically configurable via
+    #
+    # build_ontology() and exercises isolated Pellet DL inference.
 
     def test_build_ontology_tier1_only_rule_count(self):
-        """P0-2 Acceptance Criterion:
-
-        A test asserts that build_ontology(enabled_tiers={'tier1'})
-        contains exactly 6 Imp() instances.
-        """
+        # P0-2 Acceptance Criterion:
+        #
+        # A test asserts that build_ontology(enabled_tiers={'tier1'})
+        # contains exactly 6 Imp() instances.
         onto_t1 = model.build_ontology(enabled_tiers={"tier1"})
         rules = list(onto_t1.rules())
         assert len(rules) == 6
@@ -48,10 +44,9 @@ class TestP02AblationArchitecture:
         assert all(isinstance(r, owlready2.swrl.Imp) for r in rules)
 
     def test_isolated_world_no_cross_contamination(self):
-        """Ensures that ontologies built in different calls reside in distinct
-
-        owlready2.World instances and do not mutate or leak rules.
-        """
+        # Ensures that ontologies built in different calls reside in distinct
+        #
+        # owlready2.World instances and do not mutate or leak rules.
         onto_t1 = model.build_ontology(enabled_tiers={"tier1"})
         onto_full = model.build_ontology(enabled_tiers={"tier1", "tier2"})
 
@@ -60,7 +55,7 @@ class TestP02AblationArchitecture:
         assert len(list(onto_full.rules())) == 6 + N_TIER2
 
     def test_no_reasoner_set_matching_baseline(self):
-        """Tests the pure-Python set-matching control baseline."""
+        # Tests the pure-Python set-matching control baseline.
         canonical_symptoms = [
             "Rusty_Grain_Balls", "Blackened_Grain_Balls", "Uniform_Field_Infection",
             "Rainy_Season_Outbreak", "Slight_Panicle_Infection", "Milky_Stage_Vulnerability"
@@ -76,7 +71,7 @@ class TestP02AblationArchitecture:
         assert "False_Smut" in preds_relax
 
     def test_pellet_inference_on_ablated_ontology(self):
-        """Tests that Pellet DL reasoning executes correctly on an ablated ontology world."""
+        # Tests that Pellet DL reasoning executes correctly on an ablated ontology world.
         onto_t1 = model.build_ontology(enabled_tiers={"tier1"})
         relaxed_symptoms = ["Rusty_Grain_Balls", "Blackened_Grain_Balls"]
 

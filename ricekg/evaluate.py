@@ -20,7 +20,7 @@ CONSENSUS_ENCODING_CSV = os.path.join(BASE_DIR, "data", "symptom_encoding_consen
 
 
 def load_symptom_encoding(path=CONSENSUS_ENCODING_CSV):
-    """case_id -> list of observation terms; empty if the file does not exist."""
+    # case_id -> list of observation terms; empty if the file does not exist.
     if not os.path.exists(path):
         return {}
     with open(path, encoding="utf-8", newline="") as f:
@@ -42,14 +42,12 @@ PEST_CLASSES = {
 
 
 def load_data(csv_path, split=None, tier=None, encoding="consensus"):
-    """
-    Loads diagnostic benchmark dataset.
-    Supports verification_suite.csv and benchmark_field.csv.
-    Optional split parameter filters by dataset split (e.g. 'dev', 'eval', 'holdout', or ('dev', 'eval')).
-    Optional tier parameter filters by evidence tier (e.g. 'A', 'B', 'C', or {'A', 'B'}).
-    encoding: 'consensus' (default) replaces a field case's symptoms with the expert-consensus
-    encoding where one exists; 'author' keeps the symptom columns of the CSV.
-    """
+    # Loads diagnostic benchmark dataset.
+    # Supports verification_suite.csv and benchmark_field.csv.
+    # Optional split parameter filters by dataset split (e.g. 'dev', 'eval', 'holdout', or ('dev', 'eval')).
+    # Optional tier parameter filters by evidence tier (e.g. 'A', 'B', 'C', or {'A', 'B'}).
+    # encoding: 'consensus' (default) replaces a field case's symptoms with the expert-consensus
+    # encoding where one exists; 'author' keeps the symptom columns of the CSV.
     if encoding not in ("consensus", "author"):
         raise ValueError(f"encoding must be 'consensus' or 'author', not {encoding!r}")
     overlay = load_symptom_encoding() if encoding == "consensus" else {}

@@ -1,36 +1,3 @@
-"""
-analysis/probabilistic_analysis.py
-----------------------------------
-Probabilistic Reasoning Layer (Noisy-OR) Comparative Evaluation (PART 8-C & 8-D).
-
-Evaluates 5 systems on identical cases across four datasets:
-  1. RiceKG strict (model.predict_diseases, include_possible=False)
-  2. RiceKG + possible grade (model.predict_diseases, include_possible=True)
-  3. noisy-OR at DECISION_THRESHOLD=0.50 (with gates)
-  4. noisy-OR at DECISION_THRESHOLD=0.50 (without gates)
-  5. Rule: Nearest Prototype (rule_baselines.predict_nearest_prototype)
-
-Datasets:
-  - Field Benchmark: dev split (n=16: 7 positives, 9 controls)
-  - Field Benchmark: eval split (5 positives + negative controls)
-  - Field Benchmark: holdout split (n=18: 18 positives, 0 controls; labelled development-exposed)
-  - Deductive Verification Suite (n=73: 55 positives, 18 controls)
-
-Computes:
-  - Multi-label metrics: positive recall, exact match, micro-precision, micro-recall, micro-F1, 95% bootstrap CIs
-  - Negative-control false alarm rate (all controls & mapped-sign controls)
-  - Trade-off curve: recall vs. FAR across threshold grid [0.05, 0.10, ..., 0.95]
-  - Differential Top-k: Hit@1/2/3, MRR, FAR@k via differential_analysis.compute_top_k_metrics_for_system
-  - Paired McNemar tests against RiceKG strict with Holm-Bonferroni correction and analytical MDE
-  - Brier score and 5-bin reliability table (with strict calibration disclaimer)
-  - Parameter sensitivity sweeps: p +/- 0.1, alternative scale, leaks x0.5 and x2.0, quantitative only
-
-Generates:
-  results/probabilistic.json
-  results/probabilistic.md
-  results/figures/probabilistic_tradeoff.png
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -66,7 +33,7 @@ FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
 
 
 def _field_split_counts(split):
-    """(total, positives, negative controls) for one split of the field benchmark."""
+    # (total, positives, negative controls) for one split of the field benchmark.
     import csv as _csv
     with open(FIELD_CSV, encoding="utf-8-sig", newline="") as f:
         rows = [r for r in _csv.DictReader(f) if r["split"] == split]
@@ -84,7 +51,7 @@ THRESHOLD_GRID = [round(t, 2) for t in np.arange(0.05, 1.00, 0.05)]
 
 
 def _repo_relative(path: str) -> str:
-    """Return path relative to repository root using POSIX forward slashes."""
+    # Return path relative to repository root using POSIX forward slashes.
     try:
         rel = os.path.relpath(path, BASE_DIR)
         return rel.replace(os.sep, "/")
@@ -102,7 +69,7 @@ def predict_system_threats(
     threshold: float = DECISION_THRESHOLD,
     params: Optional[probabilistic.NoisyOrParameters] = None,
 ) -> List[str]:
-    """Returns diagnosed in-scope threats for a given system on a symptom list."""
+    # Returns diagnosed in-scope threats for a given system on a symptom list.
     if system_key == "RiceKG strict":
         # Fast solver equivalent to model.predict_diseases(symptoms, include_possible=False)
         return [t for t in fast_predict_ricekg(symptoms) if t in ALL_THREATS]
@@ -131,7 +98,7 @@ def rank_system_threats(
     k: int = 3,
     params: Optional[probabilistic.NoisyOrParameters] = None,
 ) -> List[str]:
-    """Returns top-k ranked candidates for a given system."""
+    # Returns top-k ranked candidates for a given system.
     if system_key == "RiceKG strict":
         top = model.predict_top_k(symptoms, k=k, include_possible=False)
         return [cand["threat"] for cand in top]
@@ -163,7 +130,7 @@ def evaluate_predictions_with_bootstrap(
     n_bootstrap: int = 1000,
     seed: int = 42,
 ) -> Dict[str, Any]:
-    """Computes exact match, recall, precision, F1, and bootstrap 95% CIs."""
+    # Computes exact match, recall, precision, F1, and bootstrap 95% CIs.
     base_metrics = ml_baselines.compute_multilabel_metrics(Y_true, Y_pred)
     n_cases = len(cases)
 
@@ -269,7 +236,7 @@ def compute_calibration_analysis(
         (0.8, 1.0001),
     ),
 ) -> Dict[str, Any]:
-    """Computes multi-label Brier score and a 5-bin reliability diagram table."""
+    # Computes multi-label Brier score and a 5-bin reliability diagram table.
     y_true_all: List[int] = []
     y_prob_all: List[float] = []
 
@@ -319,7 +286,7 @@ def compute_tradeoff_curve(
     threshold_grid: List[float] = THRESHOLD_GRID,
     params: Optional[probabilistic.NoisyOrParameters] = None,
 ) -> Dict[str, Any]:
-    """Evaluates recall and negative-control FAR for noisy-OR across the threshold grid."""
+    # Evaluates recall and negative-control FAR for noisy-OR across the threshold grid.
     pos_cases = [c for c in cases if c.get("raw_target") != "No_Diagnosis"]
     neg_cases = [c for c in cases if c.get("raw_target") == "No_Diagnosis"]
 
@@ -374,7 +341,7 @@ def compute_tradeoff_curve(
 def run_parameter_sensitivity(
     cases_dict: Dict[str, List[Dict[str, Any]]],
 ) -> Dict[str, Any]:
-    """Evaluates parameter sensitivity variants (Protocol 8-D.1 and 8-D.3)."""
+    # Evaluates parameter sensitivity variants (Protocol 8-D.1 and 8-D.3).
     base_params = probabilistic.load_noisy_or_parameters()
     base_links = base_params.links
     base_leaks = base_params.leaks
@@ -456,7 +423,7 @@ def generate_tradeoff_plot(
     dev_tradeoff: Dict[str, Any],
     output_png: str,
 ) -> None:
-    """Plots the Recall vs. False Alarm Rate trade-off curves."""
+    # Plots the Recall vs. False Alarm Rate trade-off curves.
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6), dpi=300)
 
     for ax, data, title, n_pos, n_neg in [
@@ -504,7 +471,7 @@ def generate_tradeoff_plot(
 # ---------------------------------------------------------------------------
 
 def _generate_findings(results: Dict[str, Any]) -> List[str]:
-    """Generates Findings dynamically from computed metrics."""
+    # Generates Findings dynamically from computed metrics.
     ev = results["datasets"]["eval"]
     dev = results["datasets"]["dev"]
     hld = results["datasets"]["holdout"]
@@ -554,7 +521,7 @@ def _generate_findings(results: Dict[str, Any]) -> List[str]:
 
 
 def generate_markdown(results: Dict[str, Any], output_md: str) -> None:
-    """Writes results/probabilistic.md."""
+    # Writes results/probabilistic.md.
     meta = results["metadata"]
     lines = [
         "# Probabilistic Reasoning Layer Evaluation (noisy-OR, PART 8)",

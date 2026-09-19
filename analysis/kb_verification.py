@@ -1,27 +1,3 @@
-"""
-analysis/kb_verification.py
----------------------------
-Knowledge-base verification for the RiceKG rule base ("was the system built right?").
-
-Checks that need no ground-truth cases, following the verification side of expert-system
-V&V (redundancy, subsumption, conflict, unused knowledge, unreachable conclusions):
-
-1. Logical consistency of the ontology under Pellet.
-2. Tier subsumption: every Tier-2 antecedent set is contained in its Tier-1 set, so a
-   confirmed diagnosis always implies the suspected one.
-3. Cross-threat subsumption: a rule whose antecedents contain another threat's rule forces a
-   co-diagnosis whenever it fires.
-4. Antecedent sharing and pairwise rule overlap (Jaccard), i.e. how discriminating each
-   observation term is.
-5. Vocabulary use: terms used by rules, terms used only by the out-of-scope gates, and terms
-   used by neither.
-6. Reachability: every in-scope threat has at least one rule.
-7. Literature backing: share of (threat, antecedent) links with a cited source in
-   data/noisy_or_parameters.csv, and of observation terms with a curated definition.
-
-Outputs results/kb_verification.json and results/kb_verification.md.
-"""
-
 import csv
 import itertools
 import json
@@ -45,7 +21,7 @@ THREATS = model.PESTS + model.DISEASES
 
 
 def rules_by_threat():
-    """threat -> list of its rules (id, tier, antecedent set), in RULE_REGISTRY order."""
+    # threat -> list of its rules (id, tier, antecedent set), in RULE_REGISTRY order.
     out = {t: [] for t in THREATS}
     for r in model.RULE_REGISTRY:
         out[r["threat"]].append({"id": r["id"], "tier": r["tier"], "antecedents": set(r["antecedents"])})
@@ -72,7 +48,7 @@ def check_tier_subsumption(rules):
 
 
 def check_cross_threat_subsumption(rules):
-    """Pairs (A-rule, B-rule), A != B, where B's antecedents are contained in A's."""
+    # Pairs (A-rule, B-rule), A != B, where B's antecedents are contained in A's.
     flat = [(t, r["tier"], r) for t, rs in rules.items() for r in rs]
     hits = []
     for (ta, tier_a, ra), (tb, tier_b, rb) in itertools.permutations(flat, 2):
@@ -92,7 +68,7 @@ def antecedent_sharing(rules):
 
 
 def pairwise_overlap(rules, tier):
-    """Jaccard overlap between threats of the union of their antecedents at `tier`."""
+    # Jaccard overlap between threats of the union of their antecedents at `tier`.
     def ants(t):
         return set().union(*(r["antecedents"] for r in rules[t] if r["tier"] == tier))
     rows = []

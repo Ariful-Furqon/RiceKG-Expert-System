@@ -1,26 +1,3 @@
-"""
-analysis/learning_curve.py - Cold-Start Learning-Curve Experiment
-------------------------------------------------------------------
-Quantifies the sample efficiency of RiceKG's zero-shot knowledge base
-against 5 supervised machine learning models across scaling training budgets.
-
-Answers the fundamental reviewer question:
-  "How many labelled cases does supervised learning need before it overtakes
-   the zero-shot knowledge base?"
-
-Design:
-- Fixed test set: field 'eval' split of data/benchmark_field.csv (5 positives; see EVAL_N for size).
-- Pool A (Rule-derived): data/verification_suite.csv (n=80). Budgets: [5, 10, 20, 40, 80].
-- Pool B (Real field dev): data/benchmark_field.csv dev split (n=16). Budgets: [2, 4, 8, 16].
-- Resampling: R=200 stratified draws without replacement per budget.
-- Headline metric: positive-case recall over 5 in-scope cases (exact match & micro-F1 as secondary).
-- Uncertainty decomposition:
-    * Training-subsample variance (across R random training draws)
-    * Test-set sampling variance (non-parametric paired bootstrap over the test cases, B=1,000)
-- Crossover N*: smallest budget where mean ML positive recall > RiceKG reference AND
-  the test-set bootstrap 95% CI of the paired difference (ML - RiceKG) strictly excludes zero.
-"""
-
 import os
 import sys
 import json
@@ -52,7 +29,7 @@ FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
 
 
 def _field_split_counts(split):
-    """(total, positives, negative controls) for one split of the field benchmark."""
+    # (total, positives, negative controls) for one split of the field benchmark.
     import csv as _csv
     with open(FIELD_CSV, encoding="utf-8-sig", newline="") as f:
         rows = [r for r in _csv.DictReader(f) if r["split"] == split]
@@ -67,9 +44,8 @@ def compute_zero_shot_references(
     test_cases: List[Dict[str, Any]],
     Y_test: np.ndarray
 ) -> Dict[str, Any]:
-    """Computes zero-shot reference metrics dynamically at runtime by evaluating models on test_cases.
-    Asserts concordance against results/baselines.json.
-    """
+    # Computes zero-shot reference metrics dynamically at runtime by evaluating models on test_cases.
+    # Asserts concordance against results/baselines.json.
     # 1. Run RiceKG Full Proposed
     rk_threat_preds = []
     for c in test_cases:
@@ -212,7 +188,7 @@ def draw_stratified_subsample(
     budget: int,
     rng: np.random.RandomState
 ) -> Tuple[np.ndarray, np.ndarray, List[int], int]:
-    """Draws a stratified subsample of size `budget` without replacement."""
+    # Draws a stratified subsample of size `budget` without replacement.
     n_pool = len(X_pool)
     if budget >= n_pool:
         idx = np.arange(n_pool)
@@ -256,7 +232,7 @@ def draw_stratified_subsample(
 
 
 def bootstrap_ci_95(values: List[float], n_bootstrap: int = 1000, seed: int = 42) -> Tuple[float, float]:
-    """Computes non-parametric percentile bootstrap 95% confidence interval over a 1D sequence."""
+    # Computes non-parametric percentile bootstrap 95% confidence interval over a 1D sequence.
     if len(values) == 0:
         return (0.0, 0.0)
     if len(values) == 1:
@@ -285,7 +261,7 @@ def run_learning_curve_for_pool(
     base_seed: int = 42,
     test_set_label: str = "Field eval split"
 ) -> Dict[str, Any]:
-    """Executes the resampling learning curve with dual uncertainty decomposition."""
+    # Executes the resampling learning curve with dual uncertainty decomposition.
     if len(X_test) == 0 or len(test_cases) == 0:
         raise ValueError("Evaluation dataset cannot be empty")
 
@@ -477,7 +453,7 @@ def generate_publication_figure(
     pool_b_res: Dict[str, Any],
     out_path: str
 ):
-    """Generates a publication-grade 2-panel figure for Inteligencia Artificial (IBERAMIA)."""
+    # Generates a publication-grade 2-panel figure for Inteligencia Artificial (IBERAMIA).
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5.5), sharey=True)
 
     styles = {
@@ -528,7 +504,7 @@ def generate_markdown_report(
     pool_a_res: Dict[str, Any],
     pool_b_res: Dict[str, Any]
 ) -> str:
-    """Generates the comprehensive research report for results/learning_curve.md."""
+    # Generates the comprehensive research report for results/learning_curve.md.
     b_a_max = max(pool_a_res["budgets"])
     b_b_max = max(pool_b_res["budgets"])
 

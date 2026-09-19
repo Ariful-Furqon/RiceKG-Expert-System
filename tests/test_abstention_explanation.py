@@ -1,4 +1,4 @@
-"""Tests for model.explain_abstention (why no diagnosis was reached)."""
+# Tests for model.explain_abstention (why no diagnosis was reached).
 
 from ricekg import model
 

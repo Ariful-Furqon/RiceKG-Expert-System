@@ -1,8 +1,6 @@
-"""
-Unit tests for the Noisy-OR probabilistic reasoning layer (probabilistic.py).
-Verifies formulation correctness, numerical stability, monotonicity, determinism,
-gate precedence, and schema compatibility (PART 8-B.5).
-"""
+# Unit tests for the Noisy-OR probabilistic reasoning layer (probabilistic.py).
+# Verifies formulation correctness, numerical stability, monotonicity, determinism,
+# gate precedence, and schema compatibility (PART 8-B.5).
 
 import math
 import pytest
@@ -12,47 +10,45 @@ from ricekg.probabilistic import NoisyOrParameters, posterior_scores, predict_pr
 
 
 def test_hand_computed_toy_example_matches_to_1e9():
-    """
-    Hand-computed toy example matching exact mathematical formulation to 1e-9.
-
-    Setup:
-      Threats: T1, T2
-      Prior: P(T1) = 0.20, P(T2) = 0.10
-      Signs: S1, S2, S3
-      Leaks: leak(S1) = 0.05, leak(S2) = 0.02, leak(S3) = 0.01
-
-      Links:
-        T1: S1 (p=0.80), S2 (p=0.60)
-        T2: S2 (p=0.50), S3 (p=0.90)
-
-      Evidence:
-        Present: S1, S2
-        Absent: S3
-
-    Mathematical derivation:
-      T1:
-        Prior odds O(T1) = 0.20 / 0.80 = 0.25
-        S1 present: P(S1|T1) = 1 - (1 - 0.05)*(1 - 0.80) = 0.81
-                    P(S1|~T1) = 0.05
-                    LR(S1|T1) = 0.81 / 0.05 = 16.2
-        S2 present: P(S2|T1) = 1 - (1 - 0.02)*(1 - 0.60) = 0.608
-                    P(S2|~T1) = 0.02
-                    LR(S2|T1) = 0.608 / 0.02 = 30.4
-        S3 absent: unlinked to T1, LR = 1.0
-        Posterior odds O(T1|E) = 0.25 * 16.2 * 30.4 = 123.12
-        Posterior P(T1|E) = 123.12 / (1 + 123.12) = 3078 / 3103 ≈ 0.9919432806960999...
-
-      T2:
-        Prior odds O(T2) = 0.10 / 0.90 = 1/9
-        S1 present: unlinked to T2, LR = 1.0
-        S2 present: P(S2|T2) = 1 - (1 - 0.02)*(1 - 0.50) = 0.51
-                    P(S2|~T2) = 0.02
-                    LR(S2|T2) = 0.51 / 0.02 = 25.5
-        S3 absent: linked with p=0.90
-                   LR_absent(S3|T2) = 1 - 0.90 = 0.10
-        Posterior odds O(T2|E) = (1/9) * 25.5 * 0.10 = 2.55 / 9 = 17 / 60
-        Posterior P(T2|E) = (17/60) / (1 + 17/60) = 17 / 77 ≈ 0.22077922077922077...
-    """
+    # Hand-computed toy example matching exact mathematical formulation to 1e-9.
+    #
+    # Setup:
+    #   Threats: T1, T2
+    #   Prior: P(T1) = 0.20, P(T2) = 0.10
+    #   Signs: S1, S2, S3
+    #   Leaks: leak(S1) = 0.05, leak(S2) = 0.02, leak(S3) = 0.01
+    #
+    #   Links:
+    #     T1: S1 (p=0.80), S2 (p=0.60)
+    #     T2: S2 (p=0.50), S3 (p=0.90)
+    #
+    #   Evidence:
+    #     Present: S1, S2
+    #     Absent: S3
+    #
+    # Mathematical derivation:
+    #   T1:
+    #     Prior odds O(T1) = 0.20 / 0.80 = 0.25
+    #     S1 present: P(S1|T1) = 1 - (1 - 0.05)*(1 - 0.80) = 0.81
+    #                 P(S1|~T1) = 0.05
+    #                 LR(S1|T1) = 0.81 / 0.05 = 16.2
+    #     S2 present: P(S2|T1) = 1 - (1 - 0.02)*(1 - 0.60) = 0.608
+    #                 P(S2|~T1) = 0.02
+    #                 LR(S2|T1) = 0.608 / 0.02 = 30.4
+    #     S3 absent: unlinked to T1, LR = 1.0
+    #     Posterior odds O(T1|E) = 0.25 * 16.2 * 30.4 = 123.12
+    #     Posterior P(T1|E) = 123.12 / (1 + 123.12) = 3078 / 3103 ≈ 0.9919432806960999...
+    #
+    #   T2:
+    #     Prior odds O(T2) = 0.10 / 0.90 = 1/9
+    #     S1 present: unlinked to T2, LR = 1.0
+    #     S2 present: P(S2|T2) = 1 - (1 - 0.02)*(1 - 0.50) = 0.51
+    #                 P(S2|~T2) = 0.02
+    #                 LR(S2|T2) = 0.51 / 0.02 = 25.5
+    #     S3 absent: linked with p=0.90
+    #                LR_absent(S3|T2) = 1 - 0.90 = 0.10
+    #     Posterior odds O(T2|E) = (1/9) * 25.5 * 0.10 = 2.55 / 9 = 17 / 60
+    #     Posterior P(T2|E) = (17/60) / (1 + 17/60) = 17 / 77 ≈ 0.22077922077922077...
     links = {
         ("T1", "S1"): 0.80,
         ("T1", "S2"): 0.60,
@@ -78,7 +74,7 @@ def test_hand_computed_toy_example_matches_to_1e9():
 
 
 def test_observed_sign_monotonicity():
-    """Adding an observed sign linked to t never decreases P(t | E); unlinked leaves it unchanged."""
+    # Adding an observed sign linked to t never decreases P(t | E); unlinked leaves it unchanged.
     params = probabilistic.get_default_parameters()
     t = "Rice_Blast"
     linked_sign = "Diamond_Shaped_Lesions"
@@ -103,7 +99,7 @@ def test_observed_sign_monotonicity():
 
 
 def test_unrecorded_signs_marginalized_out():
-    """An unrecorded sign leaves every posterior unchanged."""
+    # An unrecorded sign leaves every posterior unchanged.
     params = probabilistic.get_default_parameters()
     symptoms = ["Water_Soaked_Lesions"]
 
@@ -115,7 +111,7 @@ def test_unrecorded_signs_marginalized_out():
 
 
 def test_recorded_absent_sign_monotonicity():
-    """A recorded absent sign linked to t never increases P(t | E)."""
+    # A recorded absent sign linked to t never increases P(t | E).
     params = probabilistic.get_default_parameters()
     t = "Bacterial_Leaf_Blight"
     s1 = "Water_Soaked_Lesions"
@@ -133,7 +129,7 @@ def test_recorded_absent_sign_monotonicity():
 
 
 def test_determinism_and_order_invariance():
-    """Determinism: identical output across two calls and independent of input order."""
+    # Determinism: identical output across two calls and independent of input order.
     syms_order1 = ["Rusty_Grain_Balls", "Blackened_Grain_Balls", "Rainy_Season_Outbreak"]
     syms_order2 = ["Rainy_Season_Outbreak", "Rusty_Grain_Balls", "Blackened_Grain_Balls"]
 
@@ -149,7 +145,7 @@ def test_determinism_and_order_invariance():
 
 
 def test_gate_precedence_on_insect_and_negative_control_fixtures():
-    """Gate precedence identical to model.predict_diseases on insect and negative control fixtures."""
+    # Gate precedence identical to model.predict_diseases on insect and negative control fixtures.
     # 1. Pure insect damage (>= 2 insect signs) yields insect out-of-scope
     insect_syms = ["Severed_Panicles", "Leaf_Chewing_Damage"]
     m_res = model.predict_diseases(insect_syms)
@@ -176,7 +172,7 @@ def test_gate_precedence_on_insect_and_negative_control_fixtures():
 
 
 def test_output_schema_compatible_with_top_k_evaluation():
-    """Output schema matches predict_diseases and feeds into differential ranking."""
+    # Output schema matches predict_diseases and feeds into differential ranking.
     syms = ["Diamond_Shaped_Lesions", "Necrotic_Spots"]
     results = predict_probabilistic(syms)
 

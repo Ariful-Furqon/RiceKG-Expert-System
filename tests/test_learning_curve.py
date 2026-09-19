@@ -1,14 +1,12 @@
-"""
-tests/test_learning_curve.py - Test suite for Cold-Start Learning Curve Experiment
-----------------------------------------------------------------------------------
-Verifies:
-1. Determinism under fixed seed.
-2. Refusal to run on empty eval split.
-3. Zero leakage: No field eval case ever appears in any training draw.
-4. Pool B draws come strictly from field dev split.
-5. DOI disjointness: No DOI in training draw appears in eval set.
-6. Zero-shot reference figures reproduce results/baselines.md Section 2 exactly.
-"""
+# tests/test_learning_curve.py - Test suite for Cold-Start Learning Curve Experiment
+# ----------------------------------------------------------------------------------
+# Verifies:
+# 1. Determinism under fixed seed.
+# 2. Refusal to run on empty eval split.
+# 3. Zero leakage: No field eval case ever appears in any training draw.
+# 4. Pool B draws come strictly from field dev split.
+# 5. DOI disjointness: No DOI in training draw appears in eval set.
+# 6. Zero-shot reference figures reproduce results/baselines.md Section 2 exactly.
 
 import os
 import sys
@@ -30,7 +28,7 @@ VERIFICATION_CSV = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 
 
 def test_zero_shot_reference_computation():
-    """Verify that zero-shot references are computed at runtime on eval split and match baselines.json."""
+    # Verify that zero-shot references are computed at runtime on eval split and match baselines.json.
     X_eval, Y_eval, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
     refs = learning_curve.compute_zero_shot_references(eval_cases, Y_eval)
 
@@ -57,7 +55,7 @@ def test_zero_shot_reference_computation():
 
 
 def test_zero_shot_reference_fails_loudly_on_corrupt_baselines(monkeypatch, tmp_path):
-    """Verify that compute_zero_shot_references fails loudly if baselines.json is corrupt or missing keys."""
+    # Verify that compute_zero_shot_references fails loudly if baselines.json is corrupt or missing keys.
     corrupt_file = tmp_path / "baselines.json"
     corrupt_file.write_text('{"field_benchmark": {"system_summaries": {}}}', encoding="utf-8")
     monkeypatch.setattr(learning_curve, "BASELINES_JSON", str(corrupt_file))
@@ -69,7 +67,7 @@ def test_zero_shot_reference_fails_loudly_on_corrupt_baselines(monkeypatch, tmp_
 
 
 def test_refuse_empty_eval_split():
-    """Verify that run_learning_curve_for_pool raises ValueError when eval set is empty."""
+    # Verify that run_learning_curve_for_pool raises ValueError when eval set is empty.
     X_pool = np.zeros((5, 45), dtype=int)
     Y_pool = np.zeros((5, 10), dtype=int)
     pool_cases = [{"case_id": f"CASE_{i}", "symptoms": ["S1"], "raw_target": "D1"} for i in range(5)]
@@ -98,7 +96,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
 def test_zero_leakage_pool_a_verification():
-    """Verify that verification-suite cases do not leak into the field eval set."""
+    # Verify that verification-suite cases do not leak into the field eval set.
     cases_eval = evaluate.load_data(FIELD_CSV, split="eval")
     eval_ids = {c["case_id"] for c in cases_eval}
     eval_dois = {c.get("doi") for c in cases_eval if c.get("doi")}
@@ -122,7 +120,7 @@ def test_zero_leakage_pool_a_verification():
 
 
 def test_zero_leakage_pool_b_field_dev_vs_eval():
-    """Verify strict partition separation between field dev (Pool B) and field eval."""
+    # Verify strict partition separation between field dev (Pool B) and field eval.
     field_df = pd.read_csv(FIELD_CSV)
     dev_df = field_df[field_df["split"] == "dev"]
     eval_df = field_df[field_df["split"] == "eval"]
@@ -142,7 +140,7 @@ def test_zero_leakage_pool_b_field_dev_vs_eval():
 
 
 def test_draw_stratified_subsample_determinism_and_disjointness():
-    """Verify determinism under fixed seed and that sampling never exceeds pool size or duplicates indices."""
+    # Verify determinism under fixed seed and that sampling never exceeds pool size or duplicates indices.
     X_pool, Y_pool, dev_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="dev")
     _, _, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
 
@@ -170,7 +168,7 @@ def test_draw_stratified_subsample_determinism_and_disjointness():
 
 
 def test_small_budget_learning_curve_execution():
-    """Smoke test: execute learning curve on a minimal setup to ensure metric calculations succeed."""
+    # Smoke test: execute learning curve on a minimal setup to ensure metric calculations succeed.
     X_pool, Y_pool, dev_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="dev")
     X_eval, Y_eval, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
 
@@ -206,7 +204,7 @@ def test_small_budget_learning_curve_execution():
 
 
 def test_leakage_assertion_triggers_if_pool_overlaps_test_set():
-    """Verify that run_learning_curve_for_pool actively catches and raises AssertionError on train-on-test overlap."""
+    # Verify that run_learning_curve_for_pool actively catches and raises AssertionError on train-on-test overlap.
     X_eval, Y_eval, eval_cases = ml_baselines.load_and_encode_dataset(FIELD_CSV, split="eval")
 
     # If training pool contains identical case_ids to the test set
@@ -227,7 +225,7 @@ def test_leakage_assertion_triggers_if_pool_overlaps_test_set():
 
 
 def test_crossover_criterion_requires_test_set_ci_excluding_zero():
-    """Verify that crossover detection requires test_set_diff_ci_95 lower bound > 0."""
+    # Verify that crossover detection requires test_set_diff_ci_95 lower bound > 0.
     # Pool B results in learning_curve.json
     results_path = os.path.join(BASE_DIR, "results", "learning_curve.json")
     if os.path.exists(results_path):

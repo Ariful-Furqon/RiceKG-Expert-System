@@ -1,16 +1,14 @@
-"""
-tests/test_knn_determinism.py
------------------------------
-k-NN on binary symptom vectors meets many equidistant neighbours. With algorithm="auto",
-sklearn may pick a tree search in one environment and brute force in another, and the two
-break ties differently: the committed Part 7 results showed holdout Hit@1 55.56% (tree search)
-where this environment gives 61.11% (brute force) on identical data and code.
-
-Asserts that:
-1. The k-NN baseline pins its neighbour-search algorithm.
-2. The tie-sensitivity analysis is deterministic and its span contains the reported
-   fixed-order figure.
-"""
+# tests/test_knn_determinism.py
+# -----------------------------
+# k-NN on binary symptom vectors meets many equidistant neighbours. With algorithm="auto",
+# sklearn may pick a tree search in one environment and brute force in another, and the two
+# break ties differently: the committed Part 7 results showed holdout Hit@1 55.56% (tree search)
+# where this environment gives 61.11% (brute force) on identical data and code.
+#
+# Asserts that:
+# 1. The k-NN baseline pins its neighbour-search algorithm.
+# 2. The tie-sensitivity analysis is deterministic and its span contains the reported
+#    fixed-order figure.
 
 import os
 import sys

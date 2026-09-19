@@ -1,34 +1,3 @@
-"""
-analysis/graded_evaluation.py
------------------------------
-Case-level validation of the RiceKG reasoner against field ground truth, designed for a
-deterministic, zero-shot, graded rule-based system.
-
-Why not the 5x2-fold confusion matrix used for the ML baselines: RiceKG is not trained, so
-cross-validation adds nothing but fold-partition noise (removing one negative control moved the
-fold-averaged recall from 35.00% to 31.67% although no diagnosis changed). Every system here is
-run once on every case, and every figure is a count over cases with an exact
-Clopper-Pearson interval.
-
-Each case receives one outcome category:
-
-  positive case (true threat T)          negative control (true label No_Diagnosis)
-  -----------------------------          -------------------------------------------
-  correct   T committed (confirmed or    false_alarm         a threat committed
-            suspected)                   possible_alarm      only `possible` output
-  misfire   another threat committed,    explicit_rejection  out-of-scope message
-            T not                        silent_abstention   no output
-  possible_hit   T only at `possible`
-  possible_miss  only other threats at `possible`
-  rejected  out-of-scope message
-  abstain   no output
-
-"Committed" means graded confirmed or suspected; baselines without grades commit every output.
-A misfire (naming the wrong disease) is the harmful error; an abstention is a safe failure.
-
-Outputs results/graded_evaluation.json and results/graded_evaluation.md.
-"""
-
 import json
 import os
 import sys
@@ -52,7 +21,7 @@ CONTROL_OUTCOMES = ["false_alarm", "possible_alarm", "explicit_rejection", "sile
 
 
 def clopper_pearson(k, n, alpha=0.05):
-    """Exact two-sided binomial confidence interval, in percent."""
+    # Exact two-sided binomial confidence interval, in percent.
     if n == 0:
         return [None, None]
     lo = 0.0 if k == 0 else beta.ppf(alpha / 2, k, n - k + 1)
@@ -65,7 +34,7 @@ def rate(k, n):
 
 
 def classify(outputs, truth):
-    """outputs: list of (threat, grade); truth: set of true threats (empty for controls)."""
+    # outputs: list of (threat, grade); truth: set of true threats (empty for controls).
     committed = {t for t, g in outputs if g in COMMITTED}
     possible = {t for t, g in outputs if g == "possible"}
     rejected = any(g == "out_of_scope" for _, g in outputs)
@@ -143,7 +112,7 @@ def summarize(case_rows, system):
 
 
 def paired_test(case_rows, a, b):
-    """Exact McNemar on per-case success (positive: correct; control: no committed alarm)."""
+    # Exact McNemar on per-case success (positive: correct; control: no committed alarm).
     def ok(c, s):
         return c["outcome"][s] == "correct" if c["truth"] else c["outcome"][s] != "false_alarm"
     only_a = sum(1 for c in case_rows if ok(c, a) and not ok(c, b))

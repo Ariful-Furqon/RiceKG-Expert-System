@@ -1,18 +1,16 @@
-"""
-baselines/rule_baselines.py
----------------------------
-Rule-based baselines for RiceKG comparative evaluation:
-
-1. Naive Symptom-Count Nearest-Prototype Matcher:
-   Constructs a prototype symptom profile for each threat class from the canonical
-   rule definitions in model.RULE_REGISTRY. Computes observed symptom overlap and
-   Jaccard similarity against each prototype profile.
-
-2. Flat Single-Tier Rule Baseline:
-   Reuses the unstratified single-tier OWL 2 DL ontology already exposed by
-   model.build_ontology(flat_consequents=True) from P0-2 with Pellet DL reasoning.
-   Does NOT reimplement rules.
-"""
+# baselines/rule_baselines.py
+# ---------------------------
+# Rule-based baselines for RiceKG comparative evaluation:
+#
+# 1. Naive Symptom-Count Nearest-Prototype Matcher:
+#    Constructs a prototype symptom profile for each threat class from the canonical
+#    rule definitions in model.RULE_REGISTRY. Computes observed symptom overlap and
+#    Jaccard similarity against each prototype profile.
+#
+# 2. Flat Single-Tier Rule Baseline:
+#    Reuses the unstratified single-tier OWL 2 DL ontology already exposed by
+#    model.build_ontology(flat_consequents=True) from P0-2 with Pellet DL reasoning.
+#    Does NOT reimplement rules.
 
 import os
 import sys
@@ -44,7 +42,7 @@ _FLAT_ONTO = None
 
 
 def get_flat_ontology():
-    """Returns a cached instance of the flat single-tier ontology world."""
+    # Returns a cached instance of the flat single-tier ontology world.
     global _FLAT_ONTO
     if _FLAT_ONTO is None:
         _FLAT_ONTO = model.build_ontology(flat_consequents=True)
@@ -52,13 +50,12 @@ def get_flat_ontology():
 
 
 def predict_nearest_prototype(symptoms: List[str], min_overlap: int = 2, min_jaccard: float = 0.25) -> List[str]:
-    """(a) Naive symptom-count nearest-prototype matcher.
-    
-    Matches observed symptoms against each threat's canonical symptom profile.
-    Predicts threats that satisfy minimum absolute symptom overlap and minimum
-    Jaccard similarity. If no symptoms match any prototype, returns an empty list
-    representing 'No_Diagnosis'.
-    """
+    # (a) Naive symptom-count nearest-prototype matcher.
+    #
+    # Matches observed symptoms against each threat's canonical symptom profile.
+    # Predicts threats that satisfy minimum absolute symptom overlap and minimum
+    # Jaccard similarity. If no symptoms match any prototype, returns an empty list
+    # representing 'No_Diagnosis'.
     obs_set = set(symptoms)
     if not obs_set:
         return []
@@ -89,15 +86,14 @@ def predict_nearest_prototype(symptoms: List[str], min_overlap: int = 2, min_jac
 
 
 def predict_flat_rules(symptoms: List[str], onto=None) -> List[str]:
-    """(b) Flat single-tier rule set already exposed by model.build_ontology(flat_consequents=True).
-    Reuses model.predict_diseases_flat without reimplementing rules.
-    """
+    # (b) Flat single-tier rule set already exposed by model.build_ontology(flat_consequents=True).
+    # Reuses model.predict_diseases_flat without reimplementing rules.
     target_onto = onto or get_flat_ontology()
     return model.predict_diseases_flat(symptoms, onto=target_onto)
 
 
 def evaluate_rule_baselines(cases: List[Dict[str, Any]], onto=None) -> Dict[str, Any]:
-    """Evaluates both rule baselines across an evaluation dataset."""
+    # Evaluates both rule baselines across an evaluation dataset.
     from baselines.ml_baselines import encode_labels, compute_multilabel_metrics, ALL_THREATS
     import numpy as np
 

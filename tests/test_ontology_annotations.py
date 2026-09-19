@@ -1,17 +1,15 @@
-"""
-tests/test_ontology_annotations.py
-----------------------------------
-Guards the published `rice_ontology.owl` metadata (NEXT_TASK.md PART 4, 4-G):
-
-1. SKOS, Dublin Core and VANN annotations use their standard namespaces, not
-   properties minted in the RiceKG namespace.
-2. External alignments are IRI-valued and point at the AGROVOC / PO concepts that
-   were verified by label (a previous revision linked threats to unrelated
-   concepts such as "X rays" and "Rhododendron simsii").
-3. Every class, object property, datatype property and individual carries an
-   rdfs:comment.
-4. The qualified-cardinality `possible` classes use the same k as model.build_ontology.
-"""
+# tests/test_ontology_annotations.py
+# ----------------------------------
+# Guards the published `rice_ontology.owl` metadata (NEXT_TASK.md PART 4, 4-G):
+#
+# 1. SKOS, Dublin Core and VANN annotations use their standard namespaces, not
+#    properties minted in the RiceKG namespace.
+# 2. External alignments are IRI-valued and point at the AGROVOC / PO concepts that
+#    were verified by label (a previous revision linked threats to unrelated
+#    concepts such as "X rays" and "Rhododendron simsii").
+# 3. Every class, object property, datatype property and individual carries an
+#    rdfs:comment.
+# 4. The qualified-cardinality `possible` classes use the same k as model.build_ontology.
 
 import math
 import os
@@ -98,7 +96,7 @@ def test_definitions_are_distinct():
 
 
 def test_sources_cite_only_verified_dois(graph):
-    """dcterms:source may only point at DOIs that the citation verifier already checks."""
+    # dcterms:source may only point at DOIs that the citation verifier already checks.
     import csv
     params = os.path.join(os.path.dirname(OWL_PATH), "..", "data", "noisy_or_parameters.csv")
     with open(params, encoding="utf-8") as f:

@@ -1,23 +1,21 @@
-"""
-RiceKG Expert System - Probabilistic Reasoning Layer (Noisy-OR)
------------------------------------------------------------------
-Implements an independent multi-label probabilistic scoring layer based on the
-Noisy-OR formulation for the six in-scope rice pests and diseases.
-
-Mathematical formulation (Protocol Section 8-F):
-- Each threat t in ALL_DIAGNOSES is modeled as an independent binary hypothesis.
-- P(t) = PRIOR = 0.10 (fixed a priori; uniform uninformative prior).
-- For each observation e linked to t:
-    P(e present | t present) = 1 - (1 - leak_e) * (1 - p_te)
-    P(e present | t absent)  = leak_e
-- Observed present signs contribute LR = P(e | t) / P(e | ~t).
-- Unrecorded signs are marginalized out (contribute nothing, LR = 1.0).
-- Recorded absent signs contribute (1 - P(e | t)) / (1 - P(e | ~t)) = 1 - p_te.
-- Observations with no link to t contribute nothing (LR = 1.0).
-
-Inference is performed in log-odds space for numerical stability.
-Does not alter or write into the OWL ontology.
-"""
+# RiceKG Expert System - Probabilistic Reasoning Layer (Noisy-OR)
+# -----------------------------------------------------------------
+# Implements an independent multi-label probabilistic scoring layer based on the
+# Noisy-OR formulation for the six in-scope rice pests and diseases.
+#
+# Mathematical formulation (Protocol Section 8-F):
+# - Each threat t in ALL_DIAGNOSES is modeled as an independent binary hypothesis.
+# - P(t) = PRIOR = 0.10 (fixed a priori; uniform uninformative prior).
+# - For each observation e linked to t:
+#     P(e present | t present) = 1 - (1 - leak_e) * (1 - p_te)
+#     P(e present | t absent)  = leak_e
+# - Observed present signs contribute LR = P(e | t) / P(e | ~t).
+# - Unrecorded signs are marginalized out (contribute nothing, LR = 1.0).
+# - Recorded absent signs contribute (1 - P(e | t)) / (1 - P(e | ~t)) = 1 - p_te.
+# - Observations with no link to t contribute nothing (LR = 1.0).
+#
+# Inference is performed in log-odds space for numerical stability.
+# Does not alter or write into the OWL ontology.
 
 import csv
 import math
@@ -35,7 +33,7 @@ DEFAULT_LEAKS_CSV = os.path.join(BASE_DIR, "data", "noisy_or_leaks.csv")
 
 
 class NoisyOrParameters:
-    """Holds elicited conditional probabilities, background leaks, and priors."""
+    # Holds elicited conditional probabilities, background leaks, and priors.
 
     def __init__(
         self,
@@ -62,7 +60,7 @@ def load_noisy_or_parameters(
     prior: float = PRIOR,
     threats: Optional[Collection[str]] = None,
 ) -> NoisyOrParameters:
-    """Loads Noisy-OR conditional parameters and leak priors from CSV files."""
+    # Loads Noisy-OR conditional parameters and leak priors from CSV files.
     leaks: Dict[str, float] = {}
     if os.path.exists(leaks_csv):
         with open(leaks_csv, mode="r", encoding="utf-8-sig") as f:
@@ -90,7 +88,7 @@ _DEFAULT_PARAMS: Optional[NoisyOrParameters] = None
 
 
 def get_default_parameters() -> NoisyOrParameters:
-    """Returns or lazily initializes the default parameter set."""
+    # Returns or lazily initializes the default parameter set.
     global _DEFAULT_PARAMS
     if _DEFAULT_PARAMS is None:
         _DEFAULT_PARAMS = load_noisy_or_parameters()
@@ -98,7 +96,7 @@ def get_default_parameters() -> NoisyOrParameters:
 
 
 def _log_odds_to_prob(log_odds: float) -> float:
-    """Numerically stable sigmoid function."""
+    # Numerically stable sigmoid function.
     if log_odds > 35.0:
         return 1.0
     if log_odds < -35.0:
@@ -111,15 +109,13 @@ def posterior_scores(
     absent: Collection[str] = (),
     params: Optional[NoisyOrParameters] = None,
 ) -> Dict[str, float]:
-    """
-    Computes posterior probability P(threat | evidence) for all in-scope threats
-    using independent binary noisy-OR formulation in log space.
-
-    :param symptoms: Collection of observed present symptom identifiers.
-    :param absent: Collection of verified absent symptom identifiers.
-    :param params: Optional NoisyOrParameters instance. If None, uses default parameters.
-    :return: dict mapping threat identifier -> posterior probability in [0.0, 1.0].
-    """
+    # Computes posterior probability P(threat | evidence) for all in-scope threats
+    # using independent binary noisy-OR formulation in log space.
+    #
+    # :param symptoms: Collection of observed present symptom identifiers.
+    # :param absent: Collection of verified absent symptom identifiers.
+    # :param params: Optional NoisyOrParameters instance. If None, uses default parameters.
+    # :return: dict mapping threat identifier -> posterior probability in [0.0, 1.0].
     p_config = params if params is not None else get_default_parameters()
 
     present_set: Set[str] = {str(s).strip() for s in symptoms if str(s).strip()}
@@ -166,26 +162,24 @@ def predict_probabilistic(
     apply_gates: bool = True,
     params: Optional[NoisyOrParameters] = None,
 ) -> List[Dict[str, Any]]:
-    """
-    Infers diagnoses whose posterior probability meets or exceeds threshold.
-
-    Returns the same dict shape as model.predict_diseases:
-    - threat: threat class name (or out_of_scope target)
-    - grade: "probable" for predicted in-scope threats, "out_of_scope" for gates
-    - confidence: float posterior probability
-    - antecedent_coverage: fraction of linked symptoms observed
-    - fired_rules: ["NOISY-OR"]
-    - matched_symptoms: list of observed symptoms linked to the threat
-    - missing_symptoms: list of linked symptoms not observed in input
-    - message: diagnostic explanation or gate description
-
-    :param symptoms: Collection of observed symptom identifiers.
-    :param absent: Optional collection of confirmed absent symptom identifiers.
-    :param threshold: Operating cutoff (default DECISION_THRESHOLD = 0.50).
-    :param apply_gates: Whether to apply insect and non-modeled out-of-scope gates.
-    :param params: Optional NoisyOrParameters instance.
-    :return: List of diagnostic outcome dictionaries.
-    """
+    # Infers diagnoses whose posterior probability meets or exceeds threshold.
+    #
+    # Returns the same dict shape as model.predict_diseases:
+    # - threat: threat class name (or out_of_scope target)
+    # - grade: "probable" for predicted in-scope threats, "out_of_scope" for gates
+    # - confidence: float posterior probability
+    # - antecedent_coverage: fraction of linked symptoms observed
+    # - fired_rules: ["NOISY-OR"]
+    # - matched_symptoms: list of observed symptoms linked to the threat
+    # - missing_symptoms: list of linked symptoms not observed in input
+    # - message: diagnostic explanation or gate description
+    #
+    # :param symptoms: Collection of observed symptom identifiers.
+    # :param absent: Optional collection of confirmed absent symptom identifiers.
+    # :param threshold: Operating cutoff (default DECISION_THRESHOLD = 0.50).
+    # :param apply_gates: Whether to apply insect and non-modeled out-of-scope gates.
+    # :param params: Optional NoisyOrParameters instance.
+    # :return: List of diagnostic outcome dictionaries.
     p_config = params if params is not None else get_default_parameters()
     input_symptoms = [str(s).strip() for s in (symptoms or []) if str(s).strip()]
     input_set = set(input_symptoms)
@@ -254,11 +248,9 @@ def rank_differential_probabilistic(
     apply_gates: bool = True,
     params: Optional[NoisyOrParameters] = None,
 ) -> List[str]:
-    """
-    Returns top-k ranked threat names by posterior probability.
-    If apply_gates=True and an out-of-scope gate triggers, returns [] (rejection),
-    matching the behavior of model.differential_diagnosis.
-    """
+    # Returns top-k ranked threat names by posterior probability.
+    # If apply_gates=True and an out-of-scope gate triggers, returns [] (rejection),
+    # matching the behavior of model.differential_diagnosis.
     if k <= 0:
         return []
 

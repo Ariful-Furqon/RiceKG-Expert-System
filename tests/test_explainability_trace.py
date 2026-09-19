@@ -1,10 +1,9 @@
-"""Derivation trace and /api/v2/diagnose — the explainability contribution.
-
-The human-subject study that once accompanied this (protocol, instruments,
-response analysis) was scoped for a socio-technical venue and was removed when
-the target changed to Inteligencia Artificial. The machine-checkable part of
-the XAI claim — that every diagnosis carries a rule-level derivation — stays.
-"""
+# Derivation trace and /api/v2/diagnose — the explainability contribution.
+#
+# The human-subject study that once accompanied this (protocol, instruments,
+# response analysis) was scoped for a socio-technical venue and was removed when
+# the target changed to Inteligencia Artificial. The machine-checkable part of
+# the XAI claim — that every diagnosis carries a rule-level derivation — stays.
 
 import os
 import sys

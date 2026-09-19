@@ -1,32 +1,3 @@
-"""
-analysis/ablation.py
---------------------
-Ablation of the RiceKG architecture, answering three questions:
-
-A. Does the OWL 2 DL reasoner change any diagnosis?
-   Pellet (model.predict_diseases, graded, with `possible`) is compared with a pure-Python
-   set-matching implementation of the same rules on every field case and every
-   verification-suite case. Agreement is checked on the full graded output; latency is
-   reported for both. This is an equivalence check, not an accuracy comparison.
-
-B. What does each rule component contribute on field evidence?
-   Variants of the rule base are run with set matching (equivalent to Pellet by A) on the field
-   benchmark under the expert-consensus encoding, scored with the graded case-level outcomes of
-   analysis/graded_evaluation.py and paired exact McNemar tests against the full system:
-     full                   ruleset v2.4.0
-     no_diagnostic_signs    without the single-sign Tier-2 rules SWRL-R21..R26
-     tier1_only             canonical rules only
-     no_scope_gates         without the insect and non-modelled-pathogen out-of-scope gates
-
-C. The same variants under controlled observation occlusion (data/generator.py, the settings
-   of analysis/degradation_curve.py).
-
-The verification suite (data/verification_suite.csv) was authored from an earlier rule base, so
-it is used only as input to the equivalence check in A, never scored.
-
-Outputs results/ablation.json and results/ablation.md.
-"""
-
 import csv
 import json
 import math
@@ -70,9 +41,9 @@ VARIANTS = {
 # -------------------------------------------------------------------------
 
 def predict_set_matching(symptoms, rules=None, gates=True, include_possible=True):
-    """Graded output [(threat, grade)] of `rules` by set containment, mirroring
-    model.predict_diseases: confirmed (Tier 1), suspected (any Tier-2 rule), then the
-    out-of-scope gates, then `possible` (primary composite Tier-2 rule coverage)."""
+    # Graded output [(threat, grade)] of `rules` by set containment, mirroring
+    # model.predict_diseases: confirmed (Tier 1), suspected (any Tier-2 rule), then the
+    # out-of-scope gates, then `possible` (primary composite Tier-2 rule coverage).
     rules = model.RULE_REGISTRY if rules is None else rules
     s = {str(x).strip() for x in symptoms if str(x).strip()}
     confirmed = {r["threat"] for r in rules if r["tier"] == "tier1" and set(r["antecedents"]) <= s}
@@ -93,7 +64,7 @@ def predict_set_matching(symptoms, rules=None, gates=True, include_possible=True
 
 
 def predict_no_reasoner(symptoms):
-    """Committed threats (flat list) from set matching; kept for tests/test_p0_2_ablation.py."""
+    # Committed threats (flat list) from set matching; kept for tests/test_p0_2_ablation.py.
     return sorted(t for t, g in predict_set_matching(symptoms, include_possible=False)
                   if g in ("confirmed", "suspected"))
 

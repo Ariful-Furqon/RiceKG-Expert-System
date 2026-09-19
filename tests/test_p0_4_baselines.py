@@ -1,16 +1,14 @@
-"""
-tests/test_p0_4_baselines.py
-----------------------------
-Test suite verifying P0-4 implementation:
-1. 45-dimensional binary symptom encoding round-trips correctly and matches model.ALL_SYMPTOMS.
-2. Sentinel 'No_Diagnosis' strictly encodes to an all-zero label vector (not an 11th class).
-3. Multi-label compound targets joined by ' and ' encode correctly.
-4. The 5x2-fold cross-validation protocol shares identical test indices between RiceKG and baselines.
-5. McNemar paired test and effect sizes calculate correctly.
-6. Bootstrap micro-F1 confidence interval computation.
-7. Holm-Bonferroni step-down correction properties.
-8. Minimum Detectable Effect (MDE) calculations.
-"""
+# tests/test_p0_4_baselines.py
+# ----------------------------
+# Test suite verifying P0-4 implementation:
+# 1. 45-dimensional binary symptom encoding round-trips correctly and matches model.ALL_SYMPTOMS.
+# 2. Sentinel 'No_Diagnosis' strictly encodes to an all-zero label vector (not an 11th class).
+# 3. Multi-label compound targets joined by ' and ' encode correctly.
+# 4. The 5x2-fold cross-validation protocol shares identical test indices between RiceKG and baselines.
+# 5. McNemar paired test and effect sizes calculate correctly.
+# 6. Bootstrap micro-F1 confidence interval computation.
+# 7. Holm-Bonferroni step-down correction properties.
+# 8. Minimum Detectable Effect (MDE) calculations.
 
 import pytest
 import numpy as np
@@ -21,10 +19,10 @@ from analysis import significance
 
 
 class TestP04BaselinesEncoding:
-    """Tests feature and label vector representations for comparative baselines."""
+    # Tests feature and label vector representations for comparative baselines.
 
     def test_symptom_vector_dimension_and_order(self):
-        """Asserts encoding produces a 45-dim binary vector strictly aligned with model.ALL_SYMPTOMS."""
+        # Asserts encoding produces a 45-dim binary vector strictly aligned with model.ALL_SYMPTOMS.
         # The encoder must track the ontology vocabulary, whatever its size. Pinning a
         # literal here would make every justified ontology extension look like a defect.
         n_symptoms = len(model.ALL_SYMPTOMS)
@@ -51,7 +49,7 @@ class TestP04BaselinesEncoding:
         assert set(decoded) == set(test_symptoms)
 
     def test_no_diagnosis_maps_to_all_zeros(self):
-        """Asserts 'No_Diagnosis' produces an all-zero label vector of length 6."""
+        # Asserts 'No_Diagnosis' produces an all-zero label vector of length 6.
         assert len(ml_baselines.ALL_THREATS) == 6
 
         vec_sentinel = ml_baselines.encode_labels("No_Diagnosis")
@@ -69,7 +67,7 @@ class TestP04BaselinesEncoding:
         assert ml_baselines.decode_labels(vec_sentinel) == []
 
     def test_multilabel_compound_targets_encoding(self):
-        """Asserts compound multi-threat targets joined by ' and ' encode to multiple 1s."""
+        # Asserts compound multi-threat targets joined by ' and ' encode to multiple 1s.
         target = "Bacterial_Leaf_Blight and Rice_Blast"
         vec = ml_baselines.encode_labels(target)
 
@@ -84,12 +82,11 @@ class TestP04BaselinesEncoding:
 
 
 class TestP04FairProtocol:
-    """Verifies that the fair-comparison 5x2-fold protocol provides identical
-    test indices across all competing systems.
-    """
+    # Verifies that the fair-comparison 5x2-fold protocol provides identical
+    # test indices across all competing systems.
 
     def test_5x2_split_integrity_and_identical_test_indices(self):
-        """Asserts 10 splits (5 iterations x 2 folds) with exact coverage."""
+        # Asserts 10 splits (5 iterations x 2 folds) with exact coverage.
         X = np.zeros((80, 45), dtype=int)
         Y = np.zeros((80, 10), dtype=int)
         Y[:40, 0] = 1
@@ -107,10 +104,10 @@ class TestP04FairProtocol:
 
 
 class TestP04SignificanceTesting:
-    """Verifies statistical testing implementations."""
+    # Verifies statistical testing implementations.
 
     def test_mcnemar_identical_predictions(self):
-        """Asserts McNemar statistic is 0.0 and p=1.0 when predictions match."""
+        # Asserts McNemar statistic is 0.0 and p=1.0 when predictions match.
         y_true = np.array([[1, 0], [0, 1], [1, 1], [0, 0]])
         y_pred = y_true.copy()
 
@@ -121,7 +118,7 @@ class TestP04SignificanceTesting:
         assert res["total_discordant"] == 0
 
     def test_mcnemar_discordant_pairs(self):
-        """Asserts McNemar detects significant difference on asymmetric discordant pairs."""
+        # Asserts McNemar detects significant difference on asymmetric discordant pairs.
         y_true = np.zeros((100, 2), dtype=int)
         y_a = y_true.copy()  # A gets 100% correct
         y_b = np.ones((100, 2), dtype=int)  # B gets 0% correct
@@ -132,7 +129,7 @@ class TestP04SignificanceTesting:
         assert res["cohens_g"] == 0.5
 
     def test_bootstrap_micro_f1_ci(self):
-        """Asserts bootstrap returns non-empty percentile confidence intervals."""
+        # Asserts bootstrap returns non-empty percentile confidence intervals.
         y_true = np.array([[1, 0], [0, 1], [1, 1], [0, 0]])
         y_pred = y_true.copy()
 
@@ -142,7 +139,7 @@ class TestP04SignificanceTesting:
         assert res["f1_a_ci"][1] == 100.0
 
     def test_holm_bonferroni_correction(self):
-        """Asserts Holm-Bonferroni enforces step-down multiplier and monotonic adjustment."""
+        # Asserts Holm-Bonferroni enforces step-down multiplier and monotonic adjustment.
         raw_p = [0.005, 0.012, 0.040, 0.200]
         results = significance.apply_holm_bonferroni(raw_p, alpha=0.05)
 
@@ -151,7 +148,7 @@ class TestP04SignificanceTesting:
         assert all(p <= 1.0 for p in adj_p)
 
     def test_minimum_detectable_effect(self):
-        """Asserts MDE calculates realistic minimum effects for small n."""
+        # Asserts MDE calculates realistic minimum effects for small n.
         mde80 = significance.calculate_minimum_detectable_effect(80)
         mde32 = significance.calculate_minimum_detectable_effect(32)
 
@@ -161,15 +158,13 @@ class TestP04SignificanceTesting:
 
 
 class TestP04FieldReportingSeparation:
-    """Verifies that the field benchmark evaluation strictly reports positive-case recall
-    separately from overall exact match, preventing aggregate accuracy from masking
-    the 0/5 true-positive finding.
-    """
+    # Verifies that the field benchmark evaluation strictly reports positive-case recall
+    # separately from overall exact match, preventing aggregate accuracy from masking
+    # the 0/5 true-positive finding.
 
     def test_multilabel_metrics_separates_positive_recall_from_exact_match(self):
-        """Asserts compute_multilabel_metrics segregates positive recall (0.0%)
-        from negative-control-driven aggregate exact match (84.38%).
-        """
+        # Asserts compute_multilabel_metrics segregates positive recall (0.0%)
+        # from negative-control-driven aggregate exact match (84.38%).
         # 32 cases: 5 positive cases (indices 0-4), 27 negative controls (indices 5-31)
         y_true = np.zeros((32, 10), dtype=int)
         y_true[0, 0] = 1
@@ -200,9 +195,8 @@ class TestP04FieldReportingSeparation:
         )
 
     def test_field_results_report_positive_recall_distinctly(self):
-        """Asserts results/baselines.json and results/baselines.md distinctly publish
-        positive-case recall and do not allow aggregate accuracy to stand in for positive recall.
-        """
+        # Asserts results/baselines.json and results/baselines.md distinctly publish
+        # positive-case recall and do not allow aggregate accuracy to stand in for positive recall.
         import os
         import json
 
@@ -249,12 +243,11 @@ class TestP04FieldReportingSeparation:
         assert f"{field_data['n_positive']} in-scope disease cases" in md_content
 
     def test_field_failure_analysis_assigns_a_cause_to_every_positive_case(self):
-        """Every positive field case must carry exactly one assigned failure cause.
-
-        The cause is whatever the reasoner run produces; this test fixes the
-        requirement that a cause be assigned and named from the declared taxonomy,
-        not which cause any particular case receives.
-        """
+        # Every positive field case must carry exactly one assigned failure cause.
+        #
+        # The cause is whatever the reasoner run produces; this test fixes the
+        # requirement that a cause be assigned and named from the declared taxonomy,
+        # not which cause any particular case receives.
         import csv
         import os
 

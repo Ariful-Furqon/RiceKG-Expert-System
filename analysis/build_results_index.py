@@ -1,17 +1,3 @@
-#!/usr/bin/env python3
-"""
-Generate docs/RESULTS_INDEX.md from every file in results/*.json.
-
-THIS FILE IS GENERATED. DO NOT EDIT BY HAND.
-Edit analysis/build_results_index.py to change what is indexed.
-
-Usage:
-    python analysis/build_results_index.py
-
-The generated file docs/RESULTS_INDEX.md is registered with
-analysis/check_readme_consistency.py so a stale index fails the CI build.
-"""
-
 from __future__ import annotations
 
 import json
@@ -32,14 +18,14 @@ OUTPUT = BASE_DIR / "docs" / "RESULTS_INDEX.md"
 # ---------------------------------------------------------------------------
 
 def _fmt(value: object, decimals: int = 2) -> str:
-    """Format a float/int/str for the table."""
+    # Format a float/int/str for the table.
     if isinstance(value, float):
         return f"{value:.{decimals}f}"
     return str(value)
 
 
 def _ricekg_field(base: dict) -> list[dict]:
-    """Rows from field_benchmark.system_summaries['RiceKG (Full Proposed)']."""
+    # Rows from field_benchmark.system_summaries['RiceKG (Full Proposed)'].
     fb = base.get("field_benchmark", {})
     rk = fb.get("system_summaries", {}).get("RiceKG (Full Proposed)", {})
     if not rk:
@@ -342,7 +328,7 @@ EXTRACTORS: dict[str, object] = {
 # ---------------------------------------------------------------------------
 
 def build_index() -> str:
-    """Return the full Markdown content for docs/RESULTS_INDEX.md."""
+    # Return the full Markdown content for docs/RESULTS_INDEX.md.
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     header = textwrap.dedent(f"""\
@@ -413,7 +399,7 @@ HASH_PREFIX = "<!-- content-sha256: "
 
 
 def strip_hash_line(content: str) -> str:
-    """Return `content` with the content-sha256 comment removed."""
+    # Return `content` with the content-sha256 comment removed.
     return "".join(
         line for line in content.splitlines(keepends=True)
         if not line.startswith(HASH_PREFIX)
@@ -421,7 +407,7 @@ def strip_hash_line(content: str) -> str:
 
 
 def stamp_hash(content: str) -> str:
-    """Insert a content-sha256 comment computed over the unstamped content."""
+    # Insert a content-sha256 comment computed over the unstamped content.
     body = strip_hash_line(content)
     digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
     lines = body.splitlines(keepends=True)
@@ -430,7 +416,7 @@ def stamp_hash(content: str) -> str:
 
 
 def verify_hash(content: str) -> bool:
-    """True when the embedded content-sha256 matches the rest of the file."""
+    # True when the embedded content-sha256 matches the rest of the file.
     stamped = [l for l in content.splitlines() if l.startswith(HASH_PREFIX)]
     if len(stamped) != 1:
         return False

@@ -1,11 +1,9 @@
-"""
-tests/test_holdout_staging.py
------------------------------
-Validation suite for data/field_holdout_staging.csv (PART 6 requirement 6-E.1).
-
-Enforces structural integrity, vocabulary membership, tier constraints,
-uniqueness, and cross-dataset separation without executing the OWL reasoner.
-"""
+# tests/test_holdout_staging.py
+# -----------------------------
+# Validation suite for data/field_holdout_staging.csv (PART 6 requirement 6-E.1).
+#
+# Enforces structural integrity, vocabulary membership, tier constraints,
+# uniqueness, and cross-dataset separation without executing the OWL reasoner.
 
 import csv
 import os

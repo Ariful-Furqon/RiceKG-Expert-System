@@ -1,19 +1,16 @@
-"""
-tests/test_insect_out_of_scope.py
----------------------------------
-Unit tests verifying PART 5 requirement 5-B:
-Purely insect-damage symptom sets yield an explicit out-of-scope response
-and not an in-scope disease diagnosis.
-"""
+# tests/test_insect_out_of_scope.py
+# ---------------------------------
+# Unit tests verifying PART 5 requirement 5-B:
+# Purely insect-damage symptom sets yield an explicit out-of-scope response
+# and not an in-scope disease diagnosis.
 
 import pytest
 from ricekg import model
 
 
 def test_purely_insect_damage_yields_out_of_scope_response():
-    """5-B acceptance test: A purely insect-damage symptom set yields the
-    explicit out-of-scope response rather than a silent No_Diagnosis.
-    """
+    # 5-B acceptance test: A purely insect-damage symptom set yields the
+    # explicit out-of-scope response rather than a silent No_Diagnosis.
     # Former Grasshopper relaxed symptoms
     symptoms = ["Severed_Panicles", "Leaf_Chewing_Damage"]
     results = model.predict_diseases(symptoms)
@@ -29,7 +26,7 @@ def test_purely_insect_damage_yields_out_of_scope_response():
 
 
 def test_stem_borer_damage_yields_out_of_scope_response():
-    """Stem borer symptoms (culm frass and bore holes) return out-of-scope."""
+    # Stem borer symptoms (culm frass and bore holes) return out-of-scope.
     symptoms = ["Frass_In_Stem", "Bore_Holes_In_Stem"]
     results = model.predict_diseases(symptoms)
 
@@ -39,7 +36,7 @@ def test_stem_borer_damage_yields_out_of_scope_response():
 
 
 def test_vector_sighting_with_disease_yields_disease_diagnosis():
-    """Planthopper/leafhopper sightings remain valid antecedents for viral diseases."""
+    # Planthopper/leafhopper sightings remain valid antecedents for viral diseases.
     # Rice Grassy Stunt canonical antecedents include Brown_Planthopper_Present
     r09_ants = next(r for r in model.RULE_REGISTRY if r["id"] == "SWRL-R09")["antecedents"]
     results = model.predict_diseases(r09_ants)
@@ -50,7 +47,7 @@ def test_vector_sighting_with_disease_yields_disease_diagnosis():
 
 
 def test_nematode_remains_in_scope():
-    """Rice_Root_Nematode is retained as an in-scope plant-parasitic threat."""
+    # Rice_Root_Nematode is retained as an in-scope plant-parasitic threat.
     r02_ants = next(r for r in model.RULE_REGISTRY if r["id"] == "SWRL-R02")["antecedents"]
     results = model.predict_diseases(r02_ants)
 
@@ -75,19 +72,19 @@ def test_specific_signs_are_a_subset_of_the_insect_vocabulary():
     ["Plant_Yellowing", "Empty_Grains", "Rotten_Panicles", "Deadheart_Seedling"],  # non-specific only
 ])
 def test_non_specific_signs_never_trigger_out_of_scope(symptoms):
-    """Signs shared with pathogens or abiotic stress are not evidence of insect damage."""
+    # Signs shared with pathogens or abiotic stress are not evidence of insect damage.
     threats = [r["threat"] for r in model.predict_diseases(symptoms)]
     assert model.INSECT_OUT_OF_SCOPE_TARGET not in threats
 
 
 @pytest.mark.parametrize("symptom", ["Severed_Panicles", "Frass_In_Stem"])
 def test_single_specific_sign_stays_no_diagnosis(symptom):
-    """The verification suite's single-sign negative controls must remain No_Diagnosis."""
+    # The verification suite's single-sign negative controls must remain No_Diagnosis.
     assert model.predict_diseases([symptom]) == []
 
 
 def test_empty_symptoms_yields_silent_no_diagnosis():
-    """With no symptoms observed, no out-of-scope response should be triggered."""
+    # With no symptoms observed, no out-of-scope response should be triggered.
     results = model.predict_diseases([])
     assert results == []
 

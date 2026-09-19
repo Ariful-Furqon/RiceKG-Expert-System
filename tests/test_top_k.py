@@ -1,9 +1,7 @@
-"""
-tests/test_top_k.py
--------------------
-Unit tests verifying the top-k differential diagnosis ranking (Part 7-A),
-guard rails (Part 7-D), and top-k metrics (Hit@k, MRR, FAR@k).
-"""
+# tests/test_top_k.py
+# -------------------
+# Unit tests verifying the top-k differential diagnosis ranking (Part 7-A),
+# guard rails (Part 7-D), and top-k metrics (Hit@k, MRR, FAR@k).
 
 import os
 import sys
@@ -16,9 +14,8 @@ from ricekg.model import predict_top_k, TOP_K_GRADE_ORDINAL
 
 
 def test_ordering_key_hierarchy():
-    """Verify that candidate sorting strictly adheres to the pre-fixed ordering key:
-    grade ordinal desc > antecedent_coverage desc > confidence desc > threat asc.
-    """
+    # Verify that candidate sorting strictly adheres to the pre-fixed ordering key:
+    # grade ordinal desc > antecedent_coverage desc > confidence desc > threat asc.
     sample = [
         {"threat": "Rice_Blast", "grade": "possible", "antecedent_coverage": 0.5, "confidence": 0.25},
         {"threat": "Bacterial_Leaf_Blight", "grade": "confirmed", "antecedent_coverage": 1.0, "confidence": 1.0},
@@ -47,7 +44,7 @@ def test_ordering_key_hierarchy():
 
 
 def test_top_k_truncation():
-    """predict_top_k must truncate output strictly to at most k items with 1-indexed ranks."""
+    # predict_top_k must truncate output strictly to at most k items with 1-indexed ranks.
     # Canonical BLB symptoms
     syms = ["Water_Soaked_Lesions", "Yellowing_Leaf_Tips", "Yellowing_Leaf_Veins", "Uniform_Field_Infection"]
 
@@ -69,7 +66,7 @@ def test_top_k_truncation():
 
 
 def test_out_of_scope_exclusion_from_differential():
-    """Insect damage and negative control out-of-scope sentinels must NOT be ranked as disease candidates."""
+    # Insect damage and negative control out-of-scope sentinels must NOT be ranked as disease candidates.
     # Pure insect signs
     insect_syms = ["Bore_Holes_In_Stem", "Frass_In_Stem", "Easily_Pulled_Tillers"]
     diff = predict_top_k(insect_syms, k=3)
@@ -82,14 +79,14 @@ def test_out_of_scope_exclusion_from_differential():
 
 
 def test_empty_query_behaviour():
-    """Empty symptom queries must return an empty differential ([])."""
+    # Empty symptom queries must return an empty differential ([]).
     assert predict_top_k([], k=3) == []
     assert predict_top_k(None, k=3) == []
     assert predict_top_k(["   "], k=3) == []
 
 
 def test_hit_at_k_and_mrr_math():
-    """Verify top-k metric formulas on a hand-computed toy benchmark."""
+    # Verify top-k metric formulas on a hand-computed toy benchmark.
     # 4 synthetic cases:
     # Case 1: Ground truth = ['A']. Ranked predictions = ['A', 'B', 'C']. Rank = 1.
     # Case 2: Ground truth = ['B']. Ranked predictions = ['A', 'B', 'D']. Rank = 2.
@@ -149,7 +146,7 @@ def test_hit_at_k_and_mrr_math():
 
 
 def test_false_alarm_rate_at_k_math():
-    """Verify False Alarm Rate at k (FAR@k) on negative control cases."""
+    # Verify False Alarm Rate at k (FAR@k) on negative control cases.
     # 4 negative control cases:
     # Case 1: preds = [] -> 0 false alarms
     # Case 2: preds = ['A'] -> 1 false alarm at k=1,2,3

@@ -1,11 +1,9 @@
-"""
-RiceKG Expert System - Ontology Model & Description Logic (DL) Reasoning Engine
----------------------------------------------------------------------------------
-Implements an OWL 2 DL ontology for rice pests and diseases using Owlready2
-and the Pellet description logic reasoner. Biotic threats are diagnosed via
-OWL 2 Equivalent Classes (Defined Classes) with machine-provable subsumption,
-structured across a two-axis symptom taxonomy (anatomical & phenomenological).
-"""
+# RiceKG Expert System - Ontology Model & Description Logic (DL) Reasoning Engine
+# ---------------------------------------------------------------------------------
+# Implements an OWL 2 DL ontology for rice pests and diseases using Owlready2
+# and the Pellet description logic reasoner. Biotic threats are diagnosed via
+# OWL 2 Equivalent Classes (Defined Classes) with machine-provable subsumption,
+# structured across a two-axis symptom taxonomy (anatomical & phenomenological).
 
 import os
 import uuid
@@ -15,7 +13,7 @@ import subprocess
 from owlready2 import *
 
 def _configure_java_runtime():
-    """Auto-detect working Java executable for Pellet reasoner if default 'java' is unavailable."""
+    # Auto-detect working Java executable for Pellet reasoner if default 'java' is unavailable.
     import owlready2
     candidates = []
     if "JAVA_HOME" in os.environ:
@@ -230,13 +228,13 @@ NEGATIVE_CONTROL_OUT_OF_SCOPE_TARGET = "signs recorded, not consistent with any 
 
 
 def insect_damage_evidence(symptoms):
-    """Return the sorted insect-specific signs in `symptoms` if they meet the gate, else []."""
+    # Return the sorted insect-specific signs in `symptoms` if they meet the gate, else [].
     matched = sorted(set(symptoms) & set(INSECT_SPECIFIC_SIGNS))
     return matched if len(matched) >= INSECT_GATE_MIN_SIGNS else []
 
 
 def negative_control_evidence(symptoms):
-    """Return non-modeled pathogen signs in `symptoms` that indicate an out-of-scope disease."""
+    # Return non-modeled pathogen signs in `symptoms` that indicate an out-of-scope disease.
     return sorted(set(symptoms) & set(NON_MODELED_PATHOGEN_SIGNS))
 
 
@@ -619,12 +617,12 @@ for r in RULE_REGISTRY:
 
 
 def tier2_rules(threat):
-    """All Tier-2 rule metadata entries for `threat`, primary composite rule first."""
+    # All Tier-2 rule metadata entries for `threat`, primary composite rule first.
     return SWRL_RULES_METADATA.get(threat, {}).get("tier2_rules", [])
 
 
 def fired_tier2_rules(threat, observed):
-    """Tier-2 rules of `threat` whose antecedents are all in `observed`."""
+    # Tier-2 rules of `threat` whose antecedents are all in `observed`.
     observed = set(observed)
     return [m for m in tier2_rules(threat) if set(m["antecedents"]) <= observed]
 
@@ -634,17 +632,15 @@ def fired_tier2_rules(threat, observed):
 # =========================================================================
 
 def build_ontology(enabled_tiers=None, flat_consequents=False, world=None):
-    """
-    Constructs a RiceKG OWL 2 DL ontology in an isolated owlready2.World()
-    with Defined Classes and symptom taxonomies.
-
-    :param enabled_tiers: Set of tiers to include, e.g. {"tier1"}, {"tier2"}, or {"tier1", "tier2"}.
-                          If None, defaults to {"tier1", "tier2"}.
-    :param flat_consequents: If True, asserts flat super-properties (hasPest/hasDisease)
-                             rather than stratified (hasConfirmedPest/hasSuspectedPest).
-    :param world: Optional owlready2.World instance. If None, instantiates a fresh World().
-    :return: Configured owlready2.Ontology instance.
-    """
+    # Constructs a RiceKG OWL 2 DL ontology in an isolated owlready2.World()
+    # with Defined Classes and symptom taxonomies.
+    #
+    # :param enabled_tiers: Set of tiers to include, e.g. {"tier1"}, {"tier2"}, or {"tier1", "tier2"}.
+    #                       If None, defaults to {"tier1", "tier2"}.
+    # :param flat_consequents: If True, asserts flat super-properties (hasPest/hasDisease)
+    #                          rather than stratified (hasConfirmedPest/hasSuspectedPest).
+    # :param world: Optional owlready2.World instance. If None, instantiates a fresh World().
+    # :return: Configured owlready2.Ontology instance.
     if enabled_tiers is None:
         enabled_tiers = {"tier1", "tier2"}
     if world is None:
@@ -922,18 +918,16 @@ Rice_Tungro_Virus = getattr(onto, "Rice_Tungro_Virus", None)
 # =========================================================================
 
 def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
-    """
-    Infers rice pests and diseases using Description Logic defined class classification
-    and Pellet forward-chaining inference with confidence-graded output.
-
-    :param symptoms: List of symptom identifier strings (English).
-    :param flat: If True, returns List[str] of threat names for backwards compatibility.
-    :param onto: Optional owlready2.Ontology instance (defaults to global module ontology).
-    :param include_possible: When True, also surface threats whose Tier-2 antecedent
-        coverage reaches POSSIBLE_COVERAGE_THRESHOLD but whose rule did not fire, graded
-        `possible`.
-    :return: List of dicts (or List[str] if flat=True).
-    """
+    # Infers rice pests and diseases using Description Logic defined class classification
+    # and Pellet forward-chaining inference with confidence-graded output.
+    #
+    # :param symptoms: List of symptom identifier strings (English).
+    # :param flat: If True, returns List[str] of threat names for backwards compatibility.
+    # :param onto: Optional owlready2.Ontology instance (defaults to global module ontology).
+    # :param include_possible: When True, also surface threats whose Tier-2 antecedent
+    #     coverage reaches POSSIBLE_COVERAGE_THRESHOLD but whose rule did not fire, graded
+    #     `possible`.
+    # :return: List of dicts (or List[str] if flat=True).
     target_onto = onto if onto is not None else globals()["onto"]
     plant_id = f"RiceSample_{uuid.uuid4().hex[:8]}"
     new_plant = target_onto.Rice(plant_id, namespace=target_onto)
@@ -1103,14 +1097,12 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
 
 
 def predict_diseases_flat(symptoms, onto=None):
-    """
-    Backwards-compatible wrapper returning List[str] of diagnosed threat names.
-    Preserves compatibility with tests/test_canonical_diagnoses.py, ricekg/evaluate.py, and legacy callers.
-
-    :param symptoms: List of symptom identifier strings (English).
-    :param onto: Optional owlready2.Ontology instance.
-    :return: List of diagnosed pest and disease names as strings.
-    """
+    # Backwards-compatible wrapper returning List[str] of diagnosed threat names.
+    # Preserves compatibility with tests/test_canonical_diagnoses.py, ricekg/evaluate.py, and legacy callers.
+    #
+    # :param symptoms: List of symptom identifier strings (English).
+    # :param onto: Optional owlready2.Ontology instance.
+    # :return: List of diagnosed pest and disease names as strings.
     return predict_diseases(symptoms, flat=True, onto=onto)
 
 
@@ -1127,33 +1119,31 @@ TOP_K_GRADE_ORDINAL = {
 
 
 def predict_top_k(symptoms, k=3, onto=None, include_possible=True, include_weak=False, base_results=None):
-    """
-    Returns the top-k differential diagnoses ranked by evidence strength.
-
-    Pre-fixed deterministic ordering key (Part 7-A):
-    1. Grade ordinal: confirmed (4) > suspected (3) > possible (2) > weak (1) > out_of_scope (0)
-    2. Antecedent coverage (descending float)
-    3. Diagnostic confidence (descending float)
-    4. Threat identifier (ascending alphabetical deterministic tie-break)
-
-    Rules:
-    - Only in-scope diseases and pests are included in the ranked differential.
-    - Insect out-of-scope (5-B) and negative control (4-J) responses are never ranked
-      alongside diseases; if only out-of-scope evidence exists, candidates list is empty.
-    - If include_weak=True, candidate threats with coverage > 0 but below the possible
-      threshold (0.50) are included with grade="weak". By default, include_weak=False.
-    - Returns at most k candidates. If no threat has evidence, returns [].
-
-    :param symptoms: List of observed symptom strings.
-    :param k: Maximum number of differential candidates to return (default 3).
-    :param onto: Optional loaded owlready2 ontology instance.
-    :param include_possible: Whether to include possible-grade candidates (default True).
-    :param include_weak: Whether to include weak-grade candidates (<50% coverage, default False).
-    :param base_results: Optional pre-computed output of predict_diseases to avoid redundant Pellet reasoning.
-    :return: List of dicts representing top-k candidates, each containing:
-             threat, grade, confidence, antecedent_coverage, matched_symptoms,
-             missing_symptoms, fired_rules, rank.
-    """
+    # Returns the top-k differential diagnoses ranked by evidence strength.
+    #
+    # Pre-fixed deterministic ordering key (Part 7-A):
+    # 1. Grade ordinal: confirmed (4) > suspected (3) > possible (2) > weak (1) > out_of_scope (0)
+    # 2. Antecedent coverage (descending float)
+    # 3. Diagnostic confidence (descending float)
+    # 4. Threat identifier (ascending alphabetical deterministic tie-break)
+    #
+    # Rules:
+    # - Only in-scope diseases and pests are included in the ranked differential.
+    # - Insect out-of-scope (5-B) and negative control (4-J) responses are never ranked
+    #   alongside diseases; if only out-of-scope evidence exists, candidates list is empty.
+    # - If include_weak=True, candidate threats with coverage > 0 but below the possible
+    #   threshold (0.50) are included with grade="weak". By default, include_weak=False.
+    # - Returns at most k candidates. If no threat has evidence, returns [].
+    #
+    # :param symptoms: List of observed symptom strings.
+    # :param k: Maximum number of differential candidates to return (default 3).
+    # :param onto: Optional loaded owlready2 ontology instance.
+    # :param include_possible: Whether to include possible-grade candidates (default True).
+    # :param include_weak: Whether to include weak-grade candidates (<50% coverage, default False).
+    # :param base_results: Optional pre-computed output of predict_diseases to avoid redundant Pellet reasoning.
+    # :return: List of dicts representing top-k candidates, each containing:
+    #          threat, grade, confidence, antecedent_coverage, matched_symptoms,
+    #          missing_symptoms, fired_rules, rank.
     if k <= 0:
         return []
 
@@ -1247,7 +1237,7 @@ def predict_top_k(symptoms, k=3, onto=None, include_possible=True, include_weak=
 # =========================================================================
 
 def _tier_label(rule):
-    """Human-readable tier label of a trace entry (None gives the composite label)."""
+    # Human-readable tier label of a trace entry (None gives the composite label).
     if rule and rule["tier"] == "tier1":
         return "Tier 1 (Canonical)"
     if rule and rule.get("form") == "diagnostic_sign":
@@ -1256,19 +1246,17 @@ def _tier_label(rule):
 
 
 def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
-    """
-    Generates a full explainable derivation trace across all SWRL rules in RiceKG.
-
-    Identifies:
-    - Which rules fired, in what order
-    - Which observed symptoms satisfied which antecedent
-    - Which antecedents were unmet for unsatisfied or candidate rules
-    - Resulting confidence grade and formal Horn-clause proof trees
-
-    :param selected_symptoms: List of user-selected symptom ID strings.
-    :param diagnosed_threats: Optional list of diagnosed threat keys or result dicts.
-    :return: Dictionary containing complete derivation trace and proof trees.
-    """
+    # Generates a full explainable derivation trace across all SWRL rules in RiceKG.
+    #
+    # Identifies:
+    # - Which rules fired, in what order
+    # - Which observed symptoms satisfied which antecedent
+    # - Which antecedents were unmet for unsatisfied or candidate rules
+    # - Resulting confidence grade and formal Horn-clause proof trees
+    #
+    # :param selected_symptoms: List of user-selected symptom ID strings.
+    # :param diagnosed_threats: Optional list of diagnosed threat keys or result dicts.
+    # :return: Dictionary containing complete derivation trace and proof trees.
     selected_set = set(selected_symptoms)
     fired_rules = []
     candidate_rules_by_threat = {}
@@ -1414,18 +1402,16 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
 
 
 def explain_abstention(selected_symptoms, k=2):
-    """
-    Explains why no diagnosis was reached: the in-scope rules closest to firing, with the
-    antecedents already observed and those still missing, and the observed terms that no rule
-    uses. Pure set arithmetic over RULE_REGISTRY; it never changes a diagnosis.
-
-    Expert raters judged silent abstentions the least useful output (usefulness 1.75/5), so an
-    abstention should say which additional observation would settle the case.
-
-    :param selected_symptoms: List of observed symptom identifiers.
-    :param k: Maximum number of nearest rules to return.
-    :return: Dict with `nearest_rules` (list) and `unused_observations` (list).
-    """
+    # Explains why no diagnosis was reached: the in-scope rules closest to firing, with the
+    # antecedents already observed and those still missing, and the observed terms that no rule
+    # uses. Pure set arithmetic over RULE_REGISTRY; it never changes a diagnosis.
+    #
+    # Expert raters judged silent abstentions the least useful output (usefulness 1.75/5), so an
+    # abstention should say which additional observation would settle the case.
+    #
+    # :param selected_symptoms: List of observed symptom identifiers.
+    # :param k: Maximum number of nearest rules to return.
+    # :return: Dict with `nearest_rules` (list) and `unused_observations` (list).
     observed = set(selected_symptoms)
     candidates = []
     for rule in RULE_REGISTRY:
@@ -1456,15 +1442,13 @@ def explain_abstention(selected_symptoms, k=2):
 
 
 def explain_diagnoses(selected_symptoms, diagnosed_threats):
-    """
-    Generates explainable deductive proof traces for all inferred diagnoses.
-    Identifies whether Tier 1 (canonical) or Tier 2 (relaxed) rule fired,
-    and maps observed vs unobserved rule antecedents.
-
-    :param selected_symptoms: List of user-selected symptom ID strings.
-    :param diagnosed_threats: List of diagnosed threat key strings or dicts.
-    :return: Dictionary mapping threat key to proof trace explanation.
-    """
+    # Generates explainable deductive proof traces for all inferred diagnoses.
+    # Identifies whether Tier 1 (canonical) or Tier 2 (relaxed) rule fired,
+    # and maps observed vs unobserved rule antecedents.
+    #
+    # :param selected_symptoms: List of user-selected symptom ID strings.
+    # :param diagnosed_threats: List of diagnosed threat key strings or dicts.
+    # :return: Dictionary mapping threat key to proof trace explanation.
     selected_set = set(selected_symptoms)
     explanations = {}
 
