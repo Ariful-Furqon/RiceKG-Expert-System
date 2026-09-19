@@ -157,28 +157,26 @@ def _extract_baselines(path: Path) -> list[dict]:
 def _extract_ablation(path: Path) -> list[dict]:
     with path.open(encoding="utf-8") as fh:
         abl = json.load(fh)
-    rows = []
-    for r in abl.get("results", []):
-        # ablation.json uses "exact_acc"; fall back to "exact_match" for future compat
-        exact = r.get("exact_acc", r.get("exact_match", 0.0))
-        rows.append({
-            "claim": f"Ablation: {r['variant']} exact match (verification suite)",
-            "command": "python analysis/ablation.py",
-            "artifact": "results/ablation.json",
-            "value": f"{_fmt(exact)}%",
-        })
-        rows.append({
-            "claim": f"Ablation: {r['variant']} multi-label accuracy (verification suite)",
-            "command": "python analysis/ablation.py",
-            "artifact": "results/ablation.json",
-            "value": f"{_fmt(r.get('multi_acc', 0.0))}%",
-        })
-        if "recall" in r:
+    cmd, art = "python analysis/ablation.py", "results/ablation.json"
+    eq = abl["reasoner_equivalence"]
+    rows = [{
+        "claim": "Ablation: Pellet vs set matching, identical graded output",
+        "command": cmd, "artifact": art,
+        "value": f"{eq['identical_graded_output']}/{eq['n_cases']}",
+    }]
+    for group in ("dev+eval", "holdout (development-exposed)"):
+        for key, name in abl["variants"].items():
+            r = abl["field"]["groups"][group]["summary"][key]["committed_recall"]
             rows.append({
-                "claim": f"Ablation: {r['variant']} positive recall (verification suite)",
-                "command": "python analysis/ablation.py",
-                "artifact": "results/ablation.json",
-                "value": f"{_fmt(r['recall'])}%",
+                "claim": f"Ablation ({group}): {name} committed recall",
+                "command": cmd, "artifact": art, "value": f"{r['k']}/{r['n']}",
+            })
+    for key, name in abl["variants"].items():
+        occ = abl["occlusion"]["systems"].get(key)
+        if occ:
+            rows.append({
+                "claim": f"Ablation (occlusion 0.3): {name} positive recall",
+                "command": cmd, "artifact": art, "value": f"{_fmt(occ['0.3']['positive_recall_mean'])}%",
             })
     return rows
 

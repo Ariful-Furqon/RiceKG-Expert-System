@@ -1,81 +1,3141 @@
 {
-  "total_benchmark_cases": 73,
-  "generated_at": "2026-09-15T04:05:30Z",
-  "results": [
-    {
-      "variant": "full",
-      "name": "RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)",
-      "exact_acc": 32.88,
-      "multi_acc": 91.55,
-      "precision": 100.0,
-      "recall": 17.78,
-      "f1": 30.19,
-      "tp": 8,
-      "fp": 0,
-      "fn": 37,
-      "tn": 393,
-      "mean_latency_ms": 828.44,
-      "p95_latency_ms": 850.25
-    },
-    {
-      "variant": "tier1_only",
-      "name": "Ablation: Tier 1 Canonical Only (Pellet DL)",
-      "exact_acc": 27.4,
-      "multi_acc": 90.18,
-      "precision": 100.0,
-      "recall": 4.44,
-      "f1": 8.51,
-      "tp": 2,
-      "fp": 0,
-      "fn": 43,
-      "tn": 393,
-      "mean_latency_ms": 742.25,
-      "p95_latency_ms": 768.83
-    },
-    {
-      "variant": "tier2_only",
-      "name": "Ablation: Tier 2 Relaxed Only (Pellet DL)",
-      "exact_acc": 32.88,
-      "multi_acc": 91.55,
-      "precision": 100.0,
-      "recall": 17.78,
-      "f1": 30.19,
-      "tp": 8,
-      "fp": 0,
-      "fn": 37,
-      "tn": 393,
-      "mean_latency_ms": 698.96,
-      "p95_latency_ms": 735.14
-    },
-    {
-      "variant": "flat_rules",
-      "name": "Ablation: Flat Rules Unstratified (Pellet DL)",
-      "exact_acc": 32.88,
-      "multi_acc": 91.55,
-      "precision": 100.0,
-      "recall": 17.78,
-      "f1": 30.19,
-      "tp": 8,
-      "fp": 0,
-      "fn": 37,
-      "tn": 393,
-      "mean_latency_ms": 828.8,
-      "p95_latency_ms": 844.57
-    },
-    {
-      "variant": "no_reasoner",
-      "name": "Ablation: No Reasoner (Pure Python Set-Matching)",
-      "exact_acc": 58.9,
-      "multi_acc": 91.55,
-      "precision": 100.0,
-      "recall": 17.78,
-      "f1": 30.19,
-      "tp": 8,
-      "fp": 0,
-      "fn": 37,
-      "tn": 393,
-      "mean_latency_ms": 0.0,
-      "p95_latency_ms": 0.0
+  "generated_at": "2026-09-19T01:39:59.464034+00:00",
+  "ruleset": {
+    "rules": 18,
+    "diagnostic_sign_rules": [
+      "SWRL-R21",
+      "SWRL-R22",
+      "SWRL-R23",
+      "SWRL-R24",
+      "SWRL-R25",
+      "SWRL-R26"
+    ]
+  },
+  "variants": {
+    "full": "RiceKG v2.4.0 (full)",
+    "no_diagnostic_signs": "Without diagnostic-sign rules (R21\u2013R26)",
+    "tier1_only": "Tier-1 rules only",
+    "no_scope_gates": "Without out-of-scope gates"
+  },
+  "reasoner_equivalence": {
+    "n_cases": 129,
+    "n_field": 56,
+    "n_verification_suite": 73,
+    "identical_graded_output": 129,
+    "disagreements": [],
+    "latency": {
+      "pellet": {
+        "mean_ms": 898.527,
+        "p95_ms": 1015.002
+      },
+      "set_matching": {
+        "mean_ms": 0.014,
+        "p95_ms": 0.018
+      }
     }
-  ]
+  },
+  "field": {
+    "groups": {
+      "eval": {
+        "summary": {
+          "full": {
+            "n_positive": 5,
+            "n_control": 17,
+            "positive_outcomes": {
+              "correct": 4,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 1
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 11,
+              "silent_abstention": 6
+            },
+            "committed_recall": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 1,
+              "n": 5,
+              "pct": 20.0,
+              "ci95": [
+                0.5,
+                71.6
+              ]
+            },
+            "committed_precision": {
+              "k": 4,
+              "n": 4,
+              "pct": 100.0,
+              "ci95": [
+                39.8,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 4,
+                "n": 4,
+                "pct": 100.0,
+                "ci95": [
+                  39.8,
+                  100.0
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 11,
+              "n": 17,
+              "pct": 64.71,
+              "ci95": [
+                38.3,
+                85.8
+              ]
+            }
+          },
+          "no_diagnostic_signs": {
+            "n_positive": 5,
+            "n_control": 17,
+            "positive_outcomes": {
+              "correct": 4,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 1
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 11,
+              "silent_abstention": 6
+            },
+            "committed_recall": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 1,
+              "n": 5,
+              "pct": 20.0,
+              "ci95": [
+                0.5,
+                71.6
+              ]
+            },
+            "committed_precision": {
+              "k": 4,
+              "n": 4,
+              "pct": 100.0,
+              "ci95": [
+                39.8,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 4,
+                "n": 4,
+                "pct": 100.0,
+                "ci95": [
+                  39.8,
+                  100.0
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 11,
+              "n": 17,
+              "pct": 64.71,
+              "ci95": [
+                38.3,
+                85.8
+              ]
+            }
+          },
+          "tier1_only": {
+            "n_positive": 5,
+            "n_control": 17,
+            "positive_outcomes": {
+              "correct": 0,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 5
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 11,
+              "silent_abstention": 6
+            },
+            "committed_recall": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 5,
+              "n": 5,
+              "pct": 100.0,
+              "ci95": [
+                47.8,
+                100.0
+              ]
+            },
+            "committed_precision": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "grade_precision": {},
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 11,
+              "n": 17,
+              "pct": 64.71,
+              "ci95": [
+                38.3,
+                85.8
+              ]
+            }
+          },
+          "no_scope_gates": {
+            "n_positive": 5,
+            "n_control": 17,
+            "positive_outcomes": {
+              "correct": 4,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 1
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 17
+            },
+            "committed_recall": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 1,
+              "n": 5,
+              "pct": 20.0,
+              "ci95": [
+                0.5,
+                71.6
+              ]
+            },
+            "committed_precision": {
+              "k": 4,
+              "n": 4,
+              "pct": 100.0,
+              "ci95": [
+                39.8,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 4,
+                "n": 4,
+                "pct": 100.0,
+                "ci95": [
+                  39.8,
+                  100.0
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            }
+          }
+        },
+        "summary_incl_possible": {
+          "full": {
+            "n_positive": 5,
+            "n_control": 17,
+            "positive_outcomes": {
+              "correct": 4,
+              "misfire": 0,
+              "possible_hit": 1,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 0
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 3,
+              "explicit_rejection": 11,
+              "silent_abstention": 3
+            },
+            "committed_recall": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 5,
+              "n": 5,
+              "pct": 100.0,
+              "ci95": [
+                47.8,
+                100.0
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 1,
+              "n": 5,
+              "pct": 20.0,
+              "ci95": [
+                0.5,
+                71.6
+              ]
+            },
+            "committed_precision": {
+              "k": 4,
+              "n": 4,
+              "pct": 100.0,
+              "ci95": [
+                39.8,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 4,
+                "n": 4,
+                "pct": 100.0,
+                "ci95": [
+                  39.8,
+                  100.0
+                ]
+              },
+              "possible": {
+                "k": 1,
+                "n": 5,
+                "pct": 20.0,
+                "ci95": [
+                  0.5,
+                  71.6
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 3,
+              "n": 17,
+              "pct": 17.65,
+              "ci95": [
+                3.8,
+                43.4
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 11,
+              "n": 17,
+              "pct": 64.71,
+              "ci95": [
+                38.3,
+                85.8
+              ]
+            }
+          },
+          "no_diagnostic_signs": {
+            "n_positive": 5,
+            "n_control": 17,
+            "positive_outcomes": {
+              "correct": 4,
+              "misfire": 0,
+              "possible_hit": 1,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 0
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 3,
+              "explicit_rejection": 11,
+              "silent_abstention": 3
+            },
+            "committed_recall": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 5,
+              "n": 5,
+              "pct": 100.0,
+              "ci95": [
+                47.8,
+                100.0
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 1,
+              "n": 5,
+              "pct": 20.0,
+              "ci95": [
+                0.5,
+                71.6
+              ]
+            },
+            "committed_precision": {
+              "k": 4,
+              "n": 4,
+              "pct": 100.0,
+              "ci95": [
+                39.8,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 4,
+                "n": 4,
+                "pct": 100.0,
+                "ci95": [
+                  39.8,
+                  100.0
+                ]
+              },
+              "possible": {
+                "k": 1,
+                "n": 5,
+                "pct": 20.0,
+                "ci95": [
+                  0.5,
+                  71.6
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 3,
+              "n": 17,
+              "pct": 17.65,
+              "ci95": [
+                3.8,
+                43.4
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 11,
+              "n": 17,
+              "pct": 64.71,
+              "ci95": [
+                38.3,
+                85.8
+              ]
+            }
+          },
+          "tier1_only": {
+            "n_positive": 5,
+            "n_control": 17,
+            "positive_outcomes": {
+              "correct": 0,
+              "misfire": 0,
+              "possible_hit": 5,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 0
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 3,
+              "explicit_rejection": 11,
+              "silent_abstention": 3
+            },
+            "committed_recall": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 5,
+              "n": 5,
+              "pct": 100.0,
+              "ci95": [
+                47.8,
+                100.0
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 5,
+              "n": 5,
+              "pct": 100.0,
+              "ci95": [
+                47.8,
+                100.0
+              ]
+            },
+            "committed_precision": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "grade_precision": {
+              "possible": {
+                "k": 5,
+                "n": 11,
+                "pct": 45.45,
+                "ci95": [
+                  16.7,
+                  76.6
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 3,
+              "n": 17,
+              "pct": 17.65,
+              "ci95": [
+                3.8,
+                43.4
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 11,
+              "n": 17,
+              "pct": 64.71,
+              "ci95": [
+                38.3,
+                85.8
+              ]
+            }
+          },
+          "no_scope_gates": {
+            "n_positive": 5,
+            "n_control": 17,
+            "positive_outcomes": {
+              "correct": 4,
+              "misfire": 0,
+              "possible_hit": 1,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 0
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 10,
+              "explicit_rejection": 0,
+              "silent_abstention": 7
+            },
+            "committed_recall": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 5,
+              "n": 5,
+              "pct": 100.0,
+              "ci95": [
+                47.8,
+                100.0
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 5,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                52.2
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 1,
+              "n": 5,
+              "pct": 20.0,
+              "ci95": [
+                0.5,
+                71.6
+              ]
+            },
+            "committed_precision": {
+              "k": 4,
+              "n": 4,
+              "pct": 100.0,
+              "ci95": [
+                39.8,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 4,
+                "n": 4,
+                "pct": 100.0,
+                "ci95": [
+                  39.8,
+                  100.0
+                ]
+              },
+              "possible": {
+                "k": 1,
+                "n": 14,
+                "pct": 7.14,
+                "ci95": [
+                  0.2,
+                  33.9
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 10,
+              "n": 17,
+              "pct": 58.82,
+              "ci95": [
+                32.9,
+                81.6
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 17,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                19.5
+              ]
+            }
+          }
+        },
+        "paired_vs_full": {
+          "no_diagnostic_signs": {
+            "only_first_correct": 0,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 1.0
+          },
+          "tier1_only": {
+            "only_first_correct": 4,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 0.125
+          },
+          "no_scope_gates": {
+            "only_first_correct": 0,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 1.0
+          }
+        }
+      },
+      "dev+eval": {
+        "summary": {
+          "full": {
+            "n_positive": 12,
+            "n_control": 26,
+            "positive_outcomes": {
+              "correct": 9,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 3
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 14,
+              "silent_abstention": 12
+            },
+            "committed_recall": {
+              "k": 9,
+              "n": 12,
+              "pct": 75.0,
+              "ci95": [
+                42.8,
+                94.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 9,
+              "n": 12,
+              "pct": 75.0,
+              "ci95": [
+                42.8,
+                94.5
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 3,
+              "n": 12,
+              "pct": 25.0,
+              "ci95": [
+                5.5,
+                57.2
+              ]
+            },
+            "committed_precision": {
+              "k": 9,
+              "n": 9,
+              "pct": 100.0,
+              "ci95": [
+                66.4,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 9,
+                "n": 9,
+                "pct": 100.0,
+                "ci95": [
+                  66.4,
+                  100.0
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 14,
+              "n": 26,
+              "pct": 53.85,
+              "ci95": [
+                33.4,
+                73.4
+              ]
+            }
+          },
+          "no_diagnostic_signs": {
+            "n_positive": 12,
+            "n_control": 26,
+            "positive_outcomes": {
+              "correct": 7,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 5
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 14,
+              "silent_abstention": 12
+            },
+            "committed_recall": {
+              "k": 7,
+              "n": 12,
+              "pct": 58.33,
+              "ci95": [
+                27.7,
+                84.8
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 7,
+              "n": 12,
+              "pct": 58.33,
+              "ci95": [
+                27.7,
+                84.8
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 5,
+              "n": 12,
+              "pct": 41.67,
+              "ci95": [
+                15.2,
+                72.3
+              ]
+            },
+            "committed_precision": {
+              "k": 7,
+              "n": 7,
+              "pct": 100.0,
+              "ci95": [
+                59.0,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 7,
+                "n": 7,
+                "pct": 100.0,
+                "ci95": [
+                  59.0,
+                  100.0
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 14,
+              "n": 26,
+              "pct": 53.85,
+              "ci95": [
+                33.4,
+                73.4
+              ]
+            }
+          },
+          "tier1_only": {
+            "n_positive": 12,
+            "n_control": 26,
+            "positive_outcomes": {
+              "correct": 0,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 1,
+              "abstain": 11
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 14,
+              "silent_abstention": 12
+            },
+            "committed_recall": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 12,
+              "n": 12,
+              "pct": 100.0,
+              "ci95": [
+                73.5,
+                100.0
+              ]
+            },
+            "committed_precision": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "grade_precision": {},
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 14,
+              "n": 26,
+              "pct": 53.85,
+              "ci95": [
+                33.4,
+                73.4
+              ]
+            }
+          },
+          "no_scope_gates": {
+            "n_positive": 12,
+            "n_control": 26,
+            "positive_outcomes": {
+              "correct": 9,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 3
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 26
+            },
+            "committed_recall": {
+              "k": 9,
+              "n": 12,
+              "pct": 75.0,
+              "ci95": [
+                42.8,
+                94.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 9,
+              "n": 12,
+              "pct": 75.0,
+              "ci95": [
+                42.8,
+                94.5
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 3,
+              "n": 12,
+              "pct": 25.0,
+              "ci95": [
+                5.5,
+                57.2
+              ]
+            },
+            "committed_precision": {
+              "k": 9,
+              "n": 9,
+              "pct": 100.0,
+              "ci95": [
+                66.4,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 9,
+                "n": 9,
+                "pct": 100.0,
+                "ci95": [
+                  66.4,
+                  100.0
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            }
+          }
+        },
+        "summary_incl_possible": {
+          "full": {
+            "n_positive": 12,
+            "n_control": 26,
+            "positive_outcomes": {
+              "correct": 9,
+              "misfire": 0,
+              "possible_hit": 2,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 1
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 5,
+              "explicit_rejection": 14,
+              "silent_abstention": 7
+            },
+            "committed_recall": {
+              "k": 9,
+              "n": 12,
+              "pct": 75.0,
+              "ci95": [
+                42.8,
+                94.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 11,
+              "n": 12,
+              "pct": 91.67,
+              "ci95": [
+                61.5,
+                99.8
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 3,
+              "n": 12,
+              "pct": 25.0,
+              "ci95": [
+                5.5,
+                57.2
+              ]
+            },
+            "committed_precision": {
+              "k": 9,
+              "n": 9,
+              "pct": 100.0,
+              "ci95": [
+                66.4,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 9,
+                "n": 9,
+                "pct": 100.0,
+                "ci95": [
+                  66.4,
+                  100.0
+                ]
+              },
+              "possible": {
+                "k": 2,
+                "n": 9,
+                "pct": 22.22,
+                "ci95": [
+                  2.8,
+                  60.0
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 5,
+              "n": 26,
+              "pct": 19.23,
+              "ci95": [
+                6.6,
+                39.4
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 14,
+              "n": 26,
+              "pct": 53.85,
+              "ci95": [
+                33.4,
+                73.4
+              ]
+            }
+          },
+          "no_diagnostic_signs": {
+            "n_positive": 12,
+            "n_control": 26,
+            "positive_outcomes": {
+              "correct": 7,
+              "misfire": 0,
+              "possible_hit": 3,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 2
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 5,
+              "explicit_rejection": 14,
+              "silent_abstention": 7
+            },
+            "committed_recall": {
+              "k": 7,
+              "n": 12,
+              "pct": 58.33,
+              "ci95": [
+                27.7,
+                84.8
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 10,
+              "n": 12,
+              "pct": 83.33,
+              "ci95": [
+                51.6,
+                97.9
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 5,
+              "n": 12,
+              "pct": 41.67,
+              "ci95": [
+                15.2,
+                72.3
+              ]
+            },
+            "committed_precision": {
+              "k": 7,
+              "n": 7,
+              "pct": 100.0,
+              "ci95": [
+                59.0,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 7,
+                "n": 7,
+                "pct": 100.0,
+                "ci95": [
+                  59.0,
+                  100.0
+                ]
+              },
+              "possible": {
+                "k": 3,
+                "n": 10,
+                "pct": 30.0,
+                "ci95": [
+                  6.7,
+                  65.2
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 5,
+              "n": 26,
+              "pct": 19.23,
+              "ci95": [
+                6.6,
+                39.4
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 14,
+              "n": 26,
+              "pct": 53.85,
+              "ci95": [
+                33.4,
+                73.4
+              ]
+            }
+          },
+          "tier1_only": {
+            "n_positive": 12,
+            "n_control": 26,
+            "positive_outcomes": {
+              "correct": 0,
+              "misfire": 0,
+              "possible_hit": 9,
+              "possible_miss": 0,
+              "rejected": 1,
+              "abstain": 2
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 5,
+              "explicit_rejection": 14,
+              "silent_abstention": 7
+            },
+            "committed_recall": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 9,
+              "n": 12,
+              "pct": 75.0,
+              "ci95": [
+                42.8,
+                94.5
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 12,
+              "n": 12,
+              "pct": 100.0,
+              "ci95": [
+                73.5,
+                100.0
+              ]
+            },
+            "committed_precision": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "grade_precision": {
+              "possible": {
+                "k": 9,
+                "n": 18,
+                "pct": 50.0,
+                "ci95": [
+                  26.0,
+                  74.0
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 5,
+              "n": 26,
+              "pct": 19.23,
+              "ci95": [
+                6.6,
+                39.4
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 14,
+              "n": 26,
+              "pct": 53.85,
+              "ci95": [
+                33.4,
+                73.4
+              ]
+            }
+          },
+          "no_scope_gates": {
+            "n_positive": 12,
+            "n_control": 26,
+            "positive_outcomes": {
+              "correct": 9,
+              "misfire": 0,
+              "possible_hit": 2,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 1
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 14,
+              "explicit_rejection": 0,
+              "silent_abstention": 12
+            },
+            "committed_recall": {
+              "k": 9,
+              "n": 12,
+              "pct": 75.0,
+              "ci95": [
+                42.8,
+                94.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 11,
+              "n": 12,
+              "pct": 91.67,
+              "ci95": [
+                61.5,
+                99.8
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 12,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                26.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 3,
+              "n": 12,
+              "pct": 25.0,
+              "ci95": [
+                5.5,
+                57.2
+              ]
+            },
+            "committed_precision": {
+              "k": 9,
+              "n": 9,
+              "pct": 100.0,
+              "ci95": [
+                66.4,
+                100.0
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 9,
+                "n": 9,
+                "pct": 100.0,
+                "ci95": [
+                  66.4,
+                  100.0
+                ]
+              },
+              "possible": {
+                "k": 2,
+                "n": 21,
+                "pct": 9.52,
+                "ci95": [
+                  1.2,
+                  30.4
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 14,
+              "n": 26,
+              "pct": 53.85,
+              "ci95": [
+                33.4,
+                73.4
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 26,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                13.2
+              ]
+            }
+          }
+        },
+        "paired_vs_full": {
+          "no_diagnostic_signs": {
+            "only_first_correct": 2,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 0.5
+          },
+          "tier1_only": {
+            "only_first_correct": 9,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 0.0039
+          },
+          "no_scope_gates": {
+            "only_first_correct": 0,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 1.0
+          }
+        }
+      },
+      "holdout (development-exposed)": {
+        "summary": {
+          "full": {
+            "n_positive": 18,
+            "n_control": 0,
+            "positive_outcomes": {
+              "correct": 12,
+              "misfire": 1,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 5
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 0
+            },
+            "committed_recall": {
+              "k": 12,
+              "n": 18,
+              "pct": 66.67,
+              "ci95": [
+                41.0,
+                86.7
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 12,
+              "n": 18,
+              "pct": 66.67,
+              "ci95": [
+                41.0,
+                86.7
+              ]
+            },
+            "misfire_rate": {
+              "k": 1,
+              "n": 18,
+              "pct": 5.56,
+              "ci95": [
+                0.1,
+                27.3
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 5,
+              "n": 18,
+              "pct": 27.78,
+              "ci95": [
+                9.7,
+                53.5
+              ]
+            },
+            "committed_precision": {
+              "k": 12,
+              "n": 13,
+              "pct": 92.31,
+              "ci95": [
+                64.0,
+                99.8
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 12,
+                "n": 13,
+                "pct": 92.31,
+                "ci95": [
+                  64.0,
+                  99.8
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            }
+          },
+          "no_diagnostic_signs": {
+            "n_positive": 18,
+            "n_control": 0,
+            "positive_outcomes": {
+              "correct": 4,
+              "misfire": 1,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 13
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 0
+            },
+            "committed_recall": {
+              "k": 4,
+              "n": 18,
+              "pct": 22.22,
+              "ci95": [
+                6.4,
+                47.6
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 4,
+              "n": 18,
+              "pct": 22.22,
+              "ci95": [
+                6.4,
+                47.6
+              ]
+            },
+            "misfire_rate": {
+              "k": 1,
+              "n": 18,
+              "pct": 5.56,
+              "ci95": [
+                0.1,
+                27.3
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 13,
+              "n": 18,
+              "pct": 72.22,
+              "ci95": [
+                46.5,
+                90.3
+              ]
+            },
+            "committed_precision": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 4,
+                "n": 5,
+                "pct": 80.0,
+                "ci95": [
+                  28.4,
+                  99.5
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            }
+          },
+          "tier1_only": {
+            "n_positive": 18,
+            "n_control": 0,
+            "positive_outcomes": {
+              "correct": 0,
+              "misfire": 0,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 18
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 0
+            },
+            "committed_recall": {
+              "k": 0,
+              "n": 18,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                18.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 0,
+              "n": 18,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                18.5
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 18,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                18.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 18,
+              "n": 18,
+              "pct": 100.0,
+              "ci95": [
+                81.5,
+                100.0
+              ]
+            },
+            "committed_precision": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "grade_precision": {},
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            }
+          },
+          "no_scope_gates": {
+            "n_positive": 18,
+            "n_control": 0,
+            "positive_outcomes": {
+              "correct": 12,
+              "misfire": 1,
+              "possible_hit": 0,
+              "possible_miss": 0,
+              "rejected": 0,
+              "abstain": 5
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 0
+            },
+            "committed_recall": {
+              "k": 12,
+              "n": 18,
+              "pct": 66.67,
+              "ci95": [
+                41.0,
+                86.7
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 12,
+              "n": 18,
+              "pct": 66.67,
+              "ci95": [
+                41.0,
+                86.7
+              ]
+            },
+            "misfire_rate": {
+              "k": 1,
+              "n": 18,
+              "pct": 5.56,
+              "ci95": [
+                0.1,
+                27.3
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 5,
+              "n": 18,
+              "pct": 27.78,
+              "ci95": [
+                9.7,
+                53.5
+              ]
+            },
+            "committed_precision": {
+              "k": 12,
+              "n": 13,
+              "pct": 92.31,
+              "ci95": [
+                64.0,
+                99.8
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 12,
+                "n": 13,
+                "pct": 92.31,
+                "ci95": [
+                  64.0,
+                  99.8
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        "summary_incl_possible": {
+          "full": {
+            "n_positive": 18,
+            "n_control": 0,
+            "positive_outcomes": {
+              "correct": 12,
+              "misfire": 1,
+              "possible_hit": 2,
+              "possible_miss": 2,
+              "rejected": 0,
+              "abstain": 1
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 0
+            },
+            "committed_recall": {
+              "k": 12,
+              "n": 18,
+              "pct": 66.67,
+              "ci95": [
+                41.0,
+                86.7
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 14,
+              "n": 18,
+              "pct": 77.78,
+              "ci95": [
+                52.4,
+                93.6
+              ]
+            },
+            "misfire_rate": {
+              "k": 1,
+              "n": 18,
+              "pct": 5.56,
+              "ci95": [
+                0.1,
+                27.3
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 5,
+              "n": 18,
+              "pct": 27.78,
+              "ci95": [
+                9.7,
+                53.5
+              ]
+            },
+            "committed_precision": {
+              "k": 12,
+              "n": 13,
+              "pct": 92.31,
+              "ci95": [
+                64.0,
+                99.8
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 12,
+                "n": 13,
+                "pct": 92.31,
+                "ci95": [
+                  64.0,
+                  99.8
+                ]
+              },
+              "possible": {
+                "k": 2,
+                "n": 6,
+                "pct": 33.33,
+                "ci95": [
+                  4.3,
+                  77.7
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            }
+          },
+          "no_diagnostic_signs": {
+            "n_positive": 18,
+            "n_control": 0,
+            "positive_outcomes": {
+              "correct": 4,
+              "misfire": 1,
+              "possible_hit": 9,
+              "possible_miss": 2,
+              "rejected": 0,
+              "abstain": 2
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 0
+            },
+            "committed_recall": {
+              "k": 4,
+              "n": 18,
+              "pct": 22.22,
+              "ci95": [
+                6.4,
+                47.6
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 13,
+              "n": 18,
+              "pct": 72.22,
+              "ci95": [
+                46.5,
+                90.3
+              ]
+            },
+            "misfire_rate": {
+              "k": 1,
+              "n": 18,
+              "pct": 5.56,
+              "ci95": [
+                0.1,
+                27.3
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 13,
+              "n": 18,
+              "pct": 72.22,
+              "ci95": [
+                46.5,
+                90.3
+              ]
+            },
+            "committed_precision": {
+              "k": 4,
+              "n": 5,
+              "pct": 80.0,
+              "ci95": [
+                28.4,
+                99.5
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 4,
+                "n": 5,
+                "pct": 80.0,
+                "ci95": [
+                  28.4,
+                  99.5
+                ]
+              },
+              "possible": {
+                "k": 9,
+                "n": 14,
+                "pct": 64.29,
+                "ci95": [
+                  35.1,
+                  87.2
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            }
+          },
+          "tier1_only": {
+            "n_positive": 18,
+            "n_control": 0,
+            "positive_outcomes": {
+              "correct": 0,
+              "misfire": 0,
+              "possible_hit": 13,
+              "possible_miss": 3,
+              "rejected": 0,
+              "abstain": 2
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 0
+            },
+            "committed_recall": {
+              "k": 0,
+              "n": 18,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                18.5
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 13,
+              "n": 18,
+              "pct": 72.22,
+              "ci95": [
+                46.5,
+                90.3
+              ]
+            },
+            "misfire_rate": {
+              "k": 0,
+              "n": 18,
+              "pct": 0.0,
+              "ci95": [
+                0.0,
+                18.5
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 18,
+              "n": 18,
+              "pct": 100.0,
+              "ci95": [
+                81.5,
+                100.0
+              ]
+            },
+            "committed_precision": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "grade_precision": {
+              "possible": {
+                "k": 13,
+                "n": 19,
+                "pct": 68.42,
+                "ci95": [
+                  43.4,
+                  87.4
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            }
+          },
+          "no_scope_gates": {
+            "n_positive": 18,
+            "n_control": 0,
+            "positive_outcomes": {
+              "correct": 12,
+              "misfire": 1,
+              "possible_hit": 2,
+              "possible_miss": 2,
+              "rejected": 0,
+              "abstain": 1
+            },
+            "control_outcomes": {
+              "false_alarm": 0,
+              "possible_alarm": 0,
+              "explicit_rejection": 0,
+              "silent_abstention": 0
+            },
+            "committed_recall": {
+              "k": 12,
+              "n": 18,
+              "pct": 66.67,
+              "ci95": [
+                41.0,
+                86.7
+              ]
+            },
+            "recall_incl_possible": {
+              "k": 14,
+              "n": 18,
+              "pct": 77.78,
+              "ci95": [
+                52.4,
+                93.6
+              ]
+            },
+            "misfire_rate": {
+              "k": 1,
+              "n": 18,
+              "pct": 5.56,
+              "ci95": [
+                0.1,
+                27.3
+              ]
+            },
+            "safe_failure_rate": {
+              "k": 5,
+              "n": 18,
+              "pct": 27.78,
+              "ci95": [
+                9.7,
+                53.5
+              ]
+            },
+            "committed_precision": {
+              "k": 12,
+              "n": 13,
+              "pct": 92.31,
+              "ci95": [
+                64.0,
+                99.8
+              ]
+            },
+            "grade_precision": {
+              "suspected": {
+                "k": 12,
+                "n": 13,
+                "pct": 92.31,
+                "ci95": [
+                  64.0,
+                  99.8
+                ]
+              },
+              "possible": {
+                "k": 2,
+                "n": 6,
+                "pct": 33.33,
+                "ci95": [
+                  4.3,
+                  77.7
+                ]
+              }
+            },
+            "false_alarm_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "false_alarm_incl_possible": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            },
+            "explicit_rejection_rate": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci95": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        "paired_vs_full": {
+          "no_diagnostic_signs": {
+            "only_first_correct": 8,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 0.0078
+          },
+          "tier1_only": {
+            "only_first_correct": 12,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 0.0005
+          },
+          "no_scope_gates": {
+            "only_first_correct": 0,
+            "only_second_correct": 0,
+            "exact_mcnemar_p": 1.0
+          }
+        }
+      }
+    },
+    "cases_with_differing_outcomes": [
+      {
+        "case_id": "FIELD_03",
+        "split": "dev",
+        "truth": [
+          "Bacterial_Leaf_Blight"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "rejected",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "FIELD_04",
+        "split": "dev",
+        "truth": [
+          "Rice_Root_Nematode"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "FIELD_05",
+        "split": "dev",
+        "truth": [
+          "False_Smut"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "FIELD_06",
+        "split": "dev",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_07",
+        "split": "dev",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_11",
+        "split": "dev",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_33",
+        "split": "dev",
+        "truth": [
+          "Rice_Root_Nematode"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "FIELD_35",
+        "split": "dev",
+        "truth": [
+          "Bacterial_Leaf_Blight"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "FIELD_16",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_18",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_19",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_20",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_21",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_22",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_23",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_25",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_26",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_29",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_31",
+        "split": "eval",
+        "truth": [
+          "No_Diagnosis"
+        ],
+        "full": "explicit_rejection",
+        "no_diagnostic_signs": "explicit_rejection",
+        "tier1_only": "explicit_rejection",
+        "no_scope_gates": "silent_abstention"
+      },
+      {
+        "case_id": "FIELD_34",
+        "split": "eval",
+        "truth": [
+          "Rice_Root_Nematode"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "FIELD_36",
+        "split": "eval",
+        "truth": [
+          "Bacterial_Leaf_Blight"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "FIELD_52",
+        "split": "eval",
+        "truth": [
+          "Rice_Tungro_Virus"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "FIELD_53",
+        "split": "eval",
+        "truth": [
+          "Rice_Grassy_Stunt"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_01",
+        "split": "holdout",
+        "truth": [
+          "Bacterial_Leaf_Blight"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_02",
+        "split": "holdout",
+        "truth": [
+          "Rice_Root_Nematode"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_03",
+        "split": "holdout",
+        "truth": [
+          "False_Smut"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_04",
+        "split": "holdout",
+        "truth": [
+          "Rice_Grassy_Stunt"
+        ],
+        "full": "misfire",
+        "no_diagnostic_signs": "misfire",
+        "tier1_only": "abstain",
+        "no_scope_gates": "misfire"
+      },
+      {
+        "case_id": "HOLD_07",
+        "split": "holdout",
+        "truth": [
+          "Rice_Blast"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_08",
+        "split": "holdout",
+        "truth": [
+          "Rice_Blast"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_09",
+        "split": "holdout",
+        "truth": [
+          "False_Smut"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_10",
+        "split": "holdout",
+        "truth": [
+          "Rice_Root_Nematode"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_11",
+        "split": "holdout",
+        "truth": [
+          "Rice_Blast"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_12",
+        "split": "holdout",
+        "truth": [
+          "False_Smut"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "correct",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_15",
+        "split": "holdout",
+        "truth": [
+          "False_Smut"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_18",
+        "split": "holdout",
+        "truth": [
+          "Rice_Blast"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      },
+      {
+        "case_id": "HOLD_20",
+        "split": "holdout",
+        "truth": [
+          "Rice_Root_Nematode"
+        ],
+        "full": "correct",
+        "no_diagnostic_signs": "abstain",
+        "tier1_only": "abstain",
+        "no_scope_gates": "correct"
+      }
+    ]
+  },
+  "occlusion": {
+    "occlusion_sweep": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ],
+    "n_cases": 500,
+    "n_seeds": 20,
+    "systems": {
+      "full": {
+        "0.0": {
+          "positive_recall_mean": 100.0,
+          "positive_recall_std": 0.0,
+          "micro_precision_mean": 100.0
+        },
+        "0.1": {
+          "positive_recall_mean": 89.13,
+          "positive_recall_std": 1.48,
+          "micro_precision_mean": 100.0
+        },
+        "0.2": {
+          "positive_recall_mean": 78.04,
+          "positive_recall_std": 1.77,
+          "micro_precision_mean": 100.0
+        },
+        "0.3": {
+          "positive_recall_mean": 67.91,
+          "positive_recall_std": 2.44,
+          "micro_precision_mean": 100.0
+        },
+        "0.4": {
+          "positive_recall_mean": 57.53,
+          "positive_recall_std": 2.08,
+          "micro_precision_mean": 100.0
+        },
+        "0.5": {
+          "positive_recall_mean": 48.07,
+          "positive_recall_std": 2.07,
+          "micro_precision_mean": 100.0
+        },
+        "0.6": {
+          "positive_recall_mean": 39.38,
+          "positive_recall_std": 2.91,
+          "micro_precision_mean": 100.0
+        },
+        "0.7": {
+          "positive_recall_mean": 31.32,
+          "positive_recall_std": 1.98,
+          "micro_precision_mean": 100.0
+        },
+        "0.8": {
+          "positive_recall_mean": 25.14,
+          "positive_recall_std": 1.6,
+          "micro_precision_mean": 100.0
+        }
+      },
+      "no_diagnostic_signs": {
+        "0.0": {
+          "positive_recall_mean": 100.0,
+          "positive_recall_std": 0.0,
+          "micro_precision_mean": 100.0
+        },
+        "0.1": {
+          "positive_recall_mean": 78.44,
+          "positive_recall_std": 2.46,
+          "micro_precision_mean": 100.0
+        },
+        "0.2": {
+          "positive_recall_mean": 59.82,
+          "positive_recall_std": 2.56,
+          "micro_precision_mean": 100.0
+        },
+        "0.3": {
+          "positive_recall_mean": 44.33,
+          "positive_recall_std": 2.67,
+          "micro_precision_mean": 100.0
+        },
+        "0.4": {
+          "positive_recall_mean": 31.34,
+          "positive_recall_std": 2.01,
+          "micro_precision_mean": 100.0
+        },
+        "0.5": {
+          "positive_recall_mean": 21.6,
+          "positive_recall_std": 1.7,
+          "micro_precision_mean": 100.0
+        },
+        "0.6": {
+          "positive_recall_mean": 13.37,
+          "positive_recall_std": 1.33,
+          "micro_precision_mean": 100.0
+        },
+        "0.7": {
+          "positive_recall_mean": 7.75,
+          "positive_recall_std": 0.95,
+          "micro_precision_mean": 100.0
+        },
+        "0.8": {
+          "positive_recall_mean": 3.54,
+          "positive_recall_std": 0.82,
+          "micro_precision_mean": 100.0
+        }
+      },
+      "tier1_only": {
+        "0.0": {
+          "positive_recall_mean": 100.0,
+          "positive_recall_std": 0.0,
+          "micro_precision_mean": 100.0
+        },
+        "0.1": {
+          "positive_recall_mean": 56.46,
+          "positive_recall_std": 2.42,
+          "micro_precision_mean": 100.0
+        },
+        "0.2": {
+          "positive_recall_mean": 30.37,
+          "positive_recall_std": 2.43,
+          "micro_precision_mean": 100.0
+        },
+        "0.3": {
+          "positive_recall_mean": 15.63,
+          "positive_recall_std": 1.52,
+          "micro_precision_mean": 100.0
+        },
+        "0.4": {
+          "positive_recall_mean": 7.13,
+          "positive_recall_std": 1.5,
+          "micro_precision_mean": 100.0
+        },
+        "0.5": {
+          "positive_recall_mean": 3.02,
+          "positive_recall_std": 0.71,
+          "micro_precision_mean": 100.0
+        },
+        "0.6": {
+          "positive_recall_mean": 1.13,
+          "positive_recall_std": 0.56,
+          "micro_precision_mean": 100.0
+        },
+        "0.7": {
+          "positive_recall_mean": 0.35,
+          "positive_recall_std": 0.39,
+          "micro_precision_mean": 75.0
+        },
+        "0.8": {
+          "positive_recall_mean": 0.06,
+          "positive_recall_std": 0.14,
+          "micro_precision_mean": 25.0
+        }
+      }
+    }
+  }
 }

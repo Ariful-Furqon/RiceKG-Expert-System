@@ -1,6 +1,6 @@
 # Cold-Start Learning-Curve Evaluation: Sample Efficiency vs. Knowledge Base
 
-> **Generated**: 2026-09-19 00:56:34 UTC  
+> **Generated**: 2026-09-19 01:31:42 UTC  
 > **Target Venue**: *Inteligencia Artificial* (IBERAMIA)  
 > **Evaluation Protocol**: Fixed held-out test set (`data/benchmark_field.csv`, `eval` split, $n=22$: 5 positives, 17 negative controls). $R=200$ stratified resamples without replacement per budget; reported with dual uncertainty decomposition (training-subsample variance across draws and test-set sampling variance via non-parametric paired bootstrap over the test cases, $B=1,000$).
 

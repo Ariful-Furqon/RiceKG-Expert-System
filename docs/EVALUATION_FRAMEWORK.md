@@ -97,39 +97,50 @@ expert–expert agreement, not whether it matches the published label.
 Field cases are encoded by the consensus of two independent agronomists
 ([`data/symptom_encoding_consensus.csv`](../data/symptom_encoding_consensus.csv)).
 
+Ruleset v2.4.0 ([`docs/ONTOLOGY.md`](ONTOLOGY.md)) adds single-sign Tier-2 rules for signs the
+literature calls characteristic of one threat, and removes three unsourced antecedents. It was
+written after every result below had been seen under v2.3; no split is held out for it.
+
 RiceKG strict, `eval` / `dev`+`eval` ([`results/graded_evaluation.md`](../results/graded_evaluation.md)):
 
-- Committed recall **4/5** / **7/12**, with no misfire and no false alarm on 17 / 26 controls.
-  Every committed diagnosis is correct (4/4, 7/7). On the development-exposed `holdout`: 4/18, one misfire.
+- Committed recall **4/5** / **9/12**, with no misfire and no false alarm on 17 / 26 controls.
+  Every committed diagnosis is correct (4/4, 9/9). On the development-exposed `holdout`: 12/18,
+  one misfire (grassy stunt encoded as stunting with orange leaves, tungro's rule).
 - **No field case reaches `confirmed`.** Every correct diagnosis comes from a Tier-2 rule, so the
   Tier-1 rules are untested on field evidence.
-- The `possible` grade raises recall to 5/5 / 10/12 and fires on 3/17 / 5/26 controls; 3 of its
-  10 `dev`+`eval` candidates are correct. It is a screening aid, not a diagnosis.
-- The nearest-prototype matcher finds as many diseases on `eval` (4/5) with lower precision (4/6);
-  no paired difference is significant.
+- The `possible` grade raises recall to 5/5 / 11/12 and fires on 3/17 / 5/26 controls; 2 of its
+  9 `dev`+`eval` candidates are correct. It is a screening aid, not a diagnosis.
+- The nearest-prototype matcher finds as many diseases on `eval` (4/5) with lower precision (4/6),
+  and 8/12 on `dev`+`eval`; no paired difference is significant.
 
-Encoding matters more than any rule revision so far. Under the authors' encoding RiceKG committed
-to 2/5 and 6/12. The consensus gained four cases whose specific signs the authors had missed
-(`Orange_Leaf_Discoloration`, `Excessive_Tillering`, the spore balls) and lost four that had
-relied on terms the text does not state (`Stunted_Growth`/`Yellowing_Leaves` for the root-knot
-nematode, `Necrotic_Spots` for blast). Blast is now missed whenever only diamond-shaped lesions
-are reported, because its Tier-2 rule also requires `Necrotic_Spots`: a rule-design gap, to be
-addressed before the rule base is frozen for a fresh held-out partition.
+Encoding and rule design both matter. Under the authors' encoding and ruleset v2.3, RiceKG
+committed to 2/5 and 6/12; the expert consensus encoding moved this to 4/5 and 7/12, gaining cases
+whose specific signs the authors had missed and losing cases that relied on terms the text does not
+state. The v2.4.0 diagnostic-sign rules then recovered the nematode and blast cases that report
+only the characteristic sign: 9/12 on `dev`+`eval` and 12/18 on `holdout`, against 7/12 and 4/18
+without them ([`results/ablation.md`](../results/ablation.md)).
 
-Knowledge-base verification ([`results/kb_verification.md`](../results/kb_verification.md)):
-`Necrotic_Spots` is a Tier-1 antecedent of four threats, three without a cited source, and 10
-vocabulary terms are used by no rule or gate, including `Bacterial_Ooze`.
+Knowledge-base verification ([`results/kb_verification.md`](../results/kb_verification.md)): every
+(threat, antecedent) link now has a cited source (31/31); `Uniform_Field_Infection`,
+`Stunted_Growth` and `Yellowing_Leaves` are shared by more than one threat, and 10 vocabulary terms,
+including `Bacterial_Ooze`, are used by no rule or gate.
+
+Ablation ([`results/ablation.md`](../results/ablation.md)): Pellet and set matching give identical
+graded output on 129/129 inputs, so the reasoner is justified by proofs, consistency checking and
+traces, not accuracy; Tier-1 rules alone commit nothing on field cases; the out-of-scope gates turn
+14 of 26 silent abstentions into explicit rejections.
 
 Expert-based validation (two agronomists, all 56 cases; [`results/expert_validation.md`](../results/expert_validation.md)):
 
-- The raters agree with each other at Cohen's κ = 0.885; RiceKG agrees with them at κ ≈ 0.36
-  (difference −0.529, 95% CI −0.685 to −0.360). From the same redacted text the raters name the
-  published disease in 26/30 and 25/30 positive cases; RiceKG in 11/30.
+- The raters agree with each other at Cohen's κ = 0.885; RiceKG agrees with them at a mean
+  κ of 0.569 (difference −0.317, 95% CI −0.467 to −0.164). From the same redacted text the raters
+  name the published disease in 26/30 and 25/30 positive cases; RiceKG in 21/30.
 - The raters' symptom encodings agree closely (mean Jaccard 0.929); the authors' encoding matches
   their consensus in 28/56 cases.
-- Every correct RiceKG diagnosis and every explicit out-of-scope rejection was judged acceptable
-  by both raters; silent abstentions were judged least useful, which prompted the abstention
-  explanation added in `model.explain_abstention`.
+- The explanation ratings (Stage B) were given on the v2.3 outputs. Every correct RiceKG diagnosis
+  and every explicit out-of-scope rejection was judged acceptable by both raters; silent
+  abstentions were judged least useful, which prompted the abstention explanation added in
+  `model.explain_abstention`.
 
 With two raters there is no Fleiss' κ and no strict majority beyond agreement of both.
 

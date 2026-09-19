@@ -1,6 +1,6 @@
 # Probabilistic Reasoning Layer Evaluation (noisy-OR, PART 8)
 
-> **Generated**: 2026-09-19T00:44:50.647195+00:00  
+> **Generated**: 2026-09-19T01:31:46.292126+00:00  
 > **Headline Metric Preservation**: Strict RiceKG positive recall remains the headline metric.  
 > **Target Venue**: *Inteligencia Artificial* (IBERAMIA) — contribution is transparent recall vs. false-alarm trade-off under partial observation.  
 
@@ -27,8 +27,8 @@ and locked prior to benchmark execution (commit `6174e8e`).
 
 | System / Paradigm | Pos Recall (Any Hit, %) [95% CI] | Pos Recall (Exact, %) | Exact Match (%) | Micro-F1 [95% CI] | Neg FAR (All) | Neg FAR (Mapped) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG strict** | 42.9% [0.0, 80.1] | 42.9% | 75.0% | 60.0 [0.0, 88.9] | 0.0% | 0.0% |
-| **RiceKG + possible** | 71.4% [33.3, 100.0] | 57.1% | 68.8% | 66.7 [36.3, 88.9] | 22.2% | 22.2% |
+| **RiceKG strict** | 71.4% [33.3, 100.0] | 71.4% | 87.5% | 83.3 [50.0, 100.0] | 0.0% | 0.0% |
+| **RiceKG + possible** | 85.7% [50.0, 100.0] | 71.4% | 75.0% | 75.0 [50.0, 94.1] | 22.2% | 22.2% |
 | **noisy-OR (with gates)** | 100.0% [100.0, 100.0] | 71.4% | 43.8% | 45.2 [23.5, 66.7] | 77.8% | 77.8% |
 | **noisy-OR (without gates)** | 100.0% [100.0, 100.0] | 71.4% | 43.8% | 45.2 [23.5, 66.7] | 77.8% | 77.8% |
 | **Rule: Nearest Prototype** | 57.1% [20.0, 100.0] | 57.1% | 81.2% | 72.7 [33.3, 100.0] | 0.0% | 0.0% |
@@ -51,11 +51,11 @@ and locked prior to benchmark execution (commit `6174e8e`).
 
 | System / Paradigm | Pos Recall (Any Hit, %) [95% CI] | Pos Recall (Exact, %) | Exact Match (%) | Micro-F1 [95% CI] | Neg FAR (All) | Neg FAR (Mapped) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG strict** | 22.2% [5.6, 44.4] | 22.2% | 22.2% | 34.8 [9.5, 56.0] | n/a | n/a |
-| **RiceKG + possible** | 72.2% [50.0, 88.9] | 66.7% | 66.7% | 70.3 [47.4, 88.9] | n/a | n/a |
+| **RiceKG strict** | 66.7% [44.4, 88.9] | 66.7% | 66.7% | 77.4 [55.2, 91.5] | n/a | n/a |
+| **RiceKG + possible** | 77.8% [55.6, 94.4] | 77.8% | 77.8% | 75.7 [53.6, 94.4] | n/a | n/a |
 | **noisy-OR (with gates)** | 94.4% [83.3, 100.0] | 61.1% | 61.1% | 68.0 [54.8, 83.0] | n/a | n/a |
 | **noisy-OR (without gates)** | 94.4% [83.3, 100.0] | 61.1% | 61.1% | 68.0 [54.8, 83.0] | n/a | n/a |
-| **Rule: Nearest Prototype** | 44.4% [22.2, 66.7] | 33.3% | 33.3% | 50.0 [28.6, 68.8] | n/a | n/a |
+| **Rule: Nearest Prototype** | 38.9% [16.7, 61.1] | 33.3% | 33.3% | 48.3 [24.0, 69.0] | n/a | n/a |
 
 ---
 
@@ -63,11 +63,11 @@ and locked prior to benchmark execution (commit `6174e8e`).
 
 | System / Paradigm | Pos Recall (Any Hit, %) [95% CI] | Pos Recall (Exact, %) | Exact Match (%) | Micro-F1 [95% CI] | Neg FAR (All) | Neg FAR (Mapped) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG strict** | 14.6% [5.5, 24.5] | 16.7% | 58.9% | 30.2 [13.0, 45.2] | 0.0% | 0.0% |
-| **RiceKG + possible** | 49.1% [35.9, 62.7] | 44.4% | 69.9% | 67.5 [56.4, 76.9] | 11.1% | 11.1% |
+| **RiceKG strict** | 34.5% [22.4, 47.3] | 38.9% | 68.5% | 61.8 [47.6, 74.0] | 5.6% | 5.6% |
+| **RiceKG + possible** | 52.7% [39.3, 66.7] | 55.6% | 75.3% | 73.8 [64.4, 83.3] | 11.1% | 11.1% |
 | **noisy-OR (with gates)** | 65.5% [52.5, 77.5] | 55.6% | 67.1% | 71.5 [63.5, 80.0] | 33.3% | 33.3% |
 | **noisy-OR (without gates)** | 65.5% [52.5, 77.5] | 55.6% | 67.1% | 71.5 [63.5, 80.0] | 33.3% | 33.3% |
-| **Rule: Nearest Prototype** | 65.5% [52.5, 77.5] | 77.8% | 86.3% | 89.8 [83.9, 95.0] | 11.1% | 11.1% |
+| **Rule: Nearest Prototype** | 65.5% [52.5, 77.5] | 83.3% | 89.0% | 91.7 [86.4, 96.5] | 11.1% | 11.1% |
 
 ---
 
@@ -79,7 +79,7 @@ and locked prior to benchmark execution (commit `6174e8e`).
 | **RiceKG + possible** | 80.0% | 100.0% | 100.0% | 0.900 | 17.6% | 17.6% | 82.3% | 0.41 |
 | **noisy-OR (with gates)** | 80.0% | 100.0% | 100.0% | 0.900 | 35.3% | 35.3% | 64.7% | 1.50 |
 | **noisy-OR (without gates)** | 80.0% | 100.0% | 100.0% | 0.900 | 100.0% | 100.0% | 0.0% | 3.00 |
-| **Rule: Nearest Prototype** | 80.0% | 100.0% | 100.0% | 0.900 | 76.5% | 76.5% | 23.5% | 1.59 |
+| **Rule: Nearest Prototype** | 80.0% | 100.0% | 100.0% | 0.900 | 76.5% | 76.5% | 23.5% | 1.45 |
 
 ---
 
@@ -132,7 +132,7 @@ and locked prior to benchmark execution (commit `6174e8e`).
 2. **Comparative Equivalence to the `possible` Grade.** On `dev`, noisy-OR achieves 100.0% any-hit recall and 77.8% FAR. At no threshold operating point does noisy-OR achieve higher recall than the coverage-threshold `possible` grade without a corresponding elevation in false alarm rate.
 3. **Statistical Power & Significance Limits.** Paired McNemar testing between strict RiceKG and noisy-OR on `eval` exact-match yields $p = 6.1035e-05$ (Holm-corrected $p = 2.4414e-04$), reflecting the large difference in negative-control false alarms (strict exact-match: 95.5%, noisy-OR: 27.3%). However, with only 5 eval positive disease cases, the study has an analytical Minimum Detectable Effect of $\pm 30.2\%$ at $\alpha=0.05, 80\%$ power. Positive recall differences on this split cannot be statistically distinguished from chance.
 4. **Parameter Sensitivity Spans.** Across conditional probability shifts ($p \pm 0.1$), the alternative qualitative scale, and background leak scaling ($\times 0.5$, $\times 2.0$), noisy-OR recall spans [100.0%, 100.0%] on `eval` and [71.4%, 100.0%] on `dev`, while FAR spans [35.3%, 70.6%] on `eval` and [11.1%, 77.8%] on `dev`. Because system differences fall within these parameter perturbation envelopes, comparisons between calibrated points are formally inconclusive.
-5. **Holdout Partition (Development-Exposed).** On the 18 holdout cases (18 positives, 0 controls), noisy-OR reaches 61.1% recall compared to strict RiceKG's 22.2% and `possible` grade's 66.7%. As established in Protocol 8-2.5, this partition was previously evaluated during Part 6 and Part 7; all holdout figures are development-exposed.
+5. **Holdout Partition (Development-Exposed).** On the 18 holdout cases (18 positives, 0 controls), noisy-OR reaches 61.1% recall compared to strict RiceKG's 66.7% and `possible` grade's 77.8%. As established in Protocol 8-2.5, this partition was previously evaluated during Part 6 and Part 7; all holdout figures are development-exposed.
 6. **Quantitative-Only Ablation.** Restricting links strictly to quantitative literature sources (dropping qualitative scales) collapses recall to 0.0% on `eval` and 0.0% on `dev`, demonstrating that the rule and probabilistic layers fundamentally depend on qualitative clinical descriptions in published phytopathological monographs.
 
 ---

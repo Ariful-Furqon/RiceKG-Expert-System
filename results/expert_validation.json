@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T00:50:26.910747+00:00",
+  "generated_at": "2026-09-19T01:35:18.247152+00:00",
   "diagnosis": {
     "raters": [
       "R1",
@@ -11,15 +11,15 @@
       "R1-R2": 0.885
     },
     "system_rater_kappa": {
-      "R1": 0.319,
-      "R2": 0.392
+      "R1": 0.528,
+      "R2": 0.609
     },
     "mean_rater_rater_kappa": 0.885,
-    "mean_system_rater_kappa": 0.356,
-    "system_minus_rater_kappa": -0.529,
+    "mean_system_rater_kappa": 0.569,
+    "system_minus_rater_kappa": -0.317,
     "system_minus_rater_kappa_ci95": [
-      -0.685,
-      -0.36
+      -0.467,
+      -0.164
     ],
     "system_within_rater_range": null,
     "vs_published_label": {
@@ -55,11 +55,11 @@
       },
       "RiceKG strict": {
         "all": {
-          "k": 25,
+          "k": 35,
           "n": 56
         },
         "positive_cases": {
-          "k": 11,
+          "k": 21,
           "n": 30
         }
       }
@@ -86,13 +86,14 @@
         "Rice_Grassy_Stunt": 1
       },
       "RiceKG strict": {
-        "Undetermined": 30,
+        "Undetermined": 20,
         "Bacterial_Leaf_Blight": 4,
-        "False_Smut": 4,
+        "Rice_Root_Nematode": 6,
+        "False_Smut": 5,
         "Other": 14,
-        "Rice_Root_Nematode": 1,
         "Rice_Tungro_Virus": 2,
-        "Rice_Grassy_Stunt": 1
+        "Rice_Grassy_Stunt": 1,
+        "Rice_Blast": 4
       }
     }
   },
@@ -376,8 +377,8 @@
       ]
     },
     "rerun_on_majority_outcomes": {
-      "abstain": 18,
-      "correct": 11,
+      "abstain": 8,
+      "correct": 21,
       "explicit_rejection": 14,
       "silent_abstention": 12,
       "misfire": 1
@@ -409,48 +410,49 @@
     },
     "by_ricekg_outcome": {
       "abstain": {
-        "n": 36,
+        "n": 16,
         "accept": {
-          "no": 5,
-          "yes": 13,
-          "partly": 18
+          "yes": 5,
+          "partly": 8,
+          "no": 3
         },
         "reasoning": {
-          "mean": 2.69,
-          "median": 3.0,
-          "n": 36
+          "mean": 2.5,
+          "median": 2.0,
+          "n": 16
         },
         "completeness": {
-          "mean": 2.83,
-          "median": 3.0,
-          "n": 36
+          "mean": 2.56,
+          "median": 2.5,
+          "n": 16
         },
         "usefulness": {
-          "mean": 2.69,
-          "median": 3.0,
-          "n": 36
+          "mean": 2.19,
+          "median": 2.0,
+          "n": 16
         }
       },
       "correct": {
-        "n": 22,
+        "n": 42,
         "accept": {
-          "yes": 14,
-          "partly": 8
+          "no": 2,
+          "yes": 22,
+          "partly": 18
         },
         "reasoning": {
-          "mean": 3.45,
-          "median": 4.0,
-          "n": 22
+          "mean": 3.17,
+          "median": 3.0,
+          "n": 42
         },
         "completeness": {
           "mean": 3.05,
           "median": 3.0,
-          "n": 22
+          "n": 42
         },
         "usefulness": {
-          "mean": 3.36,
-          "median": 4.0,
-          "n": 22
+          "mean": 3.24,
+          "median": 3.0,
+          "n": 42
         }
       },
       "explicit_rejection": {

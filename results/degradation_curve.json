@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-09-18T14:24:45.217407+00:00",
+    "generated_at": "2026-09-19T01:27:43.955539+00:00",
     "n_cases_per_run": 500,
     "num_seeds": 20,
     "occlusion_sweep": [
@@ -14,7 +14,7 @@
       0.7,
       0.8
     ],
-    "elapsed_seconds": 32.6,
+    "elapsed_seconds": 33.77,
     "scientific_disclosure": "Evaluated on parameterised rule-derived cases under controlled occlusion. Characterises robustness to incomplete symptom scouting under the rule vocabulary; does not measure field diagnostic accuracy on uncurated cases."
   },
   "systems": {
@@ -36,131 +36,131 @@
         "micro_precision_mean": 100.0
       },
       "0.1": {
-        "positive_recall_mean": 78.88,
-        "positive_recall_std": 1.28,
+        "positive_recall_mean": 89.13,
+        "positive_recall_std": 1.48,
         "positive_recall_ci95": [
-          76.17,
-          80.54
+          86.83,
+          91.48
         ],
-        "micro_f1_mean": 89.15,
-        "micro_f1_std": 0.81,
+        "micro_f1_mean": 94.73,
+        "micro_f1_std": 0.79,
         "micro_f1_ci95": [
-          87.53,
-          90.22
+          93.5,
+          96.01
         ],
-        "exact_match_mean": 83.07,
+        "exact_match_mean": 91.26,
         "micro_precision_mean": 100.0
       },
       "0.2": {
-        "positive_recall_mean": 60.18,
-        "positive_recall_std": 2.58,
+        "positive_recall_mean": 78.04,
+        "positive_recall_std": 1.77,
         "positive_recall_ci95": [
-          56.18,
-          64.5
+          75.28,
+          81.11
         ],
-        "micro_f1_mean": 77.09,
-        "micro_f1_std": 1.92,
+        "micro_f1_mean": 88.63,
+        "micro_f1_std": 0.95,
         "micro_f1_ci95": [
-          74.01,
-          80.09
+          87.0,
+          90.3
         ],
-        "exact_match_mean": 68.04,
+        "exact_match_mean": 82.34,
         "micro_precision_mean": 100.0
       },
       "0.3": {
-        "positive_recall_mean": 44.41,
-        "positive_recall_std": 2.64,
+        "positive_recall_mean": 67.91,
+        "positive_recall_std": 2.44,
         "positive_recall_ci95": [
-          39.4,
-          48.4
+          64.72,
+          72.23
         ],
-        "micro_f1_mean": 64.12,
-        "micro_f1_std": 2.64,
+        "micro_f1_mean": 82.29,
+        "micro_f1_std": 1.48,
         "micro_f1_ci95": [
-          58.96,
-          68.03
+          80.21,
+          84.8
         ],
-        "exact_match_mean": 55.31,
+        "exact_match_mean": 74.13,
         "micro_precision_mean": 100.0
       },
       "0.4": {
-        "positive_recall_mean": 31.65,
-        "positive_recall_std": 1.79,
+        "positive_recall_mean": 57.53,
+        "positive_recall_std": 2.08,
         "positive_recall_ci95": [
-          28.18,
-          34.15
+          54.98,
+          61.95
         ],
-        "micro_f1_mean": 50.68,
-        "micro_f1_std": 2.33,
+        "micro_f1_mean": 74.82,
+        "micro_f1_std": 1.56,
         "micro_f1_ci95": [
-          46.36,
-          53.39
+          72.84,
+          77.68
         ],
-        "exact_match_mean": 45.11,
+        "exact_match_mean": 65.7,
         "micro_precision_mean": 100.0
       },
       "0.5": {
-        "positive_recall_mean": 21.54,
-        "positive_recall_std": 1.45,
+        "positive_recall_mean": 48.07,
+        "positive_recall_std": 2.07,
         "positive_recall_ci95": [
-          18.84,
-          24.11
+          45.46,
+          51.94
         ],
-        "micro_f1_mean": 37.86,
-        "micro_f1_std": 2.19,
+        "micro_f1_mean": 67.06,
+        "micro_f1_std": 1.92,
         "micro_f1_ci95": [
-          34.1,
-          41.48
+          64.68,
+          70.47
         ],
-        "exact_match_mean": 36.8,
+        "exact_match_mean": 58.09,
         "micro_precision_mean": 100.0
       },
       "0.6": {
-        "positive_recall_mean": 13.52,
-        "positive_recall_std": 1.44,
+        "positive_recall_mean": 39.38,
+        "positive_recall_std": 2.91,
         "positive_recall_ci95": [
-          10.92,
-          15.89
+          34.54,
+          43.68
         ],
-        "micro_f1_mean": 25.58,
-        "micro_f1_std": 2.46,
+        "micro_f1_mean": 59.09,
+        "micro_f1_std": 2.62,
         "micro_f1_ci95": [
-          20.96,
-          29.53
+          54.78,
+          62.88
         ],
-        "exact_match_mean": 30.28,
+        "exact_match_mean": 51.4,
         "micro_precision_mean": 100.0
       },
       "0.7": {
-        "positive_recall_mean": 7.23,
-        "positive_recall_std": 1.14,
+        "positive_recall_mean": 31.32,
+        "positive_recall_std": 1.98,
         "positive_recall_ci95": [
-          5.59,
-          8.87
+          28.24,
+          34.52
         ],
-        "micro_f1_mean": 15.01,
-        "micro_f1_std": 1.85,
+        "micro_f1_mean": 50.4,
+        "micro_f1_std": 2.03,
         "micro_f1_ci95": [
-          11.61,
-          17.22
+          46.88,
+          54.15
         ],
-        "exact_match_mean": 25.67,
+        "exact_match_mean": 44.82,
         "micro_precision_mean": 100.0
       },
       "0.8": {
-        "positive_recall_mean": 3.08,
-        "positive_recall_std": 0.83,
+        "positive_recall_mean": 25.14,
+        "positive_recall_std": 1.6,
         "positive_recall_ci95": [
-          1.87,
-          4.53
+          22.46,
+          27.82
         ],
-        "micro_f1_mean": 6.8,
-        "micro_f1_std": 1.62,
+        "micro_f1_mean": 42.45,
+        "micro_f1_std": 2.41,
         "micro_f1_ci95": [
-          4.4,
-          9.63
+          38.91,
+          47.09
         ],
-        "exact_match_mean": 22.52,
+        "exact_match_mean": 40.32,
         "micro_precision_mean": 100.0
       }
     },
@@ -172,142 +172,142 @@
           100.0,
           100.0
         ],
-        "micro_f1_mean": 99.69,
-        "micro_f1_std": 0.19,
+        "micro_f1_mean": 99.5,
+        "micro_f1_std": 0.33,
         "micro_f1_ci95": [
-          99.35,
-          99.95
+          98.85,
+          100.0
         ],
-        "exact_match_mean": 99.45,
-        "micro_precision_mean": 99.37
+        "exact_match_mean": 99.11,
+        "micro_precision_mean": 99.0
       },
       "0.1": {
-        "positive_recall_mean": 87.32,
-        "positive_recall_std": 1.38,
+        "positive_recall_mean": 95.97,
+        "positive_recall_std": 0.9,
         "positive_recall_ci95": [
-          85.05,
-          89.8
+          94.32,
+          97.37
         ],
-        "micro_f1_mean": 92.29,
-        "micro_f1_std": 1.03,
+        "micro_f1_mean": 97.62,
+        "micro_f1_std": 0.56,
         "micro_f1_ci95": [
-          90.59,
-          94.11
+          96.44,
+          98.39
         ],
-        "exact_match_mean": 89.25,
-        "micro_precision_mean": 88.48
+        "exact_match_mean": 95.84,
+        "micro_precision_mean": 97.48
       },
       "0.2": {
-        "positive_recall_mean": 76.38,
-        "positive_recall_std": 1.88,
+        "positive_recall_mean": 90.61,
+        "positive_recall_std": 1.33,
         "positive_recall_ci95": [
-          73.29,
-          79.07
+          88.53,
+          92.57
         ],
-        "micro_f1_mean": 86.07,
-        "micro_f1_std": 1.22,
+        "micro_f1_mean": 95.03,
+        "micro_f1_std": 0.8,
         "micro_f1_ci95": [
-          84.24,
-          88.03
+          93.75,
+          96.23
         ],
-        "exact_match_mean": 80.44,
-        "micro_precision_mean": 81.1
+        "exact_match_mean": 91.54,
+        "micro_precision_mean": 96.26
       },
       "0.3": {
-        "positive_recall_mean": 67.05,
-        "positive_recall_std": 2.3,
+        "positive_recall_mean": 84.57,
+        "positive_recall_std": 1.96,
         "positive_recall_ci95": [
-          62.96,
-          71.03
+          81.2,
+          87.75
         ],
-        "micro_f1_mean": 80.68,
-        "micro_f1_std": 1.56,
+        "micro_f1_mean": 92.0,
+        "micro_f1_std": 1.06,
         "micro_f1_ci95": [
-          78.21,
-          83.6
+          90.31,
+          93.67
         ],
-        "exact_match_mean": 72.92,
-        "micro_precision_mean": 76.47
+        "exact_match_mean": 86.72,
+        "micro_precision_mean": 95.33
       },
       "0.4": {
-        "positive_recall_mean": 59.17,
-        "positive_recall_std": 2.13,
+        "positive_recall_mean": 77.21,
+        "positive_recall_std": 2.3,
         "positive_recall_ci95": [
-          56.02,
-          62.87
+          73.94,
+          81.27
         ],
-        "micro_f1_mean": 75.62,
-        "micro_f1_std": 1.39,
+        "micro_f1_mean": 87.88,
+        "micro_f1_std": 1.19,
         "micro_f1_ci95": [
-          73.4,
-          78.06
+          85.85,
+          89.8
         ],
-        "exact_match_mean": 66.53,
-        "micro_precision_mean": 72.98
+        "exact_match_mean": 80.76,
+        "micro_precision_mean": 93.99
       },
       "0.5": {
-        "positive_recall_mean": 52.3,
-        "positive_recall_std": 2.2,
+        "positive_recall_mean": 69.0,
+        "positive_recall_std": 1.66,
         "positive_recall_ci95": [
-          48.3,
-          56.1
+          66.07,
+          71.5
         ],
-        "micro_f1_mean": 70.24,
-        "micro_f1_std": 1.86,
+        "micro_f1_mean": 82.82,
+        "micro_f1_std": 1.16,
         "micro_f1_ci95": [
-          66.36,
-          73.29
+          80.66,
+          84.5
         ],
-        "exact_match_mean": 60.92,
-        "micro_precision_mean": 71.08
+        "exact_match_mean": 74.17,
+        "micro_precision_mean": 93.11
       },
       "0.6": {
-        "positive_recall_mean": 46.21,
-        "positive_recall_std": 2.12,
+        "positive_recall_mean": 60.76,
+        "positive_recall_std": 2.67,
         "positive_recall_ci95": [
-          41.98,
-          49.16
+          56.15,
+          65.04
         ],
-        "micro_f1_mean": 64.53,
-        "micro_f1_std": 1.73,
+        "micro_f1_mean": 77.04,
+        "micro_f1_std": 1.5,
         "micro_f1_ci95": [
-          61.32,
-          67.21
+          74.41,
+          79.53
         ],
-        "exact_match_mean": 55.95,
-        "micro_precision_mean": 69.96
+        "exact_match_mean": 67.78,
+        "micro_precision_mean": 92.56
       },
       "0.7": {
-        "positive_recall_mean": 38.72,
-        "positive_recall_std": 2.44,
+        "positive_recall_mean": 52.81,
+        "positive_recall_std": 2.36,
         "positive_recall_ci95": [
-          34.32,
-          43.57
+          49.24,
+          57.96
         ],
-        "micro_f1_mean": 57.64,
-        "micro_f1_std": 2.07,
+        "micro_f1_mean": 70.46,
+        "micro_f1_std": 1.69,
         "micro_f1_ci95": [
-          53.67,
-          60.77
+          67.83,
+          73.84
         ],
-        "exact_match_mean": 50.12,
-        "micro_precision_mean": 69.07
+        "exact_match_mean": 61.3,
+        "micro_precision_mean": 91.09
       },
       "0.8": {
-        "positive_recall_mean": 33.44,
-        "positive_recall_std": 1.95,
+        "positive_recall_mean": 44.65,
+        "positive_recall_std": 2.02,
         "positive_recall_ci95": [
-          30.26,
-          36.73
+          42.02,
+          48.36
         ],
-        "micro_f1_mean": 50.6,
-        "micro_f1_std": 2.0,
+        "micro_f1_mean": 63.16,
+        "micro_f1_std": 2.06,
         "micro_f1_ci95": [
-          47.09,
-          53.63
+          60.26,
+          66.59
         ],
-        "exact_match_mean": 45.97,
-        "micro_precision_mean": 68.56
+        "exact_match_mean": 55.12,
+        "micro_precision_mean": 89.46
       }
     },
     "Rule: Flat Single-Tier": {
@@ -328,862 +328,862 @@
         "micro_precision_mean": 100.0
       },
       "0.1": {
-        "positive_recall_mean": 78.88,
-        "positive_recall_std": 1.28,
+        "positive_recall_mean": 89.13,
+        "positive_recall_std": 1.48,
         "positive_recall_ci95": [
-          76.17,
-          80.54
+          86.83,
+          91.48
         ],
-        "micro_f1_mean": 89.15,
-        "micro_f1_std": 0.81,
+        "micro_f1_mean": 94.73,
+        "micro_f1_std": 0.79,
         "micro_f1_ci95": [
-          87.53,
-          90.22
+          93.5,
+          96.01
         ],
-        "exact_match_mean": 83.07,
+        "exact_match_mean": 91.26,
         "micro_precision_mean": 100.0
       },
       "0.2": {
-        "positive_recall_mean": 60.18,
-        "positive_recall_std": 2.58,
+        "positive_recall_mean": 78.04,
+        "positive_recall_std": 1.77,
         "positive_recall_ci95": [
-          56.18,
-          64.5
+          75.28,
+          81.11
         ],
-        "micro_f1_mean": 77.09,
-        "micro_f1_std": 1.92,
+        "micro_f1_mean": 88.63,
+        "micro_f1_std": 0.95,
         "micro_f1_ci95": [
-          74.01,
-          80.09
+          87.0,
+          90.3
         ],
-        "exact_match_mean": 68.04,
+        "exact_match_mean": 82.34,
         "micro_precision_mean": 100.0
       },
       "0.3": {
-        "positive_recall_mean": 44.41,
-        "positive_recall_std": 2.64,
+        "positive_recall_mean": 67.91,
+        "positive_recall_std": 2.44,
         "positive_recall_ci95": [
-          39.4,
-          48.4
+          64.72,
+          72.23
         ],
-        "micro_f1_mean": 64.12,
-        "micro_f1_std": 2.64,
+        "micro_f1_mean": 82.29,
+        "micro_f1_std": 1.48,
         "micro_f1_ci95": [
-          58.96,
-          68.03
+          80.21,
+          84.8
         ],
-        "exact_match_mean": 55.31,
+        "exact_match_mean": 74.13,
         "micro_precision_mean": 100.0
       },
       "0.4": {
-        "positive_recall_mean": 31.65,
-        "positive_recall_std": 1.79,
+        "positive_recall_mean": 57.53,
+        "positive_recall_std": 2.08,
         "positive_recall_ci95": [
-          28.18,
-          34.15
+          54.98,
+          61.95
         ],
-        "micro_f1_mean": 50.68,
-        "micro_f1_std": 2.33,
+        "micro_f1_mean": 74.82,
+        "micro_f1_std": 1.56,
         "micro_f1_ci95": [
-          46.36,
-          53.39
+          72.84,
+          77.68
         ],
-        "exact_match_mean": 45.11,
+        "exact_match_mean": 65.7,
         "micro_precision_mean": 100.0
       },
       "0.5": {
-        "positive_recall_mean": 21.54,
-        "positive_recall_std": 1.45,
+        "positive_recall_mean": 48.07,
+        "positive_recall_std": 2.07,
         "positive_recall_ci95": [
-          18.84,
-          24.11
+          45.46,
+          51.94
         ],
-        "micro_f1_mean": 37.86,
-        "micro_f1_std": 2.19,
+        "micro_f1_mean": 67.06,
+        "micro_f1_std": 1.92,
         "micro_f1_ci95": [
-          34.1,
-          41.48
+          64.68,
+          70.47
         ],
-        "exact_match_mean": 36.8,
+        "exact_match_mean": 58.09,
         "micro_precision_mean": 100.0
       },
       "0.6": {
-        "positive_recall_mean": 13.52,
-        "positive_recall_std": 1.44,
+        "positive_recall_mean": 39.38,
+        "positive_recall_std": 2.91,
         "positive_recall_ci95": [
-          10.92,
-          15.89
+          34.54,
+          43.68
         ],
-        "micro_f1_mean": 25.58,
-        "micro_f1_std": 2.46,
+        "micro_f1_mean": 59.09,
+        "micro_f1_std": 2.62,
         "micro_f1_ci95": [
-          20.96,
-          29.53
+          54.78,
+          62.88
         ],
-        "exact_match_mean": 30.28,
+        "exact_match_mean": 51.4,
         "micro_precision_mean": 100.0
       },
       "0.7": {
-        "positive_recall_mean": 7.23,
-        "positive_recall_std": 1.14,
+        "positive_recall_mean": 31.32,
+        "positive_recall_std": 1.98,
         "positive_recall_ci95": [
-          5.59,
-          8.87
+          28.24,
+          34.52
         ],
-        "micro_f1_mean": 15.01,
-        "micro_f1_std": 1.85,
+        "micro_f1_mean": 50.4,
+        "micro_f1_std": 2.03,
         "micro_f1_ci95": [
-          11.61,
-          17.22
+          46.88,
+          54.15
         ],
-        "exact_match_mean": 25.67,
+        "exact_match_mean": 44.82,
         "micro_precision_mean": 100.0
       },
       "0.8": {
-        "positive_recall_mean": 3.08,
-        "positive_recall_std": 0.83,
+        "positive_recall_mean": 25.14,
+        "positive_recall_std": 1.6,
         "positive_recall_ci95": [
-          1.87,
-          4.53
+          22.46,
+          27.82
         ],
-        "micro_f1_mean": 6.8,
-        "micro_f1_std": 1.62,
+        "micro_f1_mean": 42.45,
+        "micro_f1_std": 2.41,
         "micro_f1_ci95": [
-          4.4,
-          9.63
+          38.91,
+          47.09
         ],
-        "exact_match_mean": 22.52,
+        "exact_match_mean": 40.32,
         "micro_precision_mean": 100.0
       }
     },
     "Rule: Nearest Prototype": {
       "0.0": {
-        "positive_recall_mean": 69.22,
-        "positive_recall_std": 2.48,
+        "positive_recall_mean": 72.77,
+        "positive_recall_std": 2.28,
         "positive_recall_ci95": [
-          65.48,
-          72.61
+          69.61,
+          76.37
         ],
-        "micro_f1_mean": 87.66,
-        "micro_f1_std": 0.92,
+        "micro_f1_mean": 88.97,
+        "micro_f1_std": 0.86,
         "micro_f1_ci95": [
-          86.26,
-          88.85
+          87.74,
+          90.38
         ],
-        "exact_match_mean": 75.38,
-        "micro_precision_mean": 78.05
+        "exact_match_mean": 78.14,
+        "micro_precision_mean": 80.14
       },
       "0.1": {
-        "positive_recall_mean": 74.39,
-        "positive_recall_std": 2.76,
+        "positive_recall_mean": 76.97,
+        "positive_recall_std": 2.1,
         "positive_recall_ci95": [
-          69.45,
-          78.56
+          74.38,
+          80.84
         ],
-        "micro_f1_mean": 89.51,
-        "micro_f1_std": 1.05,
+        "micro_f1_mean": 90.5,
+        "micro_f1_std": 0.8,
         "micro_f1_ci95": [
-          87.6,
-          91.06
+          89.52,
+          92.01
         ],
-        "exact_match_mean": 79.46,
-        "micro_precision_mean": 81.09
+        "exact_match_mean": 81.48,
+        "micro_precision_mean": 82.81
       },
       "0.2": {
-        "positive_recall_mean": 77.02,
-        "positive_recall_std": 3.21,
+        "positive_recall_mean": 80.09,
+        "positive_recall_std": 1.85,
         "positive_recall_ci95": [
-          70.52,
-          81.72
+          77.11,
+          83.37
         ],
-        "micro_f1_mean": 90.39,
-        "micro_f1_std": 1.24,
+        "micro_f1_mean": 91.58,
+        "micro_f1_std": 0.77,
         "micro_f1_ci95": [
-          87.91,
-          92.23
+          90.21,
+          92.87
         ],
-        "exact_match_mean": 81.53,
-        "micro_precision_mean": 82.85
+        "exact_match_mean": 83.98,
+        "micro_precision_mean": 85.53
       },
       "0.3": {
-        "positive_recall_mean": 76.96,
-        "positive_recall_std": 2.17,
+        "positive_recall_mean": 80.88,
+        "positive_recall_std": 2.08,
         "positive_recall_ci95": [
-          73.02,
-          80.1
+          77.43,
+          84.61
         ],
-        "micro_f1_mean": 90.15,
-        "micro_f1_std": 0.83,
+        "micro_f1_mean": 91.62,
+        "micro_f1_std": 0.86,
         "micro_f1_ci95": [
-          88.63,
-          91.37
+          90.13,
+          93.09
         ],
-        "exact_match_mean": 81.46,
-        "micro_precision_mean": 83.61
+        "exact_match_mean": 84.57,
+        "micro_precision_mean": 87.88
       },
       "0.4": {
-        "positive_recall_mean": 74.71,
-        "positive_recall_std": 1.99,
+        "positive_recall_mean": 77.36,
+        "positive_recall_std": 2.12,
         "positive_recall_ci95": [
-          72.02,
-          77.55
+          74.64,
+          81.84
         ],
-        "micro_f1_mean": 88.78,
-        "micro_f1_std": 0.85,
+        "micro_f1_mean": 89.52,
+        "micro_f1_std": 0.98,
         "micro_f1_ci95": [
-          87.59,
-          89.99
+          88.25,
+          91.66
         ],
-        "exact_match_mean": 79.68,
-        "micro_precision_mean": 84.37
+        "exact_match_mean": 81.7,
+        "micro_precision_mean": 89.27
       },
       "0.5": {
-        "positive_recall_mean": 69.16,
-        "positive_recall_std": 2.39,
+        "positive_recall_mean": 70.78,
+        "positive_recall_std": 2.01,
         "positive_recall_ci95": [
-          65.57,
-          73.03
+          68.55,
+          74.96
         ],
-        "micro_f1_mean": 85.51,
-        "micro_f1_std": 1.22,
+        "micro_f1_mean": 85.64,
+        "micro_f1_std": 1.14,
         "micro_f1_ci95": [
-          83.68,
-          87.66
+          84.18,
+          87.95
         ],
-        "exact_match_mean": 75.17,
-        "micro_precision_mean": 85.28
+        "exact_match_mean": 76.4,
+        "micro_precision_mean": 90.85
       },
       "0.6": {
-        "positive_recall_mean": 60.15,
-        "positive_recall_std": 2.18,
+        "positive_recall_mean": 59.49,
+        "positive_recall_std": 2.05,
         "positive_recall_ci95": [
-          56.88,
-          64.09
+          56.77,
+          63.67
         ],
-        "micro_f1_mean": 79.59,
-        "micro_f1_std": 1.23,
+        "micro_f1_mean": 78.08,
+        "micro_f1_std": 1.11,
         "micro_f1_ci95": [
-          77.8,
-          81.52
+          76.41,
+          80.16
         ],
-        "exact_match_mean": 67.87,
-        "micro_precision_mean": 86.29
+        "exact_match_mean": 67.53,
+        "micro_precision_mean": 91.94
       },
       "0.7": {
-        "positive_recall_mean": 45.58,
-        "positive_recall_std": 2.26,
+        "positive_recall_mean": 43.75,
+        "positive_recall_std": 2.62,
         "positive_recall_ci95": [
-          42.28,
-          49.89
+          39.39,
+          48.98
         ],
-        "micro_f1_mean": 68.2,
-        "micro_f1_std": 1.58,
+        "micro_f1_mean": 65.08,
+        "micro_f1_std": 2.06,
         "micro_f1_ci95": [
-          65.36,
-          70.61
+          61.24,
+          68.99
         ],
-        "exact_match_mean": 56.41,
-        "micro_precision_mean": 86.74
+        "exact_match_mean": 54.79,
+        "micro_precision_mean": 92.43
       },
       "0.8": {
-        "positive_recall_mean": 28.46,
-        "positive_recall_std": 1.7,
+        "positive_recall_mean": 25.35,
+        "positive_recall_std": 2.55,
         "positive_recall_ci95": [
-          25.81,
-          31.06
+          20.93,
+          28.7
         ],
-        "micro_f1_mean": 50.61,
-        "micro_f1_std": 1.86,
+        "micro_f1_mean": 44.76,
+        "micro_f1_std": 2.96,
         "micro_f1_ci95": [
-          47.54,
-          53.84
+          39.57,
+          49.12
         ],
-        "exact_match_mean": 42.8,
-        "micro_precision_mean": 87.45
+        "exact_match_mean": 40.49,
+        "micro_precision_mean": 91.28
       }
     },
     "Decision Tree": {
       "0.0": {
-        "positive_recall_mean": 97.91,
-        "positive_recall_std": 1.43,
+        "positive_recall_mean": 98.05,
+        "positive_recall_std": 0.9,
         "positive_recall_ci95": [
-          94.72,
-          99.76
+          96.56,
+          99.64
         ],
-        "micro_f1_mean": 98.88,
-        "micro_f1_std": 0.87,
+        "micro_f1_mean": 99.0,
+        "micro_f1_std": 0.5,
         "micro_f1_ci95": [
-          96.81,
-          99.89
+          98.0,
+          99.84
         ],
-        "exact_match_mean": 98.32,
-        "micro_precision_mean": 99.05
+        "exact_match_mean": 98.42,
+        "micro_precision_mean": 99.09
       },
       "0.1": {
-        "positive_recall_mean": 96.31,
-        "positive_recall_std": 1.27,
+        "positive_recall_mean": 96.39,
+        "positive_recall_std": 1.07,
         "positive_recall_ci95": [
-          93.56,
-          98.13
+          94.31,
+          98.16
         ],
-        "micro_f1_mean": 98.02,
-        "micro_f1_std": 0.93,
+        "micro_f1_mean": 98.17,
+        "micro_f1_std": 0.62,
         "micro_f1_ci95": [
-          95.9,
-          99.13
+          97.07,
+          99.09
         ],
-        "exact_match_mean": 97.0,
-        "micro_precision_mean": 98.85
+        "exact_match_mean": 97.08,
+        "micro_precision_mean": 99.04
       },
       "0.2": {
-        "positive_recall_mean": 93.7,
-        "positive_recall_std": 1.86,
+        "positive_recall_mean": 93.34,
+        "positive_recall_std": 1.63,
         "positive_recall_ci95": [
-          90.01,
-          96.41
+          91.0,
+          95.51
         ],
-        "micro_f1_mean": 96.63,
-        "micro_f1_std": 1.24,
+        "micro_f1_mean": 96.62,
+        "micro_f1_std": 0.98,
         "micro_f1_ci95": [
-          93.92,
-          98.2
+          95.11,
+          97.81
         ],
-        "exact_match_mean": 94.91,
-        "micro_precision_mean": 98.64
+        "exact_match_mean": 94.61,
+        "micro_precision_mean": 98.82
       },
       "0.3": {
-        "positive_recall_mean": 89.42,
-        "positive_recall_std": 2.16,
+        "positive_recall_mean": 89.1,
+        "positive_recall_std": 2.0,
         "positive_recall_ci95": [
-          85.28,
-          92.5
+          86.48,
+          92.64
         ],
-        "micro_f1_mean": 94.19,
-        "micro_f1_std": 1.65,
+        "micro_f1_mean": 94.37,
+        "micro_f1_std": 1.21,
         "micro_f1_ci95": [
-          90.58,
-          95.98
+          92.46,
+          96.32
         ],
-        "exact_match_mean": 91.46,
-        "micro_precision_mean": 98.0
+        "exact_match_mean": 91.16,
+        "micro_precision_mean": 98.52
       },
       "0.4": {
-        "positive_recall_mean": 83.04,
-        "positive_recall_std": 2.02,
+        "positive_recall_mean": 83.71,
+        "positive_recall_std": 2.4,
         "positive_recall_ci95": [
-          80.0,
-          86.81
+          79.28,
+          87.51
         ],
-        "micro_f1_mean": 90.58,
-        "micro_f1_std": 1.68,
+        "micro_f1_mean": 91.28,
+        "micro_f1_std": 1.38,
         "micro_f1_ci95": [
-          87.34,
-          92.96
+          88.86,
+          93.14
         ],
-        "exact_match_mean": 86.33,
-        "micro_precision_mean": 97.27
+        "exact_match_mean": 86.8,
+        "micro_precision_mean": 97.99
       },
       "0.5": {
-        "positive_recall_mean": 75.38,
-        "positive_recall_std": 2.8,
+        "positive_recall_mean": 76.25,
+        "positive_recall_std": 3.46,
         "positive_recall_ci95": [
-          70.68,
-          80.16
+          68.78,
+          81.48
         ],
-        "micro_f1_mean": 86.04,
-        "micro_f1_std": 2.03,
+        "micro_f1_mean": 86.78,
+        "micro_f1_std": 2.44,
         "micro_f1_ci95": [
-          81.91,
-          89.16
+          81.82,
+          90.03
         ],
-        "exact_match_mean": 80.12,
-        "micro_precision_mean": 96.66
+        "exact_match_mean": 80.78,
+        "micro_precision_mean": 97.16
       },
       "0.6": {
-        "positive_recall_mean": 66.86,
-        "positive_recall_std": 2.96,
+        "positive_recall_mean": 68.92,
+        "positive_recall_std": 3.67,
         "positive_recall_ci95": [
-          60.95,
-          71.86
+          61.85,
+          75.26
         ],
-        "micro_f1_mean": 80.32,
-        "micro_f1_std": 2.25,
+        "micro_f1_mean": 82.02,
+        "micro_f1_std": 2.65,
         "micro_f1_ci95": [
-          75.81,
-          83.98
+          76.74,
+          86.07
         ],
-        "exact_match_mean": 73.22,
-        "micro_precision_mean": 95.62
+        "exact_match_mean": 75.04,
+        "micro_precision_mean": 96.45
       },
       "0.7": {
-        "positive_recall_mean": 57.83,
-        "positive_recall_std": 3.1,
+        "positive_recall_mean": 60.03,
+        "positive_recall_std": 3.44,
         "positive_recall_ci95": [
-          50.81,
-          61.95
+          55.25,
+          65.06
         ],
-        "micro_f1_mean": 73.81,
-        "micro_f1_std": 2.57,
+        "micro_f1_mean": 75.63,
+        "micro_f1_std": 2.76,
         "micro_f1_ci95": [
-          67.92,
-          77.09
+          71.97,
+          80.35
         ],
-        "exact_match_mean": 66.15,
-        "micro_precision_mean": 95.01
+        "exact_match_mean": 67.85,
+        "micro_precision_mean": 95.14
       },
       "0.8": {
-        "positive_recall_mean": 48.95,
-        "positive_recall_std": 3.13,
+        "positive_recall_mean": 51.44,
+        "positive_recall_std": 3.6,
         "positive_recall_ci95": [
-          43.69,
-          53.82
+          46.02,
+          57.44
         ],
-        "micro_f1_mean": 66.65,
-        "micro_f1_std": 2.64,
+        "micro_f1_mean": 68.91,
+        "micro_f1_std": 3.29,
         "micro_f1_ci95": [
-          62.09,
-          70.81
+          64.1,
+          74.17
         ],
-        "exact_match_mean": 59.16,
-        "micro_precision_mean": 93.73
+        "exact_match_mean": 61.28,
+        "micro_precision_mean": 94.33
       }
     },
     "Random Forest": {
       "0.0": {
-        "positive_recall_mean": 99.03,
-        "positive_recall_std": 0.89,
+        "positive_recall_mean": 99.23,
+        "positive_recall_std": 0.77,
         "positive_recall_ci95": [
-          97.28,
+          97.89,
           100.0
         ],
-        "micro_f1_mean": 99.51,
-        "micro_f1_std": 0.41,
+        "micro_f1_mean": 99.64,
+        "micro_f1_std": 0.37,
         "micro_f1_ci95": [
-          98.73,
+          99.02,
           100.0
         ],
-        "exact_match_mean": 99.15,
-        "micro_precision_mean": 99.87
+        "exact_match_mean": 99.36,
+        "micro_precision_mean": 99.96
       },
       "0.1": {
-        "positive_recall_mean": 98.06,
-        "positive_recall_std": 1.05,
+        "positive_recall_mean": 98.1,
+        "positive_recall_std": 0.88,
         "positive_recall_ci95": [
-          96.14,
-          99.5
+          96.53,
+          99.39
         ],
-        "micro_f1_mean": 99.04,
-        "micro_f1_std": 0.47,
+        "micro_f1_mean": 99.1,
+        "micro_f1_std": 0.44,
         "micro_f1_ci95": [
-          98.15,
-          99.77
+          98.28,
+          99.72
         ],
-        "exact_match_mean": 98.35,
-        "micro_precision_mean": 99.84
+        "exact_match_mean": 98.45,
+        "micro_precision_mean": 99.95
       },
       "0.2": {
-        "positive_recall_mean": 96.52,
-        "positive_recall_std": 1.31,
+        "positive_recall_mean": 96.15,
+        "positive_recall_std": 1.22,
         "positive_recall_ci95": [
-          94.46,
-          98.72
+          93.88,
+          97.89
         ],
-        "micro_f1_mean": 98.27,
-        "micro_f1_std": 0.65,
+        "micro_f1_mean": 98.16,
+        "micro_f1_std": 0.61,
         "micro_f1_ci95": [
-          97.22,
-          99.41
+          97.17,
+          99.02
         ],
-        "exact_match_mean": 97.11,
-        "micro_precision_mean": 99.79
+        "exact_match_mean": 96.87,
+        "micro_precision_mean": 99.92
       },
       "0.3": {
-        "positive_recall_mean": 93.3,
-        "positive_recall_std": 1.32,
+        "positive_recall_mean": 93.1,
+        "positive_recall_std": 1.22,
         "positive_recall_ci95": [
-          90.76,
-          95.7
+          90.7,
+          94.92
         ],
-        "micro_f1_mean": 96.61,
-        "micro_f1_std": 0.67,
+        "micro_f1_mean": 96.6,
+        "micro_f1_std": 0.63,
         "micro_f1_ci95": [
-          95.42,
-          97.85
+          95.35,
+          97.47
         ],
-        "exact_match_mean": 94.52,
-        "micro_precision_mean": 99.62
+        "exact_match_mean": 94.39,
+        "micro_precision_mean": 99.75
       },
       "0.4": {
-        "positive_recall_mean": 87.55,
-        "positive_recall_std": 1.87,
+        "positive_recall_mean": 88.02,
+        "positive_recall_std": 1.51,
         "positive_recall_ci95": [
-          83.66,
-          89.97
+          85.43,
+          90.46
         ],
-        "micro_f1_mean": 93.56,
-        "micro_f1_std": 1.0,
+        "micro_f1_mean": 93.9,
+        "micro_f1_std": 0.77,
         "micro_f1_ci95": [
-          91.54,
-          95.04
+          92.91,
+          95.21
         ],
-        "exact_match_mean": 89.87,
-        "micro_precision_mean": 99.38
+        "exact_match_mean": 90.28,
+        "micro_precision_mean": 99.48
       },
       "0.5": {
-        "positive_recall_mean": 79.3,
-        "positive_recall_std": 2.22,
+        "positive_recall_mean": 81.35,
+        "positive_recall_std": 1.65,
         "positive_recall_ci95": [
-          74.94,
-          82.87
+          79.17,
+          84.68
         ],
-        "micro_f1_mean": 88.83,
-        "micro_f1_std": 1.29,
+        "micro_f1_mean": 90.14,
+        "micro_f1_std": 0.94,
         "micro_f1_ci95": [
-          86.39,
-          90.99
+          88.84,
+          91.96
         ],
-        "exact_match_mean": 83.22,
-        "micro_precision_mean": 99.15
+        "exact_match_mean": 84.9,
+        "micro_precision_mean": 99.31
       },
       "0.6": {
-        "positive_recall_mean": 68.98,
-        "positive_recall_std": 2.19,
+        "positive_recall_mean": 72.98,
+        "positive_recall_std": 2.91,
         "positive_recall_ci95": [
-          65.43,
-          73.02
+          68.35,
+          77.84
         ],
-        "micro_f1_mean": 82.03,
-        "micro_f1_std": 1.58,
+        "micro_f1_mean": 84.84,
+        "micro_f1_std": 1.73,
         "micro_f1_ci95": [
-          79.65,
-          84.93
+          81.84,
+          87.78
         ],
-        "exact_match_mean": 74.9,
-        "micro_precision_mean": 98.84
+        "exact_match_mean": 78.31,
+        "micro_precision_mean": 99.02
       },
       "0.7": {
-        "positive_recall_mean": 56.64,
-        "positive_recall_std": 3.6,
+        "positive_recall_mean": 63.56,
+        "positive_recall_std": 3.27,
         "positive_recall_ci95": [
-          49.84,
-          62.03
+          56.49,
+          68.05
         ],
-        "micro_f1_mean": 73.0,
-        "micro_f1_std": 2.81,
+        "micro_f1_mean": 77.98,
+        "micro_f1_std": 2.1,
         "micro_f1_ci95": [
-          67.78,
-          77.36
+          73.61,
+          81.05
         ],
-        "exact_match_mean": 65.18,
-        "micro_precision_mean": 98.96
+        "exact_match_mean": 70.7,
+        "micro_precision_mean": 98.38
       },
       "0.8": {
-        "positive_recall_mean": 43.68,
-        "positive_recall_std": 5.12,
+        "positive_recall_mean": 53.57,
+        "positive_recall_std": 4.1,
         "positive_recall_ci95": [
-          35.75,
-          53.09
+          44.05,
+          59.9
         ],
-        "micro_f1_mean": 61.0,
-        "micro_f1_std": 4.68,
+        "micro_f1_mean": 69.5,
+        "micro_f1_std": 2.89,
         "micro_f1_ci95": [
-          53.02,
-          68.88
+          62.53,
+          73.19
         ],
-        "exact_match_mean": 54.82,
-        "micro_precision_mean": 98.44
+        "exact_match_mean": 62.97,
+        "micro_precision_mean": 97.72
       }
     },
     "Multinomial Naive Bayes": {
       "0.0": {
-        "positive_recall_mean": 99.99,
-        "positive_recall_std": 0.06,
+        "positive_recall_mean": 99.96,
+        "positive_recall_std": 0.09,
         "positive_recall_ci95": [
-          99.87,
+          99.75,
           100.0
         ],
-        "micro_f1_mean": 97.92,
-        "micro_f1_std": 0.3,
+        "micro_f1_mean": 97.57,
+        "micro_f1_std": 0.48,
         "micro_f1_ci95": [
-          97.45,
-          98.52
+          96.76,
+          98.49
         ],
-        "exact_match_mean": 96.29,
-        "micro_precision_mean": 95.93
+        "exact_match_mean": 95.62,
+        "micro_precision_mean": 95.27
       },
       "0.1": {
-        "positive_recall_mean": 98.93,
-        "positive_recall_std": 0.75,
+        "positive_recall_mean": 99.45,
+        "positive_recall_std": 0.45,
         "positive_recall_ci95": [
-          97.26,
-          99.75
+          98.38,
+          100.0
         ],
-        "micro_f1_mean": 97.44,
-        "micro_f1_std": 0.44,
+        "micro_f1_mean": 97.36,
+        "micro_f1_std": 0.53,
         "micro_f1_ci95": [
-          96.73,
-          98.36
+          96.54,
+          98.32
         ],
-        "exact_match_mean": 95.42,
-        "micro_precision_mean": 95.46
+        "exact_match_mean": 95.23,
+        "micro_precision_mean": 95.1
       },
       "0.2": {
-        "positive_recall_mean": 97.94,
-        "positive_recall_std": 0.98,
+        "positive_recall_mean": 98.29,
+        "positive_recall_std": 0.99,
         "positive_recall_ci95": [
-          96.04,
-          99.28
+          96.27,
+          99.5
         ],
-        "micro_f1_mean": 97.01,
-        "micro_f1_std": 0.58,
+        "micro_f1_mean": 96.82,
+        "micro_f1_std": 0.71,
         "micro_f1_ci95": [
-          96.13,
-          98.23
+          95.52,
+          98.12
         ],
-        "exact_match_mean": 94.68,
-        "micro_precision_mean": 95.21
+        "exact_match_mean": 94.25,
+        "micro_precision_mean": 94.61
       },
       "0.3": {
-        "positive_recall_mean": 95.82,
-        "positive_recall_std": 1.28,
+        "positive_recall_mean": 96.53,
+        "positive_recall_std": 1.15,
         "positive_recall_ci95": [
-          93.41,
-          97.79
+          94.45,
+          98.0
         ],
-        "micro_f1_mean": 96.06,
-        "micro_f1_std": 0.73,
+        "micro_f1_mean": 96.09,
+        "micro_f1_std": 0.67,
         "micro_f1_ci95": [
-          94.67,
-          97.34
+          94.8,
+          97.14
         ],
-        "exact_match_mean": 93.07,
-        "micro_precision_mean": 94.62
+        "exact_match_mean": 93.0,
+        "micro_precision_mean": 94.29
       },
       "0.4": {
-        "positive_recall_mean": 92.73,
-        "positive_recall_std": 1.61,
+        "positive_recall_mean": 94.04,
+        "positive_recall_std": 1.5,
         "positive_recall_ci95": [
-          90.29,
-          95.61
+          92.03,
+          96.33
         ],
-        "micro_f1_mean": 94.54,
-        "micro_f1_std": 0.78,
+        "micro_f1_mean": 94.88,
+        "micro_f1_std": 0.92,
         "micro_f1_ci95": [
-          93.32,
-          95.79
+          93.58,
+          96.76
         ],
-        "exact_match_mean": 90.59,
-        "micro_precision_mean": 93.79
+        "exact_match_mean": 90.97,
+        "micro_precision_mean": 93.54
       },
       "0.5": {
-        "positive_recall_mean": 89.12,
-        "positive_recall_std": 2.02,
+        "positive_recall_mean": 90.95,
+        "positive_recall_std": 1.96,
         "positive_recall_ci95": [
-          86.51,
-          92.95
+          87.83,
+          94.12
         ],
-        "micro_f1_mean": 92.81,
-        "micro_f1_std": 1.11,
-        "micro_f1_ci95": [
-          90.91,
-          94.73
-        ],
-        "exact_match_mean": 87.73,
-        "micro_precision_mean": 93.56
-      },
-      "0.6": {
-        "positive_recall_mean": 84.35,
-        "positive_recall_std": 1.65,
-        "positive_recall_ci95": [
-          82.53,
-          87.8
-        ],
-        "micro_f1_mean": 90.13,
-        "micro_f1_std": 1.14,
-        "micro_f1_ci95": [
-          88.2,
-          92.13
-        ],
-        "exact_match_mean": 83.93,
-        "micro_precision_mean": 92.91
-      },
-      "0.7": {
-        "positive_recall_mean": 77.24,
-        "positive_recall_std": 1.82,
-        "positive_recall_ci95": [
-          74.62,
-          80.76
-        ],
-        "micro_f1_mean": 85.89,
-        "micro_f1_std": 1.11,
-        "micro_f1_ci95": [
-          84.36,
-          87.93
-        ],
-        "exact_match_mean": 78.06,
-        "micro_precision_mean": 91.83
-      },
-      "0.8": {
-        "positive_recall_mean": 71.17,
-        "positive_recall_std": 2.15,
-        "positive_recall_ci95": [
-          67.54,
-          75.32
-        ],
-        "micro_f1_mean": 82.3,
+        "micro_f1_mean": 93.53,
         "micro_f1_std": 1.06,
         "micro_f1_ci95": [
-          80.47,
-          84.15
+          92.24,
+          95.8
         ],
-        "exact_match_mean": 73.34,
-        "micro_precision_mean": 91.6
+        "exact_match_mean": 88.7,
+        "micro_precision_mean": 93.22
+      },
+      "0.6": {
+        "positive_recall_mean": 87.31,
+        "positive_recall_std": 1.92,
+        "positive_recall_ci95": [
+          84.14,
+          90.61
+        ],
+        "micro_f1_mean": 91.57,
+        "micro_f1_std": 1.31,
+        "micro_f1_ci95": [
+          89.49,
+          93.76
+        ],
+        "exact_match_mean": 85.82,
+        "micro_precision_mean": 92.97
+      },
+      "0.7": {
+        "positive_recall_mean": 82.46,
+        "positive_recall_std": 1.94,
+        "positive_recall_ci95": [
+          79.53,
+          86.4
+        ],
+        "micro_f1_mean": 88.49,
+        "micro_f1_std": 0.99,
+        "micro_f1_ci95": [
+          86.97,
+          90.39
+        ],
+        "exact_match_mean": 81.29,
+        "micro_precision_mean": 91.5
+      },
+      "0.8": {
+        "positive_recall_mean": 78.24,
+        "positive_recall_std": 2.28,
+        "positive_recall_ci95": [
+          73.99,
+          82.29
+        ],
+        "micro_f1_mean": 86.08,
+        "micro_f1_std": 1.25,
+        "micro_f1_ci95": [
+          83.57,
+          87.86
+        ],
+        "exact_match_mean": 78.25,
+        "micro_precision_mean": 91.12
       }
     },
     "k-NN": {
       "0.0": {
-        "positive_recall_mean": 97.66,
-        "positive_recall_std": 1.29,
+        "positive_recall_mean": 97.52,
+        "positive_recall_std": 1.05,
         "positive_recall_ci95": [
-          94.88,
-          99.37
+          95.74,
+          99.29
         ],
-        "micro_f1_mean": 98.88,
-        "micro_f1_std": 0.7,
+        "micro_f1_mean": 98.84,
+        "micro_f1_std": 0.51,
         "micro_f1_ci95": [
-          97.27,
-          99.71
+          97.92,
+          99.68
         ],
-        "exact_match_mean": 98.05,
-        "micro_precision_mean": 99.92
+        "exact_match_mean": 97.98,
+        "micro_precision_mean": 99.98
       },
       "0.1": {
-        "positive_recall_mean": 95.81,
-        "positive_recall_std": 1.24,
+        "positive_recall_mean": 95.47,
+        "positive_recall_std": 1.26,
         "positive_recall_ci95": [
-          93.43,
-          97.7
+          93.67,
+          97.3
         ],
-        "micro_f1_mean": 97.98,
-        "micro_f1_std": 0.65,
+        "micro_f1_mean": 97.88,
+        "micro_f1_std": 0.6,
         "micro_f1_ci95": [
-          96.61,
-          98.93
+          96.88,
+          98.73
         ],
-        "exact_match_mean": 96.53,
-        "micro_precision_mean": 99.87
+        "exact_match_mean": 96.33,
+        "micro_precision_mean": 99.97
       },
       "0.2": {
-        "positive_recall_mean": 93.14,
-        "positive_recall_std": 1.34,
+        "positive_recall_mean": 92.5,
+        "positive_recall_std": 1.21,
         "positive_recall_ci95": [
-          91.29,
-          95.02
+          90.26,
+          94.17
         ],
-        "micro_f1_mean": 96.67,
-        "micro_f1_std": 0.66,
+        "micro_f1_mean": 96.4,
+        "micro_f1_std": 0.59,
         "micro_f1_ci95": [
-          95.73,
-          97.63
+          95.36,
+          97.21
         ],
-        "exact_match_mean": 94.4,
-        "micro_precision_mean": 99.81
+        "exact_match_mean": 93.94,
+        "micro_precision_mean": 99.84
       },
       "0.3": {
-        "positive_recall_mean": 88.2,
-        "positive_recall_std": 1.39,
+        "positive_recall_mean": 87.86,
+        "positive_recall_std": 1.7,
         "positive_recall_ci95": [
-          85.93,
-          90.74
+          84.44,
+          90.34
         ],
-        "micro_f1_mean": 94.07,
-        "micro_f1_std": 0.74,
+        "micro_f1_mean": 93.95,
+        "micro_f1_std": 0.79,
         "micro_f1_ci95": [
-          92.78,
-          95.24
+          92.42,
+          95.19
         ],
-        "exact_match_mean": 90.4,
-        "micro_precision_mean": 99.57
+        "exact_match_mean": 90.17,
+        "micro_precision_mean": 99.63
       },
       "0.4": {
-        "positive_recall_mean": 80.28,
-        "positive_recall_std": 2.54,
+        "positive_recall_mean": 81.18,
+        "positive_recall_std": 1.77,
         "positive_recall_ci95": [
-          74.99,
-          83.17
+          78.21,
+          83.71
         ],
-        "micro_f1_mean": 89.7,
-        "micro_f1_std": 1.4,
+        "micro_f1_mean": 90.0,
+        "micro_f1_std": 0.82,
         "micro_f1_ci95": [
-          86.86,
-          91.38
+          88.44,
+          91.02
         ],
-        "exact_match_mean": 84.06,
-        "micro_precision_mean": 99.31
+        "exact_match_mean": 84.76,
+        "micro_precision_mean": 99.02
       },
       "0.5": {
-        "positive_recall_mean": 68.98,
-        "positive_recall_std": 2.91,
+        "positive_recall_mean": 72.38,
+        "positive_recall_std": 2.33,
         "positive_recall_ci95": [
-          63.75,
-          72.83
+          69.31,
+          76.8
         ],
-        "micro_f1_mean": 82.61,
-        "micro_f1_std": 1.76,
+        "micro_f1_mean": 84.55,
+        "micro_f1_std": 1.13,
         "micro_f1_ci95": [
-          79.64,
-          85.15
+          82.64,
+          86.27
         ],
-        "exact_match_mean": 74.92,
-        "micro_precision_mean": 98.77
+        "exact_match_mean": 77.66,
+        "micro_precision_mean": 98.19
       },
       "0.6": {
-        "positive_recall_mean": 55.34,
-        "positive_recall_std": 4.15,
+        "positive_recall_mean": 61.79,
+        "positive_recall_std": 4.35,
         "positive_recall_ci95": [
-          48.95,
-          61.5
+          54.31,
+          69.29
         ],
-        "micro_f1_mean": 72.31,
-        "micro_f1_std": 2.98,
+        "micro_f1_mean": 76.94,
+        "micro_f1_std": 2.85,
         "micro_f1_ci95": [
-          68.11,
-          77.21
+          71.36,
+          81.26
         ],
-        "exact_match_mean": 63.9,
-        "micro_precision_mean": 98.13
+        "exact_match_mean": 69.33,
+        "micro_precision_mean": 97.23
       },
       "0.7": {
-        "positive_recall_mean": 39.72,
-        "positive_recall_std": 4.52,
+        "positive_recall_mean": 50.31,
+        "positive_recall_std": 4.32,
         "positive_recall_ci95": [
-          32.33,
-          48.72
+          43.86,
+          58.64
         ],
-        "micro_f1_mean": 58.33,
-        "micro_f1_std": 4.33,
+        "micro_f1_mean": 67.07,
+        "micro_f1_std": 2.93,
         "micro_f1_ci95": [
-          51.44,
-          66.61
+          62.06,
+          72.08
         ],
-        "exact_match_mean": 51.57,
-        "micro_precision_mean": 97.55
+        "exact_match_mean": 60.04,
+        "micro_precision_mean": 94.97
       },
       "0.8": {
-        "positive_recall_mean": 25.07,
-        "positive_recall_std": 4.08,
+        "positive_recall_mean": 39.58,
+        "positive_recall_std": 5.49,
         "positive_recall_ci95": [
-          18.76,
-          31.18
+          31.09,
+          47.71
         ],
-        "micro_f1_mean": 41.45,
-        "micro_f1_std": 4.78,
+        "micro_f1_mean": 56.19,
+        "micro_f1_std": 4.61,
         "micro_f1_ci95": [
-          33.57,
-          48.85
+          49.02,
+          62.93
         ],
-        "exact_match_mean": 39.99,
-        "micro_precision_mean": 96.41
+        "exact_match_mean": 51.83,
+        "micro_precision_mean": 92.09
       }
     },
     "Logistic Regression (OvR)": {
@@ -1204,132 +1204,132 @@
         "micro_precision_mean": 100.0
       },
       "0.1": {
-        "positive_recall_mean": 99.16,
+        "positive_recall_mean": 99.42,
         "positive_recall_std": 0.47,
         "positive_recall_ci95": [
-          98.41,
-          99.88
+          98.38,
+          100.0
         ],
-        "micro_f1_mean": 99.61,
-        "micro_f1_std": 0.22,
+        "micro_f1_mean": 99.73,
+        "micro_f1_std": 0.21,
         "micro_f1_ci95": [
-          99.27,
-          99.95
+          99.26,
+          100.0
         ],
-        "exact_match_mean": 99.32,
+        "exact_match_mean": 99.53,
         "micro_precision_mean": 100.0
       },
       "0.2": {
-        "positive_recall_mean": 96.7,
-        "positive_recall_std": 0.89,
+        "positive_recall_mean": 96.47,
+        "positive_recall_std": 0.75,
         "positive_recall_ci95": [
-          95.22,
-          98.13
+          95.32,
+          97.64
         ],
-        "micro_f1_mean": 98.45,
-        "micro_f1_std": 0.44,
+        "micro_f1_mean": 98.36,
+        "micro_f1_std": 0.37,
         "micro_f1_ci95": [
-          97.67,
-          99.13
+          97.73,
+          98.91
         ],
-        "exact_match_mean": 97.35,
-        "micro_precision_mean": 99.99
+        "exact_match_mean": 97.16,
+        "micro_precision_mean": 99.98
       },
       "0.3": {
-        "positive_recall_mean": 91.26,
-        "positive_recall_std": 1.73,
+        "positive_recall_mean": 90.97,
+        "positive_recall_std": 1.23,
         "positive_recall_ci95": [
-          88.42,
-          93.85
+          88.97,
+          93.13
         ],
-        "micro_f1_mean": 95.75,
-        "micro_f1_std": 0.89,
+        "micro_f1_mean": 95.65,
+        "micro_f1_std": 0.6,
         "micro_f1_ci95": [
-          94.33,
-          97.08
+          94.74,
+          96.71
         ],
-        "exact_match_mean": 92.97,
-        "micro_precision_mean": 99.96
+        "exact_match_mean": 92.72,
+        "micro_precision_mean": 99.95
       },
       "0.4": {
-        "positive_recall_mean": 82.15,
-        "positive_recall_std": 2.11,
+        "positive_recall_mean": 81.39,
+        "positive_recall_std": 1.94,
         "positive_recall_ci95": [
-          77.31,
-          84.56
+          77.93,
+          84.33
         ],
-        "micro_f1_mean": 90.81,
-        "micro_f1_std": 1.17,
+        "micro_f1_mean": 90.43,
+        "micro_f1_std": 1.02,
         "micro_f1_ci95": [
-          88.19,
-          92.29
+          88.53,
+          91.94
         ],
-        "exact_match_mean": 85.66,
-        "micro_precision_mean": 99.93
+        "exact_match_mean": 84.96,
+        "micro_precision_mean": 99.89
       },
       "0.5": {
-        "positive_recall_mean": 68.98,
-        "positive_recall_std": 2.56,
+        "positive_recall_mean": 68.83,
+        "positive_recall_std": 2.24,
         "positive_recall_ci95": [
-          64.42,
-          73.19
+          64.68,
+          71.94
         ],
         "micro_f1_mean": 82.73,
-        "micro_f1_std": 1.6,
+        "micro_f1_std": 1.38,
         "micro_f1_ci95": [
-          79.81,
-          85.52
+          79.99,
+          84.47
         ],
-        "exact_match_mean": 75.01,
-        "micro_precision_mean": 99.94
+        "exact_match_mean": 74.83,
+        "micro_precision_mean": 99.93
       },
       "0.6": {
-        "positive_recall_mean": 53.32,
+        "positive_recall_mean": 52.69,
         "positive_recall_std": 3.09,
         "positive_recall_ci95": [
-          48.51,
-          58.05
+          47.67,
+          57.5
         ],
-        "micro_f1_mean": 70.73,
-        "micro_f1_std": 2.58,
+        "micro_f1_mean": 70.68,
+        "micro_f1_std": 2.39,
         "micro_f1_ci95": [
-          66.76,
-          74.93
+          66.56,
+          74.42
         ],
-        "exact_match_mean": 62.37,
-        "micro_precision_mean": 99.92
+        "exact_match_mean": 62.06,
+        "micro_precision_mean": 99.87
       },
       "0.7": {
-        "positive_recall_mean": 36.05,
-        "positive_recall_std": 2.4,
+        "positive_recall_mean": 35.52,
+        "positive_recall_std": 2.5,
         "positive_recall_ci95": [
-          33.2,
-          40.35
+          30.77,
+          38.98
         ],
-        "micro_f1_mean": 54.78,
-        "micro_f1_std": 2.71,
+        "micro_f1_mean": 54.39,
+        "micro_f1_std": 2.46,
         "micro_f1_ci95": [
-          50.8,
-          59.12
+          49.68,
+          57.47
         ],
-        "exact_match_mean": 48.75,
-        "micro_precision_mean": 99.92
+        "exact_match_mean": 48.18,
+        "micro_precision_mean": 99.84
       },
       "0.8": {
-        "positive_recall_mean": 19.23,
-        "positive_recall_std": 1.6,
+        "positive_recall_mean": 19.22,
+        "positive_recall_std": 2.44,
         "positive_recall_ci95": [
-          16.45,
-          22.09
+          14.46,
+          22.44
         ],
-        "micro_f1_mean": 33.71,
-        "micro_f1_std": 2.59,
+        "micro_f1_mean": 33.66,
+        "micro_f1_std": 3.04,
         "micro_f1_ci95": [
-          28.93,
-          38.57
+          27.88,
+          38.2
         ],
-        "exact_match_mean": 35.43,
-        "micro_precision_mean": 99.62
+        "exact_match_mean": 35.61,
+        "micro_precision_mean": 99.54
       }
     }
   }

@@ -85,9 +85,10 @@ contribution is *epistemic* (distinguishing confirmed from suspected
 findings) rather than *probabilistic* (see Section 5 and
 `docs/LIMITATIONS.md` Section 5 for the calibration rejection).
 
-Six Tier-1 and six Tier-2 rules, one of each per diagnosable class, are
-registered in `model.RULE_REGISTRY`. The eight rules of the removed insect
-classes were deleted without renumbering the survivors.
+Six Tier-1 rules and twelve Tier-2 rules are registered in
+`model.RULE_REGISTRY`: one Tier-1 and one composite Tier-2 rule per diagnosable class, plus six
+single-sign diagnostic rules added in ruleset v2.4.0 (`docs/ONTOLOGY.md`). The eight rules of the
+removed insect classes were deleted without renumbering the survivors.
 `tests/test_p0_2_ablation.py` enforces these counts as a CI invariant, so
 a future rule addition or deletion will break the build rather than
 propagate silently.
@@ -271,20 +272,28 @@ read as such.
 
 ## 4. Ablation Design
 
-Five reasoner variants are evaluated to isolate the contribution of each
-architectural component:
+`analysis/ablation.py` answers three questions, all on the field benchmark (expert-consensus
+encoding) or generated cases; the verification suite is used only as input to part A.
+
+**A. Does the DL reasoner change any diagnosis?** Pellet (`model.predict_diseases`) and a pure
+set-matching implementation of the same rules are compared on the full graded output (threat and
+grade, including `possible` and out-of-scope responses) for every field case and every
+verification-suite case, with per-case latency. This is an equivalence check, not an accuracy
+comparison.
+
+**B. What does each rule component contribute on field evidence?** Rule-base variants, run by set
+matching (equivalent to Pellet by A) and scored with the graded outcomes of
+`analysis/graded_evaluation.py`, with exact McNemar tests against the full system:
 
 | Variant | Description |
 |---------|-------------|
-| `full` | Full system: OWL 2 DL reasoning with Tier-1 + Tier-2 SWRL rules |
-| `tier1_only` | Tier-1 rules only; Tier 2 disabled |
-| `flat_match` | Set-matching without OWL reasoning; symptom sets matched against rule antecedent lists |
-| `no_negation` | OWL reasoning without negative-class assertions (open-world assumption only) |
-| `prototype` | Nearest-prototype heuristic: classify by cosine similarity to centroid symptom vectors |
+| `full` | Ruleset v2.4.0: Tier-1, composite Tier-2 and diagnostic-sign Tier-2 rules, out-of-scope gates |
+| `no_diagnostic_signs` | Without the single-sign Tier-2 rules `SWRL-R21`–`R26` |
+| `tier1_only` | Tier-1 rules only |
+| `no_scope_gates` | Without the insect and non-modelled-pathogen out-of-scope gates |
 
-The ablation is designed to answer: does OWL reasoning add anything over
-flat set-matching? Does Tier-2 stratification add anything over Tier-1
-alone? Results are in `results/ablation.md` and `results/ablation.json`.
+**C. Robustness.** The first three variants on the occlusion sweep of
+`analysis/degradation_curve.py` (same generator settings and seeds).
 
 ---
 

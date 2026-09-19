@@ -1,263 +1,346 @@
 """
-ablation.py - RiceKG Ablation Study & Reasoner Architecture Evaluation
-----------------------------------------------------------------------
-Evaluates the architectural necessity of the OWL 2 DL reasoner and SWRL rule
-stratification. Runs real Pellet forward-chaining DL inference across distinct
-ontology variants built using isolated ontology worlds via model.build_ontology().
+analysis/ablation.py
+--------------------
+Ablation of the RiceKG architecture, answering three questions:
 
-Variants evaluated:
-1. full        : Full proposed model (Tier 1 canonical + Tier 2 relaxed, stratified)
-2. tier1_only  : Canonical pathognomonic rules only (isolated Pellet DL inference)
-3. tier2_only  : Relaxed composite rules only (isolated Pellet DL inference)
-4. flat_rules  : Unstratified flat rules (hasPest / hasDisease super-properties)
-5. no_reasoner : Pure Python set-matching control (honest 'do we need DL?' baseline)
+A. Does the OWL 2 DL reasoner change any diagnosis?
+   Pellet (model.predict_diseases, graded, with `possible`) is compared with a pure-Python
+   set-matching implementation of the same rules on every field case and every
+   verification-suite case. Agreement is checked on the full graded output; latency is
+   reported for both. This is an equivalence check, not an accuracy comparison.
 
-Outputs:
-- results/ablation.json : Structured experimental results
-- results/ablation.md   : Formatted report for scientific publication
+B. What does each rule component contribute on field evidence?
+   Variants of the rule base are run with set matching (equivalent to Pellet by A) on the field
+   benchmark under the expert-consensus encoding, scored with the graded case-level outcomes of
+   analysis/graded_evaluation.py and paired exact McNemar tests against the full system:
+     full                   ruleset v2.4.0
+     no_diagnostic_signs    without the single-sign Tier-2 rules SWRL-R21..R26
+     tier1_only             canonical rules only
+     no_scope_gates         without the insect and non-modelled-pathogen out-of-scope gates
+
+C. The same variants under controlled observation occlusion (data/generator.py, the settings
+   of analysis/degradation_curve.py).
+
+The verification suite (data/verification_suite.csv) was authored from an earlier rule base, so
+it is used only as input to the equivalence check in A, never scored.
+
+Outputs results/ablation.json and results/ablation.md.
 """
 
+import csv
+import json
+import math
 import os
 import sys
-import csv
 import time
-import math
-import json
-import argparse
+from datetime import datetime, timezone
+
+import numpy as np
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-from ricekg import model
+from ricekg import model, evaluate
+from analysis import graded_evaluation as ge
 
-DEFAULT_VERIFICATION = os.path.join(BASE_DIR, "data", "verification_suite.csv")
-DEFAULT_CSV = DEFAULT_VERIFICATION
-DEFAULT_OUT_DIR = os.path.join(BASE_DIR, "results")
-ALL_CLASSES = list(model.SWRL_RULES_METADATA.keys())
+RESULTS_DIR = os.path.join(BASE_DIR, "results")
+VERIFICATION_CSV = os.path.join(BASE_DIR, "data", "verification_suite.csv")
+FIELD_GROUPS = {
+    "eval": ["eval"],
+    "dev+eval": ["dev", "eval"],
+    "holdout (development-exposed)": ["holdout"],
+}
+OCCLUSION_SWEEP = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+N_CASES = 500
+N_SEEDS = 20
+BASE_SEED = 42
+
+VARIANTS = {
+    "full": ("RiceKG v2.4.0 (full)", lambda r: True, True),
+    "no_diagnostic_signs": ("Without diagnostic-sign rules (R21–R26)",
+                            lambda r: r.get("form") != "diagnostic_sign", True),
+    "tier1_only": ("Tier-1 rules only", lambda r: r["tier"] == "tier1", True),
+    "no_scope_gates": ("Without out-of-scope gates", lambda r: True, False),
+}
 
 
-def load_benchmark(csv_path=DEFAULT_CSV):
-    """Loads benchmark cases with symptom profiles and ground truth diagnoses."""
-    from ricekg import evaluate
-    return evaluate.load_data(csv_path)
+# -------------------------------------------------------------------------
+# Set-matching implementation of the graded reasoner
+# -------------------------------------------------------------------------
+
+def predict_set_matching(symptoms, rules=None, gates=True, include_possible=True):
+    """Graded output [(threat, grade)] of `rules` by set containment, mirroring
+    model.predict_diseases: confirmed (Tier 1), suspected (any Tier-2 rule), then the
+    out-of-scope gates, then `possible` (primary composite Tier-2 rule coverage)."""
+    rules = model.RULE_REGISTRY if rules is None else rules
+    s = {str(x).strip() for x in symptoms if str(x).strip()}
+    confirmed = {r["threat"] for r in rules if r["tier"] == "tier1" and set(r["antecedents"]) <= s}
+    suspected = {r["threat"] for r in rules if r["tier"] == "tier2" and set(r["antecedents"]) <= s} - confirmed
+    out = [(t, "confirmed") for t in sorted(confirmed)] + [(t, "suspected") for t in sorted(suspected)]
+    if not out and gates:
+        if model.insect_damage_evidence(s):
+            out = [(model.INSECT_OUT_OF_SCOPE_TARGET, "out_of_scope")]
+        elif model.negative_control_evidence(s):
+            out = [(model.NEGATIVE_CONTROL_OUT_OF_SCOPE_TARGET, "out_of_scope")]
+    if not out and include_possible:
+        for t, meta in model.SWRL_RULES_METADATA.items():
+            ants = meta.get("tier2", {}).get("antecedents", [])
+            matched = [a for a in ants if a in s]
+            if ants and matched and len(matched) / len(ants) >= model.POSSIBLE_COVERAGE_THRESHOLD:
+                out.append((t, "possible"))
+    return out
 
 
 def predict_no_reasoner(symptoms):
-    """Pure-Python set-containment matching baseline without invoking Pellet DL.
-
-    Honest baseline evaluating the 'do we need an OWL 2 reasoner at all?' control.
-    """
-    s_set = set(symptoms)
-    diagnoses = set()
-    for rule in model.RULE_REGISTRY:
-        if all(ant in s_set for ant in rule["antecedents"]):
-            diagnoses.add(rule["threat"])
-    if not diagnoses and model.insect_damage_evidence(s_set):
-        diagnoses.add(model.INSECT_OUT_OF_SCOPE_TARGET)
-    return sorted(diagnoses)
+    """Committed threats (flat list) from set matching; kept for tests/test_p0_2_ablation.py."""
+    return sorted(t for t, g in predict_set_matching(symptoms, include_possible=False)
+                  if g in ("confirmed", "suspected"))
 
 
-def evaluate_variant(dataset, predict_fn, name="", variant_key=""):
-    """Evaluates a single model variant, measuring both accuracy metrics
+def variant_rules(key):
+    keep = VARIANTS[key][1]
+    return [r for r in model.RULE_REGISTRY if keep(r)]
 
-    and wall-clock inference latency (mean, p95).
-    """
-    per_class = {cls: {"TP": 0, "FP": 0, "FN": 0, "TN": 0} for cls in ALL_CLASSES}
-    exact_matches = 0
-    latencies = []
 
-    for item in dataset:
+# -------------------------------------------------------------------------
+# A. Reasoner equivalence and latency
+# -------------------------------------------------------------------------
+
+def _latency(values):
+    v = sorted(values)
+    return {"mean_ms": round(float(np.mean(v)), 3),
+            "p95_ms": round(v[max(0, int(math.ceil(0.95 * len(v))) - 1)], 3)}
+
+
+def load_verification_inputs():
+    with open(VERIFICATION_CSV, encoding="utf-8", newline="") as f:
+        return [[r[f"symptom_{i}"] for i in range(1, 7) if r[f"symptom_{i}"]] for r in csv.DictReader(f)]
+
+
+def reasoner_equivalence():
+    inputs = [("field", c["case_id"], c["symptoms"])
+              for c in evaluate.load_data(evaluate.FIELD_CSV)]
+    inputs += [("verification_suite", f"VS_{i + 1:02d}", s) for i, s in enumerate(load_verification_inputs())]
+    pellet_ms, set_ms, disagreements = [], [], []
+    for source, cid, syms in inputs:
         t0 = time.perf_counter()
-        raw_preds = predict_fn(item["symptoms"])
-        elapsed_ms = (time.perf_counter() - t0) * 1000.0
-        latencies.append(elapsed_ms)
-
-        if raw_preds and isinstance(raw_preds[0], dict) and "threat" in raw_preds[0]:
-            pred_set = {p["threat"] for p in raw_preds}
-        else:
-            pred_set = set(raw_preds)
-        exp_set = set(item["expected"])
-
-        if pred_set == exp_set:
-            exact_matches += 1
-
-        for cls in ALL_CLASSES:
-            p_has = cls in pred_set
-            e_has = cls in exp_set
-            if p_has and e_has:
-                per_class[cls]["TP"] += 1
-            elif p_has and not e_has:
-                per_class[cls]["FP"] += 1
-            elif not p_has and e_has:
-                per_class[cls]["FN"] += 1
-            else:
-                per_class[cls]["TN"] += 1
-
-    tot_tp = sum(per_class[c]["TP"] for c in ALL_CLASSES)
-    tot_fp = sum(per_class[c]["FP"] for c in ALL_CLASSES)
-    tot_fn = sum(per_class[c]["FN"] for c in ALL_CLASSES)
-    tot_tn = sum(per_class[c]["TN"] for c in ALL_CLASSES)
-
-    prec = (tot_tp / (tot_tp + tot_fp) * 100) if (tot_tp + tot_fp) > 0 else 0.0
-    rec = (tot_tp / (tot_tp + tot_fn) * 100) if (tot_tp + tot_fn) > 0 else 0.0
-    f1 = (2 * prec * rec / (prec + rec)) if (prec + rec) > 0 else 0.0
-    multi_acc = ((tot_tp + tot_tn) / (tot_tp + tot_fp + tot_fn + tot_tn) * 100)
-    exact_acc = (exact_matches / len(dataset) * 100) if dataset else 0.0
-
-    sorted_lats = sorted(latencies)
-    mean_lat = sum(sorted_lats) / len(sorted_lats) if sorted_lats else 0.0
-    p95_idx = int(math.ceil(0.95 * len(sorted_lats))) - 1
-    p95_lat = sorted_lats[max(0, p95_idx)] if sorted_lats else 0.0
-
+        pel = {(r["threat"], r["grade"]) for r in model.predict_diseases(syms, include_possible=True)}
+        pellet_ms.append((time.perf_counter() - t0) * 1000)
+        t0 = time.perf_counter()
+        sm = set(predict_set_matching(syms))
+        set_ms.append((time.perf_counter() - t0) * 1000)
+        if pel != sm:
+            disagreements.append({"source": source, "case_id": cid, "pellet": sorted(pel), "set_matching": sorted(sm)})
     return {
-        "variant": variant_key,
-        "name": name,
-        "exact_acc": round(exact_acc, 2),
-        "multi_acc": round(multi_acc, 2),
-        "precision": round(prec, 2),
-        "recall": round(rec, 2),
-        "f1": round(f1, 2),
-        "tp": tot_tp,
-        "fp": tot_fp,
-        "fn": tot_fn,
-        "tn": tot_tn,
-        "mean_latency_ms": round(mean_lat, 2),
-        "p95_latency_ms": round(p95_lat, 2)
+        "n_cases": len(inputs),
+        "n_field": sum(1 for x in inputs if x[0] == "field"),
+        "n_verification_suite": sum(1 for x in inputs if x[0] == "verification_suite"),
+        "identical_graded_output": len(inputs) - len(disagreements),
+        "disagreements": disagreements,
+        "latency": {"pellet": _latency(pellet_ms), "set_matching": _latency(set_ms)},
     }
 
 
-def run_ablation(variants=None, data_path=DEFAULT_CSV, out_dir=DEFAULT_OUT_DIR):
-    """Runs the ablation study across specified variants and records results."""
-    os.makedirs(out_dir, exist_ok=True)
-    dataset = load_benchmark(data_path)
+# -------------------------------------------------------------------------
+# B. Rule-component ablation on the field benchmark
+# -------------------------------------------------------------------------
 
-    if variants is None or "all" in variants:
-        target_variants = ["full", "tier1_only", "tier2_only", "flat_rules", "no_reasoner"]
-    else:
-        target_variants = variants
+def field_ablation():
+    rules = {k: variant_rules(k) for k in VARIANTS}
+    cases = []
+    for split in ("dev", "eval", "holdout"):
+        for c in evaluate.load_data(evaluate.FIELD_CSV, split=split):
+            truth = set(c["expected"])
+            outputs = {}
+            for k, (_, _, gates) in VARIANTS.items():
+                full_out = predict_set_matching(c["symptoms"], rules[k], gates=gates)
+                outputs[k] = full_out
+            outcome = {k: ge.classify(ge.ricekg_strict(o), truth) for k, o in outputs.items()}
+            outcome.update({f"{k}+possible": ge.classify(o, truth) for k, o in outputs.items()})
+            cases.append({"case_id": c["case_id"], "split": split, "truth": truth,
+                          "outputs": {**{k: ge.ricekg_strict(o) for k, o in outputs.items()},
+                                      **{f"{k}+possible": o for k, o in outputs.items()}},
+                          "outcome": outcome})
+    groups = {}
+    for g, splits in FIELD_GROUPS.items():
+        rows = [c for c in cases if c["split"] in splits]
+        groups[g] = {
+            "summary": {k: ge.summarize(rows, k) for k in VARIANTS},
+            "summary_incl_possible": {k: ge.summarize(rows, f"{k}+possible") for k in VARIANTS},
+            "paired_vs_full": {k: ge.paired_test(rows, "full", k) for k in VARIANTS if k != "full"},
+        }
+    changed = [
+        {"case_id": c["case_id"], "split": c["split"], "truth": sorted(c["truth"]) or ["No_Diagnosis"],
+         **{k: c["outcome"][k] for k in VARIANTS}}
+        for c in cases if len({c["outcome"][k] for k in VARIANTS}) > 1
+    ]
+    return {"groups": groups, "cases_with_differing_outcomes": changed}
 
-    print("=" * 115)
-    print("  RiceKG ABLATION STUDY: EMPIRICAL VALIDATION OF REASONER & RULE STRATIFICATION")
-    print("=" * 115)
-    print(f"Benchmark Instances: {len(dataset)} field test cases")
-    print(f"Active Variants    : {', '.join(target_variants)}\n")
 
-    results = []
+# -------------------------------------------------------------------------
+# C. Occlusion sweep
+# -------------------------------------------------------------------------
 
-    for var in target_variants:
-        print(f"Executing variant '{var}'...")
-        if var == "full":
-            onto = model.build_ontology(enabled_tiers={"tier1", "tier2"}, flat_consequents=False)
-            res = evaluate_variant(
-                dataset,
-                lambda s, o=onto: model.predict_diseases_flat(s, onto=o),
-                name="RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)",
-                variant_key="full"
-            )
-        elif var == "tier1_only":
-            onto = model.build_ontology(enabled_tiers={"tier1"}, flat_consequents=False)
-            res = evaluate_variant(
-                dataset,
-                lambda s, o=onto: model.predict_diseases_flat(s, onto=o),
-                name="Ablation: Tier 1 Canonical Only (Pellet DL)",
-                variant_key="tier1_only"
-            )
-        elif var == "tier2_only":
-            onto = model.build_ontology(enabled_tiers={"tier2"}, flat_consequents=False)
-            res = evaluate_variant(
-                dataset,
-                lambda s, o=onto: model.predict_diseases_flat(s, onto=o),
-                name="Ablation: Tier 2 Relaxed Only (Pellet DL)",
-                variant_key="tier2_only"
-            )
-        elif var == "flat_rules":
-            onto = model.build_ontology(enabled_tiers={"tier1", "tier2"}, flat_consequents=True)
-            res = evaluate_variant(
-                dataset,
-                lambda s, o=onto: model.predict_diseases_flat(s, onto=o),
-                name="Ablation: Flat Rules Unstratified (Pellet DL)",
-                variant_key="flat_rules"
-            )
-        elif var == "no_reasoner":
-            res = evaluate_variant(
-                dataset,
-                predict_no_reasoner,
-                name="Ablation: No Reasoner (Pure Python Set-Matching)",
-                variant_key="no_reasoner"
-            )
-        else:
-            print(f"Unknown variant '{var}', skipping.")
-            continue
+def occlusion_ablation(n_cases=N_CASES, n_seeds=N_SEEDS):
+    from data.generator import generate_benchmark
+    from baselines import ml_baselines
 
-        results.append(res)
+    rules = {k: variant_rules(k) for k in ("full", "no_diagnostic_signs", "tier1_only")}
+    out = {k: {} for k in rules}
+    for occ in OCCLUSION_SWEEP:
+        runs = {k: [] for k in rules}
+        for s in range(n_seeds):
+            cases = generate_benchmark(n_cases=n_cases, occlusion_rate=occ, distractor_rate=0.10,
+                                       coinfection_rate=0.10, out_of_vocab_rate=0.20, seed=BASE_SEED + s)
+            Y = np.array([ml_baselines.encode_labels(c["raw_target"]) for c in cases])
+            for k, rs in rules.items():
+                P = np.array([ml_baselines.encode_labels(
+                    [t for t, g in predict_set_matching(c["symptoms"], rs, include_possible=False)
+                     if g != "out_of_scope"])
+                    for c in cases])
+                runs[k].append(ml_baselines.compute_multilabel_metrics(Y, P))
+        for k in rules:
+            rec = [m["positive_case_recall"] for m in runs[k]]
+            prec = [m["micro_precision"] for m in runs[k]]
+            out[k][str(occ)] = {"positive_recall_mean": round(float(np.mean(rec)), 2),
+                                "positive_recall_std": round(float(np.std(rec, ddof=1)), 2),
+                                "micro_precision_mean": round(float(np.mean(prec)), 2)}
+    return {"occlusion_sweep": OCCLUSION_SWEEP, "n_cases": n_cases, "n_seeds": n_seeds, "systems": out}
 
-    # Print Comparative Table
-    print("\n" + "=" * 115)
-    print(f"{'VARIANT':<45} | {'Exact Acc':<9} | {'Prec (%)':<8} | {'Rec (%)':<8} | {'F1 (%)':<8} | {'Mean (ms)':<9} | {'P95 (ms)'}")
-    print("-" * 115)
-    for r in results:
-        print(f"{r['name']:<45} | {r['exact_acc']:>7.2f}% | {r['precision']:>7.1f}% | {r['recall']:>7.1f}% | {r['f1']:>7.1f}% | {r['mean_latency_ms']:>7.2f}ms | {r['p95_latency_ms']:>7.2f}ms")
-    print("=" * 115)
 
-    # Save JSON results
-    json_path = os.path.join(out_dir, "ablation.json")
-    with open(json_path, "w", encoding="utf-8") as jf:
-        json.dump({
-            "total_benchmark_cases": len(dataset),
-            "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "results": results
-        }, jf, indent=2)
-    print(f"\n[OK] Results written to {json_path}")
+# -------------------------------------------------------------------------
+# Report
+# -------------------------------------------------------------------------
 
-    # Save Markdown report
-    md_path = os.path.join(out_dir, "ablation.md")
-    with open(md_path, "w", encoding="utf-8") as mf:
-        mf.write("# RiceKG Reasoner Architecture Ablation Study\n\n")
-        mf.write(f"**Evaluated on**: `{os.path.basename(data_path)}` ({len(dataset)} cases)\n")
-        mf.write(f"**Generated**: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())}\n\n")
-        mf.write("## Comparative Architecture Performance\n\n")
-        mf.write("| Variant | Exact Match Acc | Micro Precision | Micro Recall | Micro F1 | Mean Latency | P95 Latency |\n")
-        mf.write("|:---|:---:|:---:|:---:|:---:|:---:|:---:|\n")
-        for r in results:
-            mf.write(f"| **{r['name']}** | {r['exact_acc']:.2f}% | {r['precision']:.1f}% | {r['recall']:.1f}% | {r['f1']:.1f}% | {r['mean_latency_ms']:.2f} ms | {r['p95_latency_ms']:.2f} ms |\n")
-        mf.write("\n## Architectural Trade-off Analysis\n\n")
-        mf.write("1. **Do we need an OWL 2 DL Reasoner?**\n")
-        mf.write("   - `no_reasoner` executes in sub-millisecond time (~0.05 ms/case) with deterministic set-containment matching.\n")
-        mf.write("   - Pellet DL inference incurs ~700 ms/case overhead for tableau forward-chaining and defined class classification.\n")
-        mf.write("   - **Formal Semantic Capability**: The DL reasoner provides machine-provable subsumption between defined classes (e.g. `ThreatConfirmed` ⊑ `ThreatSuspect`), open-world consistency validation, property inheritance (`hasConfirmedPest` ⊑ `hasConfirmedThreat`), and deductive proof traces (XAI). This semantic verification of rule-base coherence is a capability that the `no_reasoner` variant cannot provide at any latency.\n\n")
-        mf.write("2. **Do we need Rule Stratification (Tier 1 vs Tier 2)?**\n")
-        mf.write("   - In terms of uncalibrated accuracy sets, Tier 1 alone achieves lower recall on realistic field cases because pathognomonic symptoms are rarely observed simultaneously.\n")
-        mf.write("   - Tier 2 relaxed rules expand recall by accepting partial observation patterns.\n")
-        mf.write("   - Stratifying the rules into distinct properties (`hasConfirmedThreat` vs `hasSuspectedThreat`) yields 100% pathognomonic precision for Tier 1 with 0 false discoveries, while retaining Tier 2's sensitivity for partial field observations.\n")
+def run(n_seeds=N_SEEDS):
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "ruleset": {"rules": len(model.RULE_REGISTRY),
+                    "diagnostic_sign_rules": [r["id"] for r in model.RULE_REGISTRY if r.get("form") == "diagnostic_sign"]},
+        "variants": {k: v[0] for k, v in VARIANTS.items()},
+        "reasoner_equivalence": reasoner_equivalence(),
+        "field": field_ablation(),
+        "occlusion": occlusion_ablation(n_seeds=n_seeds),
+    }
 
-    print(f"[OK] Report written to {md_path}")
 
-    return results
+def _findings(rep):
+    eq = rep["reasoner_equivalence"]
+    lat = eq["latency"]
+    de = rep["field"]["groups"]["dev+eval"]
+    full, nods = de["summary"]["full"], de["summary"]["no_diagnostic_signs"]
+    t1 = de["summary"]["tier1_only"]
+    nog = de["summary"]["no_scope_gates"]
+    pt = de["paired_vs_full"]["no_diagnostic_signs"]
+    occ = rep["occlusion"]["systems"]
+    mid = "0.3"
+    L = [
+        f"1. **The reasoner does not change any diagnosis.** Pellet and set matching gave identical graded "
+        f"output on {eq['identical_graded_output']}/{eq['n_cases']} inputs, at {lat['pellet']['mean_ms']:.0f} ms "
+        f"against {lat['set_matching']['mean_ms']:.3f} ms per case. What the DL layer adds is not accuracy but "
+        f"what set matching cannot give: Pellet's proof of `ThreatConfirmed ⊑ ThreatSuspect`, the consistency "
+        f"check of the rule base, and the property hierarchy behind the derivation trace.",
+        f"2. **The diagnostic-sign rules add committed recall without adding errors on field cases.** On dev+eval, "
+        f"committed recall is {full['committed_recall']['k']}/{full['committed_recall']['n']} with them and "
+        f"{nods['committed_recall']['k']}/{nods['committed_recall']['n']} without; misfires "
+        f"{full['misfire_rate']['k']} vs {nods['misfire_rate']['k']}, false alarms "
+        f"{full['false_alarm_rate']['k']} vs {nods['false_alarm_rate']['k']} of {full['n_control']} controls "
+        f"(exact McNemar p = {pt['exact_mcnemar_p']:.4f}; the sample is too small for significance).",
+        f"3. **Tier-1 rules alone diagnose nothing in the field**: committed recall "
+        f"{t1['committed_recall']['k']}/{t1['committed_recall']['n']} on dev+eval. No field report lists a full "
+        f"canonical sign set, so the tiers grade confidence but Tier 2 does all the diagnosing.",
+        f"4. **The out-of-scope gates change how controls fail, not whether they alarm**: explicit rejections "
+        f"{full['explicit_rejection_rate']['k']}/{full['n_control']} with the gates and "
+        f"{nog['explicit_rejection_rate']['k']}/{nog['n_control']} without; committed false alarms "
+        f"{full['false_alarm_rate']['k']} vs {nog['false_alarm_rate']['k']}.",
+        f"5. **Under occlusion the diagnostic-sign rules slow the collapse.** Positive recall at occlusion {mid} is "
+        f"{occ['full'][mid]['positive_recall_mean']:.1f}% with them and "
+        f"{occ['no_diagnostic_signs'][mid]['positive_recall_mean']:.1f}% without "
+        f"(0.8: {occ['full']['0.8']['positive_recall_mean']:.1f}% vs "
+        f"{occ['no_diagnostic_signs']['0.8']['positive_recall_mean']:.1f}%). The full ruleset's lowest "
+        f"micro-precision over the sweep is {min(v['micro_precision_mean'] for v in occ['full'].values()):.1f}%.",
+    ]
+    return L
+
+
+def write_markdown(rep, path):
+    eq = rep["reasoner_equivalence"]
+    L = [
+        "# Ablation of the RiceKG Architecture",
+        "",
+        f"> **Generated by**: `analysis/ablation.py` on {rep['generated_at'][:19]} UTC.  ",
+        "> **Data**: field benchmark (`data/benchmark_field.csv`, expert-consensus encoding) and controlled "
+        "occlusion cases from `data/generator.py`. `data/verification_suite.csv` was authored from an earlier "
+        "rule base and is used only as input to the equivalence check, never scored.  ",
+        "> **Independence**: the ruleset was revised after the field results were seen (`docs/ONTOLOGY.md`, "
+        "v2.4.0); no split here is held out for it.",
+        "",
+        "## Findings (computed from the tables below)",
+        "",
+    ] + _findings(rep)
+
+    L += ["", "## A. Reasoner equivalence", "",
+          f"Pellet (`model.predict_diseases`) against set matching of the same rules, compared on the full graded "
+          f"output (threat and grade, including `possible` and out-of-scope responses) for "
+          f"{eq['n_field']} field cases and {eq['n_verification_suite']} verification-suite inputs.", "",
+          "| | Pellet DL | Set matching |", "|:---|:---:|:---:|",
+          f"| Identical graded output | {eq['identical_graded_output']}/{eq['n_cases']} | — |",
+          f"| Mean latency per case | {eq['latency']['pellet']['mean_ms']:.1f} ms | {eq['latency']['set_matching']['mean_ms']:.3f} ms |",
+          f"| P95 latency per case | {eq['latency']['pellet']['p95_ms']:.1f} ms | {eq['latency']['set_matching']['p95_ms']:.3f} ms |"]
+    if eq["disagreements"]:
+        L += ["", "Disagreements:", ""] + [f"- {d['case_id']}: Pellet {d['pellet']}, set matching {d['set_matching']}"
+                                           for d in eq["disagreements"]]
+
+    L += ["", "## B. Rule components on the field benchmark", "",
+          "Graded outcomes as in `results/graded_evaluation.md`: *committed* means confirmed or suspected; a "
+          "misfire names the wrong disease; counts with exact Clopper–Pearson 95% intervals."]
+    for g, d in rep["field"]["groups"].items():
+        any_s = d["summary"]["full"]
+        L += ["", f"### {g} ({any_s['n_positive']} positive cases, {any_s['n_control']} negative controls)", "",
+              "| Variant | Committed recall | Recall incl. `possible` | Misfire | False alarm | Alarm incl. `possible` | Explicit rejection | McNemar p vs full |",
+              "|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|"]
+        for k, name in rep["variants"].items():
+            s, sp = d["summary"][k], d["summary_incl_possible"][k]
+            p = "—" if k == "full" else f"{d['paired_vs_full'][k]['exact_mcnemar_p']:.4f}"
+            L.append(f"| {name} | {ge.fmt(s['committed_recall'])} | {ge.fmt(sp['recall_incl_possible'])} | "
+                     f"{ge.fmt(s['misfire_rate'])} | {ge.fmt(s['false_alarm_rate'])} | "
+                     f"{ge.fmt(sp['false_alarm_incl_possible'])} | {ge.fmt(s['explicit_rejection_rate'])} | {p} |")
+    ch = rep["field"]["cases_with_differing_outcomes"]
+    L += ["", "Cases whose strict outcome differs between variants:", "",
+          "| Case | Split | Truth | " + " | ".join(rep["variants"].values()) + " |",
+          "|:---|:---|:---|" + ":---:|" * len(rep["variants"])]
+    L += [f"| {c['case_id']} | {c['split']} | {', '.join(c['truth'])} | " + " | ".join(c[k] for k in rep["variants"]) + " |"
+          for c in ch]
+
+    occ = rep["occlusion"]
+    L += ["", "## C. Rule components under observation occlusion", "",
+          f"Positive-case recall (%), mean of {occ['n_seeds']} seeds × {occ['n_cases']} generated cases, same "
+          "generator settings as `results/degradation_curve.md`. Generated cases derive from the Tier-1 "
+          "antecedents, so the 0.0 column is 100% by construction.", "",
+          "| Variant | " + " | ".join(str(o) for o in occ["occlusion_sweep"]) + " |",
+          "|:---|" + ":---:|" * len(occ["occlusion_sweep"])]
+    for k, data in occ["systems"].items():
+        L.append(f"| {rep['variants'][k]} | " + " | ".join(
+            f"{data[str(o)]['positive_recall_mean']:.1f}" for o in occ["occlusion_sweep"]) + " |")
+    L += ["", "Micro-precision (%). A seed in which a variant commits nothing scores 0, which is why "
+          "Tier-1-only precision drops at high occlusion.", "", "| Variant | " + " | ".join(str(o) for o in occ["occlusion_sweep"]) + " |",
+          "|:---|" + ":---:|" * len(occ["occlusion_sweep"])]
+    for k, data in occ["systems"].items():
+        L.append(f"| {rep['variants'][k]} | " + " | ".join(
+            f"{data[str(o)]['micro_precision_mean']:.1f}" for o in occ["occlusion_sweep"]) + " |")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(L) + "\n")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="RiceKG Reasoner Architecture Ablation Study")
-    parser.add_argument(
-        "--variant",
-        choices=["full", "tier1_only", "tier2_only", "flat_rules", "no_reasoner", "all"],
-        default="all",
-        help="Model variant to evaluate (default: all)"
-    )
-    parser.add_argument(
-        "--data",
-        default=DEFAULT_CSV,
-        help=f"Path to benchmark dataset CSV (default: {DEFAULT_CSV})"
-    )
-    parser.add_argument(
-        "--out-dir",
-        default=DEFAULT_OUT_DIR,
-        help=f"Output directory for ablation.json and ablation.md (default: {DEFAULT_OUT_DIR})"
-    )
-    args = parser.parse_args()
-
-    selected = [args.variant] if args.variant != "all" else ["all"]
-    run_ablation(variants=selected, data_path=args.data, out_dir=args.out_dir)
+    rep = run()
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    serial = json.loads(json.dumps(rep, default=lambda o: sorted(o) if isinstance(o, set) else str(o)))
+    with open(os.path.join(RESULTS_DIR, "ablation.json"), "w", encoding="utf-8") as f:
+        json.dump(serial, f, indent=2)
+    write_markdown(rep, os.path.join(RESULTS_DIR, "ablation.md"))
+    print("Written: results/ablation.json, results/ablation.md")
 
 
 if __name__ == "__main__":

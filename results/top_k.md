@@ -1,6 +1,6 @@
 # Top-k Differential Diagnosis & Ranking Analysis (PART 7)
 
-> **Generated**: 2026-09-19T00:52:57.681476+00:00  
+> **Generated**: 2026-09-19T01:35:17.602578+00:00  
 > **Evaluation Protocol**: Pre-fixed deterministic ordering key (Part 7-A), fair comparative baselines (Part 7-C), secondary diagnostic utility analysis.
 
 ---
@@ -19,9 +19,9 @@ list of diagnostic hypotheses ranked strictly by evidence strength:
 
 | System / Architecture | Hit@1 (%) | Hit@2 (%) | Hit@3 (%) | MRR | FAR@1 (%) | FAR@3 (%) | Spec@3 (%) | Mean Length |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | 57.1% | 71.4% | 71.4% | 0.643 | 22.2% | 22.2% | 77.8% | 0.50 |
-| **Rule: Nearest Prototype** | 85.7% | 100.0% | 100.0% | 0.929 | 88.9% | 88.9% | 11.1% | 1.88 |
-| **Rule: Flat Single-Tier** | 42.9% | 42.9% | 42.9% | 0.429 | 0.0% | 0.0% | 100.0% | 0.19 |
+| **RiceKG (Full Proposed)** | 71.4% | 85.7% | 85.7% | 0.786 | 22.2% | 22.2% | 77.8% | 0.56 |
+| **Rule: Nearest Prototype** | 85.7% | 100.0% | 100.0% | 0.929 | 88.9% | 88.9% | 11.1% | 1.38 |
+| **Rule: Flat Single-Tier** | 71.4% | 71.4% | 71.4% | 0.714 | 0.0% | 0.0% | 100.0% | 0.31 |
 | **Decision Tree** | 71.4% | 100.0% | 100.0% | 0.857 | 100.0% | 100.0% | 0.0% | 3.00 |
 | **Random Forest** | 57.1% | 71.4% | 71.4% | 0.643 | 100.0% | 100.0% | 0.0% | 3.00 |
 | **Multinomial Naive Bayes** | 28.6% | 28.6% | 28.6% | 0.286 | 100.0% | 100.0% | 0.0% | 2.12 |
@@ -37,7 +37,7 @@ _k-NN tie sensitivity: 8 of 16 held-out predictions have a distance tie at the 3
 | System / Architecture | Hit@1 (%) | Hit@2 (%) | Hit@3 (%) | MRR | FAR@1 (%) | FAR@3 (%) | Spec@3 (%) | Mean Length |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **RiceKG (Full Proposed)** | 80.0% | 100.0% | 100.0% | 0.900 | 17.6% | 17.6% | 82.3% | 0.41 |
-| **Rule: Nearest Prototype** | 80.0% | 100.0% | 100.0% | 0.900 | 76.5% | 76.5% | 23.5% | 1.59 |
+| **Rule: Nearest Prototype** | 80.0% | 100.0% | 100.0% | 0.900 | 76.5% | 76.5% | 23.5% | 1.45 |
 | **Rule: Flat Single-Tier** | 80.0% | 80.0% | 80.0% | 0.800 | 0.0% | 0.0% | 100.0% | 0.18 |
 | **Decision Tree** | 40.0% | 40.0% | 40.0% | 0.400 | 100.0% | 100.0% | 0.0% | 3.00 |
 | **Random Forest** | 40.0% | 40.0% | 40.0% | 0.400 | 100.0% | 100.0% | 0.0% | 3.00 |
@@ -53,9 +53,9 @@ _k-NN tie sensitivity: 16 of 22 held-out predictions have a distance tie at the 
 
 | System / Architecture | Hit@1 (%) | Hit@2 (%) | Hit@3 (%) | MRR | FAR@1 (%) | FAR@3 (%) | Spec@3 (%) | Mean Length |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | 72.2% | 72.2% | 72.2% | 0.722 | n/a | n/a | n/a | 1.06 |
-| **Rule: Nearest Prototype** | 77.8% | 83.3% | 88.9% | 0.824 | n/a | n/a | n/a | 1.44 |
-| **Rule: Flat Single-Tier** | 22.2% | 22.2% | 22.2% | 0.222 | n/a | n/a | n/a | 0.28 |
+| **RiceKG (Full Proposed)** | 77.8% | 77.8% | 77.8% | 0.778 | n/a | n/a | n/a | 1.06 |
+| **Rule: Nearest Prototype** | 77.8% | 83.3% | 83.3% | 0.806 | n/a | n/a | n/a | 1.44 |
+| **Rule: Flat Single-Tier** | 66.7% | 66.7% | 66.7% | 0.667 | n/a | n/a | n/a | 0.72 |
 | **Decision Tree** | 55.6% | 55.6% | 55.6% | 0.556 | n/a | n/a | n/a | 1.00 |
 | **Random Forest** | 66.7% | 77.8% | 77.8% | 0.722 | n/a | n/a | n/a | 2.50 |
 | **Multinomial Naive Bayes** | 66.7% | 83.3% | 94.4% | 0.787 | n/a | n/a | n/a | 2.89 |
@@ -72,9 +72,9 @@ _k-NN tie sensitivity: 12 of 18 held-out predictions have a distance tie at the 
 
 | System / Architecture | Hit@1 (%) | Hit@2 (%) | Hit@3 (%) | MRR | FAR@1 (%) | FAR@3 (%) | Spec@3 (%) | Mean Length |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | 45.5% | 47.3% | 49.1% | 0.470 | 11.1% | 11.1% | 88.9% | 0.48 |
-| **Rule: Nearest Prototype** | 60.0% | 65.5% | 65.5% | 0.627 | 50.0% | 50.0% | 50.0% | 1.38 |
-| **Rule: Flat Single-Tier** | 14.6% | 14.6% | 14.6% | 0.145 | 0.0% | 0.0% | 100.0% | 0.11 |
+| **RiceKG (Full Proposed)** | 47.3% | 50.9% | 52.7% | 0.497 | 11.1% | 11.1% | 88.9% | 0.53 |
+| **Rule: Nearest Prototype** | 61.8% | 65.5% | 65.5% | 0.636 | 50.0% | 50.0% | 50.0% | 1.37 |
+| **Rule: Flat Single-Tier** | 32.7% | 32.7% | 32.7% | 0.327 | 5.6% | 5.6% | 94.4% | 0.27 |
 | **Decision Tree** | 47.3% | 47.3% | 47.3% | 0.473 | 5.6% | 5.6% | 94.4% | 0.40 |
 | **Random Forest** | 61.8% | 63.6% | 65.5% | 0.633 | 61.1% | 61.1% | 38.9% | 1.75 |
 | **Multinomial Naive Bayes** | 54.5% | 61.8% | 63.6% | 0.588 | 100.0% | 100.0% | 0.0% | 2.26 |

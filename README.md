@@ -74,7 +74,7 @@ them drifts from the regenerated data.
 
 | Reported table | Command | Output |
 |---|---|---|
-| Verification suite (rule-derived) | `make ablate` | [`results/ablation.md`](results/ablation.md), [`results/ablation.json`](results/ablation.json) |
+| Architecture ablation (reasoner equivalence, rule components) | `make ablate` | [`results/ablation.md`](results/ablation.md), [`results/ablation.json`](results/ablation.json) |
 | Benchmark 2 (independent field) and baseline comparison | `make baselines` | [`results/baselines.md`](results/baselines.md), [`results/baselines.json`](results/baselines.json) |
 | Per-case field failure diagnosis | `make failure-analysis` | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
 | Graded case-level evaluation (headline field figures) | `make graded-eval` | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
@@ -107,9 +107,9 @@ app.py         Flask web application (templates/, static/)
 python -m pytest tests/ -v
 ```
 
-### Run Benchmark Evaluation (Confusion Matrix)
+### Run Graded Field Evaluation
 ```bash
-python -m ricekg.evaluate
+python analysis/graded_evaluation.py
 ```
 
 ### Run Architectural Ablation Study
@@ -137,80 +137,75 @@ Open your browser and navigate to: `http://127.0.0.1:5000/`
 
 ## Evaluation Results
 
-To prevent evaluation circularity, the two datasets are reported separately and serve different purposes. The **deductive verification suite** is rule-derived: it checks that the reasoner fires correctly and cannot measure diagnostic accuracy. The **independent field benchmark** is drawn from peer-reviewed case reports and is the only source of an accuracy claim. **The two are never pooled.**
+The evaluation follows [`docs/EVALUATION_FRAMEWORK.md`](docs/EVALUATION_FRAMEWORK.md): verification of
+the knowledge base, graded single-run validation on field case reports, expert-based validation, and
+ablation. RiceKG is deterministic and untrained, so it is evaluated once on every case with no
+cross-validation; each figure is a count with an exact Clopper–Pearson 95% interval.
 
-### Benchmark 1: Deductive Verification Suite (`data/verification_suite.csv`)
-- **Provenance**: `rule_derived` (authored to verify deductive SWRL rule firing consistency)
-- **Sample Size ($n$)**: 73 test cases across 6 diagnostic tiers (T1-T6)
-
-| Metric | Score |
-|---|---|
-| **Multi-Label Accuracy ((TP+TN)/Total)** | **91.55%** |
-| **Exact-Match Case Accuracy** | **58.88%** |
-| **Micro-Average F1-Score** | **29.5%** |
-
-*Methodological Note: these figures fell from 99.25% and 92.50% when the P0-5 Tier-2 rules were
-revised on literature grounds, without the benchmark being touched. That is the point of the set,
-not a defect in it: the cases were generated from the rule antecedents, so the score measures
-agreement with whichever rule base produced them. It verifies deductive consistency and cannot be
-read as diagnostic accuracy. See [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) Section 4.*
-
-### Benchmark 2: Independent Peer-Reviewed Literature Benchmark (`data/benchmark_field.csv`)
+### Field benchmark (`data/benchmark_field.csv`)
 - **Provenance**: observed-case reports only (`case_type=case_report`); candidates that were not case reports are preserved with a stated reason in [`data/rejected_field_candidates.csv`](data/rejected_field_candidates.csv).
 - **Sample Size ($n$)**: 38 verified cases — 12 in-scope positives, 26 out-of-scope negative controls.
 - **Splits**: `dev` (7 positives, 9 controls) and `eval` (5 positives, 17 controls). No source DOI appears in both.
-- **Independence (downgraded)**: `eval` aggregate scores were observed across two rounds of P0-5 rule revision, so these figures are **development-informed, not strictly held out**, and are an optimistic bound. A fresh partition sourced after the rule base is frozen is required before the manuscript cites an independent figure. See [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) Section 2.
+- **Independence (downgraded)**: `eval` aggregate scores were observed across several rounds of rule revision, and ruleset v2.4.0 was written after every split had been seen, so these figures are **development-informed, not held out**, and are an optimistic bound. A fresh partition sourced after the rule base is frozen is required before the manuscript cites an independent figure. See [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) Section 2.
 - **Protocol**: verbatim `raw_symptom_text`, 100% verified DOIs against `api.crossref.org`, authentic locations and dates, symptoms encoded by the consensus of two independent agronomists (`data/symptom_encoding_consensus.csv`; see [`docs/ANNOTATION_PROTOCOL.md`](docs/ANNOTATION_PROTOCOL.md)), CI verification via `analysis/verify_citations.py`.
 
-RiceKG is deterministic and untrained, so it is evaluated once on every case, with no
-cross-validation; each figure is a count with an exact Clopper–Pearson 95% interval
-([`docs/EVALUATION_FRAMEWORK.md`](docs/EVALUATION_FRAMEWORK.md)). A *committed* diagnosis is graded
-confirmed or suspected; a *misfire* names the wrong disease. Symptoms are encoded by the consensus of two independent agronomists ([`data/symptom_encoding_consensus.csv`](data/symptom_encoding_consensus.csv)); the authors' original encoding, kept in `benchmark_field.csv`, agreed with it in only 28 of 56 cases.
+A *committed* diagnosis is graded confirmed or suspected; a *misfire* names the wrong disease. The authors' original encoding, kept in `benchmark_field.csv`, agreed with the expert consensus in only 28 of 56 cases.
 
 | Metric (RiceKG strict) | `eval` (5 positives, 17 controls) | `dev` + `eval` (12 positives, 26 controls) | Traceable File |
 |---|---|---|---|
-| **Committed recall** | **4/5** [28.4, 99.5] | **7/12** [27.7, 84.8] | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
-| **Recall including `possible` grade** | 5/5 [47.8, 100.0] | 10/12 [51.6, 97.9] | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
+| **Committed recall** | **4/5** [28.4, 99.5] | **9/12** [42.8, 94.5] | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
+| **Recall including `possible` grade** | 5/5 [47.8, 100.0] | 11/12 [61.5, 99.8] | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
 | **Misfire (wrong disease committed)** | 0/5 | 0/12 | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
-| **Precision of committed diagnoses** | 4/4 | 7/7 | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
+| **Precision of committed diagnoses** | 4/4 | 9/9 | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
 | **False alarm on negative controls** | **0/17** [0.0, 19.5] | **0 of 26** [0.0, 13.2] | [`results/field_failure_analysis.md`](results/field_failure_analysis.md) |
 | **`possible`-grade alarms on controls** | 3/17 | 5/26 | [`results/graded_evaluation.md`](results/graded_evaluation.md) |
 
-No field case reaches the `confirmed` grade: every correct diagnosis comes from a Tier-2 rule.
-The 5×2-fold cross-validated figures used to compare against the supervised baselines
-(positive recall 85.00%, micro-F1 91.14 [77.4, 97.6], exact match 95.45%, MDE ±30.2 points) are
-in [`results/baselines.md`](results/baselines.md); for RiceKG they average fold partitions of a
-fixed output and are not its headline estimate.
+No field case reaches the `confirmed` grade: every correct diagnosis comes from a Tier-2 rule. On
+the 18 development-exposed `holdout` positives, committed recall is 12/18 with one misfire (a grassy
+stunt report encoded as stunting with orange leaves, which is tungro's rule). The 5×2-fold
+cross-validated figures used against the supervised baselines (positive recall 85.00%, micro-F1
+91.14 [77.4, 97.6], exact match 95.45%, MDE ±30.2 points) are in
+[`results/baselines.md`](results/baselines.md); for RiceKG they average fold partitions of a fixed
+output and are not its headline estimate.
 
 *Scientific Disclosure & Scope Limitations:*
-- **Remediation Did Not Transfer**: P0-5 extended the vocabulary from 45 to 54 terms and revised five Tier-2 rules on literature grounds. `dev` positive recall rose 19.17% → 63.33%; `eval` moved 38.33% → 35.00%. A gain confined to the visible partition is an overfitting signature and is reported as such. Overall 6 of 12 positive cases are resolved, up from 3.
-- **A Trivial Heuristic Is Close**: on the single-run evaluation the ontology-free nearest-prototype matcher matches RiceKG's recall (`eval` 4/5; `dev`+`eval` 8/12 against 7/12) but commits more wrong candidates (4 of its 6 committed diagnoses on `eval` are correct, against 4 of 4). No paired difference is significant (exact McNemar $p = 1.0$).
+- **Rules were revised after the results were seen**: ruleset v2.4.0 adds single-sign Tier-2 rules for signs the literature calls characteristic of one threat, and removes three unsourced antecedents ([`docs/ONTOLOGY.md`](docs/ONTOLOGY.md)). The criterion was fixed from the literature table before any re-run, but the change was prompted by field and degradation results, so no current split is independent of it.
+- **A Trivial Heuristic Is Close**: the ontology-free nearest-prototype matcher matches RiceKG on `eval` (4/5) but commits more wrong candidates (4 of its 6 committed diagnoses are correct, against 4 of 4); on `dev`+`eval` it reaches 8/12 against 9/12. No paired difference is significant (exact McNemar $p = 1.0$).
 - **An Intermediate Revision Was Withdrawn**: pairing `Water_Soaked_Lesions` with `Bacterial_Ooze` for bacterial blight produced 4 false positives, because exudate is a genus-level sign shared with the *Xanthomonas oryzicola*, *Burkholderia* and *Pantoea* negative controls. Re-specifying around discriminating signs returned false positives to zero.
 - **Insect Pests Are Out of Scope, Not Validated**: `Grasshopper`, `Rice_Bug`, `Rice_Stem_Borer` and `Brown_Planthopper` were removed from the diagnostic scope because insect pests are not published as first-report disease notes, so no field case exists for them. The out-of-scope insect response is exercised only on rule-derived controls.
 - **Case-Report Gate**: 14 of 21 P0-5 sourcing candidates were rejected — every DOI resolved, but the sources were reviews, efficacy trials or caged experiments whose symptom text is textbook description rather than observation. Crossref verification cannot detect this; [`tests/test_p0_5_field.py`](tests/test_p0_5_field.py) enforces it.
 
-### Architectural & Reasoner Ablation Study
+### Expert-based validation
 
-Empirical validation across 5 architectural variants under Pellet DL forward-chaining reasoning (evaluated on $n=73$ benchmark cases; persistent results in `results/ablation.md`):
+Two independent agronomists diagnosed all 56 cases from the redacted text
+([`results/expert_validation.md`](results/expert_validation.md)). They agree with each other at
+κ = 0.885 and with RiceKG at a mean κ of 0.569 (difference −0.317 [−0.467, −0.164]). From the same
+text they name the published disease in 26 and 25 of 30 positive cases; RiceKG strict names it in 21.
+The explanation ratings were collected on the previous ruleset's outputs.
 
-| Variant | Exact Match (%) | Multi-Label Acc (%) | Micro Prec (%) | Micro Rec (%) | Micro F1 (%) | Mean Latency (ms) | P95 Latency (ms) |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG Full (Tier 1 + Tier 2 Stratified, Pellet DL)** | **32.88%** | **91.55%** | **100.0%** | **17.8%** | **30.2%** | **828.44** | **850.25** |
-| *Ablation A: Tier 1 Canonical Only (Pellet DL)* | 27.40% | 90.18% | 100.0% | 4.4% | 8.5% | 742.25 | 768.83 |
-| *Ablation B: Tier 2 Relaxed Only (Pellet DL)* | 32.88% | 91.55% | 100.0% | 17.8% | 30.2% | 698.96 | 735.14 |
-| *Ablation C: Flat Rules Unstratified (Pellet DL)* | 32.88% | 91.55% | 100.0% | 17.8% | 30.2% | 828.80 | 844.57 |
-| *Baseline Control: No Reasoner (Set-Matching)* | 58.90% | 91.55% | 100.0% | 17.8% | 30.2% | 0.00 | 0.00 |
+### Ablation
 
-> **Key Architectural Insights**:
-> 1. **Deductive Specificity vs Sensitivity**: Ablating Tier-2 relaxed rules (*Canonical Only*) causes recall to collapse from 17.8% to 4.4%, while maintaining 100% precision (0 false positives). Tier-2 expands sensitivity under incomplete symptom observation, at the cost of specificity.
-> 2. **Reasoner Engineering Trade-Off**: Pure Python set-matching executes in <0.05 ms per query, whereas Pellet DL requires ~700–830 ms. The DL reasoner is justified not by speed, but by ontological property subsumption (`ThreatConfirmed` ⊑ `ThreatSuspect`), consistency verification, and deductive derivation trees for explainable AI (XAI).
+[`results/ablation.md`](results/ablation.md) asks what each part of the architecture contributes:
+
+- **Reasoner**: Pellet and a pure set-matching implementation give identical graded output on 129/129 inputs (all field cases and the verification suite), at about 900 ms against 0.014 ms per case. The DL layer adds proof of `ThreatConfirmed ⊑ ThreatSuspect`, consistency checking and the derivation trace, not accuracy.
+- **Diagnostic-sign rules**: without them, committed recall on `dev`+`eval` falls from 9/12 to 7/12 (holdout: 12/18 to 4/18), with no change in misfires or false alarms; under 30% occlusion, positive recall falls from 67.9% to 44.3%.
+- **Tiers**: Tier-1 rules alone commit nothing on the field benchmark (0/12); the tiers grade confidence, Tier 2 does the diagnosing.
+- **Out-of-scope gates**: they turn 14 of 26 silent abstentions on negative controls into explicit rejections, without affecting false alarms.
+
+### Verification suite (`data/verification_suite.csv`)
+
+The 73 `rule_derived` cases were authored from an earlier rule base, before the vocabulary extension
+and the P0-5 revisions; most of their positive cases cannot fire the current Tier-2 rules. A score on
+the suite measures agreement with that earlier rule base, so it is not used to compare systems. It
+serves as regression input to the reasoner-equivalence check. See
+[`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) Section 4.
 
 ### Comparative Baselines & Paired Significance Testing
 
 Evaluated under a paired 5×2-fold cross-validation protocol (Dietterich 1998) against 5 supervised multi-label ML classifiers (Decision Tree, Random Forest, Multinomial Naive Bayes, k-NN, One-vs-Rest Logistic Regression) and 2 rule-based baselines (Nearest Prototype, Flat Single-Tier Rules). Full persistent outputs with bootstrap 95% CIs, Holm–Bonferroni adjusted $p$-values, effect sizes, and minimum detectable effect (MDE) disclosures are reported in [`results/baselines.md`](results/baselines.md) and [`results/baselines.json`](results/baselines.json):
 
-- **Deductive Verification Suite ($n=73$)**: RiceKG achieves **64.38% ± 1.80%** exact match (micro-F1 **40.84% ± 9.80%**) with **zero training data**. The ontology-free Nearest Prototype baseline outperforms RiceKG on exact match (**86.28% ± 4.30%**, Holm-adjusted $p < 0.001$), while five supervised ML baselines trained on 36 cases/fold reach **71.21%–76.98%** exact match (Holm-adjusted $p < 0.001$ to $0.0187$).
-- **Independent Field Benchmark, `eval` ($n=22$, development-informed)**: under this cross-validation protocol RiceKG attains **85.00%** positive-case recall (micro-F1 **91.14%**, 95% CI [77.4, 97.6]) and exceeds the nearest-prototype matcher by 9.1 points of exact match (**95.45%** vs 86.36%, Holm-adjusted $p = 0.0039$) and on micro-F1 (91.14 vs 74.83). Every supervised baseline scores 0.00% positive recall under 5×2-fold CV within `eval`, an artifact of 11-case training folds that miss whole classes; trained on `dev` and tested on `eval` (learning-curve Pool B) they reach 20.0–40.0%. The single-run graded figures above are the headline estimate for RiceKG itself. With 5 positive cases and an MDE of $\pm 30.2$ percentage points, comparisons remain underpowered.
+- **Field Benchmark, `eval` ($n=22$, development-informed)**: under this cross-validation protocol RiceKG attains **85.00%** positive-case recall (micro-F1 **91.14%**, 95% CI [77.4, 97.6]) and exceeds the nearest-prototype matcher by 9.1 points of exact match (**95.45%** vs 86.36%, Holm-adjusted $p = 0.0039$) and on micro-F1 (91.14 vs 74.83). Every supervised baseline scores 0.00% positive recall under 5×2-fold CV within `eval`, an artifact of 11-case training folds that miss whole classes; trained on `dev` and tested on `eval` (learning-curve Pool B) they reach 20.0–40.0%. The single-run graded figures above are the headline estimate for RiceKG itself. With 5 positive cases and an MDE of $\pm 30.2$ percentage points, comparisons remain underpowered.
+- **Observation occlusion** ([`results/degradation_curve.md`](results/degradation_curve.md)): on generated cases, supervised classifiers trained on the same generator lose recall more slowly than strict RiceKG, which keeps 100% precision throughout.
 - **Explainability vs Accuracy Framing**: As articulated in [`docs/POSITIONING.md`](docs/POSITIONING.md), RiceKG's contribution is zero-shot cold start, deductive auditability, and graded clinical confidence without training data, operating within the boundaries disclosed in [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
 

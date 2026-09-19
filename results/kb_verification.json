@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T14:45:50.764995+00:00",
+  "generated_at": "2026-09-19T01:27:08.726430+00:00",
   "consistency": {
     "consistent": true,
     "detail": "Pellet found no inconsistency in the TBox and rule base."
@@ -34,48 +34,60 @@
     {
       "threat": "Rice_Root_Nematode",
       "tier1": "SWRL-R02",
-      "tier2": "SWRL-R12",
+      "tier2": [
+        "SWRL-R12",
+        "SWRL-R21",
+        "SWRL-R22"
+      ],
       "tier2_subset_of_tier1": true
     },
     {
       "threat": "Bacterial_Leaf_Blight",
       "tier1": "SWRL-R06",
-      "tier2": "SWRL-R16",
+      "tier2": [
+        "SWRL-R16"
+      ],
       "tier2_subset_of_tier1": true
     },
     {
       "threat": "False_Smut",
       "tier1": "SWRL-R07",
-      "tier2": "SWRL-R17",
+      "tier2": [
+        "SWRL-R17",
+        "SWRL-R24",
+        "SWRL-R25"
+      ],
       "tier2_subset_of_tier1": true
     },
     {
       "threat": "Rice_Blast",
       "tier1": "SWRL-R08",
-      "tier2": "SWRL-R18",
+      "tier2": [
+        "SWRL-R18",
+        "SWRL-R26"
+      ],
       "tier2_subset_of_tier1": true
     },
     {
       "threat": "Rice_Grassy_Stunt",
       "tier1": "SWRL-R09",
-      "tier2": "SWRL-R19",
+      "tier2": [
+        "SWRL-R19",
+        "SWRL-R23"
+      ],
       "tier2_subset_of_tier1": true
     },
     {
       "threat": "Rice_Tungro_Virus",
       "tier1": "SWRL-R10",
-      "tier2": "SWRL-R20",
+      "tier2": [
+        "SWRL-R20"
+      ],
       "tier2_subset_of_tier1": true
     }
   ],
   "cross_threat_subsumption": [],
   "shared_antecedents": {
-    "Necrotic_Spots": [
-      "Rice_Blast",
-      "Rice_Grassy_Stunt",
-      "Rice_Root_Nematode",
-      "Rice_Tungro_Virus"
-    ],
     "Uniform_Field_Infection": [
       "Bacterial_Leaf_Blight",
       "False_Smut",
@@ -97,41 +109,10 @@
         "Rice_Tungro_Virus"
       ],
       "shared": [
-        "Necrotic_Spots",
         "Stunted_Growth",
         "Yellowing_Leaves"
       ],
-      "jaccard": 0.333
-    },
-    {
-      "pair": [
-        "Rice_Blast",
-        "Rice_Grassy_Stunt"
-      ],
-      "shared": [
-        "Necrotic_Spots"
-      ],
-      "jaccard": 0.111
-    },
-    {
-      "pair": [
-        "Rice_Root_Nematode",
-        "Rice_Blast"
-      ],
-      "shared": [
-        "Necrotic_Spots"
-      ],
-      "jaccard": 0.1
-    },
-    {
-      "pair": [
-        "Rice_Root_Nematode",
-        "Rice_Grassy_Stunt"
-      ],
-      "shared": [
-        "Necrotic_Spots"
-      ],
-      "jaccard": 0.1
+      "jaccard": 0.25
     },
     {
       "pair": [
@@ -150,26 +131,6 @@
       ],
       "shared": [
         "Uniform_Field_Infection"
-      ],
-      "jaccard": 0.1
-    },
-    {
-      "pair": [
-        "Rice_Blast",
-        "Rice_Tungro_Virus"
-      ],
-      "shared": [
-        "Necrotic_Spots"
-      ],
-      "jaccard": 0.1
-    },
-    {
-      "pair": [
-        "Rice_Grassy_Stunt",
-        "Rice_Tungro_Virus"
-      ],
-      "shared": [
-        "Necrotic_Spots"
       ],
       "jaccard": 0.1
     },
@@ -201,6 +162,22 @@
     },
     {
       "pair": [
+        "Rice_Root_Nematode",
+        "Rice_Blast"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Root_Nematode",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
         "Bacterial_Leaf_Blight",
         "Rice_Grassy_Stunt"
       ],
@@ -226,6 +203,30 @@
     {
       "pair": [
         "False_Smut",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Blast",
+        "Rice_Grassy_Stunt"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Blast",
+        "Rice_Tungro_Virus"
+      ],
+      "shared": [],
+      "jaccard": 0.0
+    },
+    {
+      "pair": [
+        "Rice_Grassy_Stunt",
         "Rice_Tungro_Virus"
       ],
       "shared": [],
@@ -241,7 +242,7 @@
       "shared": [
         "Stunted_Growth"
       ],
-      "jaccard": 0.25
+      "jaccard": 0.2
     },
     {
       "pair": [
@@ -427,15 +428,11 @@
     ]
   },
   "literature_backing": {
-    "antecedent_links": 34,
+    "antecedent_links": 31,
     "sourced_links": 31,
-    "unsourced_links": [
-      "Rice_Grassy_Stunt:Necrotic_Spots",
-      "Rice_Root_Nematode:Necrotic_Spots",
-      "Rice_Tungro_Virus:Necrotic_Spots"
-    ],
-    "rules_with_literature": 12,
-    "rules_total": 12,
+    "unsourced_links": [],
+    "rules_with_literature": 18,
+    "rules_total": 18,
     "terms_with_definition": 61,
     "terms_total": 61
   }

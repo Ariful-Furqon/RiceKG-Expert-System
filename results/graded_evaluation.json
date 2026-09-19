@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T00:47:03.240424+00:00",
+  "generated_at": "2026-09-19T01:29:25.487940+00:00",
   "protocol": "single deterministic run per case; exact Clopper-Pearson 95% intervals; no cross-validation",
   "systems": [
     "RiceKG strict",
@@ -428,12 +428,12 @@
         "n_positive": 7,
         "n_control": 9,
         "positive_outcomes": {
-          "correct": 3,
+          "correct": 5,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 4
+          "abstain": 2
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -442,21 +442,21 @@
           "silent_abstention": 6
         },
         "committed_recall": {
-          "k": 3,
+          "k": 5,
           "n": 7,
-          "pct": 42.86,
+          "pct": 71.43,
           "ci95": [
-            9.9,
-            81.6
+            29.0,
+            96.3
           ]
         },
         "recall_incl_possible": {
-          "k": 3,
+          "k": 5,
           "n": 7,
-          "pct": 42.86,
+          "pct": 71.43,
           "ci95": [
-            9.9,
-            81.6
+            29.0,
+            96.3
           ]
         },
         "misfire_rate": {
@@ -469,30 +469,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 4,
+          "k": 2,
           "n": 7,
-          "pct": 57.14,
+          "pct": 28.57,
           "ci95": [
-            18.4,
-            90.1
+            3.7,
+            71.0
           ]
         },
         "committed_precision": {
-          "k": 3,
-          "n": 3,
+          "k": 5,
+          "n": 5,
           "pct": 100.0,
           "ci95": [
-            29.2,
+            47.8,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 3,
-            "n": 3,
+            "k": 5,
+            "n": 5,
             "pct": 100.0,
             "ci95": [
-              29.2,
+              47.8,
               100.0
             ]
           }
@@ -529,12 +529,12 @@
         "n_positive": 7,
         "n_control": 9,
         "positive_outcomes": {
-          "correct": 3,
+          "correct": 5,
           "misfire": 0,
-          "possible_hit": 2,
+          "possible_hit": 1,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 2
+          "abstain": 1
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -543,21 +543,21 @@
           "silent_abstention": 4
         },
         "committed_recall": {
-          "k": 3,
-          "n": 7,
-          "pct": 42.86,
-          "ci95": [
-            9.9,
-            81.6
-          ]
-        },
-        "recall_incl_possible": {
           "k": 5,
           "n": 7,
           "pct": 71.43,
           "ci95": [
             29.0,
             96.3
+          ]
+        },
+        "recall_incl_possible": {
+          "k": 6,
+          "n": 7,
+          "pct": 85.71,
+          "ci95": [
+            42.1,
+            99.6
           ]
         },
         "misfire_rate": {
@@ -570,40 +570,40 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 4,
+          "k": 2,
           "n": 7,
-          "pct": 57.14,
+          "pct": 28.57,
           "ci95": [
-            18.4,
-            90.1
+            3.7,
+            71.0
           ]
         },
         "committed_precision": {
-          "k": 3,
-          "n": 3,
+          "k": 5,
+          "n": 5,
           "pct": 100.0,
           "ci95": [
-            29.2,
+            47.8,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 3,
-            "n": 3,
+            "k": 5,
+            "n": 5,
             "pct": 100.0,
             "ci95": [
-              29.2,
+              47.8,
               100.0
             ]
           },
           "possible": {
-            "k": 2,
-            "n": 5,
-            "pct": 40.0,
+            "k": 1,
+            "n": 4,
+            "pct": 25.0,
             "ci95": [
-              5.3,
-              85.3
+              0.6,
+              80.6
             ]
           }
         },
@@ -639,12 +639,12 @@
         "n_positive": 7,
         "n_control": 9,
         "positive_outcomes": {
-          "correct": 3,
+          "correct": 5,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 4
+          "abstain": 2
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -653,21 +653,21 @@
           "silent_abstention": 9
         },
         "committed_recall": {
-          "k": 3,
+          "k": 5,
           "n": 7,
-          "pct": 42.86,
+          "pct": 71.43,
           "ci95": [
-            9.9,
-            81.6
+            29.0,
+            96.3
           ]
         },
         "recall_incl_possible": {
-          "k": 3,
+          "k": 5,
           "n": 7,
-          "pct": 42.86,
+          "pct": 71.43,
           "ci95": [
-            9.9,
-            81.6
+            29.0,
+            96.3
           ]
         },
         "misfire_rate": {
@@ -680,30 +680,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 4,
+          "k": 2,
           "n": 7,
-          "pct": 57.14,
+          "pct": 28.57,
           "ci95": [
-            18.4,
-            90.1
+            3.7,
+            71.0
           ]
         },
         "committed_precision": {
-          "k": 3,
-          "n": 3,
+          "k": 5,
+          "n": 5,
           "pct": 100.0,
           "ci95": [
-            29.2,
+            47.8,
             100.0
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 3,
-            "n": 3,
+            "k": 5,
+            "n": 5,
             "pct": 100.0,
             "ci95": [
-              29.2,
+              47.8,
               100.0
             ]
           }
@@ -843,12 +843,12 @@
         "n_positive": 12,
         "n_control": 26,
         "positive_outcomes": {
-          "correct": 7,
+          "correct": 9,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 5
+          "abstain": 3
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -857,21 +857,21 @@
           "silent_abstention": 12
         },
         "committed_recall": {
-          "k": 7,
+          "k": 9,
           "n": 12,
-          "pct": 58.33,
+          "pct": 75.0,
           "ci95": [
-            27.7,
-            84.8
+            42.8,
+            94.5
           ]
         },
         "recall_incl_possible": {
-          "k": 7,
+          "k": 9,
           "n": 12,
-          "pct": 58.33,
+          "pct": 75.0,
           "ci95": [
-            27.7,
-            84.8
+            42.8,
+            94.5
           ]
         },
         "misfire_rate": {
@@ -884,30 +884,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 5,
+          "k": 3,
           "n": 12,
-          "pct": 41.67,
+          "pct": 25.0,
           "ci95": [
-            15.2,
-            72.3
+            5.5,
+            57.2
           ]
         },
         "committed_precision": {
-          "k": 7,
-          "n": 7,
+          "k": 9,
+          "n": 9,
           "pct": 100.0,
           "ci95": [
-            59.0,
+            66.4,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 7,
-            "n": 7,
+            "k": 9,
+            "n": 9,
             "pct": 100.0,
             "ci95": [
-              59.0,
+              66.4,
               100.0
             ]
           }
@@ -944,12 +944,12 @@
         "n_positive": 12,
         "n_control": 26,
         "positive_outcomes": {
-          "correct": 7,
+          "correct": 9,
           "misfire": 0,
-          "possible_hit": 3,
+          "possible_hit": 2,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 2
+          "abstain": 1
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -958,21 +958,21 @@
           "silent_abstention": 7
         },
         "committed_recall": {
-          "k": 7,
+          "k": 9,
           "n": 12,
-          "pct": 58.33,
+          "pct": 75.0,
           "ci95": [
-            27.7,
-            84.8
+            42.8,
+            94.5
           ]
         },
         "recall_incl_possible": {
-          "k": 10,
+          "k": 11,
           "n": 12,
-          "pct": 83.33,
+          "pct": 91.67,
           "ci95": [
-            51.6,
-            97.9
+            61.5,
+            99.8
           ]
         },
         "misfire_rate": {
@@ -985,40 +985,40 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 5,
+          "k": 3,
           "n": 12,
-          "pct": 41.67,
+          "pct": 25.0,
           "ci95": [
-            15.2,
-            72.3
+            5.5,
+            57.2
           ]
         },
         "committed_precision": {
-          "k": 7,
-          "n": 7,
+          "k": 9,
+          "n": 9,
           "pct": 100.0,
           "ci95": [
-            59.0,
+            66.4,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 7,
-            "n": 7,
+            "k": 9,
+            "n": 9,
             "pct": 100.0,
             "ci95": [
-              59.0,
+              66.4,
               100.0
             ]
           },
           "possible": {
-            "k": 3,
-            "n": 10,
-            "pct": 30.0,
+            "k": 2,
+            "n": 9,
+            "pct": 22.22,
             "ci95": [
-              6.7,
-              65.2
+              2.8,
+              60.0
             ]
           }
         },
@@ -1054,12 +1054,12 @@
         "n_positive": 12,
         "n_control": 26,
         "positive_outcomes": {
-          "correct": 7,
+          "correct": 9,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 5
+          "abstain": 3
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1068,21 +1068,21 @@
           "silent_abstention": 26
         },
         "committed_recall": {
-          "k": 7,
+          "k": 9,
           "n": 12,
-          "pct": 58.33,
+          "pct": 75.0,
           "ci95": [
-            27.7,
-            84.8
+            42.8,
+            94.5
           ]
         },
         "recall_incl_possible": {
-          "k": 7,
+          "k": 9,
           "n": 12,
-          "pct": 58.33,
+          "pct": 75.0,
           "ci95": [
-            27.7,
-            84.8
+            42.8,
+            94.5
           ]
         },
         "misfire_rate": {
@@ -1095,30 +1095,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 5,
+          "k": 3,
           "n": 12,
-          "pct": 41.67,
+          "pct": 25.0,
           "ci95": [
-            15.2,
-            72.3
+            5.5,
+            57.2
           ]
         },
         "committed_precision": {
-          "k": 7,
-          "n": 7,
+          "k": 9,
+          "n": 9,
           "pct": 100.0,
           "ci95": [
-            59.0,
+            66.4,
             100.0
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 7,
-            "n": 7,
+            "k": 9,
+            "n": 9,
             "pct": 100.0,
             "ci95": [
-              59.0,
+              66.4,
               100.0
             ]
           }
@@ -1258,12 +1258,12 @@
         "n_positive": 18,
         "n_control": 0,
         "positive_outcomes": {
-          "correct": 4,
+          "correct": 12,
           "misfire": 1,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 13
+          "abstain": 5
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1272,21 +1272,21 @@
           "silent_abstention": 0
         },
         "committed_recall": {
-          "k": 4,
+          "k": 12,
           "n": 18,
-          "pct": 22.22,
+          "pct": 66.67,
           "ci95": [
-            6.4,
-            47.6
+            41.0,
+            86.7
           ]
         },
         "recall_incl_possible": {
-          "k": 4,
+          "k": 12,
           "n": 18,
-          "pct": 22.22,
+          "pct": 66.67,
           "ci95": [
-            6.4,
-            47.6
+            41.0,
+            86.7
           ]
         },
         "misfire_rate": {
@@ -1299,31 +1299,31 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 13,
+          "k": 5,
           "n": 18,
-          "pct": 72.22,
+          "pct": 27.78,
           "ci95": [
-            46.5,
-            90.3
+            9.7,
+            53.5
           ]
         },
         "committed_precision": {
-          "k": 4,
-          "n": 5,
-          "pct": 80.0,
+          "k": 12,
+          "n": 13,
+          "pct": 92.31,
           "ci95": [
-            28.4,
-            99.5
+            64.0,
+            99.8
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 4,
-            "n": 5,
-            "pct": 80.0,
+            "k": 12,
+            "n": 13,
+            "pct": 92.31,
             "ci95": [
-              28.4,
-              99.5
+              64.0,
+              99.8
             ]
           }
         },
@@ -1359,12 +1359,12 @@
         "n_positive": 18,
         "n_control": 0,
         "positive_outcomes": {
-          "correct": 4,
+          "correct": 12,
           "misfire": 1,
-          "possible_hit": 9,
+          "possible_hit": 2,
           "possible_miss": 2,
           "rejected": 0,
-          "abstain": 2
+          "abstain": 1
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1373,21 +1373,21 @@
           "silent_abstention": 0
         },
         "committed_recall": {
-          "k": 4,
+          "k": 12,
           "n": 18,
-          "pct": 22.22,
+          "pct": 66.67,
           "ci95": [
-            6.4,
-            47.6
+            41.0,
+            86.7
           ]
         },
         "recall_incl_possible": {
-          "k": 13,
+          "k": 14,
           "n": 18,
-          "pct": 72.22,
+          "pct": 77.78,
           "ci95": [
-            46.5,
-            90.3
+            52.4,
+            93.6
           ]
         },
         "misfire_rate": {
@@ -1400,40 +1400,40 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 13,
+          "k": 5,
           "n": 18,
-          "pct": 72.22,
+          "pct": 27.78,
           "ci95": [
-            46.5,
-            90.3
+            9.7,
+            53.5
           ]
         },
         "committed_precision": {
-          "k": 4,
-          "n": 5,
-          "pct": 80.0,
+          "k": 12,
+          "n": 13,
+          "pct": 92.31,
           "ci95": [
-            28.4,
-            99.5
+            64.0,
+            99.8
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 4,
-            "n": 5,
-            "pct": 80.0,
+            "k": 12,
+            "n": 13,
+            "pct": 92.31,
             "ci95": [
-              28.4,
-              99.5
+              64.0,
+              99.8
             ]
           },
           "possible": {
-            "k": 9,
-            "n": 14,
-            "pct": 64.29,
+            "k": 2,
+            "n": 6,
+            "pct": 33.33,
             "ci95": [
-              35.1,
-              87.2
+              4.3,
+              77.7
             ]
           }
         },
@@ -1469,12 +1469,12 @@
         "n_positive": 18,
         "n_control": 0,
         "positive_outcomes": {
-          "correct": 4,
+          "correct": 12,
           "misfire": 1,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 13
+          "abstain": 5
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1483,21 +1483,21 @@
           "silent_abstention": 0
         },
         "committed_recall": {
-          "k": 4,
+          "k": 12,
           "n": 18,
-          "pct": 22.22,
+          "pct": 66.67,
           "ci95": [
-            6.4,
-            47.6
+            41.0,
+            86.7
           ]
         },
         "recall_incl_possible": {
-          "k": 4,
+          "k": 12,
           "n": 18,
-          "pct": 22.22,
+          "pct": 66.67,
           "ci95": [
-            6.4,
-            47.6
+            41.0,
+            86.7
           ]
         },
         "misfire_rate": {
@@ -1510,31 +1510,31 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 13,
+          "k": 5,
           "n": 18,
-          "pct": 72.22,
+          "pct": 27.78,
           "ci95": [
-            46.5,
-            90.3
+            9.7,
+            53.5
           ]
         },
         "committed_precision": {
-          "k": 4,
-          "n": 5,
-          "pct": 80.0,
+          "k": 12,
+          "n": 13,
+          "pct": 92.31,
           "ci95": [
-            28.4,
-            99.5
+            64.0,
+            99.8
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 4,
-            "n": 5,
-            "pct": 80.0,
+            "k": 12,
+            "n": 13,
+            "pct": 92.31,
             "ci95": [
-              28.4,
-              99.5
+              64.0,
+              99.8
             ]
           }
         },
@@ -1570,12 +1570,12 @@
         "n_positive": 18,
         "n_control": 0,
         "positive_outcomes": {
-          "correct": 8,
+          "correct": 7,
           "misfire": 2,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 8
+          "abstain": 9
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1584,21 +1584,21 @@
           "silent_abstention": 0
         },
         "committed_recall": {
-          "k": 8,
+          "k": 7,
           "n": 18,
-          "pct": 44.44,
+          "pct": 38.89,
           "ci95": [
-            21.5,
-            69.2
+            17.3,
+            64.3
           ]
         },
         "recall_incl_possible": {
-          "k": 8,
+          "k": 7,
           "n": 18,
-          "pct": 44.44,
+          "pct": 38.89,
           "ci95": [
-            21.5,
-            69.2
+            17.3,
+            64.3
           ]
         },
         "misfire_rate": {
@@ -1611,31 +1611,31 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 8,
+          "k": 9,
           "n": 18,
-          "pct": 44.44,
+          "pct": 50.0,
           "ci95": [
-            21.5,
-            69.2
+            26.0,
+            74.0
           ]
         },
         "committed_precision": {
-          "k": 8,
-          "n": 14,
-          "pct": 57.14,
+          "k": 7,
+          "n": 11,
+          "pct": 63.64,
           "ci95": [
-            28.9,
-            82.3
+            30.8,
+            89.1
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 8,
-            "n": 14,
-            "pct": 57.14,
+            "k": 7,
+            "n": 11,
+            "pct": 63.64,
             "ci95": [
-              28.9,
-              82.3
+              30.8,
+              89.1
             ]
           }
         },
@@ -1699,8 +1699,8 @@
         "exact_mcnemar_p": 1.0
       },
       "Nearest prototype": {
-        "only_first_correct": 0,
-        "only_second_correct": 1,
+        "only_first_correct": 1,
+        "only_second_correct": 0,
         "exact_mcnemar_p": 1.0
       }
     },
@@ -1716,8 +1716,8 @@
         "exact_mcnemar_p": 1.0
       },
       "Nearest prototype": {
-        "only_first_correct": 0,
-        "only_second_correct": 1,
+        "only_first_correct": 1,
+        "only_second_correct": 0,
         "exact_mcnemar_p": 1.0
       }
     },
@@ -1733,8 +1733,8 @@
         "exact_mcnemar_p": 1.0
       },
       "Nearest prototype": {
-        "only_first_correct": 0,
-        "only_second_correct": 4,
+        "only_first_correct": 6,
+        "only_second_correct": 1,
         "exact_mcnemar_p": 0.125
       }
     }
@@ -1853,15 +1853,30 @@
         "Infected_Seedlings"
       ],
       "outputs": {
-        "RiceKG strict": [],
-        "RiceKG + possible": [],
-        "Flat single-tier rules": [],
+        "RiceKG strict": [
+          [
+            "Rice_Root_Nematode",
+            "suspected"
+          ]
+        ],
+        "RiceKG + possible": [
+          [
+            "Rice_Root_Nematode",
+            "suspected"
+          ]
+        ],
+        "Flat single-tier rules": [
+          [
+            "Rice_Root_Nematode",
+            "committed"
+          ]
+        ],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "abstain",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "abstain"
       }
     },
@@ -2145,14 +2160,24 @@
         "Yellowing_Leaves"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "Rice_Root_Nematode",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "Rice_Root_Nematode",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "Flat single-tier rules": [
+          [
+            "Rice_Root_Nematode",
+            "committed"
+          ]
+        ],
         "Nearest prototype": [
           [
             "Rice_Root_Nematode",
@@ -2161,9 +2186,9 @@
         ]
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "correct"
       }
     },
@@ -2971,14 +2996,24 @@
         "Yellowing_Leaves"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "Rice_Root_Nematode",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "Rice_Root_Nematode",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "Flat single-tier rules": [
+          [
+            "Rice_Root_Nematode",
+            "committed"
+          ]
+        ],
         "Nearest prototype": [
           [
             "Rice_Root_Nematode",
@@ -2987,9 +3022,9 @@
         ]
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "correct"
       }
     },
@@ -3153,20 +3188,30 @@
         "Diamond_Shaped_Lesions"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "Rice_Blast",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "Rice_Blast",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "Flat single-tier rules": [
+          [
+            "Rice_Blast",
+            "committed"
+          ]
+        ],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "abstain"
       }
     },
@@ -3180,20 +3225,30 @@
         "Diamond_Shaped_Lesions"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "Rice_Blast",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "Rice_Blast",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "Flat single-tier rules": [
+          [
+            "Rice_Blast",
+            "committed"
+          ]
+        ],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "abstain"
       }
     },
@@ -3250,15 +3305,30 @@
         "Hook_Like_Root_Swelling"
       ],
       "outputs": {
-        "RiceKG strict": [],
-        "RiceKG + possible": [],
-        "Flat single-tier rules": [],
+        "RiceKG strict": [
+          [
+            "Rice_Root_Nematode",
+            "suspected"
+          ]
+        ],
+        "RiceKG + possible": [
+          [
+            "Rice_Root_Nematode",
+            "suspected"
+          ]
+        ],
+        "Flat single-tier rules": [
+          [
+            "Rice_Root_Nematode",
+            "committed"
+          ]
+        ],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "abstain",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "abstain"
       }
     },
@@ -3272,20 +3342,30 @@
         "Diamond_Shaped_Lesions"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "Rice_Blast",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "Rice_Blast",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "Flat single-tier rules": [
+          [
+            "Rice_Blast",
+            "committed"
+          ]
+        ],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "abstain"
       }
     },
@@ -3383,26 +3463,13 @@
           ]
         ],
         "Flat single-tier rules": [],
-        "Nearest prototype": [
-          [
-            "Rice_Grassy_Stunt",
-            "committed"
-          ],
-          [
-            "Rice_Root_Nematode",
-            "committed"
-          ],
-          [
-            "Rice_Tungro_Virus",
-            "committed"
-          ]
-        ]
+        "Nearest prototype": []
       },
       "outcome": {
         "RiceKG strict": "abstain",
         "RiceKG + possible": "possible_miss",
         "Flat single-tier rules": "abstain",
-        "Nearest prototype": "correct"
+        "Nearest prototype": "abstain"
       }
     },
     {
@@ -3415,20 +3482,30 @@
         "Rusty_Grain_Balls"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "False_Smut",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "False_Smut",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "Flat single-tier rules": [
+          [
+            "False_Smut",
+            "committed"
+          ]
+        ],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "abstain"
       }
     },
@@ -3475,20 +3552,30 @@
         "Diamond_Shaped_Lesions"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "Rice_Blast",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "Rice_Blast",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "Flat single-tier rules": [
+          [
+            "Rice_Blast",
+            "committed"
+          ]
+        ],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "abstain"
       }
     },
@@ -3504,18 +3591,24 @@
         "Stunted_Growth"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "Rice_Root_Nematode",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "Rice_Root_Nematode",
-            "possible"
-          ],
-          [
-            "Rice_Tungro_Virus",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "Flat single-tier rules": [
+          [
+            "Rice_Root_Nematode",
+            "committed"
+          ]
+        ],
         "Nearest prototype": [
           [
             "Rice_Root_Nematode",
@@ -3528,9 +3621,9 @@
         ]
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "correct"
       }
     }

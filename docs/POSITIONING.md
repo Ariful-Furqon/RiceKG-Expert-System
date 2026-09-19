@@ -8,9 +8,10 @@ agronomists, RiceKG commits to the correct disease in **4/5** positive cases (ex
 the ML comparison the same outputs average to **85.00%** positive recall and a micro-F1 of **91.14**
 [95% CI 77.4, 97.6]. Its aggregate exact match of 95.45% is not a diagnostic result: 17 of the 22
 cases are out-of-scope negative controls on which returning `No_Diagnosis` is correct. Across both
-partitions RiceKG resolves **7 of 12** positive cases. Given the same redacted text, the two
-agronomists name the published disease in 26/30 and 25/30 positive cases against RiceKG's 11/30, and
-agree with each other far more (κ = 0.885) than with RiceKG (κ ≈ 0.36)
+partitions RiceKG resolves **9 of 12** positive cases, under a ruleset (v2.4.0) revised after
+these cases had been seen. Given the same redacted text, the two agronomists name the published
+disease in 26/30 and 25/30 positive cases against RiceKG's 21/30, and agree with each other more
+(κ = 0.885) than with RiceKG (mean κ = 0.569)
 ([`results/expert_validation.md`](../results/expert_validation.md)). **Diagnostic efficacy on
 authentic field cases is not established**, and the `eval` figures are themselves
 development-informed rather than strictly held out — see [`docs/LIMITATIONS.md`](LIMITATIONS.md)
@@ -44,15 +45,15 @@ names the rules that fired and the antecedents left unmet, and **graded confiden
 pathognomonic confirmation (`hasConfirmedThreat`) from partial-observation screening
 (`hasSuspectedThreat`) — a distinction that matters wherever an incorrect pesticide recommendation
 carries real cost. The architectural ablation ([`results/ablation.md`](../results/ablation.md))
-remains candid: tier stratification and DL reasoning buy no accuracy over pure set-matching, and
-their justification rests on explainability and open-world consistency rather than performance.
+remains candid: Pellet and pure set matching give identical output on every case, and tier
+stratification changes the grade, not the diagnosed set, so their justification rests on
+explainability and consistency checking rather than performance.
 
-Two obstacles now bound what further engineering can achieve. Four of the ten modelled threats,
-including every insect pest, have no positive field case at all, because insect pests are not
-published as first-report disease notes. And the signs the literature identifies as *discriminating*
-for the two virus classes — excessive tillering for grassy stunt, orange discoloration for tungro —
-are recorded by no descriptor in the benchmark, so those rules cannot fire on the present case set.
-Both are limits of the available evidence rather than of the reasoner.
+Two obstacles bound what further engineering can achieve. Insect pests were removed from the
+diagnostic scope because they are not published as first-report disease notes, so no positive
+field case exists for them. And every field figure is now development-informed: an independent
+estimate needs a fresh partition sourced after the v2.4.0 rule base is frozen. Both are limits of
+the available evidence rather than of the reasoner.
 
 ---
 

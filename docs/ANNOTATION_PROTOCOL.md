@@ -73,6 +73,11 @@ Do not change the rule base in response to the diagnosis results before the plan
 held-out partition is sourced; that would repeat the development exposure recorded in
 [`LIMITATIONS.md`](LIMITATIONS.md) Section 2.
 
+One such change has been made: ruleset v2.4.0 (diagnostic-sign rules, removal of unsourced
+antecedents) was written after the two-rater annotations had been analysed, with a
+literature-based criterion fixed before any re-run. [`LIMITATIONS.md`](LIMITATIONS.md) Section 2
+records the resulting exposure; the rule base is now frozen at v2.4.0.
+
 ## Analysis
 
 `analysis/expert_validation.py` computes:

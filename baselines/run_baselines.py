@@ -293,55 +293,23 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "",
         "---",
         "",
-        f"## 1. Deductive Verification Suite (`verification_suite.csv`, $n={augmented_results['n_samples']}$)",
+        f"## 1. Verification suite (`verification_suite.csv`, $n={augmented_results['n_samples']}$): not a comparison",
         "",
-        f"- **Dataset Provenance**: Rule-derived cases ($n={augmented_results['n_samples']}$, multi-threat composites).",
-        f"- **Cross-Validation Split Strategy**: `{augmented_results['split_strategy']}`.",
-        f"- **Minimum Detectable Effect (MDE)**: $\\pm${augmented_results['mde_analysis']['mde_percentage_proportion']:.1f}% accuracy ($\\alpha=0.05, 1-\\beta=0.80$).",
-        "",
-        "| System / Model | Paradigm | Training Budget | Exact Match (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\\Delta$ Acc [95% CI] | Cohen's $g$* |",
-        "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
-    ]
-
-    # Augmented rows
-    for name, s in augmented_results["system_summaries"].items():
-        em_str = f"{s['mean_exact_match']:.2f} ± {s['std_exact_match']:.2f}"
-        f1_str = f"{s['mean_micro_f1']:.2f} ± {s['std_micro_f1']:.2f}"
-        ci_str = f"[{s['micro_f1_ci_95'][0]:.1f}, {s['micro_f1_ci_95'][1]:.1f}]"
-
-        if name == "RiceKG (Full Proposed)":
-            row = f"| **{name}** | {s['paradigm']} | **{s['training_budget']}** | **{em_str}** | **{f1_str}** | **{ci_str}** | — | — | Baseline Reference | — |"
-        else:
-            comp = augmented_results["comparisons_against_ricekg"][name]
-            raw_p = comp["mcnemar"]["p_value"]
-            holm_p = comp["holm"]["holm_p_value"]
-            delta_acc = comp["mcnemar"]["delta_acc"]
-            delta_ci = comp["mcnemar"].get("delta_acc_ci", [delta_acc, delta_acc])
-            g = comp["mcnemar"]["cohens_g"]
-
-            raw_p_str = "< 0.001" if raw_p < 0.001 else f"{raw_p:.4f}"
-            holm_p_str = "< 0.001" if holm_p < 0.001 else f"{holm_p:.4f}"
-            sig_marker = "*" if comp["holm"]["significant"] else ""
-            risk_str = f"+{delta_acc:.1f}% [{delta_ci[0]:.1f}, {delta_ci[1]:.1f}]" if delta_acc >= 0 else f"{delta_acc:.1f}% [{delta_ci[0]:.1f}, {delta_ci[1]:.1f}]"
-            g_str = f"{g:+.2f}"
-
-            row = f"| {name} | {s['paradigm']} | {s['training_budget']} | {em_str} | {f1_str} | {ci_str} | {raw_p_str} | **{holm_p_str}{sig_marker}** | {risk_str} | {g_str} |"
-        lines.append(row)
-
-    lines.extend([
-        "",
-        "*Note: Asterisk (\\*) on Holm-Adj p indicates statistically significant difference vs RiceKG after Holm–Bonferroni correction ($\\alpha = 0.05$). "
-        "Risk Difference ($\\Delta$ Acc) is reported as percentage-point difference with paired Wald 95% confidence interval. "
-        "Cohen's g is bounded on $[-0.50, +0.50]$ (defined as $g = b/(b+c) - 0.5$); values near $+0.50$ indicate that the ceiling of the statistic has been reached due to near-zero errors by RiceKG on discordant pairs ($c \\approx 0$), rather than an unbounded magnitude.*",
-        "",
-        "### Key Findings (Verification Suite)",
-        "1. **Rule-Derived Verification Only**: All 80 cases in `verification_suite.csv` have provenance `rule_derived`, constructed from RiceKG's own Horn clauses. Outperforming ML on cases generated from internal rules verifies deductive consistency, but does not establish empirical diagnostic superiority over supervised learning.",
-        "2. **Cold-Start Sample Efficiency**: Supervised ML models trained on 40 cases/fold achieve 55.50% to 63.75% exact match because 16 rare multi-threat combinations appear only once. RiceKG requires **zero training data** and executes deterministic symbolic inference.",
-        "3. **Rule Stratification Identity**: The unstratified single-tier rule baseline (*Flat Single-Tier*) achieves identical numerical accuracy to Full RiceKG on this benchmark, confirming the P0-2 ablation finding that tier stratification provides clinical specificity/screening grading rather than an accuracy improvement.",
+        "The suite's cases and labels were authored from an earlier rule base, before the P0-5 revisions and "
+        "the vocabulary extension; most of its positive cases cannot fire the current Tier-2 rules because the "
+        "signs those rules require did not yet exist. A score on it measures agreement with that earlier rule "
+        "base, and a nearest-prototype matcher built from the (barely changed) Tier-1 antecedents is favoured "
+        "by construction. The suite is therefore used only as regression input: `results/ablation.md` checks "
+        "that Pellet and set matching give identical output on it. Per-system figures remain in "
+        "`results/baselines.json` under `verification_suite` for reproducibility and are not reported here.",
         "",
         "---",
         "",
-        f"## 2. Independent Peer-Reviewed Field Benchmark (`benchmark_field.csv`, held-out `eval` split, $n={f_n}$)",
+        f"## 2. Field benchmark, `eval` split (`benchmark_field.csv`, $n={f_n}$), 5x2-fold protocol",
+        "",
+        "The headline field figures are the single-run graded counts in `results/graded_evaluation.md`; "
+        "RiceKG is not trained, so cross-validation only adds fold-partition noise to its figures. This "
+        "section keeps the 5x2 protocol because the supervised baselines need training folds.",
         "",
         f"- **Dataset Provenance**: Peer-reviewed observed-case reports ($n={f_n}$: {f_pos} in-scope disease "
         f"cases, {f_neg} out-of-scope negative controls). Sources that are not case reports were excluded to "
@@ -355,7 +323,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "",
         "| System / Model | Paradigm | Training Budget | Exact Match (%) | Positive Recall (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\\Delta$ Acc [95% CI] | Cohen's $g$* |",
         "|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
-    ])
+    ]
 
     # Field rows
     for name, s in field_results["system_summaries"].items():
@@ -393,20 +361,16 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "diagnostically meaningful column. Risk Difference (\\Delta Acc) is reported with paired Wald 95% CI. "
         "Cohen's g is bounded on $[-0.50, +0.50]$ and saturates; read the Risk Difference for magnitude.*",
         "",
-        "### Key Findings (Independent Field Benchmark)",
-        f"1. **Positive-Case Recall Is the Binding Constraint**: On the only independent benchmark in the repository, "
-        f"RiceKG attains {f_rk['mean_positive_recall']:.2f}% positive-case recall over {f_pos} in-scope disease cases "
+        "### Key Findings (field `eval` split)",
+        f"1. **Positive-case recall is the diagnostically meaningful figure**: RiceKG attains "
+        f"{f_rk['mean_positive_recall']:.2f}% positive-case recall over {f_pos} in-scope disease cases "
         f"(micro-F1 {f_rk['mean_micro_f1']:.2f}, 95% CI [{f_rk['micro_f1_ci_95'][0]:.1f}, {f_rk['micro_f1_ci_95'][1]:.1f}]), "
-        f"against an aggregate exact match of {f_rk['mean_exact_match']:.2f}%. Diagnostic efficacy on authentic field "
-        "cases remains largely unproven.",
-        f"2. **Every Supervised Baseline Scores Zero on Positive Cases**: All five ML classifiers attain 0.00% "
+        f"against an aggregate exact match of {f_rk['mean_exact_match']:.2f}%. With {f_pos} positive cases, "
+        "diagnostic efficacy on field cases is not established.",
+        f"2. **Every supervised baseline scores zero on positive cases**: all five ML classifiers attain 0.00% "
         f"positive-case recall, having at most {f_pos} positive training examples split across folds. Their aggregate "
-        "accuracy is produced solely by predicting the majority `No_Diagnosis` class.",
-        "3. **Residual Failures Are Now Separable**: Following identifier normalization against `model.ALL_SYMPTOMS` "
-        "(see `data/symptom_mapping.csv`), the remaining errors split into genuine vocabulary gaps — literature "
-        "descriptors such as bacterial ooze and water-soaked lesions that the 45-term vocabulary does not model — and "
-        "true Tier-2 rule-recall failures on partially observed cases. `results/field_failure_analysis.md` assigns a "
-        "cause to each case.",
+        "accuracy comes from predicting the majority `No_Diagnosis` class.",
+        "3. **Per-case causes**: `results/field_failure_analysis.md` assigns a cause to every remaining failure.",
         f"4. **Negative Control Artifact**: {f_neg} of {f_n} cases ({100.0 * f_neg / f_n:.1f}%) are out-of-scope "
         "emerging pathogens. Reporting aggregate exact match alone would conceal positive-case performance entirely, "
         "which is why the two are separated above.",
@@ -418,7 +382,6 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
     if field_dev_results:
         lines.extend(render_dev_split_table(field_dev_results))
 
-    aug_mde = augmented_results["mde_analysis"]["mde_percentage_proportion"]
     field_mde = field_results["mde_analysis"]["mde_percentage_proportion"]
     lines.extend([
         "",
@@ -426,7 +389,6 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "",
         "## 3. Statistical Power & Minimum Detectable Effect Disclosure",
         "",
-        f"- **Verification Suite ($n={augmented_results['n_samples']}$)**: $\\text{{MDE}} = \\pm {aug_mde:.1f}\\%$.",
         f"- **Field Benchmark, eval split ($n={f_n}$, {f_pos} positive cases)**: "
         f"$\\text{{MDE}} = \\pm {field_mde:.1f}\\%$.",
         "- In accordance with AIP empirical standards, null hypothesis outcomes are disclosed as underpowered rather than equivalent.",

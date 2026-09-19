@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-09-19T00:44:50.647195+00:00",
+    "generated_at": "2026-09-19T01:31:46.292126+00:00",
     "headline_metric": "strict RiceKG positive-case recall",
     "decision_threshold": 0.5,
     "threshold_grid": [
@@ -26,7 +26,7 @@
     ],
     "parameters_csv": "data/noisy_or_parameters.csv",
     "leaks_csv": "data/noisy_or_leaks.csv",
-    "elapsed_seconds": 317.33
+    "elapsed_seconds": 286.29
   },
   "datasets": {
     "dev": {
@@ -37,27 +37,27 @@
       "systems": {
         "RiceKG strict": {
           "metrics": {
-            "positive_case_recall": 42.86,
+            "positive_case_recall": 71.43,
             "positive_recall_ci95": [
-              0.0,
-              80.08
+              33.33,
+              100.0
             ],
-            "positive_any_recall": 42.86,
+            "positive_any_recall": 71.43,
             "positive_any_recall_ci95": [
-              0.0,
-              80.08
+              33.33,
+              100.0
             ],
-            "exact_match": 75.0,
+            "exact_match": 87.5,
             "exact_match_ci95": [
-              50.0,
-              93.75
+              68.75,
+              100.0
             ],
             "micro_precision": 100.0,
-            "micro_recall": 42.86,
-            "micro_f1": 60.0,
+            "micro_recall": 71.43,
+            "micro_f1": 83.33,
             "micro_f1_ci95": [
-              0.0,
-              88.94
+              50.0,
+              100.0
             ],
             "n_total": 16,
             "n_positive": 7,
@@ -67,9 +67,9 @@
             "mapped_neg_count": 9,
             "mapped_neg_fps": 0,
             "mapped_neg_far": 0.0,
-            "tp": 3,
+            "tp": 5,
             "fp": 0,
-            "fn": 4,
+            "fn": 2,
             "tn": 89
           },
           "top_k": {
@@ -77,45 +77,45 @@
             "n_total": 16,
             "n_positive": 7,
             "n_negative": 9,
-            "mean_list_length": 0.19,
-            "mrr": 0.4286,
-            "hit_at_1_any": 42.86,
-            "hit_at_1_all": 42.86,
+            "mean_list_length": 0.31,
+            "mrr": 0.7143,
+            "hit_at_1_any": 71.43,
+            "hit_at_1_all": 71.43,
             "far_at_1": 0.0,
             "specificity_at_1": 100.0,
-            "hit_at_2_any": 42.86,
-            "hit_at_2_all": 42.86,
+            "hit_at_2_any": 71.43,
+            "hit_at_2_all": 71.43,
             "far_at_2": 0.0,
             "specificity_at_2": 100.0,
-            "hit_at_3_any": 42.86,
-            "hit_at_3_all": 42.86,
+            "hit_at_3_any": 71.43,
+            "hit_at_3_all": 71.43,
             "far_at_3": 0.0,
             "specificity_at_3": 100.0
           }
         },
         "RiceKG + possible": {
           "metrics": {
-            "positive_case_recall": 57.14,
+            "positive_case_recall": 71.43,
             "positive_recall_ci95": [
-              20.0,
-              100.0
-            ],
-            "positive_any_recall": 71.43,
-            "positive_any_recall_ci95": [
               33.33,
               100.0
             ],
-            "exact_match": 68.75,
-            "exact_match_ci95": [
-              43.75,
-              87.5
+            "positive_any_recall": 85.71,
+            "positive_any_recall_ci95": [
+              50.0,
+              100.0
             ],
-            "micro_precision": 62.5,
-            "micro_recall": 71.43,
-            "micro_f1": 66.67,
+            "exact_match": 75.0,
+            "exact_match_ci95": [
+              50.0,
+              93.75
+            ],
+            "micro_precision": 66.67,
+            "micro_recall": 85.71,
+            "micro_f1": 75.0,
             "micro_f1_ci95": [
-              36.29,
-              88.89
+              50.0,
+              94.12
             ],
             "n_total": 16,
             "n_positive": 7,
@@ -125,9 +125,9 @@
             "mapped_neg_count": 9,
             "mapped_neg_fps": 2,
             "mapped_neg_far": 22.22,
-            "tp": 5,
+            "tp": 6,
             "fp": 3,
-            "fn": 2,
+            "fn": 1,
             "tn": 86
           },
           "top_k": {
@@ -135,18 +135,18 @@
             "n_total": 16,
             "n_positive": 7,
             "n_negative": 9,
-            "mean_list_length": 0.5,
-            "mrr": 0.6429,
-            "hit_at_1_any": 57.14,
-            "hit_at_1_all": 57.14,
+            "mean_list_length": 0.56,
+            "mrr": 0.7857,
+            "hit_at_1_any": 71.43,
+            "hit_at_1_all": 71.43,
             "far_at_1": 22.22,
             "specificity_at_1": 77.78,
-            "hit_at_2_any": 71.43,
-            "hit_at_2_all": 71.43,
+            "hit_at_2_any": 85.71,
+            "hit_at_2_all": 85.71,
             "far_at_2": 22.22,
             "specificity_at_2": 77.78,
-            "hit_at_3_any": 71.43,
-            "hit_at_3_all": 71.43,
+            "hit_at_3_any": 85.71,
+            "hit_at_3_all": 85.71,
             "far_at_3": 22.22,
             "specificity_at_3": 77.78
           }
@@ -309,7 +309,7 @@
             "n_total": 16,
             "n_positive": 7,
             "n_negative": 9,
-            "mean_list_length": 1.88,
+            "mean_list_length": 1.38,
             "mrr": 0.9286,
             "hit_at_1_any": 85.71,
             "hit_at_1_all": 85.71,
@@ -330,96 +330,96 @@
         "RiceKG + possible": {
           "n_cases": 16,
           "contingency_table": {
-            "both_correct": 10,
+            "both_correct": 12,
             "a_only": 2,
-            "b_only": 1,
-            "neither_correct": 3
+            "b_only": 0,
+            "neither_correct": 2
           },
-          "total_discordant": 3,
-          "statistic": 0.0,
-          "p_value": 1.0,
+          "total_discordant": 2,
+          "statistic": 0.5,
+          "p_value": 0.5,
           "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 75.0,
-          "acc_b": 68.75,
-          "delta_acc": 6.25,
+          "acc_a": 87.5,
+          "acc_b": 75.0,
+          "delta_acc": 12.5,
           "delta_acc_ci": [
-            -14.745056417550598,
-            27.245056417550593
+            -3.7049290054257114,
+            28.70492900542571
           ],
-          "odds_ratio": 2.0,
-          "cohens_g": 0.16666666666666663,
+          "odds_ratio": 5.0,
+          "cohens_g": 0.5,
           "holm_p_value": 1.0,
           "significant": false
         },
         "noisy-OR (with gates)": {
           "n_cases": 16,
           "contingency_table": {
-            "both_correct": 5,
-            "a_only": 7,
-            "b_only": 2,
-            "neither_correct": 2
+            "both_correct": 6,
+            "a_only": 8,
+            "b_only": 1,
+            "neither_correct": 1
           },
           "total_discordant": 9,
-          "statistic": 1.7777777777777777,
-          "p_value": 0.1796875,
+          "statistic": 4.0,
+          "p_value": 0.0390625,
           "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 75.0,
+          "acc_a": 87.5,
           "acc_b": 43.75,
-          "delta_acc": 31.25,
+          "delta_acc": 43.75,
           "delta_acc_ci": [
-            -2.1573169725027705,
-            64.65731697250277
+            13.900990811649622,
+            73.59900918835038
           ],
-          "odds_ratio": 3.5,
-          "cohens_g": 0.2777777777777778,
-          "holm_p_value": 0.71875,
+          "odds_ratio": 8.0,
+          "cohens_g": 0.38888888888888884,
+          "holm_p_value": 0.15625,
           "significant": false
         },
         "noisy-OR (without gates)": {
           "n_cases": 16,
           "contingency_table": {
-            "both_correct": 5,
-            "a_only": 7,
-            "b_only": 2,
-            "neither_correct": 2
+            "both_correct": 6,
+            "a_only": 8,
+            "b_only": 1,
+            "neither_correct": 1
           },
           "total_discordant": 9,
-          "statistic": 1.7777777777777777,
-          "p_value": 0.1796875,
+          "statistic": 4.0,
+          "p_value": 0.0390625,
           "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 75.0,
+          "acc_a": 87.5,
           "acc_b": 43.75,
-          "delta_acc": 31.25,
+          "delta_acc": 43.75,
           "delta_acc_ci": [
-            -2.1573169725027705,
-            64.65731697250277
+            13.900990811649622,
+            73.59900918835038
           ],
-          "odds_ratio": 3.5,
-          "cohens_g": 0.2777777777777778,
-          "holm_p_value": 0.71875,
+          "odds_ratio": 8.0,
+          "cohens_g": 0.38888888888888884,
+          "holm_p_value": 0.15625,
           "significant": false
         },
         "Rule: Nearest Prototype": {
           "n_cases": 16,
           "contingency_table": {
-            "both_correct": 12,
-            "a_only": 0,
-            "b_only": 1,
-            "neither_correct": 3
+            "both_correct": 13,
+            "a_only": 1,
+            "b_only": 0,
+            "neither_correct": 2
           },
           "total_discordant": 1,
           "statistic": 0.0,
           "p_value": 1.0,
           "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 75.0,
+          "acc_a": 87.5,
           "acc_b": 81.25,
-          "delta_acc": -6.25,
+          "delta_acc": 6.25,
           "delta_acc_ci": [
-            -18.110793548890562,
-            5.610793548890563
+            -5.610793548890563,
+            18.110793548890562
           ],
-          "odds_ratio": 0.0,
-          "cohens_g": -0.5,
+          "odds_ratio": 3.0,
+          "cohens_g": 0.5,
           "holm_p_value": 1.0,
           "significant": false
         }
@@ -535,11 +535,11 @@
         ],
         "references": {
           "RiceKG strict": {
-            "positive_recall": 42.86,
+            "positive_recall": 71.43,
             "negative_control_far": 0.0
           },
           "RiceKG + possible": {
-            "positive_recall": 71.43,
+            "positive_recall": 85.71,
             "negative_control_far": 22.22
           }
         }
@@ -862,7 +862,7 @@
             "n_total": 22,
             "n_positive": 5,
             "n_negative": 17,
-            "mean_list_length": 1.59,
+            "mean_list_length": 1.45,
             "mrr": 0.9,
             "hit_at_1_any": 80.0,
             "hit_at_1_all": 80.0,
@@ -1143,72 +1143,14 @@
       "systems": {
         "RiceKG strict": {
           "metrics": {
-            "positive_case_recall": 22.22,
-            "positive_recall_ci95": [
-              5.56,
-              44.44
-            ],
-            "positive_any_recall": 22.22,
-            "positive_any_recall_ci95": [
-              5.56,
-              44.44
-            ],
-            "exact_match": 22.22,
-            "exact_match_ci95": [
-              5.56,
-              44.44
-            ],
-            "micro_precision": 80.0,
-            "micro_recall": 22.22,
-            "micro_f1": 34.78,
-            "micro_f1_ci95": [
-              9.52,
-              56.03
-            ],
-            "n_total": 18,
-            "n_positive": 18,
-            "n_negative": 0,
-            "all_neg_fps": 0,
-            "all_neg_far": null,
-            "mapped_neg_count": 0,
-            "mapped_neg_fps": 0,
-            "mapped_neg_far": null,
-            "tp": 4,
-            "fp": 1,
-            "fn": 14,
-            "tn": 89
-          },
-          "top_k": {
-            "system": "RiceKG strict",
-            "n_total": 18,
-            "n_positive": 18,
-            "n_negative": 0,
-            "mean_list_length": 0.28,
-            "mrr": 0.2222,
-            "hit_at_1_any": 22.22,
-            "hit_at_1_all": 22.22,
-            "far_at_1": null,
-            "specificity_at_1": null,
-            "hit_at_2_any": 22.22,
-            "hit_at_2_all": 22.22,
-            "far_at_2": null,
-            "specificity_at_2": null,
-            "hit_at_3_any": 22.22,
-            "hit_at_3_all": 22.22,
-            "far_at_3": null,
-            "specificity_at_3": null
-          }
-        },
-        "RiceKG + possible": {
-          "metrics": {
             "positive_case_recall": 66.67,
             "positive_recall_ci95": [
               44.44,
               88.89
             ],
-            "positive_any_recall": 72.22,
+            "positive_any_recall": 66.67,
             "positive_any_recall_ci95": [
-              50.0,
+              44.44,
               88.89
             ],
             "exact_match": 66.67,
@@ -1216,12 +1158,12 @@
               44.44,
               88.89
             ],
-            "micro_precision": 68.42,
-            "micro_recall": 72.22,
-            "micro_f1": 70.27,
+            "micro_precision": 92.31,
+            "micro_recall": 66.67,
+            "micro_f1": 77.42,
             "micro_f1_ci95": [
-              47.37,
-              88.89
+              55.17,
+              91.5
             ],
             "n_total": 18,
             "n_positive": 18,
@@ -1231,10 +1173,68 @@
             "mapped_neg_count": 0,
             "mapped_neg_fps": 0,
             "mapped_neg_far": null,
-            "tp": 13,
-            "fp": 6,
-            "fn": 5,
-            "tn": 84
+            "tp": 12,
+            "fp": 1,
+            "fn": 6,
+            "tn": 89
+          },
+          "top_k": {
+            "system": "RiceKG strict",
+            "n_total": 18,
+            "n_positive": 18,
+            "n_negative": 0,
+            "mean_list_length": 0.72,
+            "mrr": 0.6667,
+            "hit_at_1_any": 66.67,
+            "hit_at_1_all": 66.67,
+            "far_at_1": null,
+            "specificity_at_1": null,
+            "hit_at_2_any": 66.67,
+            "hit_at_2_all": 66.67,
+            "far_at_2": null,
+            "specificity_at_2": null,
+            "hit_at_3_any": 66.67,
+            "hit_at_3_all": 66.67,
+            "far_at_3": null,
+            "specificity_at_3": null
+          }
+        },
+        "RiceKG + possible": {
+          "metrics": {
+            "positive_case_recall": 77.78,
+            "positive_recall_ci95": [
+              55.56,
+              94.44
+            ],
+            "positive_any_recall": 77.78,
+            "positive_any_recall_ci95": [
+              55.56,
+              94.44
+            ],
+            "exact_match": 77.78,
+            "exact_match_ci95": [
+              55.56,
+              94.44
+            ],
+            "micro_precision": 73.68,
+            "micro_recall": 77.78,
+            "micro_f1": 75.68,
+            "micro_f1_ci95": [
+              53.63,
+              94.44
+            ],
+            "n_total": 18,
+            "n_positive": 18,
+            "n_negative": 0,
+            "all_neg_fps": 0,
+            "all_neg_far": null,
+            "mapped_neg_count": 0,
+            "mapped_neg_fps": 0,
+            "mapped_neg_far": null,
+            "tp": 14,
+            "fp": 5,
+            "fn": 4,
+            "tn": 85
           },
           "top_k": {
             "system": "RiceKG + possible",
@@ -1242,17 +1242,17 @@
             "n_positive": 18,
             "n_negative": 0,
             "mean_list_length": 1.06,
-            "mrr": 0.7222,
-            "hit_at_1_any": 72.22,
-            "hit_at_1_all": 72.22,
+            "mrr": 0.7778,
+            "hit_at_1_any": 77.78,
+            "hit_at_1_all": 77.78,
             "far_at_1": null,
             "specificity_at_1": null,
-            "hit_at_2_any": 72.22,
-            "hit_at_2_all": 72.22,
+            "hit_at_2_any": 77.78,
+            "hit_at_2_all": 77.78,
             "far_at_2": null,
             "specificity_at_2": null,
-            "hit_at_3_any": 72.22,
-            "hit_at_3_all": 72.22,
+            "hit_at_3_any": 77.78,
+            "hit_at_3_all": 77.78,
             "far_at_3": null,
             "specificity_at_3": null
           }
@@ -1380,22 +1380,22 @@
               11.11,
               55.56
             ],
-            "positive_any_recall": 44.44,
+            "positive_any_recall": 38.89,
             "positive_any_recall_ci95": [
-              22.22,
-              66.67
+              16.67,
+              61.11
             ],
             "exact_match": 33.33,
             "exact_match_ci95": [
               11.11,
               55.56
             ],
-            "micro_precision": 57.14,
-            "micro_recall": 44.44,
-            "micro_f1": 50.0,
+            "micro_precision": 63.64,
+            "micro_recall": 38.89,
+            "micro_f1": 48.28,
             "micro_f1_ci95": [
-              28.57,
-              68.75
+              24.0,
+              68.97
             ],
             "n_total": 18,
             "n_positive": 18,
@@ -1405,10 +1405,10 @@
             "mapped_neg_count": 0,
             "mapped_neg_fps": 0,
             "mapped_neg_far": null,
-            "tp": 8,
-            "fp": 6,
-            "fn": 10,
-            "tn": 84
+            "tp": 7,
+            "fp": 4,
+            "fn": 11,
+            "tn": 86
           },
           "top_k": {
             "system": "Rule: Nearest Prototype",
@@ -1416,7 +1416,7 @@
             "n_positive": 18,
             "n_negative": 0,
             "mean_list_length": 1.44,
-            "mrr": 0.8241,
+            "mrr": 0.8056,
             "hit_at_1_any": 77.78,
             "hit_at_1_all": 77.78,
             "far_at_1": null,
@@ -1425,8 +1425,8 @@
             "hit_at_2_all": 83.33,
             "far_at_2": null,
             "specificity_at_2": null,
-            "hit_at_3_any": 88.89,
-            "hit_at_3_all": 88.89,
+            "hit_at_3_any": 83.33,
+            "hit_at_3_all": 83.33,
             "far_at_3": null,
             "specificity_at_3": null
           }
@@ -1436,97 +1436,97 @@
         "RiceKG + possible": {
           "n_cases": 18,
           "contingency_table": {
-            "both_correct": 4,
-            "a_only": 0,
-            "b_only": 8,
-            "neither_correct": 6
-          },
-          "total_discordant": 8,
-          "statistic": 6.125,
-          "p_value": 0.0078125,
-          "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 22.22222222222222,
-          "acc_b": 66.66666666666666,
-          "delta_acc": -44.44444444444444,
-          "delta_acc_ci": [
-            -67.39981601128005,
-            -21.489072877608827
-          ],
-          "odds_ratio": 0.0,
-          "cohens_g": -0.5,
-          "holm_p_value": 0.03125,
-          "significant": true
-        },
-        "noisy-OR (with gates)": {
-          "n_cases": 18,
-          "contingency_table": {
-            "both_correct": 4,
-            "a_only": 0,
-            "b_only": 7,
-            "neither_correct": 7
-          },
-          "total_discordant": 7,
-          "statistic": 5.142857142857143,
-          "p_value": 0.015625,
-          "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 22.22222222222222,
-          "acc_b": 61.111111111111114,
-          "delta_acc": -38.88888888888889,
-          "delta_acc_ci": [
-            -61.409734635220325,
-            -16.36804314255747
-          ],
-          "odds_ratio": 0.0,
-          "cohens_g": -0.5,
-          "holm_p_value": 0.046875,
-          "significant": true
-        },
-        "noisy-OR (without gates)": {
-          "n_cases": 18,
-          "contingency_table": {
-            "both_correct": 4,
-            "a_only": 0,
-            "b_only": 7,
-            "neither_correct": 7
-          },
-          "total_discordant": 7,
-          "statistic": 5.142857142857143,
-          "p_value": 0.015625,
-          "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 22.22222222222222,
-          "acc_b": 61.111111111111114,
-          "delta_acc": -38.88888888888889,
-          "delta_acc_ci": [
-            -61.409734635220325,
-            -16.36804314255747
-          ],
-          "odds_ratio": 0.0,
-          "cohens_g": -0.5,
-          "holm_p_value": 0.046875,
-          "significant": true
-        },
-        "Rule: Nearest Prototype": {
-          "n_cases": 18,
-          "contingency_table": {
-            "both_correct": 4,
+            "both_correct": 12,
             "a_only": 0,
             "b_only": 2,
-            "neither_correct": 12
+            "neither_correct": 4
           },
           "total_discordant": 2,
           "statistic": 0.5,
           "p_value": 0.5,
           "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 22.22222222222222,
-          "acc_b": 33.33333333333333,
-          "delta_acc": -11.11111111111111,
+          "acc_a": 66.66666666666666,
+          "acc_b": 77.77777777777779,
+          "delta_acc": -11.111111111111116,
           "delta_acc_ci": [
-            -25.629362848444842,
-            3.4071406262226214
+            -25.62936284844485,
+            3.4071406262226156
           ],
           "odds_ratio": 0.0,
           "cohens_g": -0.5,
-          "holm_p_value": 0.5,
+          "holm_p_value": 1.0,
+          "significant": false
+        },
+        "noisy-OR (with gates)": {
+          "n_cases": 18,
+          "contingency_table": {
+            "both_correct": 10,
+            "a_only": 2,
+            "b_only": 1,
+            "neither_correct": 5
+          },
+          "total_discordant": 3,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact Binomial Test (discordant n < 25)",
+          "acc_a": 66.66666666666666,
+          "acc_b": 61.111111111111114,
+          "delta_acc": 5.5555555555555465,
+          "delta_acc_ci": [
+            -13.128763217110714,
+            24.23987432822181
+          ],
+          "odds_ratio": 2.0,
+          "cohens_g": 0.16666666666666663,
+          "holm_p_value": 1.0,
+          "significant": false
+        },
+        "noisy-OR (without gates)": {
+          "n_cases": 18,
+          "contingency_table": {
+            "both_correct": 10,
+            "a_only": 2,
+            "b_only": 1,
+            "neither_correct": 5
+          },
+          "total_discordant": 3,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact Binomial Test (discordant n < 25)",
+          "acc_a": 66.66666666666666,
+          "acc_b": 61.111111111111114,
+          "delta_acc": 5.5555555555555465,
+          "delta_acc_ci": [
+            -13.128763217110714,
+            24.23987432822181
+          ],
+          "odds_ratio": 2.0,
+          "cohens_g": 0.16666666666666663,
+          "holm_p_value": 1.0,
+          "significant": false
+        },
+        "Rule: Nearest Prototype": {
+          "n_cases": 18,
+          "contingency_table": {
+            "both_correct": 5,
+            "a_only": 7,
+            "b_only": 1,
+            "neither_correct": 5
+          },
+          "total_discordant": 8,
+          "statistic": 3.125,
+          "p_value": 0.0703125,
+          "test_method": "Exact Binomial Test (discordant n < 25)",
+          "acc_a": 66.66666666666666,
+          "acc_b": 33.33333333333333,
+          "delta_acc": 33.33333333333333,
+          "delta_acc_ci": [
+            6.661601798026057,
+            60.00506486864061
+          ],
+          "odds_ratio": 7.0,
+          "cohens_g": 0.375,
+          "holm_p_value": 0.28125,
           "significant": false
         }
       },
@@ -1641,11 +1641,11 @@
         ],
         "references": {
           "RiceKG strict": {
-            "positive_recall": 22.22,
+            "positive_recall": 66.67,
             "negative_control_far": null
           },
           "RiceKG + possible": {
-            "positive_recall": 72.22,
+            "positive_recall": 77.78,
             "negative_control_far": null
           }
         }
@@ -1696,85 +1696,85 @@
       "systems": {
         "RiceKG strict": {
           "metrics": {
-            "positive_case_recall": 16.67,
+            "positive_case_recall": 38.89,
             "positive_recall_ci95": [
-              5.12,
-              30.23
+              23.81,
+              55.88
             ],
-            "positive_any_recall": 14.55,
+            "positive_any_recall": 34.55,
             "positive_any_recall_ci95": [
-              5.45,
-              24.53
+              22.41,
+              47.27
             ],
-            "exact_match": 58.9,
+            "exact_match": 68.49,
             "exact_match_ci95": [
-              47.95,
-              69.86
+              58.87,
+              79.45
             ],
-            "micro_precision": 100.0,
-            "micro_recall": 17.78,
-            "micro_f1": 30.19,
+            "micro_precision": 91.3,
+            "micro_recall": 46.67,
+            "micro_f1": 61.76,
             "micro_f1_ci95": [
-              13.04,
-              45.16
+              47.62,
+              73.98
             ],
             "n_total": 73,
             "n_positive": 36,
             "n_negative": 18,
-            "all_neg_fps": 0,
-            "all_neg_far": 0.0,
+            "all_neg_fps": 1,
+            "all_neg_far": 5.56,
             "mapped_neg_count": 18,
-            "mapped_neg_fps": 0,
-            "mapped_neg_far": 0.0,
-            "tp": 8,
-            "fp": 0,
-            "fn": 37,
-            "tn": 393
+            "mapped_neg_fps": 1,
+            "mapped_neg_far": 5.56,
+            "tp": 21,
+            "fp": 2,
+            "fn": 24,
+            "tn": 391
           },
           "top_k": {
             "system": "RiceKG strict",
             "n_total": 73,
             "n_positive": 55,
             "n_negative": 18,
-            "mean_list_length": 0.11,
-            "mrr": 0.1455,
-            "hit_at_1_any": 14.55,
-            "hit_at_1_all": 10.91,
-            "far_at_1": 0.0,
-            "specificity_at_1": 100.0,
-            "hit_at_2_any": 14.55,
-            "hit_at_2_all": 10.91,
-            "far_at_2": 0.0,
-            "specificity_at_2": 100.0,
-            "hit_at_3_any": 14.55,
-            "hit_at_3_all": 10.91,
-            "far_at_3": 0.0,
-            "specificity_at_3": 100.0
+            "mean_list_length": 0.32,
+            "mrr": 0.3364,
+            "hit_at_1_any": 32.73,
+            "hit_at_1_all": 21.82,
+            "far_at_1": 5.56,
+            "specificity_at_1": 94.44,
+            "hit_at_2_any": 34.55,
+            "hit_at_2_all": 27.27,
+            "far_at_2": 5.56,
+            "specificity_at_2": 94.44,
+            "hit_at_3_any": 34.55,
+            "hit_at_3_all": 27.27,
+            "far_at_3": 5.56,
+            "specificity_at_3": 94.44
           }
         },
         "RiceKG + possible": {
           "metrics": {
-            "positive_case_recall": 44.44,
+            "positive_case_recall": 55.56,
             "positive_recall_ci95": [
-              28.21,
-              61.12
+              39.39,
+              71.43
             ],
-            "positive_any_recall": 49.09,
+            "positive_any_recall": 52.73,
             "positive_any_recall_ci95": [
-              35.85,
-              62.71
+              39.29,
+              66.67
             ],
-            "exact_match": 69.86,
+            "exact_match": 75.34,
             "exact_match_ci95": [
-              60.27,
-              79.45
+              65.75,
+              84.93
             ],
-            "micro_precision": 77.14,
-            "micro_recall": 60.0,
-            "micro_f1": 67.5,
+            "micro_precision": 79.49,
+            "micro_recall": 68.89,
+            "micro_f1": 73.81,
             "micro_f1_ci95": [
-              56.41,
-              76.92
+              64.44,
+              83.33
             ],
             "n_total": 73,
             "n_positive": 36,
@@ -1784,9 +1784,9 @@
             "mapped_neg_count": 18,
             "mapped_neg_fps": 2,
             "mapped_neg_far": 11.11,
-            "tp": 27,
+            "tp": 31,
             "fp": 8,
-            "fn": 18,
+            "fn": 14,
             "tn": 385
           },
           "top_k": {
@@ -1794,18 +1794,18 @@
             "n_total": 73,
             "n_positive": 55,
             "n_negative": 18,
-            "mean_list_length": 0.48,
-            "mrr": 0.4697,
-            "hit_at_1_any": 45.45,
-            "hit_at_1_all": 30.91,
+            "mean_list_length": 0.53,
+            "mrr": 0.497,
+            "hit_at_1_any": 47.27,
+            "hit_at_1_all": 32.73,
             "far_at_1": 11.11,
             "specificity_at_1": 88.89,
-            "hit_at_2_any": 47.27,
-            "hit_at_2_all": 32.73,
+            "hit_at_2_any": 50.91,
+            "hit_at_2_all": 40.0,
             "far_at_2": 11.11,
             "specificity_at_2": 88.89,
-            "hit_at_3_any": 49.09,
-            "hit_at_3_all": 34.55,
+            "hit_at_3_any": 52.73,
+            "hit_at_3_all": 41.82,
             "far_at_3": 11.11,
             "specificity_at_3": 88.89
           }
@@ -1928,27 +1928,27 @@
         },
         "Rule: Nearest Prototype": {
           "metrics": {
-            "positive_case_recall": 77.78,
+            "positive_case_recall": 83.33,
             "positive_recall_ci95": [
-              63.16,
-              90.63
+              70.26,
+              94.44
             ],
             "positive_any_recall": 65.45,
             "positive_any_recall_ci95": [
               52.45,
               77.55
             ],
-            "exact_match": 86.3,
+            "exact_match": 89.04,
             "exact_match_ci95": [
-              76.71,
-              93.15
+              80.82,
+              95.89
             ],
-            "micro_precision": 83.02,
+            "micro_precision": 86.27,
             "micro_recall": 97.78,
-            "micro_f1": 89.8,
+            "micro_f1": 91.67,
             "micro_f1_ci95": [
-              83.87,
-              95.05
+              86.36,
+              96.47
             ],
             "n_total": 73,
             "n_positive": 36,
@@ -1959,19 +1959,19 @@
             "mapped_neg_fps": 2,
             "mapped_neg_far": 11.11,
             "tp": 44,
-            "fp": 9,
+            "fp": 7,
             "fn": 1,
-            "tn": 384
+            "tn": 386
           },
           "top_k": {
             "system": "Rule: Nearest Prototype",
             "n_total": 73,
             "n_positive": 55,
             "n_negative": 18,
-            "mean_list_length": 1.38,
-            "mrr": 0.6273,
-            "hit_at_1_any": 60.0,
-            "hit_at_1_all": 43.64,
+            "mean_list_length": 1.37,
+            "mrr": 0.6364,
+            "hit_at_1_any": 61.82,
+            "hit_at_1_all": 45.45,
             "far_at_1": 50.0,
             "specificity_at_1": 50.0,
             "hit_at_2_any": 65.45,
@@ -1989,97 +1989,97 @@
         "RiceKG + possible": {
           "n_cases": 73,
           "contingency_table": {
-            "both_correct": 41,
-            "a_only": 2,
-            "b_only": 10,
-            "neither_correct": 20
+            "both_correct": 49,
+            "a_only": 1,
+            "b_only": 6,
+            "neither_correct": 17
           },
-          "total_discordant": 12,
-          "statistic": 4.083333333333333,
-          "p_value": 0.03857421875,
+          "total_discordant": 7,
+          "statistic": 2.2857142857142856,
+          "p_value": 0.125,
           "test_method": "Exact Binomial Test (discordant n < 25)",
-          "acc_a": 58.9041095890411,
-          "acc_b": 69.86301369863014,
-          "delta_acc": -10.95890410958904,
+          "acc_a": 68.4931506849315,
+          "acc_b": 75.34246575342466,
+          "delta_acc": -6.849315068493156,
           "delta_acc_ci": [
-            -19.913413896510257,
-            -2.0043943226678254
+            -13.776901221494956,
+            0.07827108450864373
           ],
-          "odds_ratio": 0.2,
-          "cohens_g": -0.33333333333333337,
-          "holm_p_value": 0.11572265625,
+          "odds_ratio": 0.16666666666666666,
+          "cohens_g": -0.35714285714285715,
+          "holm_p_value": 0.375,
           "significant": false
         },
         "noisy-OR (with gates)": {
           "n_cases": 73,
           "contingency_table": {
-            "both_correct": 33,
-            "a_only": 10,
-            "b_only": 16,
-            "neither_correct": 14
+            "both_correct": 38,
+            "a_only": 12,
+            "b_only": 11,
+            "neither_correct": 12
           },
-          "total_discordant": 26,
-          "statistic": 0.9615384615384616,
-          "p_value": 0.3267995676689632,
-          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
-          "acc_a": 58.9041095890411,
+          "total_discordant": 23,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact Binomial Test (discordant n < 25)",
+          "acc_a": 68.4931506849315,
           "acc_b": 67.12328767123287,
-          "delta_acc": -8.21917808219178,
+          "delta_acc": 1.3698630136986245,
           "delta_acc_ci": [
-            -21.778989172512695,
-            5.340633008129133
+            -11.502544467855275,
+            14.242270495252523
           ],
-          "odds_ratio": 0.625,
-          "cohens_g": -0.11538461538461536,
-          "holm_p_value": 0.6535991353379264,
+          "odds_ratio": 1.0909090909090908,
+          "cohens_g": 0.021739130434782594,
+          "holm_p_value": 1.0,
           "significant": false
         },
         "noisy-OR (without gates)": {
           "n_cases": 73,
           "contingency_table": {
-            "both_correct": 33,
-            "a_only": 10,
-            "b_only": 16,
-            "neither_correct": 14
+            "both_correct": 38,
+            "a_only": 12,
+            "b_only": 11,
+            "neither_correct": 12
           },
-          "total_discordant": 26,
-          "statistic": 0.9615384615384616,
-          "p_value": 0.3267995676689632,
-          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
-          "acc_a": 58.9041095890411,
+          "total_discordant": 23,
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "test_method": "Exact Binomial Test (discordant n < 25)",
+          "acc_a": 68.4931506849315,
           "acc_b": 67.12328767123287,
-          "delta_acc": -8.21917808219178,
+          "delta_acc": 1.3698630136986245,
           "delta_acc_ci": [
-            -21.778989172512695,
-            5.340633008129133
+            -11.502544467855275,
+            14.242270495252523
           ],
-          "odds_ratio": 0.625,
-          "cohens_g": -0.11538461538461536,
-          "holm_p_value": 0.6535991353379264,
+          "odds_ratio": 1.0909090909090908,
+          "cohens_g": 0.021739130434782594,
+          "holm_p_value": 1.0,
           "significant": false
         },
         "Rule: Nearest Prototype": {
           "n_cases": 73,
           "contingency_table": {
-            "both_correct": 39,
-            "a_only": 4,
-            "b_only": 24,
-            "neither_correct": 6
+            "both_correct": 47,
+            "a_only": 3,
+            "b_only": 18,
+            "neither_correct": 5
           },
-          "total_discordant": 28,
-          "statistic": 12.892857142857142,
-          "p_value": 0.0003298385207779936,
-          "test_method": "McNemar Chi-Square with Edwards Continuity Correction",
-          "acc_a": 58.9041095890411,
-          "acc_b": 86.3013698630137,
-          "delta_acc": -27.397260273972602,
+          "total_discordant": 21,
+          "statistic": 9.333333333333334,
+          "p_value": 0.0014896392822265625,
+          "test_method": "Exact Binomial Test (discordant n < 25)",
+          "acc_a": 68.4931506849315,
+          "acc_b": 89.04109589041096,
+          "delta_acc": -20.547945205479458,
           "delta_acc_ci": [
-            -40.138588612668016,
-            -14.655931935277188
+            -31.91289895921219,
+            -9.182991451746728
           ],
           "odds_ratio": 0.16666666666666666,
           "cohens_g": -0.35714285714285715,
-          "holm_p_value": 0.0013193540831119743,
+          "holm_p_value": 0.00595855712890625,
           "significant": true
         }
       },
@@ -2194,11 +2194,11 @@
         ],
         "references": {
           "RiceKG strict": {
-            "positive_recall": 14.55,
-            "negative_control_far": 0.0
+            "positive_recall": 34.55,
+            "negative_control_far": 5.56
           },
           "RiceKG + possible": {
-            "positive_recall": 49.09,
+            "positive_recall": 52.73,
             "negative_control_far": 11.11
           }
         }

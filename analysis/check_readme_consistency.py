@@ -37,8 +37,6 @@ def required_figures():
     synth = base.get("verification_suite",
                     base.get("synthetic_benchmark",
                              base.get("augmented_benchmark")))
-    aug = synth["system_summaries"]["RiceKG (Full Proposed)"]
-    full = next(r for r in abl["results"] if r["variant"] == "full")
 
     checks = [
         ("field positive-case recall", f"{rk_field['mean_positive_recall']:.2f}",
@@ -55,11 +53,13 @@ def required_figures():
          [README, LIMITATIONS]),
         ("field negative control count", str(field["n_negative"]),
          [README, LIMITATIONS]),
-        ("verification-suite exact match", f"{aug['mean_exact_match']:.2f}",
-         [README]),
-        ("ablation multi-label accuracy", f"{full['multi_acc']:.2f}",
-         [README]),
-        ("ablation exact match", f"{full['exact_acc']:.2f}%",
+    ]
+    de = abl["field"]["groups"]["dev+eval"]["summary"]
+    eq = abl["reasoner_equivalence"]
+    checks += [
+        ("ablation reasoner equivalence", f"{eq['identical_graded_output']}/{eq['n_cases']}", [README]),
+        ("ablation dev+eval recall without diagnostic-sign rules",
+         f"{de['no_diagnostic_signs']['committed_recall']['k']}/{de['no_diagnostic_signs']['committed_recall']['n']}",
          [README]),
     ]
     checks += graded_figures()

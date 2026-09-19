@@ -77,6 +77,21 @@ Consequently:
 `results/baselines.md` carries this downgrade in its own header so the qualification travels with
 the numbers.
 
+### Ruleset v2.4.0 was written after every split had been seen
+
+The diagnostic-sign rules and the removal of unsourced antecedents (`docs/ONTOLOGY.md`, v2.4.0)
+were prompted by the degradation sweep and by field cases that report only a characteristic sign,
+including development-exposed `holdout` blast cases. The inclusion criterion was fixed from
+`data/noisy_or_parameters.csv` before any re-run and does not refer to a case, but the decision to
+revise was informed by all three splits and by the expert annotations. Consequently:
+
+- `dev`, `eval` and `holdout` are all development-exposed for ruleset v2.4.0. The gains they show
+  (`dev`+`eval` 7/12 to 9/12, `holdout` 4/18 to 12/18 committed recall) are evidence that the
+  revision does what it was designed to do, not an estimate of diagnostic efficacy.
+- The ruleset is frozen at v2.4.0. The next independent figure must come from a partition sourced
+  afterwards (`data/HOLDOUT_SOURCING.md`).
+- The expert explanation ratings were given on the v2.3 outputs; they are not a rating of v2.4.0.
+
 ### Composition, sourcing limits, and statistical power
 
 - Retained benchmark: 38 cases — 12 in-scope positives, 26 out-of-scope negative controls.
@@ -155,6 +170,11 @@ present lower figures are not evidence of degraded diagnosis either; both are me
 consistency with whichever rule base generated the cases.
 
 The set retains one legitimate use: verifying that rule firing remains deductively consistent.
+Since the ablation redesign it serves only as input to the reasoner-equivalence check
+(`results/ablation.md`, Pellet against set matching); no system is scored or compared on it, and
+`results/baselines.md` no longer tabulates it. Its labels are the outputs of an earlier rule base:
+for example, a lone `Rusty_Grain_Balls` is labelled `No_Diagnosis`, whereas v2.4.0 deliberately
+reports it as suspected false smut.
 It cannot be interpreted as empirical clinical or field diagnostic accuracy, and outperforming
 supervised ML on it reflects cold-start inductive difficulty for the learners rather than clinical
 superiority of RiceKG.

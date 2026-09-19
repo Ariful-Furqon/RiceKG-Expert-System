@@ -142,7 +142,7 @@ SELECT (COUNT(?p) AS ?n) WHERE { ?p a <http://www.w3.org/2002/07/owl#DatatypePro
 
 - **Status**: satisfied
 - **Scenario**: schema only (no sample)
-- **Result**: `34`
+- **Result**: `31`
 
 ```sparql
 PREFIX : <http://www.semanticweb.org/ontologies/rice_pest_disease.owl#>

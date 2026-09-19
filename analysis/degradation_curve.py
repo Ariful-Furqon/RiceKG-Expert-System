@@ -414,7 +414,7 @@ def _findings(results: Dict[str, Any]) -> List[str]:
     rk_prec_min = min(prec(rk, o) for o in sweep)
 
     out = [
-        f"1. **Strict RiceKG collapses under occlusion.** Positive recall falls from {rec(rk, lo):.1f}% at "
+        f"1. **Strict RiceKG loses recall under occlusion but not precision.** Positive recall falls from {rec(rk, lo):.1f}% at "
         f"occlusion {lo:.1f} to {rec(rk, mid):.1f}% at {mid:.1f} and {rec(rk, hi):.1f}% at {hi:.1f}. "
         f"Its lowest micro-precision across the sweep is {rk_prec_min:.1f}%: it misses cases rather than "
         f"returning wrong threats.",

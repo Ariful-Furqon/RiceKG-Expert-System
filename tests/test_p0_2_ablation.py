@@ -13,6 +13,10 @@ import owlready2
 from ricekg import model
 from analysis import ablation
 
+# 6 primary composite rules plus the 6 diagnostic-sign rules of ruleset v2.4.0
+N_TIER2 = 12
+assert N_TIER2 == sum(1 for r in model.RULE_REGISTRY if r["tier"] == "tier2")
+
 
 class TestP02AblationArchitecture:
     """Verifies that the SWRL rule set is dynamically configurable via
@@ -34,13 +38,13 @@ class TestP02AblationArchitecture:
     def test_build_ontology_tier2_only_rule_count(self):
         onto_t2 = model.build_ontology(enabled_tiers={"tier2"})
         rules = list(onto_t2.rules())
-        assert len(rules) == 6
+        assert len(rules) == N_TIER2
         assert all(isinstance(r, owlready2.swrl.Imp) for r in rules)
 
     def test_build_ontology_full_rule_count(self):
         onto_full = model.build_ontology(enabled_tiers={"tier1", "tier2"})
         rules = list(onto_full.rules())
-        assert len(rules) == 12
+        assert len(rules) == 6 + N_TIER2
         assert all(isinstance(r, owlready2.swrl.Imp) for r in rules)
 
     def test_isolated_world_no_cross_contamination(self):
@@ -53,7 +57,7 @@ class TestP02AblationArchitecture:
 
         assert onto_t1.world is not onto_full.world
         assert len(list(onto_t1.rules())) == 6
-        assert len(list(onto_full.rules())) == 12
+        assert len(list(onto_full.rules())) == 6 + N_TIER2
 
     def test_no_reasoner_set_matching_baseline(self):
         """Tests the pure-Python set-matching control baseline."""
@@ -85,3 +89,31 @@ class TestP02AblationArchitecture:
         preds_full = model.predict_diseases_flat(relaxed_symptoms, onto=onto_full)
         assert "False_Smut" in preds_full
 
+
+
+# ---------------------------------------------------------------------------
+# Redesigned ablation (reasoner equivalence and rule-component variants)
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("symptoms", [
+    ["Diamond_Shaped_Lesions"],                          # diagnostic-sign rule SWRL-R26
+    ["Necrotic_Spots"],                                  # `possible` blast only
+    ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves"],
+    ["Brown_Nymphs", "Hopperburn_Drying"],               # insect out-of-scope gate
+    ["Leaf_Sheath_Lesions"],                             # non-modelled pathogen gate
+    ["Leaf_Mottling"],                                   # nothing fires
+])
+def test_set_matching_equals_pellet_graded_output(symptoms):
+    pellet = {(r["threat"], r["grade"]) for r in model.predict_diseases(symptoms, include_possible=True)}
+    assert set(ablation.predict_set_matching(symptoms)) == pellet
+
+
+def test_variant_rules_select_expected_subsets():
+    full = ablation.variant_rules("full")
+    no_signs = ablation.variant_rules("no_diagnostic_signs")
+    tier1 = ablation.variant_rules("tier1_only")
+    assert len(full) == len(model.RULE_REGISTRY)
+    assert len(full) - len(no_signs) == 6
+    assert all(r["tier"] == "tier1" for r in tier1) and len(tier1) == 6
+    # Without the diagnostic-sign rules a lone diamond lesion no longer commits blast
+    assert ablation.predict_set_matching(["Diamond_Shaped_Lesions"], no_signs, include_possible=False) == []
