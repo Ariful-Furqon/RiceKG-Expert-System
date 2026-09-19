@@ -9,11 +9,11 @@ partition and **no gain on the held-out partition**.
 
 | | Before Steps 2-3 | After Steps 2-3 |
 |:--|:--:|:--:|
-| **`eval` positive-case recall** | 38.33% | **35.00%** (now **31.67%**†) |
-| **`eval` micro-F1** | 48.00 | **40.67** (now **41.00** [95% CI 33.3, 75.7]†) |
-| **`eval` aggregate exact match** | 86.97% | **86.82%** (now **86.36%**†) |
+| **`eval` positive-case recall** | 38.33% | **35.00%** (now **85.00%**†) |
+| **`eval` micro-F1** | 48.00 | **40.67** (now **91.14** [95% CI 77.4, 97.6]†) |
+| **`eval` aggregate exact match** | 86.97% | **86.82%** (now **95.45%**†) |
 
-† Current values after FIELD_24 was rejected in ontology v2.2.0 (`eval` 23 → 22 cases). 31.67% is a 5×2-fold average; it was 35.00% before FIELD_24 was rejected (ontology v2.2.0). The change comes only from the fold re-partition: no diagnosis changed, and pooled recall is 2/5 = 40.0%.
+† Current values, 5×2-fold averages. Two later changes produced them, neither a rule change: FIELD_24 was rejected in ontology v2.2.0 (`eval` 23 → 22 cases; the fold re-partition alone moved recall from 35.00% to 31.67% with no diagnosis changed), and the field benchmark is now encoded by the consensus of two independent agronomists instead of the authors (single-run `eval` recall 2/5 → 4/5). The rise measures how much the authors' encoding had cost, not a better rule base; `eval` stays development-informed.
 | `dev` positive-case recall | 19.17% | **63.33%** |
 | `dev` micro-F1 | 24.86 | **75.14** |
 | Positive cases resolved, both partitions | 3/12 | **6/12** |
@@ -25,9 +25,10 @@ signature of overfitting to the development set, and it should be read that way 
 individual change was argued from published agronomy rather than from a case.
 
 Against the baselines on `eval`, RiceKG exceeds the ontology-free nearest-prototype matcher by
-9.1 percentage points of exact match (Holm-adjusted $p = 0.0117$) and reaches 31.67% positive
-recall against its 15.00%. The prototype matcher nonetheless retains a higher micro-F1
-(57.05 against 41.00), so the two are not cleanly separated on that measure.
+9.1 percentage points of exact match (Holm-adjusted $p = 0.0039$), and reaches 85.00% positive
+recall against its 40.83% and a micro-F1 of 91.14 against 74.83. On the single-run evaluation the
+prototype matcher finds as many diseases (4/5) and loses only on precision, with no significant
+paired difference, so the two are not cleanly separated.
 
 ### An intermediate revision was withdrawn
 
@@ -68,7 +69,7 @@ that leaked into the process.
 Consequently:
 
 - `eval` figures in this repository are **development-informed**, not strictly held out.
-- The manuscript must not describe the current 31.67% positive-case recall as an independent
+- The manuscript must not describe the current `eval` positive-case recall (4/5 single-run, 85.00% under 5×2 CV) as an independent
   estimate of diagnostic efficacy. It is an optimistic bound.
 - A genuinely independent figure requires a **fresh partition sourced after the rule base is
   frozen**, through the P0-3 case-report gate.

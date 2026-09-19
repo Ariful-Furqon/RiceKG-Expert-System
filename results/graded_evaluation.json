@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T14:48:16.286383+00:00",
+  "generated_at": "2026-09-19T00:47:03.240424+00:00",
   "protocol": "single deterministic run per case; exact Clopper-Pearson 95% intervals; no cross-validation",
   "systems": [
     "RiceKG strict",
@@ -13,35 +13,35 @@
         "n_positive": 5,
         "n_control": 17,
         "positive_outcomes": {
-          "correct": 2,
+          "correct": 4,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 3
+          "abstain": 1
         },
         "control_outcomes": {
           "false_alarm": 0,
           "possible_alarm": 0,
-          "explicit_rejection": 4,
-          "silent_abstention": 13
+          "explicit_rejection": 11,
+          "silent_abstention": 6
         },
         "committed_recall": {
-          "k": 2,
+          "k": 4,
           "n": 5,
-          "pct": 40.0,
+          "pct": 80.0,
           "ci95": [
-            5.3,
-            85.3
+            28.4,
+            99.5
           ]
         },
         "recall_incl_possible": {
-          "k": 2,
+          "k": 4,
           "n": 5,
-          "pct": 40.0,
+          "pct": 80.0,
           "ci95": [
-            5.3,
-            85.3
+            28.4,
+            99.5
           ]
         },
         "misfire_rate": {
@@ -54,30 +54,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 3,
+          "k": 1,
           "n": 5,
-          "pct": 60.0,
+          "pct": 20.0,
           "ci95": [
-            14.7,
-            94.7
+            0.5,
+            71.6
           ]
         },
         "committed_precision": {
-          "k": 2,
-          "n": 2,
+          "k": 4,
+          "n": 4,
           "pct": 100.0,
           "ci95": [
-            15.8,
+            39.8,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 2,
-            "n": 2,
+            "k": 4,
+            "n": 4,
             "pct": 100.0,
             "ci95": [
-              15.8,
+              39.8,
               100.0
             ]
           }
@@ -101,12 +101,12 @@
           ]
         },
         "explicit_rejection_rate": {
-          "k": 4,
+          "k": 11,
           "n": 17,
-          "pct": 23.53,
+          "pct": 64.71,
           "ci95": [
-            6.8,
-            49.9
+            38.3,
+            85.8
           ]
         }
       },
@@ -114,26 +114,26 @@
         "n_positive": 5,
         "n_control": 17,
         "positive_outcomes": {
-          "correct": 2,
+          "correct": 4,
           "misfire": 0,
-          "possible_hit": 3,
+          "possible_hit": 1,
           "possible_miss": 0,
           "rejected": 0,
           "abstain": 0
         },
         "control_outcomes": {
           "false_alarm": 0,
-          "possible_alarm": 8,
-          "explicit_rejection": 4,
-          "silent_abstention": 5
+          "possible_alarm": 3,
+          "explicit_rejection": 11,
+          "silent_abstention": 3
         },
         "committed_recall": {
-          "k": 2,
+          "k": 4,
           "n": 5,
-          "pct": 40.0,
+          "pct": 80.0,
           "ci95": [
-            5.3,
-            85.3
+            28.4,
+            99.5
           ]
         },
         "recall_incl_possible": {
@@ -155,40 +155,40 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 3,
+          "k": 1,
           "n": 5,
-          "pct": 60.0,
+          "pct": 20.0,
           "ci95": [
-            14.7,
-            94.7
+            0.5,
+            71.6
           ]
         },
         "committed_precision": {
-          "k": 2,
-          "n": 2,
+          "k": 4,
+          "n": 4,
           "pct": 100.0,
           "ci95": [
-            15.8,
+            39.8,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 2,
-            "n": 2,
+            "k": 4,
+            "n": 4,
             "pct": 100.0,
             "ci95": [
-              15.8,
+              39.8,
               100.0
             ]
           },
           "possible": {
-            "k": 3,
-            "n": 18,
-            "pct": 16.67,
+            "k": 1,
+            "n": 5,
+            "pct": 20.0,
             "ci95": [
-              3.6,
-              41.4
+              0.5,
+              71.6
             ]
           }
         },
@@ -202,21 +202,21 @@
           ]
         },
         "false_alarm_incl_possible": {
-          "k": 8,
+          "k": 3,
           "n": 17,
-          "pct": 47.06,
+          "pct": 17.65,
           "ci95": [
-            23.0,
-            72.2
+            3.8,
+            43.4
           ]
         },
         "explicit_rejection_rate": {
-          "k": 4,
+          "k": 11,
           "n": 17,
-          "pct": 23.53,
+          "pct": 64.71,
           "ci95": [
-            6.8,
-            49.9
+            38.3,
+            85.8
           ]
         }
       },
@@ -224,12 +224,12 @@
         "n_positive": 5,
         "n_control": 17,
         "positive_outcomes": {
-          "correct": 2,
+          "correct": 4,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 3
+          "abstain": 1
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -238,21 +238,21 @@
           "silent_abstention": 17
         },
         "committed_recall": {
-          "k": 2,
+          "k": 4,
           "n": 5,
-          "pct": 40.0,
+          "pct": 80.0,
           "ci95": [
-            5.3,
-            85.3
+            28.4,
+            99.5
           ]
         },
         "recall_incl_possible": {
-          "k": 2,
+          "k": 4,
           "n": 5,
-          "pct": 40.0,
+          "pct": 80.0,
           "ci95": [
-            5.3,
-            85.3
+            28.4,
+            99.5
           ]
         },
         "misfire_rate": {
@@ -265,30 +265,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 3,
+          "k": 1,
           "n": 5,
-          "pct": 60.0,
+          "pct": 20.0,
           "ci95": [
-            14.7,
-            94.7
+            0.5,
+            71.6
           ]
         },
         "committed_precision": {
-          "k": 2,
-          "n": 2,
+          "k": 4,
+          "n": 4,
           "pct": 100.0,
           "ci95": [
-            15.8,
+            39.8,
             100.0
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 2,
-            "n": 2,
+            "k": 4,
+            "n": 4,
             "pct": 100.0,
             "ci95": [
-              15.8,
+              39.8,
               100.0
             ]
           }
@@ -325,35 +325,35 @@
         "n_positive": 5,
         "n_control": 17,
         "positive_outcomes": {
-          "correct": 5,
+          "correct": 4,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 0
+          "abstain": 1
         },
         "control_outcomes": {
-          "false_alarm": 1,
+          "false_alarm": 0,
           "possible_alarm": 0,
           "explicit_rejection": 0,
-          "silent_abstention": 16
+          "silent_abstention": 17
         },
         "committed_recall": {
-          "k": 5,
+          "k": 4,
           "n": 5,
-          "pct": 100.0,
+          "pct": 80.0,
           "ci95": [
-            47.8,
-            100.0
+            28.4,
+            99.5
           ]
         },
         "recall_incl_possible": {
-          "k": 5,
+          "k": 4,
           "n": 5,
-          "pct": 100.0,
+          "pct": 80.0,
           "ci95": [
-            47.8,
-            100.0
+            28.4,
+            99.5
           ]
         },
         "misfire_rate": {
@@ -366,50 +366,50 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 0,
+          "k": 1,
           "n": 5,
-          "pct": 0.0,
+          "pct": 20.0,
           "ci95": [
-            0.0,
-            52.2
+            0.5,
+            71.6
           ]
         },
         "committed_precision": {
-          "k": 5,
-          "n": 12,
-          "pct": 41.67,
+          "k": 4,
+          "n": 6,
+          "pct": 66.67,
           "ci95": [
-            15.2,
-            72.3
+            22.3,
+            95.7
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 5,
-            "n": 12,
-            "pct": 41.67,
+            "k": 4,
+            "n": 6,
+            "pct": 66.67,
             "ci95": [
-              15.2,
-              72.3
+              22.3,
+              95.7
             ]
           }
         },
         "false_alarm_rate": {
-          "k": 1,
+          "k": 0,
           "n": 17,
-          "pct": 5.88,
+          "pct": 0.0,
           "ci95": [
-            0.1,
-            28.7
+            0.0,
+            19.5
           ]
         },
         "false_alarm_incl_possible": {
-          "k": 1,
+          "k": 0,
           "n": 17,
-          "pct": 5.88,
+          "pct": 0.0,
           "ci95": [
-            0.1,
-            28.7
+            0.0,
+            19.5
           ]
         },
         "explicit_rejection_rate": {
@@ -428,35 +428,35 @@
         "n_positive": 7,
         "n_control": 9,
         "positive_outcomes": {
-          "correct": 4,
+          "correct": 3,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
-          "rejected": 1,
-          "abstain": 2
+          "rejected": 0,
+          "abstain": 4
         },
         "control_outcomes": {
           "false_alarm": 0,
           "possible_alarm": 0,
-          "explicit_rejection": 2,
-          "silent_abstention": 7
+          "explicit_rejection": 3,
+          "silent_abstention": 6
         },
         "committed_recall": {
-          "k": 4,
+          "k": 3,
           "n": 7,
-          "pct": 57.14,
+          "pct": 42.86,
           "ci95": [
-            18.4,
-            90.1
+            9.9,
+            81.6
           ]
         },
         "recall_incl_possible": {
-          "k": 4,
+          "k": 3,
           "n": 7,
-          "pct": 57.14,
+          "pct": 42.86,
           "ci95": [
-            18.4,
-            90.1
+            9.9,
+            81.6
           ]
         },
         "misfire_rate": {
@@ -469,30 +469,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 3,
+          "k": 4,
           "n": 7,
-          "pct": 42.86,
+          "pct": 57.14,
           "ci95": [
-            9.9,
-            81.6
+            18.4,
+            90.1
           ]
         },
         "committed_precision": {
-          "k": 4,
-          "n": 4,
+          "k": 3,
+          "n": 3,
           "pct": 100.0,
           "ci95": [
-            39.8,
+            29.2,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 4,
-            "n": 4,
+            "k": 3,
+            "n": 3,
             "pct": 100.0,
             "ci95": [
-              39.8,
+              29.2,
               100.0
             ]
           }
@@ -516,12 +516,12 @@
           ]
         },
         "explicit_rejection_rate": {
-          "k": 2,
+          "k": 3,
           "n": 9,
-          "pct": 22.22,
+          "pct": 33.33,
           "ci95": [
-            2.8,
-            60.0
+            7.5,
+            70.1
           ]
         }
       },
@@ -529,35 +529,35 @@
         "n_positive": 7,
         "n_control": 9,
         "positive_outcomes": {
-          "correct": 4,
+          "correct": 3,
           "misfire": 0,
           "possible_hit": 2,
           "possible_miss": 0,
-          "rejected": 1,
-          "abstain": 0
+          "rejected": 0,
+          "abstain": 2
         },
         "control_outcomes": {
           "false_alarm": 0,
           "possible_alarm": 2,
-          "explicit_rejection": 2,
-          "silent_abstention": 5
+          "explicit_rejection": 3,
+          "silent_abstention": 4
         },
         "committed_recall": {
-          "k": 4,
+          "k": 3,
           "n": 7,
-          "pct": 57.14,
+          "pct": 42.86,
           "ci95": [
-            18.4,
-            90.1
+            9.9,
+            81.6
           ]
         },
         "recall_incl_possible": {
-          "k": 6,
+          "k": 5,
           "n": 7,
-          "pct": 85.71,
+          "pct": 71.43,
           "ci95": [
-            42.1,
-            99.6
+            29.0,
+            96.3
           ]
         },
         "misfire_rate": {
@@ -570,30 +570,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 3,
+          "k": 4,
           "n": 7,
-          "pct": 42.86,
+          "pct": 57.14,
           "ci95": [
-            9.9,
-            81.6
+            18.4,
+            90.1
           ]
         },
         "committed_precision": {
-          "k": 4,
-          "n": 4,
+          "k": 3,
+          "n": 3,
           "pct": 100.0,
           "ci95": [
-            39.8,
+            29.2,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 4,
-            "n": 4,
+            "k": 3,
+            "n": 3,
             "pct": 100.0,
             "ci95": [
-              39.8,
+              29.2,
               100.0
             ]
           },
@@ -626,12 +626,12 @@
           ]
         },
         "explicit_rejection_rate": {
-          "k": 2,
+          "k": 3,
           "n": 9,
-          "pct": 22.22,
+          "pct": 33.33,
           "ci95": [
-            2.8,
-            60.0
+            7.5,
+            70.1
           ]
         }
       },
@@ -639,12 +639,12 @@
         "n_positive": 7,
         "n_control": 9,
         "positive_outcomes": {
-          "correct": 4,
+          "correct": 3,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 3
+          "abstain": 4
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -653,21 +653,21 @@
           "silent_abstention": 9
         },
         "committed_recall": {
-          "k": 4,
+          "k": 3,
           "n": 7,
-          "pct": 57.14,
+          "pct": 42.86,
           "ci95": [
-            18.4,
-            90.1
+            9.9,
+            81.6
           ]
         },
         "recall_incl_possible": {
-          "k": 4,
+          "k": 3,
           "n": 7,
-          "pct": 57.14,
+          "pct": 42.86,
           "ci95": [
-            18.4,
-            90.1
+            9.9,
+            81.6
           ]
         },
         "misfire_rate": {
@@ -680,30 +680,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 3,
+          "k": 4,
           "n": 7,
-          "pct": 42.86,
+          "pct": 57.14,
           "ci95": [
-            9.9,
-            81.6
+            18.4,
+            90.1
           ]
         },
         "committed_precision": {
-          "k": 4,
-          "n": 4,
+          "k": 3,
+          "n": 3,
           "pct": 100.0,
           "ci95": [
-            39.8,
+            29.2,
             100.0
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 4,
-            "n": 4,
+            "k": 3,
+            "n": 3,
             "pct": 100.0,
             "ci95": [
-              39.8,
+              29.2,
               100.0
             ]
           }
@@ -791,21 +791,21 @@
         },
         "committed_precision": {
           "k": 4,
-          "n": 6,
-          "pct": 66.67,
+          "n": 4,
+          "pct": 100.0,
           "ci95": [
-            22.3,
-            95.7
+            39.8,
+            100.0
           ]
         },
         "grade_precision": {
           "committed": {
             "k": 4,
-            "n": 6,
-            "pct": 66.67,
+            "n": 4,
+            "pct": 100.0,
             "ci95": [
-              22.3,
-              95.7
+              39.8,
+              100.0
             ]
           }
         },
@@ -843,35 +843,35 @@
         "n_positive": 12,
         "n_control": 26,
         "positive_outcomes": {
-          "correct": 6,
+          "correct": 7,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
-          "rejected": 1,
+          "rejected": 0,
           "abstain": 5
         },
         "control_outcomes": {
           "false_alarm": 0,
           "possible_alarm": 0,
-          "explicit_rejection": 6,
-          "silent_abstention": 20
+          "explicit_rejection": 14,
+          "silent_abstention": 12
         },
         "committed_recall": {
-          "k": 6,
+          "k": 7,
           "n": 12,
-          "pct": 50.0,
+          "pct": 58.33,
           "ci95": [
-            21.1,
-            78.9
+            27.7,
+            84.8
           ]
         },
         "recall_incl_possible": {
-          "k": 6,
+          "k": 7,
           "n": 12,
-          "pct": 50.0,
+          "pct": 58.33,
           "ci95": [
-            21.1,
-            78.9
+            27.7,
+            84.8
           ]
         },
         "misfire_rate": {
@@ -884,30 +884,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 6,
+          "k": 5,
           "n": 12,
-          "pct": 50.0,
+          "pct": 41.67,
           "ci95": [
-            21.1,
-            78.9
+            15.2,
+            72.3
           ]
         },
         "committed_precision": {
-          "k": 6,
-          "n": 6,
+          "k": 7,
+          "n": 7,
           "pct": 100.0,
           "ci95": [
-            54.1,
+            59.0,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 6,
-            "n": 6,
+            "k": 7,
+            "n": 7,
             "pct": 100.0,
             "ci95": [
-              54.1,
+              59.0,
               100.0
             ]
           }
@@ -931,12 +931,12 @@
           ]
         },
         "explicit_rejection_rate": {
-          "k": 6,
+          "k": 14,
           "n": 26,
-          "pct": 23.08,
+          "pct": 53.85,
           "ci95": [
-            9.0,
-            43.6
+            33.4,
+            73.4
           ]
         }
       },
@@ -944,35 +944,35 @@
         "n_positive": 12,
         "n_control": 26,
         "positive_outcomes": {
-          "correct": 6,
+          "correct": 7,
           "misfire": 0,
-          "possible_hit": 5,
+          "possible_hit": 3,
           "possible_miss": 0,
-          "rejected": 1,
-          "abstain": 0
+          "rejected": 0,
+          "abstain": 2
         },
         "control_outcomes": {
           "false_alarm": 0,
-          "possible_alarm": 10,
-          "explicit_rejection": 6,
-          "silent_abstention": 10
+          "possible_alarm": 5,
+          "explicit_rejection": 14,
+          "silent_abstention": 7
         },
         "committed_recall": {
-          "k": 6,
+          "k": 7,
           "n": 12,
-          "pct": 50.0,
+          "pct": 58.33,
           "ci95": [
-            21.1,
-            78.9
+            27.7,
+            84.8
           ]
         },
         "recall_incl_possible": {
-          "k": 11,
+          "k": 10,
           "n": 12,
-          "pct": 91.67,
+          "pct": 83.33,
           "ci95": [
-            61.5,
-            99.8
+            51.6,
+            97.9
           ]
         },
         "misfire_rate": {
@@ -985,40 +985,40 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 6,
+          "k": 5,
           "n": 12,
-          "pct": 50.0,
+          "pct": 41.67,
           "ci95": [
-            21.1,
-            78.9
+            15.2,
+            72.3
           ]
         },
         "committed_precision": {
-          "k": 6,
-          "n": 6,
+          "k": 7,
+          "n": 7,
           "pct": 100.0,
           "ci95": [
-            54.1,
+            59.0,
             100.0
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 6,
-            "n": 6,
+            "k": 7,
+            "n": 7,
             "pct": 100.0,
             "ci95": [
-              54.1,
+              59.0,
               100.0
             ]
           },
           "possible": {
-            "k": 5,
-            "n": 23,
-            "pct": 21.74,
+            "k": 3,
+            "n": 10,
+            "pct": 30.0,
             "ci95": [
-              7.5,
-              43.7
+              6.7,
+              65.2
             ]
           }
         },
@@ -1032,21 +1032,21 @@
           ]
         },
         "false_alarm_incl_possible": {
-          "k": 10,
+          "k": 5,
           "n": 26,
-          "pct": 38.46,
+          "pct": 19.23,
           "ci95": [
-            20.2,
-            59.4
+            6.6,
+            39.4
           ]
         },
         "explicit_rejection_rate": {
-          "k": 6,
+          "k": 14,
           "n": 26,
-          "pct": 23.08,
+          "pct": 53.85,
           "ci95": [
-            9.0,
-            43.6
+            33.4,
+            73.4
           ]
         }
       },
@@ -1054,12 +1054,12 @@
         "n_positive": 12,
         "n_control": 26,
         "positive_outcomes": {
-          "correct": 6,
+          "correct": 7,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 6
+          "abstain": 5
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1068,21 +1068,21 @@
           "silent_abstention": 26
         },
         "committed_recall": {
-          "k": 6,
+          "k": 7,
           "n": 12,
-          "pct": 50.0,
+          "pct": 58.33,
           "ci95": [
-            21.1,
-            78.9
+            27.7,
+            84.8
           ]
         },
         "recall_incl_possible": {
-          "k": 6,
+          "k": 7,
           "n": 12,
-          "pct": 50.0,
+          "pct": 58.33,
           "ci95": [
-            21.1,
-            78.9
+            27.7,
+            84.8
           ]
         },
         "misfire_rate": {
@@ -1095,30 +1095,30 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 6,
+          "k": 5,
           "n": 12,
-          "pct": 50.0,
+          "pct": 41.67,
           "ci95": [
-            21.1,
-            78.9
+            15.2,
+            72.3
           ]
         },
         "committed_precision": {
-          "k": 6,
-          "n": 6,
+          "k": 7,
+          "n": 7,
           "pct": 100.0,
           "ci95": [
-            54.1,
+            59.0,
             100.0
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 6,
-            "n": 6,
+            "k": 7,
+            "n": 7,
             "pct": 100.0,
             "ci95": [
-              54.1,
+              59.0,
               100.0
             ]
           }
@@ -1155,35 +1155,35 @@
         "n_positive": 12,
         "n_control": 26,
         "positive_outcomes": {
-          "correct": 9,
+          "correct": 8,
           "misfire": 0,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 3
+          "abstain": 4
         },
         "control_outcomes": {
-          "false_alarm": 1,
+          "false_alarm": 0,
           "possible_alarm": 0,
           "explicit_rejection": 0,
-          "silent_abstention": 25
+          "silent_abstention": 26
         },
         "committed_recall": {
-          "k": 9,
+          "k": 8,
           "n": 12,
-          "pct": 75.0,
+          "pct": 66.67,
           "ci95": [
-            42.8,
-            94.5
+            34.9,
+            90.1
           ]
         },
         "recall_incl_possible": {
-          "k": 9,
+          "k": 8,
           "n": 12,
-          "pct": 75.0,
+          "pct": 66.67,
           "ci95": [
-            42.8,
-            94.5
+            34.9,
+            90.1
           ]
         },
         "misfire_rate": {
@@ -1196,50 +1196,50 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 3,
+          "k": 4,
           "n": 12,
-          "pct": 25.0,
+          "pct": 33.33,
           "ci95": [
-            5.5,
-            57.2
+            9.9,
+            65.1
           ]
         },
         "committed_precision": {
-          "k": 9,
-          "n": 18,
-          "pct": 50.0,
+          "k": 8,
+          "n": 10,
+          "pct": 80.0,
           "ci95": [
-            26.0,
-            74.0
+            44.4,
+            97.5
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 9,
-            "n": 18,
-            "pct": 50.0,
+            "k": 8,
+            "n": 10,
+            "pct": 80.0,
             "ci95": [
-              26.0,
-              74.0
+              44.4,
+              97.5
             ]
           }
         },
         "false_alarm_rate": {
-          "k": 1,
+          "k": 0,
           "n": 26,
-          "pct": 3.85,
+          "pct": 0.0,
           "ci95": [
-            0.1,
-            19.6
+            0.0,
+            13.2
           ]
         },
         "false_alarm_incl_possible": {
-          "k": 1,
+          "k": 0,
           "n": 26,
-          "pct": 3.85,
+          "pct": 0.0,
           "ci95": [
-            0.1,
-            19.6
+            0.0,
+            13.2
           ]
         },
         "explicit_rejection_rate": {
@@ -1258,12 +1258,12 @@
         "n_positive": 18,
         "n_control": 0,
         "positive_outcomes": {
-          "correct": 5,
+          "correct": 4,
           "misfire": 1,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 12
+          "abstain": 13
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1272,21 +1272,21 @@
           "silent_abstention": 0
         },
         "committed_recall": {
-          "k": 5,
+          "k": 4,
           "n": 18,
-          "pct": 27.78,
+          "pct": 22.22,
           "ci95": [
-            9.7,
-            53.5
+            6.4,
+            47.6
           ]
         },
         "recall_incl_possible": {
-          "k": 5,
+          "k": 4,
           "n": 18,
-          "pct": 27.78,
+          "pct": 22.22,
           "ci95": [
-            9.7,
-            53.5
+            6.4,
+            47.6
           ]
         },
         "misfire_rate": {
@@ -1299,31 +1299,31 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 12,
+          "k": 13,
           "n": 18,
-          "pct": 66.67,
+          "pct": 72.22,
           "ci95": [
-            41.0,
-            86.7
+            46.5,
+            90.3
           ]
         },
         "committed_precision": {
-          "k": 5,
-          "n": 6,
-          "pct": 83.33,
+          "k": 4,
+          "n": 5,
+          "pct": 80.0,
           "ci95": [
-            35.9,
-            99.6
+            28.4,
+            99.5
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 5,
-            "n": 6,
-            "pct": 83.33,
+            "k": 4,
+            "n": 5,
+            "pct": 80.0,
             "ci95": [
-              35.9,
-              99.6
+              28.4,
+              99.5
             ]
           }
         },
@@ -1359,10 +1359,10 @@
         "n_positive": 18,
         "n_control": 0,
         "positive_outcomes": {
-          "correct": 5,
+          "correct": 4,
           "misfire": 1,
           "possible_hit": 9,
-          "possible_miss": 1,
+          "possible_miss": 2,
           "rejected": 0,
           "abstain": 2
         },
@@ -1373,21 +1373,21 @@
           "silent_abstention": 0
         },
         "committed_recall": {
-          "k": 5,
+          "k": 4,
           "n": 18,
-          "pct": 27.78,
+          "pct": 22.22,
           "ci95": [
-            9.7,
-            53.5
+            6.4,
+            47.6
           ]
         },
         "recall_incl_possible": {
-          "k": 14,
+          "k": 13,
           "n": 18,
-          "pct": 77.78,
+          "pct": 72.22,
           "ci95": [
-            52.4,
-            93.6
+            46.5,
+            90.3
           ]
         },
         "misfire_rate": {
@@ -1400,31 +1400,31 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 12,
+          "k": 13,
           "n": 18,
-          "pct": 66.67,
+          "pct": 72.22,
           "ci95": [
-            41.0,
-            86.7
+            46.5,
+            90.3
           ]
         },
         "committed_precision": {
-          "k": 5,
-          "n": 6,
-          "pct": 83.33,
+          "k": 4,
+          "n": 5,
+          "pct": 80.0,
           "ci95": [
-            35.9,
-            99.6
+            28.4,
+            99.5
           ]
         },
         "grade_precision": {
           "suspected": {
-            "k": 5,
-            "n": 6,
-            "pct": 83.33,
+            "k": 4,
+            "n": 5,
+            "pct": 80.0,
             "ci95": [
-              35.9,
-              99.6
+              28.4,
+              99.5
             ]
           },
           "possible": {
@@ -1469,12 +1469,12 @@
         "n_positive": 18,
         "n_control": 0,
         "positive_outcomes": {
-          "correct": 5,
+          "correct": 4,
           "misfire": 1,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 12
+          "abstain": 13
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1483,21 +1483,21 @@
           "silent_abstention": 0
         },
         "committed_recall": {
-          "k": 5,
+          "k": 4,
           "n": 18,
-          "pct": 27.78,
+          "pct": 22.22,
           "ci95": [
-            9.7,
-            53.5
+            6.4,
+            47.6
           ]
         },
         "recall_incl_possible": {
-          "k": 5,
+          "k": 4,
           "n": 18,
-          "pct": 27.78,
+          "pct": 22.22,
           "ci95": [
-            9.7,
-            53.5
+            6.4,
+            47.6
           ]
         },
         "misfire_rate": {
@@ -1510,31 +1510,31 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 12,
+          "k": 13,
           "n": 18,
-          "pct": 66.67,
+          "pct": 72.22,
           "ci95": [
-            41.0,
-            86.7
+            46.5,
+            90.3
           ]
         },
         "committed_precision": {
-          "k": 5,
-          "n": 6,
-          "pct": 83.33,
+          "k": 4,
+          "n": 5,
+          "pct": 80.0,
           "ci95": [
-            35.9,
-            99.6
+            28.4,
+            99.5
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 5,
-            "n": 6,
-            "pct": 83.33,
+            "k": 4,
+            "n": 5,
+            "pct": 80.0,
             "ci95": [
-              35.9,
-              99.6
+              28.4,
+              99.5
             ]
           }
         },
@@ -1570,12 +1570,12 @@
         "n_positive": 18,
         "n_control": 0,
         "positive_outcomes": {
-          "correct": 9,
+          "correct": 8,
           "misfire": 2,
           "possible_hit": 0,
           "possible_miss": 0,
           "rejected": 0,
-          "abstain": 7
+          "abstain": 8
         },
         "control_outcomes": {
           "false_alarm": 0,
@@ -1584,21 +1584,21 @@
           "silent_abstention": 0
         },
         "committed_recall": {
-          "k": 9,
+          "k": 8,
           "n": 18,
-          "pct": 50.0,
+          "pct": 44.44,
           "ci95": [
-            26.0,
-            74.0
+            21.5,
+            69.2
           ]
         },
         "recall_incl_possible": {
-          "k": 9,
+          "k": 8,
           "n": 18,
-          "pct": 50.0,
+          "pct": 44.44,
           "ci95": [
-            26.0,
-            74.0
+            21.5,
+            69.2
           ]
         },
         "misfire_rate": {
@@ -1611,31 +1611,31 @@
           ]
         },
         "safe_failure_rate": {
-          "k": 7,
+          "k": 8,
           "n": 18,
-          "pct": 38.89,
+          "pct": 44.44,
           "ci95": [
-            17.3,
-            64.3
+            21.5,
+            69.2
           ]
         },
         "committed_precision": {
-          "k": 9,
+          "k": 8,
           "n": 14,
-          "pct": 64.29,
+          "pct": 57.14,
           "ci95": [
-            35.1,
-            87.2
+            28.9,
+            82.3
           ]
         },
         "grade_precision": {
           "committed": {
-            "k": 9,
+            "k": 8,
             "n": 14,
-            "pct": 64.29,
+            "pct": 57.14,
             "ci95": [
-              35.1,
-              87.2
+              28.9,
+              82.3
             ]
           }
         },
@@ -1682,9 +1682,9 @@
         "exact_mcnemar_p": 1.0
       },
       "Nearest prototype": {
-        "only_first_correct": 1,
-        "only_second_correct": 3,
-        "exact_mcnemar_p": 0.625
+        "only_first_correct": 0,
+        "only_second_correct": 0,
+        "exact_mcnemar_p": 1.0
       }
     },
     "dev": {
@@ -1700,7 +1700,7 @@
       },
       "Nearest prototype": {
         "only_first_correct": 0,
-        "only_second_correct": 0,
+        "only_second_correct": 1,
         "exact_mcnemar_p": 1.0
       }
     },
@@ -1716,9 +1716,9 @@
         "exact_mcnemar_p": 1.0
       },
       "Nearest prototype": {
-        "only_first_correct": 1,
-        "only_second_correct": 3,
-        "exact_mcnemar_p": 0.625
+        "only_first_correct": 0,
+        "only_second_correct": 1,
+        "exact_mcnemar_p": 1.0
       }
     },
     "holdout (development-exposed)": {
@@ -1779,29 +1779,18 @@
         "Rice_Blast"
       ],
       "symptoms": [
-        "Necrotic_Spots",
         "Empty_Grains",
-        "Stem_Rot_Lesions"
+        "Panicle_Neck_Rot"
       ],
       "outputs": {
-        "RiceKG strict": [
-          [
-            "signs recorded, not consistent with any disease in scope",
-            "out_of_scope"
-          ]
-        ],
-        "RiceKG + possible": [
-          [
-            "signs recorded, not consistent with any disease in scope",
-            "out_of_scope"
-          ]
-        ],
+        "RiceKG strict": [],
+        "RiceKG + possible": [],
         "Flat single-tier rules": [],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "rejected",
-        "RiceKG + possible": "rejected",
+        "RiceKG strict": "abstain",
+        "RiceKG + possible": "abstain",
         "Flat single-tier rules": "abstain",
         "Nearest prototype": "abstain"
       }
@@ -1813,26 +1802,44 @@
         "Bacterial_Leaf_Blight"
       ],
       "symptoms": [
-        "Yellowing_Leaves",
+        "Yellowing_Leaf_Veins",
+        "Leaf_Discoloration_Yellow",
+        "Yellowing_Leaf_Tips",
         "Water_Soaked_Lesions",
-        "Bacterial_Ooze"
+        "Bacterial_Ooze",
+        "Leaf_Desiccation"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "Bacterial_Leaf_Blight",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "Bacterial_Leaf_Blight",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
-        "Nearest prototype": []
+        "Flat single-tier rules": [
+          [
+            "Bacterial_Leaf_Blight",
+            "committed"
+          ]
+        ],
+        "Nearest prototype": [
+          [
+            "Bacterial_Leaf_Blight",
+            "committed"
+          ]
+        ]
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
-        "Nearest prototype": "abstain"
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
+        "Nearest prototype": "correct"
       }
     },
     {
@@ -1843,44 +1850,19 @@
       ],
       "symptoms": [
         "Hook_Like_Root_Swelling",
-        "Yellowing_Leaves",
-        "Stunted_Growth"
+        "Infected_Seedlings"
       ],
       "outputs": {
-        "RiceKG strict": [
-          [
-            "Rice_Root_Nematode",
-            "suspected"
-          ]
-        ],
-        "RiceKG + possible": [
-          [
-            "Rice_Root_Nematode",
-            "suspected"
-          ]
-        ],
-        "Flat single-tier rules": [
-          [
-            "Rice_Root_Nematode",
-            "committed"
-          ]
-        ],
-        "Nearest prototype": [
-          [
-            "Rice_Root_Nematode",
-            "committed"
-          ],
-          [
-            "Rice_Tungro_Virus",
-            "committed"
-          ]
-        ]
+        "RiceKG strict": [],
+        "RiceKG + possible": [],
+        "Flat single-tier rules": [],
+        "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "correct",
-        "RiceKG + possible": "correct",
-        "Flat single-tier rules": "correct",
-        "Nearest prototype": "correct"
+        "RiceKG strict": "abstain",
+        "RiceKG + possible": "abstain",
+        "Flat single-tier rules": "abstain",
+        "Nearest prototype": "abstain"
       }
     },
     {
@@ -1993,7 +1975,9 @@
       "case_id": "FIELD_08",
       "split": "dev",
       "truth": [],
-      "symptoms": [],
+      "symptoms": [
+        "Infected_Seedlings"
+      ],
       "outputs": {
         "RiceKG strict": [],
         "RiceKG + possible": [],
@@ -2054,17 +2038,27 @@
       "split": "dev",
       "truth": [],
       "symptoms": [
-        "Yellowing_Leaves"
+        "Chlorotic_Streaks"
       ],
       "outputs": {
-        "RiceKG strict": [],
-        "RiceKG + possible": [],
+        "RiceKG strict": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
+        "RiceKG + possible": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
         "Flat single-tier rules": [],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "silent_abstention",
+        "RiceKG strict": "explicit_rejection",
+        "RiceKG + possible": "explicit_rejection",
         "Flat single-tier rules": "silent_abstention",
         "Nearest prototype": "silent_abstention"
       }
@@ -2148,43 +2142,28 @@
       ],
       "symptoms": [
         "Hook_Like_Root_Swelling",
-        "Yellowing_Leaves",
-        "Stunted_Growth"
+        "Yellowing_Leaves"
       ],
       "outputs": {
-        "RiceKG strict": [
-          [
-            "Rice_Root_Nematode",
-            "suspected"
-          ]
-        ],
+        "RiceKG strict": [],
         "RiceKG + possible": [
           [
             "Rice_Root_Nematode",
-            "suspected"
+            "possible"
           ]
         ],
-        "Flat single-tier rules": [
-          [
-            "Rice_Root_Nematode",
-            "committed"
-          ]
-        ],
+        "Flat single-tier rules": [],
         "Nearest prototype": [
           [
             "Rice_Root_Nematode",
-            "committed"
-          ],
-          [
-            "Rice_Tungro_Virus",
             "committed"
           ]
         ]
       },
       "outcome": {
-        "RiceKG strict": "correct",
-        "RiceKG + possible": "correct",
-        "Flat single-tier rules": "correct",
+        "RiceKG strict": "abstain",
+        "RiceKG + possible": "possible_hit",
+        "Flat single-tier rules": "abstain",
         "Nearest prototype": "correct"
       }
     },
@@ -2195,7 +2174,7 @@
         "Bacterial_Leaf_Blight"
       ],
       "symptoms": [
-        "Yellowing_Leaves",
+        "Leaf_Discoloration_Yellow",
         "Yellowing_Leaf_Tips",
         "Water_Soaked_Lesions"
       ],
@@ -2237,9 +2216,30 @@
       "split": "eval",
       "truth": [],
       "symptoms": [
-        "Necrotic_Spots",
-        "Empty_Grains",
-        "Grain_Discoloration"
+        "Rotten_Panicles"
+      ],
+      "outputs": {
+        "RiceKG strict": [],
+        "RiceKG + possible": [],
+        "Flat single-tier rules": [],
+        "Nearest prototype": []
+      },
+      "outcome": {
+        "RiceKG strict": "silent_abstention",
+        "RiceKG + possible": "silent_abstention",
+        "Flat single-tier rules": "silent_abstention",
+        "Nearest prototype": "silent_abstention"
+      }
+    },
+    {
+      "case_id": "FIELD_16",
+      "split": "eval",
+      "truth": [],
+      "symptoms": [
+        "Yellowing_Leaves",
+        "Water_Soaked_Lesions",
+        "Leaf_Desiccation",
+        "Leaf_Wilting"
       ],
       "outputs": {
         "RiceKG strict": [
@@ -2265,29 +2265,10 @@
       }
     },
     {
-      "case_id": "FIELD_16",
-      "split": "eval",
-      "truth": [],
-      "symptoms": [],
-      "outputs": {
-        "RiceKG strict": [],
-        "RiceKG + possible": [],
-        "Flat single-tier rules": [],
-        "Nearest prototype": []
-      },
-      "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "silent_abstention",
-        "Flat single-tier rules": "silent_abstention",
-        "Nearest prototype": "silent_abstention"
-      }
-    },
-    {
       "case_id": "FIELD_17",
       "split": "eval",
       "truth": [],
       "symptoms": [
-        "Yellowing_Leaves",
         "Stunted_Growth",
         "Leaf_Mottling"
       ],
@@ -2295,31 +2276,18 @@
         "RiceKG strict": [],
         "RiceKG + possible": [
           [
-            "Rice_Root_Nematode",
-            "possible"
-          ],
-          [
             "Rice_Tungro_Virus",
             "possible"
           ]
         ],
         "Flat single-tier rules": [],
-        "Nearest prototype": [
-          [
-            "Rice_Root_Nematode",
-            "committed"
-          ],
-          [
-            "Rice_Tungro_Virus",
-            "committed"
-          ]
-        ]
+        "Nearest prototype": []
       },
       "outcome": {
         "RiceKG strict": "silent_abstention",
         "RiceKG + possible": "possible_alarm",
         "Flat single-tier rules": "silent_abstention",
-        "Nearest prototype": "false_alarm"
+        "Nearest prototype": "silent_abstention"
       }
     },
     {
@@ -2358,22 +2326,29 @@
       "split": "eval",
       "truth": [],
       "symptoms": [
-        "Stunted_Growth"
+        "Stunted_Growth",
+        "Yellowing_Leaf_Tips",
+        "Whitened_Leaf_Tips"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
         "RiceKG + possible": [
           [
-            "Rice_Tungro_Virus",
-            "possible"
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
           ]
         ],
         "Flat single-tier rules": [],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "possible_alarm",
+        "RiceKG strict": "explicit_rejection",
+        "RiceKG + possible": "explicit_rejection",
         "Flat single-tier rules": "silent_abstention",
         "Nearest prototype": "silent_abstention"
       }
@@ -2384,23 +2359,28 @@
       "truth": [],
       "symptoms": [
         "Water_Soaked_Lesions",
-        "Interveinal_Chlorosis",
-        "Bacterial_Ooze"
+        "Bacterial_Ooze",
+        "Brown_Streaks"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
         "RiceKG + possible": [
           [
-            "Bacterial_Leaf_Blight",
-            "possible"
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
           ]
         ],
         "Flat single-tier rules": [],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "possible_alarm",
+        "RiceKG strict": "explicit_rejection",
+        "RiceKG + possible": "explicit_rejection",
         "Flat single-tier rules": "silent_abstention",
         "Nearest prototype": "silent_abstention"
       }
@@ -2411,23 +2391,28 @@
       "truth": [],
       "symptoms": [
         "Water_Soaked_Lesions",
-        "Interveinal_Chlorosis",
-        "Bacterial_Ooze"
+        "Bacterial_Ooze",
+        "Brown_Streaks"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
         "RiceKG + possible": [
           [
-            "Bacterial_Leaf_Blight",
-            "possible"
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
           ]
         ],
         "Flat single-tier rules": [],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "possible_alarm",
+        "RiceKG strict": "explicit_rejection",
+        "RiceKG + possible": "explicit_rejection",
         "Flat single-tier rules": "silent_abstention",
         "Nearest prototype": "silent_abstention"
       }
@@ -2437,7 +2422,6 @@
       "split": "eval",
       "truth": [],
       "symptoms": [
-        "Empty_Grains",
         "Grain_Discoloration"
       ],
       "outputs": {
@@ -2498,16 +2482,30 @@
       "case_id": "FIELD_25",
       "split": "eval",
       "truth": [],
-      "symptoms": [],
+      "symptoms": [
+        "Infected_Seedlings",
+        "Leaf_Wilting",
+        "Discolored_Roots"
+      ],
       "outputs": {
-        "RiceKG strict": [],
-        "RiceKG + possible": [],
+        "RiceKG strict": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
+        "RiceKG + possible": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
         "Flat single-tier rules": [],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "silent_abstention",
+        "RiceKG strict": "explicit_rejection",
+        "RiceKG + possible": "explicit_rejection",
         "Flat single-tier rules": "silent_abstention",
         "Nearest prototype": "silent_abstention"
       }
@@ -2518,26 +2516,28 @@
       "truth": [],
       "symptoms": [
         "Necrotic_Spots",
-        "Water_Soaked_Lesions"
+        "Water_Soaked_Lesions",
+        "Stem_Rot_Lesions"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
         "RiceKG + possible": [
           [
-            "Rice_Blast",
-            "possible"
-          ],
-          [
-            "Bacterial_Leaf_Blight",
-            "possible"
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
           ]
         ],
         "Flat single-tier rules": [],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "possible_alarm",
+        "RiceKG strict": "explicit_rejection",
+        "RiceKG + possible": "explicit_rejection",
         "Flat single-tier rules": "silent_abstention",
         "Nearest prototype": "silent_abstention"
       }
@@ -2594,23 +2594,28 @@
       "truth": [],
       "symptoms": [
         "Water_Soaked_Lesions",
-        "Interveinal_Chlorosis",
-        "Bacterial_Ooze"
+        "Bacterial_Ooze",
+        "Chlorotic_Streaks"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
         "RiceKG + possible": [
           [
-            "Bacterial_Leaf_Blight",
-            "possible"
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
           ]
         ],
         "Flat single-tier rules": [],
         "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "possible_alarm",
+        "RiceKG strict": "explicit_rejection",
+        "RiceKG + possible": "explicit_rejection",
         "Flat single-tier rules": "silent_abstention",
         "Nearest prototype": "silent_abstention"
       }
@@ -2641,7 +2646,40 @@
       "split": "eval",
       "truth": [],
       "symptoms": [
-        "Water_Soaked_Lesions"
+        "Infected_Seedlings",
+        "Water_Soaked_Lesions",
+        "Leaf_Sheath_Lesions",
+        "Brown_Streaks"
+      ],
+      "outputs": {
+        "RiceKG strict": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
+        "RiceKG + possible": [
+          [
+            "signs recorded, not consistent with any disease in scope",
+            "out_of_scope"
+          ]
+        ],
+        "Flat single-tier rules": [],
+        "Nearest prototype": []
+      },
+      "outcome": {
+        "RiceKG strict": "explicit_rejection",
+        "RiceKG + possible": "explicit_rejection",
+        "Flat single-tier rules": "silent_abstention",
+        "Nearest prototype": "silent_abstention"
+      }
+    },
+    {
+      "case_id": "FIELD_32",
+      "split": "eval",
+      "truth": [],
+      "symptoms": [
+        "Yellowing_Leaf_Tips"
       ],
       "outputs": {
         "RiceKG strict": [],
@@ -2657,26 +2695,6 @@
       "outcome": {
         "RiceKG strict": "silent_abstention",
         "RiceKG + possible": "possible_alarm",
-        "Flat single-tier rules": "silent_abstention",
-        "Nearest prototype": "silent_abstention"
-      }
-    },
-    {
-      "case_id": "FIELD_32",
-      "split": "eval",
-      "truth": [],
-      "symptoms": [
-        "Yellowing_Leaves"
-      ],
-      "outputs": {
-        "RiceKG strict": [],
-        "RiceKG + possible": [],
-        "Flat single-tier rules": [],
-        "Nearest prototype": []
-      },
-      "outcome": {
-        "RiceKG strict": "silent_abstention",
-        "RiceKG + possible": "silent_abstention",
         "Flat single-tier rules": "silent_abstention",
         "Nearest prototype": "silent_abstention"
       }
@@ -2736,7 +2754,7 @@
         "Bacterial_Leaf_Blight"
       ],
       "symptoms": [
-        "Yellowing_Leaves",
+        "Leaf_Discoloration_Yellow",
         "Yellowing_Leaf_Tips",
         "Water_Soaked_Lesions"
       ],
@@ -2780,18 +2798,12 @@
         "Rice_Tungro_Virus"
       ],
       "symptoms": [
-        "Plant_Yellowing",
-        "Yellowing_Leaves",
         "Severe_Stunting",
-        "Stunted_Growth"
+        "Orange_Leaf_Discoloration"
       ],
       "outputs": {
         "RiceKG strict": [],
         "RiceKG + possible": [
-          [
-            "Rice_Root_Nematode",
-            "possible"
-          ],
           [
             "Rice_Tungro_Virus",
             "possible"
@@ -2802,22 +2814,13 @@
           ]
         ],
         "Flat single-tier rules": [],
-        "Nearest prototype": [
-          [
-            "Rice_Root_Nematode",
-            "committed"
-          ],
-          [
-            "Rice_Tungro_Virus",
-            "committed"
-          ]
-        ]
+        "Nearest prototype": []
       },
       "outcome": {
         "RiceKG strict": "abstain",
         "RiceKG + possible": "possible_hit",
         "Flat single-tier rules": "abstain",
-        "Nearest prototype": "correct"
+        "Nearest prototype": "abstain"
       }
     },
     {
@@ -2829,21 +2832,28 @@
       "symptoms": [
         "Yellowing_Leaves",
         "Stunted_Growth",
-        "Green_Leafhopper_Present"
+        "Green_Leafhopper_Present",
+        "Orange_Leaf_Discoloration"
       ],
       "outputs": {
-        "RiceKG strict": [],
-        "RiceKG + possible": [
-          [
-            "Rice_Root_Nematode",
-            "possible"
-          ],
+        "RiceKG strict": [
           [
             "Rice_Tungro_Virus",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "RiceKG + possible": [
+          [
+            "Rice_Tungro_Virus",
+            "suspected"
+          ]
+        ],
+        "Flat single-tier rules": [
+          [
+            "Rice_Tungro_Virus",
+            "committed"
+          ]
+        ],
         "Nearest prototype": [
           [
             "Rice_Root_Nematode",
@@ -2856,9 +2866,9 @@
         ]
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "correct"
       }
     },
@@ -2869,47 +2879,40 @@
         "Rice_Grassy_Stunt"
       ],
       "symptoms": [
-        "Severe_Stunting",
-        "Stunted_Growth",
         "Yellowing_Leaves",
-        "Brown_Planthopper_Present"
+        "Severe_Stunting",
+        "Excessive_Tillering"
       ],
       "outputs": {
-        "RiceKG strict": [],
-        "RiceKG + possible": [
-          [
-            "Rice_Root_Nematode",
-            "possible"
-          ],
-          [
-            "Rice_Tungro_Virus",
-            "possible"
-          ],
+        "RiceKG strict": [
           [
             "Rice_Grassy_Stunt",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
+        "RiceKG + possible": [
+          [
+            "Rice_Grassy_Stunt",
+            "suspected"
+          ]
+        ],
+        "Flat single-tier rules": [
+          [
+            "Rice_Grassy_Stunt",
+            "committed"
+          ]
+        ],
         "Nearest prototype": [
           [
             "Rice_Grassy_Stunt",
-            "committed"
-          ],
-          [
-            "Rice_Root_Nematode",
-            "committed"
-          ],
-          [
-            "Rice_Tungro_Virus",
             "committed"
           ]
         ]
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
         "Nearest prototype": "correct"
       }
     },
@@ -2920,9 +2923,9 @@
         "Bacterial_Leaf_Blight"
       ],
       "symptoms": [
-        "Water_Soaked_Lesions",
-        "Yellowing_Leaves",
-        "Yellowing_Leaf_Tips"
+        "Leaf_Discoloration_Yellow",
+        "Yellowing_Leaf_Tips",
+        "Water_Soaked_Lesions"
       ],
       "outputs": {
         "RiceKG strict": [
@@ -2964,8 +2967,8 @@
         "Rice_Root_Nematode"
       ],
       "symptoms": [
-        "Yellowing_Leaves",
-        "Hook_Like_Root_Swelling"
+        "Hook_Like_Root_Swelling",
+        "Yellowing_Leaves"
       ],
       "outputs": {
         "RiceKG strict": [],
@@ -2997,25 +3000,41 @@
         "False_Smut"
       ],
       "symptoms": [
+        "Empty_Grains",
         "Rusty_Grain_Balls",
-        "Empty_Grains"
+        "Blackened_Grain_Balls"
       ],
       "outputs": {
-        "RiceKG strict": [],
+        "RiceKG strict": [
+          [
+            "False_Smut",
+            "suspected"
+          ]
+        ],
         "RiceKG + possible": [
           [
             "False_Smut",
-            "possible"
+            "suspected"
           ]
         ],
-        "Flat single-tier rules": [],
-        "Nearest prototype": []
+        "Flat single-tier rules": [
+          [
+            "False_Smut",
+            "committed"
+          ]
+        ],
+        "Nearest prototype": [
+          [
+            "False_Smut",
+            "committed"
+          ]
+        ]
       },
       "outcome": {
-        "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
-        "Flat single-tier rules": "abstain",
-        "Nearest prototype": "abstain"
+        "RiceKG strict": "correct",
+        "RiceKG + possible": "correct",
+        "Flat single-tier rules": "correct",
+        "Nearest prototype": "correct"
       }
     },
     {
@@ -3068,8 +3087,8 @@
         "Rice_Grassy_Stunt"
       ],
       "symptoms": [
-        "Stunted_Growth",
-        "Yellowing_Leaves"
+        "Yellowing_Leaves",
+        "Stunted_Growth"
       ],
       "outputs": {
         "RiceKG strict": [],
@@ -3131,40 +3150,24 @@
         "Rice_Blast"
       ],
       "symptoms": [
-        "Diamond_Shaped_Lesions",
-        "Necrotic_Spots"
+        "Diamond_Shaped_Lesions"
       ],
       "outputs": {
-        "RiceKG strict": [
-          [
-            "Rice_Blast",
-            "suspected"
-          ]
-        ],
+        "RiceKG strict": [],
         "RiceKG + possible": [
           [
             "Rice_Blast",
-            "suspected"
+            "possible"
           ]
         ],
-        "Flat single-tier rules": [
-          [
-            "Rice_Blast",
-            "committed"
-          ]
-        ],
-        "Nearest prototype": [
-          [
-            "Rice_Blast",
-            "committed"
-          ]
-        ]
+        "Flat single-tier rules": [],
+        "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "correct",
-        "RiceKG + possible": "correct",
-        "Flat single-tier rules": "correct",
-        "Nearest prototype": "correct"
+        "RiceKG strict": "abstain",
+        "RiceKG + possible": "possible_hit",
+        "Flat single-tier rules": "abstain",
+        "Nearest prototype": "abstain"
       }
     },
     {
@@ -3363,19 +3366,15 @@
         "Rice_Tungro_Virus"
       ],
       "symptoms": [
-        "Stunted_Growth",
+        "Necrotic_Spots",
         "Yellowing_Leaves",
-        "Necrotic_Spots"
+        "Severe_Stunting"
       ],
       "outputs": {
         "RiceKG strict": [],
         "RiceKG + possible": [
           [
-            "Rice_Root_Nematode",
-            "possible"
-          ],
-          [
-            "Rice_Tungro_Virus",
+            "Rice_Grassy_Stunt",
             "possible"
           ],
           [
@@ -3385,6 +3384,10 @@
         ],
         "Flat single-tier rules": [],
         "Nearest prototype": [
+          [
+            "Rice_Grassy_Stunt",
+            "committed"
+          ],
           [
             "Rice_Root_Nematode",
             "committed"
@@ -3397,7 +3400,7 @@
       },
       "outcome": {
         "RiceKG strict": "abstain",
-        "RiceKG + possible": "possible_hit",
+        "RiceKG + possible": "possible_miss",
         "Flat single-tier rules": "abstain",
         "Nearest prototype": "correct"
       }
@@ -3436,8 +3439,8 @@
         "Rice_Tungro_Virus"
       ],
       "symptoms": [
-        "Orange_Leaf_Discoloration",
-        "Yellowing_Leaves"
+        "Yellowing_Leaves",
+        "Orange_Leaf_Discoloration"
       ],
       "outputs": {
         "RiceKG strict": [],
@@ -3469,40 +3472,24 @@
         "Rice_Blast"
       ],
       "symptoms": [
-        "Diamond_Shaped_Lesions",
-        "Necrotic_Spots"
+        "Diamond_Shaped_Lesions"
       ],
       "outputs": {
-        "RiceKG strict": [
-          [
-            "Rice_Blast",
-            "suspected"
-          ]
-        ],
+        "RiceKG strict": [],
         "RiceKG + possible": [
           [
             "Rice_Blast",
-            "suspected"
+            "possible"
           ]
         ],
-        "Flat single-tier rules": [
-          [
-            "Rice_Blast",
-            "committed"
-          ]
-        ],
-        "Nearest prototype": [
-          [
-            "Rice_Blast",
-            "committed"
-          ]
-        ]
+        "Flat single-tier rules": [],
+        "Nearest prototype": []
       },
       "outcome": {
-        "RiceKG strict": "correct",
-        "RiceKG + possible": "correct",
-        "Flat single-tier rules": "correct",
-        "Nearest prototype": "correct"
+        "RiceKG strict": "abstain",
+        "RiceKG + possible": "possible_hit",
+        "Flat single-tier rules": "abstain",
+        "Nearest prototype": "abstain"
       }
     },
     {
@@ -3512,9 +3499,9 @@
         "Rice_Root_Nematode"
       ],
       "symptoms": [
+        "Root_Knot_Swelling",
         "Yellowing_Leaves",
-        "Stunted_Growth",
-        "Root_Knot_Swelling"
+        "Stunted_Growth"
       ],
       "outputs": {
         "RiceKG strict": [],

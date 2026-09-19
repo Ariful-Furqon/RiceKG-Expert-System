@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T00:33:41.806100+00:00",
+  "generated_at": "2026-09-19T00:50:26.910747+00:00",
   "diagnosis": {
     "raters": [
       "R1",
@@ -11,15 +11,15 @@
       "R1-R2": 0.885
     },
     "system_rater_kappa": {
-      "R1": 0.289,
-      "R2": 0.291
+      "R1": 0.319,
+      "R2": 0.392
     },
     "mean_rater_rater_kappa": 0.885,
-    "mean_system_rater_kappa": 0.29,
-    "system_minus_rater_kappa": -0.595,
+    "mean_system_rater_kappa": 0.356,
+    "system_minus_rater_kappa": -0.529,
     "system_minus_rater_kappa_ci95": [
-      -0.741,
-      -0.442
+      -0.685,
+      -0.36
     ],
     "system_within_rater_range": null,
     "vs_published_label": {
@@ -55,7 +55,7 @@
       },
       "RiceKG strict": {
         "all": {
-          "k": 17,
+          "k": 25,
           "n": 56
         },
         "positive_cases": {
@@ -86,13 +86,13 @@
         "Rice_Grassy_Stunt": 1
       },
       "RiceKG strict": {
-        "Undetermined": 37,
-        "Other": 7,
-        "Rice_Root_Nematode": 3,
-        "False_Smut": 3,
-        "Bacterial_Leaf_Blight": 3,
-        "Rice_Tungro_Virus": 1,
-        "Rice_Blast": 2
+        "Undetermined": 30,
+        "Bacterial_Leaf_Blight": 4,
+        "False_Smut": 4,
+        "Other": 14,
+        "Rice_Root_Nematode": 1,
+        "Rice_Tungro_Virus": 2,
+        "Rice_Grassy_Stunt": 1
       }
     }
   },
@@ -409,68 +409,71 @@
     },
     "by_ricekg_outcome": {
       "abstain": {
-        "n": 34,
+        "n": 36,
         "accept": {
-          "no": 3,
-          "yes": 5,
-          "partly": 26
+          "no": 5,
+          "yes": 13,
+          "partly": 18
         },
         "reasoning": {
-          "mean": 2.47,
-          "median": 2.0,
-          "n": 34
+          "mean": 2.69,
+          "median": 3.0,
+          "n": 36
         },
         "completeness": {
-          "mean": 2.5,
-          "median": 2.5,
-          "n": 34
+          "mean": 2.83,
+          "median": 3.0,
+          "n": 36
         },
         "usefulness": {
-          "mean": 2.44,
-          "median": 2.5,
-          "n": 34
+          "mean": 2.69,
+          "median": 3.0,
+          "n": 36
         }
       },
       "correct": {
         "n": 22,
         "accept": {
-          "yes": 22
+          "yes": 14,
+          "partly": 8
         },
         "reasoning": {
-          "mean": 3.95,
+          "mean": 3.45,
           "median": 4.0,
           "n": 22
         },
         "completeness": {
-          "mean": 3.64,
-          "median": 4.0,
+          "mean": 3.05,
+          "median": 3.0,
           "n": 22
         },
         "usefulness": {
-          "mean": 3.91,
+          "mean": 3.36,
           "median": 4.0,
           "n": 22
         }
       },
       "explicit_rejection": {
-        "n": 12,
+        "n": 28,
         "accept": {
-          "yes": 12
+          "yes": 12,
+          "no": 5,
+          "partly": 11
         },
         "reasoning": {
-          "mean": 3.92,
-          "median": 4.0,
-          "n": 12
+          "mean": 2.89,
+          "median": 3.0,
+          "n": 28
         },
         "completeness": {
-          "mean": 3,
-          "median": 3.0,
-          "n": 12
+          "mean": 2.29,
+          "median": 2.0,
+          "n": 28
         },
         "usefulness": {
-          "mean": 3.08,
+          "mean": 2.39,
           "median": 3.0,
-          "n": 12
+          "n": 28
         }
       },
       "misfire": {
@@ -494,48 +497,27 @@
           "n": 2
         }
       },
-      "rejected": {
-        "n": 2,
-        "accept": {
-          "no": 2
-        },
-        "reasoning": {
-          "mean": 1,
-          "median": 1.0,
-          "n": 2
-        },
-        "completeness": {
-          "mean": 2,
-          "median": 2.0,
-          "n": 2
-        },
-        "usefulness": {
-          "mean": 1,
-          "median": 1.0,
-          "n": 2
-        }
-      },
       "silent_abstention": {
-        "n": 40,
+        "n": 24,
         "accept": {
-          "partly": 20,
-          "no": 13,
+          "partly": 9,
+          "no": 8,
           "yes": 7
         },
         "reasoning": {
-          "mean": 2.55,
-          "median": 2.5,
-          "n": 40
+          "mean": 2.83,
+          "median": 3.0,
+          "n": 24
         },
         "completeness": {
-          "mean": 2.08,
+          "mean": 2.29,
           "median": 2.0,
-          "n": 40
+          "n": 24
         },
         "usefulness": {
-          "mean": 1.98,
+          "mean": 2.04,
           "median": 2.0,
-          "n": 40
+          "n": 24
         }
       }
     }

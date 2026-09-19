@@ -138,6 +138,22 @@ normalization.
 
 ---
 
+### Expert-Consensus Symptom Encoding (`symptom_encoding_consensus.csv`)
+
+The `symptom_1`–`symptom_6` columns of `benchmark_field.csv` hold the authors' original encoding
+and are left untouched: the holdout rows are protected by a SHA-256 lock
+(`tests/test_holdout_split_isolation.py`). Two independent agronomists re-encoded every case from
+the redacted text ([`docs/ANNOTATION_PROTOCOL.md`](../docs/ANNOTATION_PROTOCOL.md)); the terms
+both chose are stored in `symptom_encoding_consensus.csv`, written by
+`annotation/import_returns.py`.
+
+`ricekg.evaluate.load_data` uses the consensus encoding by default (`encoding="consensus"`) and the
+authors' encoding with `encoding="author"`; every field-benchmark result in `results/` uses the
+consensus. The authors' encoding agreed with the consensus in only 28 of 56 cases: it added
+weakly discriminating terms the text does not state (`Yellowing_Leaves` 9 cases, `Stunted_Growth`
+5, `Necrotic_Spots` 4) and missed specific signs the raters recorded (for example
+`Orange_Leaf_Discoloration`, `Excessive_Tillering`, `Panicle_Neck_Rot`).
+
 ## 3. Usage in Evaluation Pipeline
 
 The evaluation script (`ricekg/evaluate.py`) supports separate dataset evaluation via `--dataset`:

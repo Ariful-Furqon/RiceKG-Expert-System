@@ -13,6 +13,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_VERIFICATION_CSV = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 DEFAULT_VERIFICATION_CSV = DEFAULT_VERIFICATION_CSV  # alias for backwards compatibility
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
+# Expert-consensus symptom encoding of the field benchmark (two agronomists, see
+# docs/ANNOTATION_PROTOCOL.md). benchmark_field.csv keeps the authors' original encoding
+# untouched, because its holdout rows are hash-locked.
+CONSENSUS_ENCODING_CSV = os.path.join(BASE_DIR, "data", "symptom_encoding_consensus.csv")
+
+
+def load_symptom_encoding(path=CONSENSUS_ENCODING_CSV):
+    """case_id -> list of observation terms; empty if the file does not exist."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8", newline="") as f:
+        return {r["case_id"]: [r[f"symptom_{i}"] for i in range(1, 7) if r[f"symptom_{i}"]]
+                for r in csv.DictReader(f)}
 
 ALL_DIAGNOSES = [
     "Rice_Root_Nematode",
@@ -28,13 +41,18 @@ PEST_CLASSES = {
 }
 
 
-def load_data(csv_path, split=None, tier=None):
+def load_data(csv_path, split=None, tier=None, encoding="consensus"):
     """
     Loads diagnostic benchmark dataset.
     Supports verification_suite.csv and benchmark_field.csv.
     Optional split parameter filters by dataset split (e.g. 'dev', 'eval', 'holdout', or ('dev', 'eval')).
     Optional tier parameter filters by evidence tier (e.g. 'A', 'B', 'C', or {'A', 'B'}).
+    encoding: 'consensus' (default) replaces a field case's symptoms with the expert-consensus
+    encoding where one exists; 'author' keeps the symptom columns of the CSV.
     """
+    if encoding not in ("consensus", "author"):
+        raise ValueError(f"encoding must be 'consensus' or 'author', not {encoding!r}")
+    overlay = load_symptom_encoding() if encoding == "consensus" else {}
     if not os.path.exists(csv_path):
         raise FileNotFoundError(f"Dataset file not found: {csv_path}")
 
@@ -123,6 +141,9 @@ def load_data(csv_path, split=None, tier=None):
                 elif tier != "all" and evidence_tier != tier:
                     continue
 
+            if case_id in overlay:
+                symptoms = overlay[case_id]
+
             dataset.append({
                 "id": len(dataset) + 1,
                 "case_id": case_id,
@@ -135,6 +156,7 @@ def load_data(csv_path, split=None, tier=None):
                 "source_url": source_url,
                 "archive_url": archive_url,
                 "symptoms": symptoms,
+                "encoding": "consensus" if case_id in overlay else "author",
                 "expected": targets,
                 "raw_target": raw_target,
                 "provenance": prov,

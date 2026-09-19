@@ -92,29 +92,44 @@ redacted, and independently:
 The criterion for A2 is whether system–expert agreement falls within the range of
 expert–expert agreement, not whether it matches the published label.
 
-## Current findings (RiceKG strict, `eval` / `dev`+`eval`)
+## Current findings
 
-- Committed recall **2/5** / **6/12**, with no misfire and no false alarm on 17 / 26 controls.
-  Every committed diagnosis is correct (2/2, 6/6).
+Field cases are encoded by the consensus of two independent agronomists
+([`data/symptom_encoding_consensus.csv`](../data/symptom_encoding_consensus.csv)).
+
+RiceKG strict, `eval` / `dev`+`eval` ([`results/graded_evaluation.md`](../results/graded_evaluation.md)):
+
+- Committed recall **4/5** / **7/12**, with no misfire and no false alarm on 17 / 26 controls.
+  Every committed diagnosis is correct (4/4, 7/7). On the development-exposed `holdout`: 4/18, one misfire.
 - **No field case reaches `confirmed`.** Every correct diagnosis comes from a Tier-2 rule, so the
   Tier-1 rules are untested on field evidence.
-- The `possible` grade raises recall to 5/5 / 11/12 but fires on 8/17 / 10/26 controls, and only
-  5 of its 23 `dev`+`eval` candidates are correct. It is a screening aid, not a diagnosis.
-- `Necrotic_Spots` is a Tier-1 antecedent of four threats, three of them without a cited source,
-  and 10 vocabulary terms are used by no rule or gate — including `Bacterial_Ooze`, a recognized
-  sign of bacterial leaf blight.
+- The `possible` grade raises recall to 5/5 / 10/12 and fires on 3/17 / 5/26 controls; 3 of its
+  10 `dev`+`eval` candidates are correct. It is a screening aid, not a diagnosis.
+- The nearest-prototype matcher finds as many diseases on `eval` (4/5) with lower precision (4/6);
+  no paired difference is significant.
+
+Encoding matters more than any rule revision so far. Under the authors' encoding RiceKG committed
+to 2/5 and 6/12. The consensus gained four cases whose specific signs the authors had missed
+(`Orange_Leaf_Discoloration`, `Excessive_Tillering`, the spore balls) and lost four that had
+relied on terms the text does not state (`Stunted_Growth`/`Yellowing_Leaves` for the root-knot
+nematode, `Necrotic_Spots` for blast). Blast is now missed whenever only diamond-shaped lesions
+are reported, because its Tier-2 rule also requires `Necrotic_Spots`: a rule-design gap, to be
+addressed before the rule base is frozen for a fresh held-out partition.
+
+Knowledge-base verification ([`results/kb_verification.md`](../results/kb_verification.md)):
+`Necrotic_Spots` is a Tier-1 antecedent of four threats, three without a cited source, and 10
+vocabulary terms are used by no rule or gate, including `Bacterial_Ooze`.
 
 Expert-based validation (two agronomists, all 56 cases; [`results/expert_validation.md`](../results/expert_validation.md)):
 
-- The raters agree with each other at Cohen's κ = 0.885; RiceKG agrees with them at κ ≈ 0.29
-  (difference −0.595, 95% CI −0.741 to −0.442). From the same redacted text the raters name the
+- The raters agree with each other at Cohen's κ = 0.885; RiceKG agrees with them at κ ≈ 0.36
+  (difference −0.529, 95% CI −0.685 to −0.360). From the same redacted text the raters name the
   published disease in 26/30 and 25/30 positive cases; RiceKG in 11/30.
-- The raters' symptom encodings agree closely (mean Jaccard 0.929), but the authors' benchmark
-  encoding matches the rater consensus in only 28/56 cases (mean Jaccard 0.685). The authors
-  added terms the text does not support mostly among the shared, weakly discriminating
-  antecedents (`Yellowing_Leaves` 9 cases, `Stunted_Growth` 5, `Necrotic_Spots` 4).
+- The raters' symptom encodings agree closely (mean Jaccard 0.929); the authors' encoding matches
+  their consensus in 28/56 cases.
 - Every correct RiceKG diagnosis and every explicit out-of-scope rejection was judged acceptable
-  by both raters; silent abstentions were judged least useful (mean 1.98 of 5).
+  by both raters; silent abstentions were judged least useful, which prompted the abstention
+  explanation added in `model.explain_abstention`.
 
 With two raters there is no Fleiss' κ and no strict majority beyond agreement of both.
 

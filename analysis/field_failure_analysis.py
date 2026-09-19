@@ -23,7 +23,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ricekg import model  # noqa: E402
+from ricekg import model, evaluate  # noqa: E402
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FIELD_CSV = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
@@ -40,6 +40,13 @@ def load_cases(split="benchmark"):
         cases = [c for c in cases if c.get("split", "dev") in ("dev", "eval")]
     elif split and split != "all":
         cases = [c for c in cases if c.get("split", "dev") == split]
+    # Same default encoding as evaluate.load_data: expert consensus where it exists.
+    overlay = evaluate.load_symptom_encoding()
+    for c in cases:
+        if c["case_id"] in overlay:
+            terms = overlay[c["case_id"]]
+            for i, col in enumerate(SYM_COLS):
+                c[col] = terms[i] if i < len(terms) else ""
     return cases
 
 

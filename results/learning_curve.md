@@ -1,6 +1,6 @@
 # Cold-Start Learning-Curve Evaluation: Sample Efficiency vs. Knowledge Base
 
-> **Generated**: 2026-09-18 14:33:03 UTC  
+> **Generated**: 2026-09-19 00:56:34 UTC  
 > **Target Venue**: *Inteligencia Artificial* (IBERAMIA)  
 > **Evaluation Protocol**: Fixed held-out test set (`data/benchmark_field.csv`, `eval` split, $n=22$: 5 positives, 17 negative controls). $R=200$ stratified resamples without replacement per budget; reported with dual uncertainty decomposition (training-subsample variance across draws and test-set sampling variance via non-parametric paired bootstrap over the test cases, $B=1,000$).
 
@@ -12,9 +12,7 @@ This experiment quantifies the sample efficiency of RiceKG's zero-shot symbolic 
 
 ### Headline Finding
 
-> **No supervised baseline exceeded the zero-shot knowledge base at any training budget available in this study under the test-set uncertainty criterion** (up to $N=73$ rule-derived cases in Pool A, and $N=16$ real field cases in Pool B).
->
-> While several supervised models achieve point means above the reference at larger budgets, **every paired difference 95% bootstrap confidence interval spans zero**. With only 5 positive test cases ($\Delta = 0.20$ quantisation step) and a wide confidence interval, supervised ML cannot be asserted as statistically superior to the zero-shot symbolic knowledge base on field data.
+> **No supervised baseline exceeded the zero-shot knowledge base at any training budget under the test-set uncertainty criterion** (up to $N=73$ rule-derived cases in Pool A and $N=16$ real field cases in Pool B). No model reaches RiceKG's 80.0% point recall at any budget; the best is Multinomial Naive Bayes with 44.5% at $N=40$ (Pool A). At the largest budgets, 5 of 10 model comparisons have a paired interval entirely below zero (RiceKG ahead). With only 5 positive test cases these intervals are wide.
 
 ---
 
@@ -24,13 +22,13 @@ Training cases drawn from `data/verification_suite.csv` ($n=73$, provenance `rul
 
 | Model | N=5 | N=10 | N=20 | N=40 | N=73 | Crossover Budget $N^*$ | First Non-Zero $N$ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Decision Tree** | 12.6% [7, 18] | 29.8% [15, 44] | 37.0% [17, 58] | 40.7% [16, 72] | 39.2% [9, 70] | None (≤ 73) | 5 |
-| **Random Forest** | 7.0% [2, 12] | 18.8% [4, 34] | 27.5% [5, 51] | 39.8% [9, 76] | 46.4% [11, 82] | None (≤ 73) | 5 |
-| **Multinomial Naive Bayes** | 15.9% [9, 23] | 28.5% [10, 47] | 40.3% [16, 65] | 46.7% [19, 81] | 20.0% [0, 60] | None (≤ 73) | 5 |
-| **k-NN** | 4.6% [2, 8] | 21.9% [6, 38] | 40.1% [12, 69] | 49.3% [19, 84] | 60.0% [20, 100] | None (≤ 73) | 5 |
-| **Logistic Regression (OvR)** | 8.0% [4, 12] | 22.1% [6, 38] | 28.5% [4, 56] | 36.8% [1, 73] | 40.0% [0, 80] | None (≤ 73) | 5 |
+| **Decision Tree** | 9.1% [4, 16] | 23.3% [9, 38] | 28.2% [7, 52] | 34.8% [8, 71] | 39.2% [9, 70] | None (≤ 73) | 5 |
+| **Random Forest** | 4.2% [1, 8] | 12.1% [1, 28] | 14.8% [1, 38] | 25.3% [2, 61] | 28.4% [2, 67] | None (≤ 73) | 5 |
+| **Multinomial Naive Bayes** | 13.3% [7, 22] | 26.3% [11, 46] | 36.7% [14, 60] | 44.5% [20, 71] | 40.0% [0, 80] | None (≤ 73) | 5 |
+| **k-NN** | 3.7% [2, 6] | 16.5% [6, 28] | 24.9% [4, 54] | 33.1% [3, 70] | 40.0% [0, 80] | None (≤ 73) | 5 |
+| **Logistic Regression (OvR)** | 6.2% [2, 10] | 14.6% [3, 29] | 16.1% [1, 44] | 18.4% [0, 55] | 20.0% [0, 60] | None (≤ 73) | 5 |
 
-*Zero-shot references on same eval set*: **RiceKG Full Proposed** = **31.67%** (5x2 CV) / **40.0%** runtime point recall [95% CI 0.0, 80.0]; **Nearest Prototype** = **15.00%**; **Flat Single-Tier** = **31.67%**.
+*Zero-shot references on same eval set*: **RiceKG Full Proposed** = **85.00%** (5x2 CV) / **80.0%** runtime point recall [95% CI 40.0, 100.0]; **Nearest Prototype** = **40.83%**; **Flat Single-Tier** = **85.00%**.
 
 ---
 
@@ -40,42 +38,36 @@ Training cases drawn from the independent field `dev` split of `data/benchmark_f
 
 | Model | N=2 | N=4 | N=8 | N=16 | Crossover Budget $N^*$ | First Non-Zero $N$ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Decision Tree** | 9.3% [0, 19] | 36.5% [0, 76] | 33.5% [0, 74] | 40.0% [0, 80] | None (≤ 16) | 2 |
-| **Random Forest** | 9.8% [0, 20] | 34.7% [0, 75] | 31.2% [0, 71] | 40.0% [0, 80] | None (≤ 16) | 2 |
-| **Multinomial Naive Bayes** | 9.9% [0, 20] | 25.4% [0, 60] | 8.2% [0, 18] | 20.0% [0, 60] | None (≤ 16) | 2 |
+| **Decision Tree** | 8.4% [0, 17] | 31.6% [0, 66] | 31.5% [0, 65] | 40.0% [0, 80] | None (≤ 16) | 2 |
+| **Random Forest** | 9.5% [0, 19] | 25.4% [0, 53] | 23.2% [0, 47] | 40.0% [0, 80] | None (≤ 16) | 2 |
+| **Multinomial Naive Bayes** | 9.3% [0, 19] | 30.2% [0, 70] | 13.1% [0, 28] | 20.0% [0, 60] | None (≤ 16) | 2 |
 | **k-NN** | 0.4% [0, 1] | 0.0% [0, 0] | 9.3% [0, 19] | 40.0% [0, 80] | None (≤ 16) | 2 |
-| **Logistic Regression (OvR)** | 8.8% [0, 19] | 35.6% [0, 76] | 19.0% [0, 47] | 20.0% [0, 60] | None (≤ 16) | 2 |
+| **Logistic Regression (OvR)** | 9.3% [0, 19] | 40.0% [0, 80] | 17.6% [0, 40] | 20.0% [0, 60] | None (≤ 16) | 2 |
 
 ---
 
 ## 4. Resolution of the Baseline Discrepancy
 
-A key question arises when comparing `results/baselines.md` Table 2 against `results/learning_curve.md` Pool B:
-
-> *Why did supervised classifiers score 0.00% (0/5) positive recall at 11 cases/fold in Table 2, but 33.1%–40.0% at N=8 and N=16 in Pool B?*
+> *Why do supervised classifiers reach 0.00% positive recall under the 5x2-fold protocol of `results/baselines.md`, but up to 40.0% in Pool B?*
 
 The discrepancy arises from **partition composition and training source**:
-1. **`results/baselines.md` Table 2 Protocol**: Evaluated 5x2-fold cross-validation solely **within the 22 cases of the `eval` split**. In each fold, the training set held about 11 cases from `eval`, of which about 77% were negative controls (`No_Diagnosis`) and only 2–3 were positive cases. Crucially, the 5 positive cases in `eval` span 4 distinct threat classes; a 2-fold split ensures that viral classes (`Rice_Tungro_Virus`, `Rice_Grassy_Stunt`) present in the test fold never appeared in the training fold. Faced with a 77% negative majority and unseen classes, the classifiers predicted all-zeros (`No_Diagnosis`), yielding 0.00% recall.
-2. **`results/learning_curve.md` Pool B Protocol**: Trained models on the **`dev` split ($n=16$)**, where 7 of 16 cases (43.8%) are in-scope positives, including multiple examples of `Bacterial_Leaf_Blight` and `Rice_Root_Nematode`. When evaluated on `eval`, the models correctly identified FIELD_34 (`Rice_Root_Nematode`) and FIELD_36 (`Bacterial_Leaf_Blight`), achieving 2/5 = 40.0% recall, while failing on the 3 viral cases that were absent from `dev`.
-3. **Uncertainty Resolution**: When evaluated under test-set bootstrap resampling (resampling the 5 positive test cases), the paired difference between ML (40.0%) and RiceKG (40.0%) is identically zero with a 95% CI spanning zero ($[-40.0, +20.0]$ for DT at N=4). Thus, the apparent crossover was an artifact of ignoring test-set sampling variance.
+1. **`results/baselines.md` Table 2 Protocol**: 5x2-fold cross-validation solely **within the 22 cases of the `eval` split**. Each training fold holds about 11 cases, about 77% of them negative controls and only 2–3 positive cases spread over several threat classes, so a class present in the test fold is often absent from the training fold.
+2. **`results/learning_curve.md` Pool B Protocol**: models are trained on the `dev` split ($n=16$, 7 positives) and tested on `eval`. At $N=16$ they reach 20.0–40.0% positive recall, against RiceKG's 80.0%.
+3. **Uncertainty**: at $N=16$ the paired test-set bootstrap differences (model − RiceKG, 95% CI) are Decision Tree -40.7 [-80.0, 0.0]; Random Forest -40.7 [-80.0, 0.0]; Multinomial Naive Bayes -60.6 [-100.0, -20.0]; k-NN -40.7 [-80.0, 0.0]; Logistic Regression (OvR) -60.6 [-100.0, -20.0].
 
 ---
 
-## 5. Methodological Analysis of Anomalies
+## 5. Methodological Notes
 
-### Non-Monotonic Drop of Multinomial Naive Bayes (Pool A: N=40 → N=80)
-In Pool A, Multinomial Naive Bayes drops from 43.8% positive recall at $N=40$ to 20.0% at $N=80$. This is caused by **negative evidence accumulation in One-vs-Rest feature likelihoods**:
-- At $N=40$, stratified draws sample predominantly positive cases from the 10 threat classes, maintaining relatively balanced class priors.
-- At $N=80$, the full verification pool is utilized, introducing all 20 negative control instances alongside counter-evidence from the 9 other classes. For any single threat $c$, negative instances outnumber positive instances by ~7:1.
-- With Laplace smoothing, the aggregated evidence for the negative class drives the posterior log-odds below the decision threshold for borderline field cases, causing MNB to default to `No_Diagnosis`.
+Multinomial Naive Bayes falls from 44.5% at $N=40$ to 40.0% at $N=73$ in Pool A; a change of this size lies well inside the test-set interval and is not interpreted.
 
 ### Dual Uncertainty Decomposition
-At the terminal budget ($N=80$ in Pool A, $N=16$ in Pool B), drawing without replacement from a finite pool of size $N$ yields a single unique subsample, causing the *training-subsample variance* across draws to collapse to 0.0. However, the *test-set sampling variance* (resampling over the 5 positive test cases) remains non-zero and wide ($[0.0, 80.0]$), faithfully reflecting empirical uncertainty.
+At the terminal budget ($N=73$ in Pool A, $N=16$ in Pool B), drawing without replacement from a finite pool of size $N$ yields a single unique subsample, so the *training-subsample variance* across draws collapses to 0.0. The *test-set sampling variance* (resampling over the 5 positive test cases) stays wide, e.g. [9.2, 70.0] for the Decision Tree in Pool A.
 
 ---
 
 ## 6. Granularity and Statistical Power Boundaries
 
-1. **Staircase Quantisation Step ($\Delta = 0.20$)**: Positive recall on the 5 in-scope test cases is strictly quantised to \{0.0, 0.2, 0.4, 0.6, 0.8, 1.0\}.
-2. **Minimum Detectable Effect ($\pm 29.5\%$)**: With $n=22$ and 5 positive cases, margins below 29.5% cannot be distinguished from random sampling noise.
+1. **Staircase Quantisation Step ($\Delta = 0.20$)**: Positive recall on the 5 in-scope test cases takes only multiples of 20%.
+2. **Minimum Detectable Effect ($\pm 30.2\%$)**: With $n=22$ and 5 positive cases, margins below 30.2% cannot be distinguished from random sampling noise (`results/baselines.json`).
 3. **Zero Data Leakage**: In all 200 draws across both pools, training and test case IDs and DOIs were verified to be strictly disjoint.

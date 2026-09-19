@@ -1,13 +1,17 @@
 # Scientific Positioning: Accuracy, Explainability, and What the Evidence Supports
 
 On the `eval` partition of the field benchmark ([`data/benchmark_field.csv`](../data/benchmark_field.csv),
-*n*=22, of which 5 are in-scope disease cases), RiceKG commits to the correct disease in **2/5** positive
-cases (exact 95% CI 5.3–85.3%), never names a wrong disease, and raises no false alarm on the
-17 negative controls ([`results/graded_evaluation.md`](../results/graded_evaluation.md)). Under the
-5×2-fold protocol used for the ML comparison the same outputs average to **31.67%** positive recall and a
-micro-F1 of **41.00** [95% CI 33.3, 75.7]. Its aggregate exact match of 86.36% is not a diagnostic
-result: 17 of the 22 cases are out-of-scope negative controls on which returning `No_Diagnosis` is
-correct. Across both partitions RiceKG resolves **6 of 12** positive cases. **Diagnostic efficacy on
+*n*=22, of which 5 are in-scope disease cases), with symptoms encoded by two independent
+agronomists, RiceKG commits to the correct disease in **4/5** positive cases (exact 95% CI
+28.4–99.5%), never names a wrong disease, and raises no false alarm on the 17 negative controls
+([`results/graded_evaluation.md`](../results/graded_evaluation.md)). Under the 5×2-fold protocol used for
+the ML comparison the same outputs average to **85.00%** positive recall and a micro-F1 of **91.14**
+[95% CI 77.4, 97.6]. Its aggregate exact match of 95.45% is not a diagnostic result: 17 of the 22
+cases are out-of-scope negative controls on which returning `No_Diagnosis` is correct. Across both
+partitions RiceKG resolves **7 of 12** positive cases. Given the same redacted text, the two
+agronomists name the published disease in 26/30 and 25/30 positive cases against RiceKG's 11/30, and
+agree with each other far more (κ = 0.885) than with RiceKG (κ ≈ 0.36)
+([`results/expert_validation.md`](../results/expert_validation.md)). **Diagnostic efficacy on
 authentic field cases is not established**, and the `eval` figures are themselves
 development-informed rather than strictly held out — see [`docs/LIMITATIONS.md`](LIMITATIONS.md)
 Section 2 — so they should be read as an optimistic bound.
@@ -22,9 +26,10 @@ progress.
 Against baselines on `eval`, supervised classifiers evaluated via 5×2-fold CV within `eval` remain far behind — the strongest reaches
 0.00% positive recall with only 11 training cases per fold and 2–3 positive instances to learn from (a protocol artifact of training-fold class sparsity and 77% negative imbalance, rather than model incompetence) — and RiceKG exceeds the
 ontology-free nearest-prototype matcher by 9.1 percentage points of exact match (Holm-adjusted
-$p = 0.0117$) and by 31.67% against 15.00% on positive recall. The prototype matcher nevertheless
-holds a higher micro-F1 (57.05 against 41.00), so a trivial symptom-count heuristic has
-not been cleanly beaten.
+$p = 0.0039$), by 85.00% against 40.83% on positive recall and by 91.14 against 74.83 on micro-F1.
+On the single-run evaluation, however, the prototype matcher finds as many diseases as RiceKG and
+loses only on precision, and no paired difference is significant, so a trivial symptom-count
+heuristic is not cleanly beaten either.
 
 
 The 60.00% exact match now recorded on [`data/verification_suite.csv`](../data/verification_suite.csv)
@@ -53,7 +58,7 @@ Both are limits of the available evidence rather than of the reasoner.
 
 ## Cold-Start Quantification and Sample Efficiency
 
-In the cold-start learning-curve experiment ([`results/learning_curve.md`](../results/learning_curve.md)), no supervised baseline exceeded the zero-shot knowledge base (31.67% positive-case recall under 5×2 CV; 40.0% pooled) at any training budget available in this study under the test-set uncertainty criterion (up to $N=73$ rule-derived cases in Pool A, and $N=16$ real field cases in Pool B). While several supervised classifiers achieve point recall above the reference at larger budgets, the paired difference 95% bootstrap confidence interval over the test set spans zero in every case. The independent field evaluation set contains only 5 positive disease cases ($\Delta = 0.20$ quantisation step), rendering the field comparison substantially underpowered with a minimum detectable effect of $\pm 29.5\%$ accuracy ($\alpha = 0.05$, $80\%$ power). Consequently, apparent small margins on field data (such as Decision Tree reaching 36.2% at $N=4$ or Random Forest reaching 40.0% at $N=16$) fall well within random variation and should not be interpreted as demonstrated inductive superiority over the zero-shot symbolic knowledge base.
+In the cold-start learning-curve experiment ([`results/learning_curve.md`](../results/learning_curve.md)), no supervised baseline exceeded the zero-shot knowledge base (85.00% positive-case recall under 5×2 CV; 80.0% pooled) at any training budget available in this study under the test-set uncertainty criterion (up to $N=73$ rule-derived cases in Pool A, and $N=16$ real field cases in Pool B). While several supervised classifiers achieve point recall above the reference at larger budgets, the paired difference 95% bootstrap confidence interval over the test set spans zero in every case. The independent field evaluation set contains only 5 positive disease cases ($\Delta = 0.20$ quantisation step), rendering the field comparison substantially underpowered with a minimum detectable effect of $\pm 29.5\%$ accuracy ($\alpha = 0.05$, $80\%$ power). Consequently, apparent small margins on field data (such as Decision Tree reaching 36.2% at $N=4$ or Random Forest reaching 40.0% at $N=16$) fall well within random variation and should not be interpreted as demonstrated inductive superiority over the zero-shot symbolic knowledge base.
 
 ---
 

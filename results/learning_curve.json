@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T14:33:03Z",
+  "generated_at": "2026-09-19T00:55:14Z",
   "target_venue": "Inteligencia Artificial (IBERAMIA)",
   "protocol": {
     "n_draws": 200,
@@ -11,32 +11,32 @@
   },
   "zero_shot_references": {
     "RiceKG (Full Proposed)": {
-      "runtime_exact_match": 86.36,
-      "runtime_positive_recall": 40.0,
-      "runtime_micro_f1": 57.14,
-      "cv_positive_recall": 31.67,
-      "cv_exact_match": 86.36,
-      "cv_micro_f1": 41.0,
+      "runtime_exact_match": 95.45,
+      "runtime_positive_recall": 80.0,
+      "runtime_micro_f1": 88.89,
+      "cv_positive_recall": 85.0,
+      "cv_exact_match": 95.45,
+      "cv_micro_f1": 91.14,
       "positive_recall_ci_95": [
-        0.0,
-        80.0
+        40.0,
+        100.0
       ]
     },
     "Rule: Flat Single-Tier": {
-      "runtime_exact_match": 86.36,
-      "runtime_positive_recall": 40.0,
-      "runtime_micro_f1": 57.14,
-      "cv_positive_recall": 31.67,
-      "cv_exact_match": 86.36,
-      "cv_micro_f1": 41.0
+      "runtime_exact_match": 95.45,
+      "runtime_positive_recall": 80.0,
+      "runtime_micro_f1": 88.89,
+      "cv_positive_recall": 85.0,
+      "cv_exact_match": 95.45,
+      "cv_micro_f1": 91.14
     },
     "Rule: Nearest Prototype": {
-      "runtime_exact_match": 77.27,
-      "runtime_positive_recall": 20.0,
-      "runtime_micro_f1": 58.82,
-      "cv_positive_recall": 15.0,
-      "cv_exact_match": 77.27,
-      "cv_micro_f1": 57.05
+      "runtime_exact_match": 86.36,
+      "runtime_positive_recall": 40.0,
+      "runtime_micro_f1": 72.73,
+      "cv_positive_recall": 40.83,
+      "cv_exact_match": 86.36,
+      "cv_micro_f1": 74.83
     }
   },
   "pool_A_results": {
@@ -56,32 +56,32 @@
     "n_draws": 200,
     "zero_shot_references": {
       "RiceKG (Full Proposed)": {
-        "runtime_exact_match": 86.36,
-        "runtime_positive_recall": 40.0,
-        "runtime_micro_f1": 57.14,
-        "cv_positive_recall": 31.67,
-        "cv_exact_match": 86.36,
-        "cv_micro_f1": 41.0,
+        "runtime_exact_match": 95.45,
+        "runtime_positive_recall": 80.0,
+        "runtime_micro_f1": 88.89,
+        "cv_positive_recall": 85.0,
+        "cv_exact_match": 95.45,
+        "cv_micro_f1": 91.14,
         "positive_recall_ci_95": [
-          0.0,
-          80.0
+          40.0,
+          100.0
         ]
       },
       "Rule: Flat Single-Tier": {
-        "runtime_exact_match": 86.36,
-        "runtime_positive_recall": 40.0,
-        "runtime_micro_f1": 57.14,
-        "cv_positive_recall": 31.67,
-        "cv_exact_match": 86.36,
-        "cv_micro_f1": 41.0
+        "runtime_exact_match": 95.45,
+        "runtime_positive_recall": 80.0,
+        "runtime_micro_f1": 88.89,
+        "cv_positive_recall": 85.0,
+        "cv_exact_match": 95.45,
+        "cv_micro_f1": 91.14
       },
       "Rule: Nearest Prototype": {
-        "runtime_exact_match": 77.27,
-        "runtime_positive_recall": 20.0,
-        "runtime_micro_f1": 58.82,
-        "cv_positive_recall": 15.0,
-        "cv_exact_match": 77.27,
-        "cv_micro_f1": 57.05
+        "runtime_exact_match": 86.36,
+        "runtime_positive_recall": 40.0,
+        "runtime_micro_f1": 72.73,
+        "cv_positive_recall": 40.83,
+        "cv_exact_match": 86.36,
+        "cv_micro_f1": 74.83
       }
     },
     "by_budget": {
@@ -91,170 +91,170 @@
         "mean_absent_labels": 3.46,
         "models": {
           "Decision Tree": {
-            "mean_positive_recall": 12.6,
-            "training_std_positive_recall": 14.87,
+            "mean_positive_recall": 9.1,
+            "training_std_positive_recall": 11.28,
             "training_ci_95": [
-              10.6,
-              14.6
+              7.6,
+              10.7
             ],
             "test_set_ci_95": [
-              6.9,
-              18.5
+              3.8,
+              15.8
             ],
             "positive_recall_ci_95": [
-              6.9,
-              18.5
+              3.8,
+              15.8
             ],
-            "mean_exact_match": 70.34,
+            "mean_exact_match": 69.43,
             "exact_match_training_ci_95": [
-              67.4,
-              73.2
+              66.5,
+              72.3
             ],
-            "mean_micro_f1": 17.11,
+            "mean_micro_f1": 12.93,
             "micro_f1_training_ci_95": [
-              14.8,
-              19.4
+              11.0,
+              15.0
             ],
-            "mean_diff_vs_ricekg": -27.0,
+            "mean_diff_vs_ricekg": -71.17,
             "test_set_diff_ci_95": [
-              -73.1,
-              18.5
+              -92.9,
+              -34.1
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Random Forest": {
-            "mean_positive_recall": 7.0,
-            "training_std_positive_recall": 11.45,
+            "mean_positive_recall": 4.2,
+            "training_std_positive_recall": 8.85,
             "training_ci_95": [
-              5.5,
-              8.6
+              3.0,
+              5.4
             ],
             "test_set_ci_95": [
-              2.5,
-              11.7
+              0.9,
+              8.4
             ],
             "positive_recall_ci_95": [
-              2.5,
-              11.7
+              0.9,
+              8.4
             ],
-            "mean_exact_match": 76.95,
+            "mean_exact_match": 76.3,
             "exact_match_training_ci_95": [
-              75.6,
-              78.1
+              75.0,
+              77.3
             ],
-            "mean_micro_f1": 10.85,
+            "mean_micro_f1": 5.67,
             "micro_f1_training_ci_95": [
-              8.7,
-              13.0
+              4.0,
+              7.4
             ],
-            "mean_diff_vs_ricekg": -32.6,
+            "mean_diff_vs_ricekg": -76.09,
             "test_set_diff_ci_95": [
-              -77.3,
-              11.7
+              -97.5,
+              -37.2
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Multinomial Naive Bayes": {
-            "mean_positive_recall": 15.9,
-            "training_std_positive_recall": 14.18,
+            "mean_positive_recall": 13.3,
+            "training_std_positive_recall": 12.85,
             "training_ci_95": [
-              14.0,
-              17.8
+              11.5,
+              14.9
             ],
             "test_set_ci_95": [
-              9.1,
-              22.8
+              6.6,
+              22.0
             ],
             "positive_recall_ci_95": [
-              9.1,
-              22.8
+              6.6,
+              22.0
             ],
-            "mean_exact_match": 74.8,
+            "mean_exact_match": 73.82,
             "exact_match_training_ci_95": [
-              72.5,
-              76.9
+              71.5,
+              75.8
             ],
-            "mean_micro_f1": 24.12,
+            "mean_micro_f1": 20.23,
             "micro_f1_training_ci_95": [
-              21.9,
-              26.2
+              18.0,
+              22.3
             ],
-            "mean_diff_vs_ricekg": -23.65,
+            "mean_diff_vs_ricekg": -67.0,
             "test_set_diff_ci_95": [
-              -70.6,
-              22.6
+              -88.9,
+              -30.8
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "k-NN": {
-            "mean_positive_recall": 4.6,
-            "training_std_positive_recall": 10.53,
+            "mean_positive_recall": 3.7,
+            "training_std_positive_recall": 8.74,
             "training_ci_95": [
-              3.1,
-              6.1
+              2.6,
+              4.9
             ],
             "test_set_ci_95": [
-              2.5,
-              7.5
+              1.6,
+              6.0
             ],
             "positive_recall_ci_95": [
-              2.5,
-              7.5
+              1.6,
+              6.0
             ],
-            "mean_exact_match": 68.66,
+            "mean_exact_match": 68.52,
             "exact_match_training_ci_95": [
               65.3,
-              71.9
+              71.7
             ],
-            "mean_micro_f1": 4.33,
+            "mean_micro_f1": 3.53,
             "micro_f1_training_ci_95": [
-              2.9,
-              5.8
+              2.3,
+              4.8
             ],
-            "mean_diff_vs_ricekg": -35.04,
+            "mean_diff_vs_ricekg": -76.6,
             "test_set_diff_ci_95": [
-              -77.5,
-              6.8
+              -97.1,
+              -37.7
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Logistic Regression (OvR)": {
-            "mean_positive_recall": 8.0,
-            "training_std_positive_recall": 12.65,
+            "mean_positive_recall": 6.2,
+            "training_std_positive_recall": 10.47,
             "training_ci_95": [
-              6.2,
-              9.8
+              4.7,
+              7.7
             ],
             "test_set_ci_95": [
-              3.6,
-              12.0
+              2.2,
+              10.2
             ],
             "positive_recall_ci_95": [
-              3.6,
-              12.0
+              2.2,
+              10.2
             ],
-            "mean_exact_match": 78.14,
+            "mean_exact_match": 77.89,
             "exact_match_training_ci_95": [
-              77.7,
-              78.6
+              77.4,
+              78.3
             ],
-            "mean_micro_f1": 11.76,
+            "mean_micro_f1": 9.64,
             "micro_f1_training_ci_95": [
-              9.4,
-              14.2
+              7.7,
+              11.8
             ],
-            "mean_diff_vs_ricekg": -31.57,
+            "mean_diff_vs_ricekg": -74.07,
             "test_set_diff_ci_95": [
-              -75.4,
-              9.8
+              -94.9,
+              -36.7
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -268,170 +268,170 @@
         "mean_absent_labels": 0.0,
         "models": {
           "Decision Tree": {
-            "mean_positive_recall": 29.8,
-            "training_std_positive_recall": 19.39,
+            "mean_positive_recall": 23.3,
+            "training_std_positive_recall": 17.18,
             "training_ci_95": [
-              26.8,
-              32.5
+              20.7,
+              25.8
             ],
             "test_set_ci_95": [
-              15.2,
-              43.5
+              9.1,
+              37.5
             ],
             "positive_recall_ci_95": [
-              15.2,
-              43.5
+              9.1,
+              37.5
             ],
-            "mean_exact_match": 73.57,
+            "mean_exact_match": 73.05,
             "exact_match_training_ci_95": [
-              71.6,
-              75.5
+              71.1,
+              74.9
             ],
-            "mean_micro_f1": 35.95,
+            "mean_micro_f1": 28.39,
             "micro_f1_training_ci_95": [
-              33.8,
-              38.2
+              26.1,
+              30.9
             ],
-            "mean_diff_vs_ricekg": -10.92,
+            "mean_diff_vs_ricekg": -56.5,
             "test_set_diff_ci_95": [
-              -61.9,
-              40.0
+              -80.0,
+              -27.5
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Random Forest": {
-            "mean_positive_recall": 18.8,
-            "training_std_positive_recall": 13.06,
+            "mean_positive_recall": 12.1,
+            "training_std_positive_recall": 12.15,
             "training_ci_95": [
-              17.1,
-              20.6
+              10.3,
+              13.9
             ],
             "test_set_ci_95": [
-              3.5,
-              34.1
+              1.0,
+              27.9
             ],
             "positive_recall_ci_95": [
-              3.5,
-              34.1
+              1.0,
+              27.9
             ],
-            "mean_exact_match": 80.52,
+            "mean_exact_match": 79.34,
             "exact_match_training_ci_95": [
-              80.0,
-              81.1
+              78.8,
+              79.9
             ],
-            "mean_micro_f1": 28.98,
+            "mean_micro_f1": 18.31,
             "micro_f1_training_ci_95": [
-              26.5,
-              31.5
+              15.7,
+              20.8
             ],
-            "mean_diff_vs_ricekg": -21.92,
+            "mean_diff_vs_ricekg": -67.6,
             "test_set_diff_ci_95": [
-              -76.5,
-              33.1
+              -95.3,
+              -31.6
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Multinomial Naive Bayes": {
-            "mean_positive_recall": 28.5,
-            "training_std_positive_recall": 13.33,
+            "mean_positive_recall": 26.3,
+            "training_std_positive_recall": 13.2,
             "training_ci_95": [
-              26.7,
-              30.5
+              24.5,
+              28.1
             ],
             "test_set_ci_95": [
-              9.6,
-              47.4
+              10.6,
+              45.8
             ],
             "positive_recall_ci_95": [
-              9.6,
-              47.4
+              10.6,
+              45.8
             ],
-            "mean_exact_match": 76.5,
+            "mean_exact_match": 71.91,
             "exact_match_training_ci_95": [
-              75.2,
-              77.8
+              70.6,
+              73.2
             ],
-            "mean_micro_f1": 36.48,
+            "mean_micro_f1": 31.57,
             "micro_f1_training_ci_95": [
-              34.6,
-              38.5
+              29.9,
+              33.3
             ],
-            "mean_diff_vs_ricekg": -12.38,
+            "mean_diff_vs_ricekg": -53.51,
             "test_set_diff_ci_95": [
-              -65.6,
-              38.0
+              -79.4,
+              -22.8
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "k-NN": {
-            "mean_positive_recall": 21.9,
-            "training_std_positive_recall": 16.07,
+            "mean_positive_recall": 16.5,
+            "training_std_positive_recall": 15.55,
             "training_ci_95": [
-              19.6,
-              24.1
+              14.4,
+              18.6
             ],
             "test_set_ci_95": [
-              6.1,
-              38.5
+              5.9,
+              27.7
             ],
             "positive_recall_ci_95": [
-              6.1,
-              38.5
+              5.9,
+              27.7
             ],
-            "mean_exact_match": 71.95,
+            "mean_exact_match": 71.23,
             "exact_match_training_ci_95": [
-              69.3,
-              74.3
+              68.7,
+              73.5
             ],
-            "mean_micro_f1": 24.92,
+            "mean_micro_f1": 18.5,
             "micro_f1_training_ci_95": [
-              22.5,
-              27.5
+              16.2,
+              20.9
             ],
-            "mean_diff_vs_ricekg": -18.84,
+            "mean_diff_vs_ricekg": -63.18,
             "test_set_diff_ci_95": [
-              -72.9,
-              34.9
+              -87.0,
+              -30.0
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Logistic Regression (OvR)": {
-            "mean_positive_recall": 22.1,
-            "training_std_positive_recall": 15.15,
+            "mean_positive_recall": 14.6,
+            "training_std_positive_recall": 12.76,
             "training_ci_95": [
-              20.1,
-              24.2
+              12.9,
+              16.5
             ],
             "test_set_ci_95": [
-              5.8,
-              38.4
+              2.8,
+              29.4
             ],
             "positive_recall_ci_95": [
-              5.8,
-              38.4
+              2.8,
+              29.4
             ],
-            "mean_exact_match": 81.16,
+            "mean_exact_match": 79.91,
             "exact_match_training_ci_95": [
-              80.5,
-              81.9
+              79.4,
+              80.5
             ],
-            "mean_micro_f1": 31.54,
+            "mean_micro_f1": 21.92,
             "micro_f1_training_ci_95": [
-              28.9,
-              34.2
+              19.5,
+              24.6
             ],
-            "mean_diff_vs_ricekg": -18.67,
+            "mean_diff_vs_ricekg": -65.14,
             "test_set_diff_ci_95": [
-              -72.9,
-              36.7
+              -91.4,
+              -31.2
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -445,170 +445,170 @@
         "mean_absent_labels": 0.0,
         "models": {
           "Decision Tree": {
-            "mean_positive_recall": 37.0,
-            "training_std_positive_recall": 17.97,
+            "mean_positive_recall": 28.2,
+            "training_std_positive_recall": 16.76,
             "training_ci_95": [
-              34.4,
-              39.5
+              25.8,
+              30.6
             ],
             "test_set_ci_95": [
-              16.7,
-              58.0
+              7.0,
+              51.7
             ],
             "positive_recall_ci_95": [
-              16.7,
-              58.0
+              7.0,
+              51.7
             ],
-            "mean_exact_match": 74.2,
+            "mean_exact_match": 74.52,
             "exact_match_training_ci_95": [
-              73.0,
-              75.4
+              73.4,
+              75.8
             ],
-            "mean_micro_f1": 41.17,
+            "mean_micro_f1": 33.12,
             "micro_f1_training_ci_95": [
-              39.2,
-              43.3
+              30.7,
+              35.7
             ],
-            "mean_diff_vs_ricekg": -1.77,
+            "mean_diff_vs_ricekg": -51.34,
             "test_set_diff_ci_95": [
-              -63.3,
-              56.8
+              -80.1,
+              -18.8
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Random Forest": {
-            "mean_positive_recall": 27.5,
-            "training_std_positive_recall": 14.62,
+            "mean_positive_recall": 14.8,
+            "training_std_positive_recall": 11.0,
             "training_ci_95": [
-              25.5,
-              29.4
+              13.2,
+              16.3
             ],
             "test_set_ci_95": [
-              5.1,
-              50.6
+              0.7,
+              38.1
             ],
             "positive_recall_ci_95": [
-              5.1,
-              50.6
+              0.7,
+              38.1
             ],
-            "mean_exact_match": 82.25,
+            "mean_exact_match": 79.95,
             "exact_match_training_ci_95": [
-              81.7,
-              82.8
+              79.5,
+              80.5
             ],
-            "mean_micro_f1": 39.53,
+            "mean_micro_f1": 22.84,
             "micro_f1_training_ci_95": [
-              37.0,
-              41.8
+              20.6,
+              25.0
             ],
-            "mean_diff_vs_ricekg": -11.33,
+            "mean_diff_vs_ricekg": -64.96,
             "test_set_diff_ci_95": [
-              -74.9,
-              50.6
+              -95.8,
+              -27.3
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Multinomial Naive Bayes": {
-            "mean_positive_recall": 40.3,
-            "training_std_positive_recall": 14.63,
+            "mean_positive_recall": 36.7,
+            "training_std_positive_recall": 18.41,
             "training_ci_95": [
-              38.4,
-              42.3
+              34.3,
+              39.2
             ],
             "test_set_ci_95": [
-              15.8,
-              64.8
+              14.5,
+              60.1
             ],
             "positive_recall_ci_95": [
-              15.8,
-              64.8
+              14.5,
+              60.1
             ],
-            "mean_exact_match": 74.32,
+            "mean_exact_match": 65.36,
             "exact_match_training_ci_95": [
-              73.0,
-              75.7
+              63.8,
+              66.8
             ],
-            "mean_micro_f1": 42.59,
+            "mean_micro_f1": 31.36,
             "micro_f1_training_ci_95": [
-              40.8,
-              44.3
+              29.8,
+              32.9
             ],
-            "mean_diff_vs_ricekg": 1.64,
+            "mean_diff_vs_ricekg": -43.14,
             "test_set_diff_ci_95": [
-              -59.3,
-              60.0
+              -66.8,
+              -17.8
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "k-NN": {
-            "mean_positive_recall": 40.1,
-            "training_std_positive_recall": 15.94,
+            "mean_positive_recall": 24.9,
+            "training_std_positive_recall": 14.63,
             "training_ci_95": [
-              38.0,
-              42.3
+              22.8,
+              26.8
             ],
             "test_set_ci_95": [
-              11.6,
-              68.6
+              4.0,
+              53.9
             ],
             "positive_recall_ci_95": [
-              11.6,
-              68.6
+              4.0,
+              53.9
             ],
-            "mean_exact_match": 85.34,
+            "mean_exact_match": 82.18,
             "exact_match_training_ci_95": [
-              84.7,
-              85.9
+              81.5,
+              82.8
             ],
-            "mean_micro_f1": 52.61,
+            "mean_micro_f1": 36.08,
             "micro_f1_training_ci_95": [
-              50.5,
-              54.7
+              33.6,
+              38.4
             ],
-            "mean_diff_vs_ricekg": 1.48,
+            "mean_diff_vs_ricekg": -54.74,
             "test_set_diff_ci_95": [
-              -61.7,
-              66.9
+              -87.8,
+              -20.5
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Logistic Regression (OvR)": {
-            "mean_positive_recall": 28.5,
-            "training_std_positive_recall": 13.77,
+            "mean_positive_recall": 16.1,
+            "training_std_positive_recall": 10.33,
             "training_ci_95": [
-              26.5,
-              30.3
+              14.6,
+              17.4
             ],
             "test_set_ci_95": [
-              4.4,
-              56.0
+              0.7,
+              43.6
             ],
             "positive_recall_ci_95": [
-              4.4,
-              56.0
+              0.7,
+              43.6
             ],
-            "mean_exact_match": 82.95,
+            "mean_exact_match": 80.73,
             "exact_match_training_ci_95": [
-              82.4,
-              83.4
+              80.3,
+              81.1
             ],
-            "mean_micro_f1": 40.9,
+            "mean_micro_f1": 25.54,
             "micro_f1_training_ci_95": [
-              38.4,
-              43.2
+              23.3,
+              27.5
             ],
-            "mean_diff_vs_ricekg": -10.34,
+            "mean_diff_vs_ricekg": -63.67,
             "test_set_diff_ci_95": [
-              -75.6,
-              53.4
+              -97.3,
+              -25.2
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -622,172 +622,172 @@
         "mean_absent_labels": 0.0,
         "models": {
           "Decision Tree": {
-            "mean_positive_recall": 40.7,
-            "training_std_positive_recall": 14.34,
+            "mean_positive_recall": 34.8,
+            "training_std_positive_recall": 13.75,
             "training_ci_95": [
-              38.6,
-              42.7
+              32.9,
+              36.8
             ],
             "test_set_ci_95": [
-              15.6,
-              71.9
+              7.6,
+              70.6
             ],
             "positive_recall_ci_95": [
-              15.6,
-              71.9
+              7.6,
+              70.6
             ],
-            "mean_exact_match": 74.32,
+            "mean_exact_match": 75.73,
             "exact_match_training_ci_95": [
-              73.1,
-              75.6
+              74.7,
+              76.8
             ],
-            "mean_micro_f1": 43.71,
+            "mean_micro_f1": 38.17,
             "micro_f1_training_ci_95": [
-              41.8,
-              45.4
+              36.4,
+              40.0
             ],
-            "mean_diff_vs_ricekg": 1.76,
+            "mean_diff_vs_ricekg": -44.8,
             "test_set_diff_ci_95": [
-              -62.0,
-              63.5
+              -77.2,
+              -13.2
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Random Forest": {
-            "mean_positive_recall": 39.8,
-            "training_std_positive_recall": 11.49,
+            "mean_positive_recall": 25.3,
+            "training_std_positive_recall": 10.29,
             "training_ci_95": [
-              38.2,
-              41.4
+              24.0,
+              26.8
             ],
             "test_set_ci_95": [
-              9.4,
-              75.5
+              1.7,
+              61.0
             ],
             "positive_recall_ci_95": [
-              9.4,
-              75.5
+              1.7,
+              61.0
             ],
-            "mean_exact_match": 82.14,
+            "mean_exact_match": 80.64,
             "exact_match_training_ci_95": [
-              81.2,
-              83.1
+              79.9,
+              81.4
             ],
-            "mean_micro_f1": 50.5,
+            "mean_micro_f1": 34.85,
             "micro_f1_training_ci_95": [
-              48.9,
-              52.2
+              33.2,
+              36.5
             ],
-            "mean_diff_vs_ricekg": 0.85,
+            "mean_diff_vs_ricekg": -54.25,
             "test_set_diff_ci_95": [
-              -70.2,
-              71.5
+              -91.7,
+              -17.7
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Multinomial Naive Bayes": {
-            "mean_positive_recall": 46.7,
-            "training_std_positive_recall": 15.4,
+            "mean_positive_recall": 44.5,
+            "training_std_positive_recall": 16.05,
             "training_ci_95": [
-              44.6,
-              48.8
+              42.5,
+              46.9
             ],
             "test_set_ci_95": [
-              18.7,
-              80.6
+              20.4,
+              70.6
             ],
             "positive_recall_ci_95": [
-              18.7,
-              80.6
+              20.4,
+              70.6
             ],
-            "mean_exact_match": 58.66,
+            "mean_exact_match": 44.73,
             "exact_match_training_ci_95": [
-              57.6,
-              59.7
+              43.8,
+              45.7
             ],
-            "mean_micro_f1": 20.31,
+            "mean_micro_f1": 16.55,
             "micro_f1_training_ci_95": [
-              19.9,
-              20.7
+              16.0,
+              17.1
             ],
-            "mean_diff_vs_ricekg": 7.75,
+            "mean_diff_vs_ricekg": -35.31,
             "test_set_diff_ci_95": [
-              -51.4,
-              66.5
+              -58.1,
+              -10.8
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "k-NN": {
-            "mean_positive_recall": 49.3,
-            "training_std_positive_recall": 16.11,
+            "mean_positive_recall": 33.1,
+            "training_std_positive_recall": 12.26,
             "training_ci_95": [
-              47.0,
-              51.5
+              31.3,
+              34.8
             ],
             "test_set_ci_95": [
-              19.2,
-              83.5
+              3.0,
+              70.5
             ],
             "positive_recall_ci_95": [
-              19.2,
-              83.5
+              3.0,
+              70.5
             ],
-            "mean_exact_match": 87.16,
+            "mean_exact_match": 84.8,
             "exact_match_training_ci_95": [
-              86.6,
-              87.7
+              84.4,
+              85.2
             ],
-            "mean_micro_f1": 60.62,
+            "mean_micro_f1": 49.23,
             "micro_f1_training_ci_95": [
-              58.9,
-              62.5
+              47.2,
+              51.3
             ],
-            "mean_diff_vs_ricekg": 10.34,
+            "mean_diff_vs_ricekg": -46.45,
             "test_set_diff_ci_95": [
-              -55.1,
-              73.7
+              -83.7,
+              -9.9
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Logistic Regression (OvR)": {
-            "mean_positive_recall": 36.8,
-            "training_std_positive_recall": 9.26,
+            "mean_positive_recall": 18.4,
+            "training_std_positive_recall": 5.43,
             "training_ci_95": [
-              35.5,
-              38.1
+              17.6,
+              19.1
             ],
             "test_set_ci_95": [
-              1.2,
-              72.8
+              0.0,
+              54.8
             ],
             "positive_recall_ci_95": [
-              1.2,
-              72.8
+              0.0,
+              54.8
             ],
-            "mean_exact_match": 85.05,
+            "mean_exact_match": 81.45,
             "exact_match_training_ci_95": [
-              84.7,
-              85.4
+              81.3,
+              81.6
             ],
-            "mean_micro_f1": 52.31,
+            "mean_micro_f1": 30.31,
             "micro_f1_training_ci_95": [
-              50.8,
-              53.8
+              29.0,
+              31.5
             ],
-            "mean_diff_vs_ricekg": -2.12,
+            "mean_diff_vs_ricekg": -61.12,
             "test_set_diff_ci_95": [
-              -78.8,
-              72.4
+              -99.8,
+              -21.8
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           }
@@ -813,128 +813,94 @@
               9.2,
               70.0
             ],
-            "mean_exact_match": 68.0,
+            "mean_exact_match": 72.55,
             "exact_match_training_ci_95": [
-              67.5,
-              68.5
+              72.1,
+              73.0
             ],
-            "mean_micro_f1": 39.25,
+            "mean_micro_f1": 39.46,
             "micro_f1_training_ci_95": [
-              38.2,
-              40.3
+              38.3,
+              40.7
             ],
-            "mean_diff_vs_ricekg": -1.69,
+            "mean_diff_vs_ricekg": -40.95,
             "test_set_diff_ci_95": [
-              -61.6,
-              60.0
+              -71.6,
+              -10.0
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Random Forest": {
-            "mean_positive_recall": 46.4,
-            "training_std_positive_recall": 12.61,
+            "mean_positive_recall": 28.4,
+            "training_std_positive_recall": 10.27,
             "training_ci_95": [
-              44.7,
-              48.1
+              27.0,
+              29.7
             ],
             "test_set_ci_95": [
-              11.3,
-              81.5
+              1.5,
+              66.9
             ],
             "positive_recall_ci_95": [
-              11.3,
-              81.5
+              1.5,
+              66.9
             ],
-            "mean_exact_match": 75.7,
+            "mean_exact_match": 75.68,
             "exact_match_training_ci_95": [
               74.6,
               76.7
             ],
-            "mean_micro_f1": 46.91,
+            "mean_micro_f1": 32.43,
             "micro_f1_training_ci_95": [
-              45.5,
-              48.4
+              30.9,
+              33.8
             ],
-            "mean_diff_vs_ricekg": 5.68,
+            "mean_diff_vs_ricekg": -51.58,
             "test_set_diff_ci_95": [
-              -68.7,
-              81.5
+              -88.6,
+              -13.1
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Multinomial Naive Bayes": {
-            "mean_positive_recall": 20.0,
+            "mean_positive_recall": 40.0,
             "training_std_positive_recall": 0.0,
             "training_ci_95": [
-              20.0,
-              20.0
+              40.0,
+              40.0
             ],
             "test_set_ci_95": [
               0.0,
-              60.0
+              80.0
             ],
             "positive_recall_ci_95": [
               0.0,
-              60.0
+              80.0
             ],
-            "mean_exact_match": 40.91,
+            "mean_exact_match": 31.82,
             "exact_match_training_ci_95": [
-              40.9,
-              40.9
+              31.8,
+              31.8
             ],
-            "mean_micro_f1": 19.51,
+            "mean_micro_f1": 14.55,
             "micro_f1_training_ci_95": [
-              19.5,
-              19.5
+              14.5,
+              14.5
             ],
-            "mean_diff_vs_ricekg": -20.56,
+            "mean_diff_vs_ricekg": -39.32,
             "test_set_diff_ci_95": [
               -80.0,
-              40.0
+              0.0
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "k-NN": {
-            "mean_positive_recall": 60.0,
-            "training_std_positive_recall": 0.0,
-            "training_ci_95": [
-              60.0,
-              60.0
-            ],
-            "test_set_ci_95": [
-              20.0,
-              100.0
-            ],
-            "positive_recall_ci_95": [
-              20.0,
-              100.0
-            ],
-            "mean_exact_match": 86.36,
-            "exact_match_training_ci_95": [
-              86.4,
-              86.4
-            ],
-            "mean_micro_f1": 54.55,
-            "micro_f1_training_ci_95": [
-              54.5,
-              54.5
-            ],
-            "mean_diff_vs_ricekg": 18.76,
-            "test_set_diff_ci_95": [
-              -40.0,
-              80.0
-            ],
-            "exceeds_ricekg_mean": true,
-            "test_set_ci_excludes_zero": false,
-            "is_crossover": false
-          },
-          "Logistic Regression (OvR)": {
             "mean_positive_recall": 40.0,
             "training_std_positive_recall": 0.0,
             "training_ci_95": [
@@ -954,17 +920,51 @@
               86.4,
               86.4
             ],
-            "mean_micro_f1": 57.14,
+            "mean_micro_f1": 66.67,
             "micro_f1_training_ci_95": [
-              57.1,
-              57.1
+              66.7,
+              66.7
             ],
-            "mean_diff_vs_ricekg": -0.98,
+            "mean_diff_vs_ricekg": -40.08,
             "test_set_diff_ci_95": [
               -80.0,
-              80.0
+              0.0
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
+            "test_set_ci_excludes_zero": false,
+            "is_crossover": false
+          },
+          "Logistic Regression (OvR)": {
+            "mean_positive_recall": 20.0,
+            "training_std_positive_recall": 0.0,
+            "training_ci_95": [
+              20.0,
+              20.0
+            ],
+            "test_set_ci_95": [
+              0.0,
+              60.0
+            ],
+            "positive_recall_ci_95": [
+              0.0,
+              60.0
+            ],
+            "mean_exact_match": 81.82,
+            "exact_match_training_ci_95": [
+              81.8,
+              81.8
+            ],
+            "mean_micro_f1": 33.33,
+            "micro_f1_training_ci_95": [
+              33.3,
+              33.3
+            ],
+            "mean_diff_vs_ricekg": -59.82,
+            "test_set_diff_ci_95": [
+              -100.0,
+              -20.0
+            ],
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           }
@@ -1015,32 +1015,32 @@
     "n_draws": 200,
     "zero_shot_references": {
       "RiceKG (Full Proposed)": {
-        "runtime_exact_match": 86.36,
-        "runtime_positive_recall": 40.0,
-        "runtime_micro_f1": 57.14,
-        "cv_positive_recall": 31.67,
-        "cv_exact_match": 86.36,
-        "cv_micro_f1": 41.0,
+        "runtime_exact_match": 95.45,
+        "runtime_positive_recall": 80.0,
+        "runtime_micro_f1": 88.89,
+        "cv_positive_recall": 85.0,
+        "cv_exact_match": 95.45,
+        "cv_micro_f1": 91.14,
         "positive_recall_ci_95": [
-          0.0,
-          80.0
+          40.0,
+          100.0
         ]
       },
       "Rule: Flat Single-Tier": {
-        "runtime_exact_match": 86.36,
-        "runtime_positive_recall": 40.0,
-        "runtime_micro_f1": 57.14,
-        "cv_positive_recall": 31.67,
-        "cv_exact_match": 86.36,
-        "cv_micro_f1": 41.0
+        "runtime_exact_match": 95.45,
+        "runtime_positive_recall": 80.0,
+        "runtime_micro_f1": 88.89,
+        "cv_positive_recall": 85.0,
+        "cv_exact_match": 95.45,
+        "cv_micro_f1": 91.14
       },
       "Rule: Nearest Prototype": {
-        "runtime_exact_match": 77.27,
-        "runtime_positive_recall": 20.0,
-        "runtime_micro_f1": 58.82,
-        "cv_positive_recall": 15.0,
-        "cv_exact_match": 77.27,
-        "cv_micro_f1": 57.05
+        "runtime_exact_match": 86.36,
+        "runtime_positive_recall": 40.0,
+        "runtime_micro_f1": 72.73,
+        "cv_positive_recall": 40.83,
+        "cv_exact_match": 86.36,
+        "cv_micro_f1": 74.83
       }
     },
     "by_budget": {
@@ -1050,102 +1050,102 @@
         "mean_absent_labels": 3.21,
         "models": {
           "Decision Tree": {
-            "mean_positive_recall": 9.3,
-            "training_std_positive_recall": 10.56,
+            "mean_positive_recall": 8.4,
+            "training_std_positive_recall": 10.27,
             "training_ci_95": [
-              7.9,
-              10.8
+              7.0,
+              9.8
             ],
             "test_set_ci_95": [
               0.0,
-              19.3
+              16.8
             ],
             "positive_recall_ci_95": [
               0.0,
-              19.3
+              16.8
             ],
-            "mean_exact_match": 54.5,
+            "mean_exact_match": 52.77,
             "exact_match_training_ci_95": [
-              50.6,
-              58.5
+              48.4,
+              57.3
             ],
-            "mean_micro_f1": 6.99,
+            "mean_micro_f1": 6.65,
             "micro_f1_training_ci_95": [
-              5.7,
-              8.3
+              5.2,
+              8.2
             ],
-            "mean_diff_vs_ricekg": -30.44,
+            "mean_diff_vs_ricekg": -72.01,
             "test_set_diff_ci_95": [
-              -62.1,
-              0.0
+              -95.8,
+              -35.8
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Random Forest": {
-            "mean_positive_recall": 9.8,
-            "training_std_positive_recall": 10.77,
+            "mean_positive_recall": 9.5,
+            "training_std_positive_recall": 10.76,
             "training_ci_95": [
-              8.4,
-              11.3
+              8.0,
+              11.0
             ],
             "test_set_ci_95": [
               0.0,
-              19.8
+              19.1
             ],
             "positive_recall_ci_95": [
               0.0,
-              19.8
+              19.1
             ],
-            "mean_exact_match": 58.86,
+            "mean_exact_match": 57.55,
             "exact_match_training_ci_95": [
-              55.5,
-              62.4
+              53.8,
+              61.4
             ],
-            "mean_micro_f1": 7.84,
+            "mean_micro_f1": 8.28,
             "micro_f1_training_ci_95": [
-              6.5,
-              9.2
+              6.7,
+              9.8
             ],
-            "mean_diff_vs_ricekg": -29.95,
+            "mean_diff_vs_ricekg": -70.92,
             "test_set_diff_ci_95": [
-              -60.6,
-              0.0
+              -95.3,
+              -35.2
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Multinomial Naive Bayes": {
-            "mean_positive_recall": 9.9,
-            "training_std_positive_recall": 10.77,
+            "mean_positive_recall": 9.3,
+            "training_std_positive_recall": 10.75,
             "training_ci_95": [
-              8.5,
-              11.4
+              7.8,
+              10.8
             ],
             "test_set_ci_95": [
               0.0,
-              19.9
+              19.1
             ],
             "positive_recall_ci_95": [
               0.0,
-              19.9
+              19.1
             ],
-            "mean_exact_match": 60.0,
+            "mean_exact_match": 61.3,
             "exact_match_training_ci_95": [
-              57.2,
-              62.8
+              58.2,
+              64.3
             ],
-            "mean_micro_f1": 6.76,
+            "mean_micro_f1": 7.64,
             "micro_f1_training_ci_95": [
-              5.7,
-              7.9
+              6.3,
+              9.0
             ],
-            "mean_diff_vs_ricekg": -29.86,
+            "mean_diff_vs_ricekg": -71.13,
             "test_set_diff_ci_95": [
-              -60.3,
-              0.0
+              -95.6,
+              -35.1
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -1176,44 +1176,44 @@
               0.0,
               0.3
             ],
-            "mean_diff_vs_ricekg": -39.28,
+            "mean_diff_vs_ricekg": -79.94,
             "test_set_diff_ci_95": [
-              -79.2,
-              0.0
+              -99.8,
+              -39.8
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Logistic Regression (OvR)": {
-            "mean_positive_recall": 8.8,
-            "training_std_positive_recall": 10.7,
+            "mean_positive_recall": 9.3,
+            "training_std_positive_recall": 10.75,
             "training_ci_95": [
-              7.4,
-              10.4
+              7.8,
+              10.8
             ],
             "test_set_ci_95": [
               0.0,
-              18.8
+              19.1
             ],
             "positive_recall_ci_95": [
               0.0,
-              18.8
+              19.1
             ],
-            "mean_exact_match": 69.43,
+            "mean_exact_match": 72.93,
             "exact_match_training_ci_95": [
-              67.0,
-              71.8
+              70.5,
+              75.2
             ],
-            "mean_micro_f1": 8.62,
+            "mean_micro_f1": 12.16,
             "micro_f1_training_ci_95": [
-              7.1,
-              10.2
+              10.1,
+              14.2
             ],
-            "mean_diff_vs_ricekg": -30.92,
+            "mean_diff_vs_ricekg": -71.13,
             "test_set_diff_ci_95": [
-              -63.6,
-              0.0
+              -95.6,
+              -35.1
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -1227,102 +1227,102 @@
         "mean_absent_labels": 0.0,
         "models": {
           "Decision Tree": {
-            "mean_positive_recall": 36.5,
-            "training_std_positive_recall": 7.6,
+            "mean_positive_recall": 31.6,
+            "training_std_positive_recall": 11.38,
             "training_ci_95": [
-              35.4,
-              37.4
+              30.0,
+              33.2
             ],
             "test_set_ci_95": [
               0.0,
-              76.5
+              65.6
             ],
             "positive_recall_ci_95": [
               0.0,
-              76.5
+              65.6
             ],
-            "mean_exact_match": 8.3,
+            "mean_exact_match": 7.18,
             "exact_match_training_ci_95": [
-              8.0,
-              8.5
+              6.8,
+              7.5
             ],
-            "mean_micro_f1": 13.52,
+            "mean_micro_f1": 11.7,
             "micro_f1_training_ci_95": [
-              13.1,
-              13.9
+              11.1,
+              12.3
             ],
-            "mean_diff_vs_ricekg": -3.59,
+            "mean_diff_vs_ricekg": -47.56,
             "test_set_diff_ci_95": [
-              -10.5,
-              0.0
+              -85.4,
+              -13.8
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Random Forest": {
-            "mean_positive_recall": 34.7,
-            "training_std_positive_recall": 8.83,
+            "mean_positive_recall": 25.4,
+            "training_std_positive_recall": 12.92,
             "training_ci_95": [
-              33.5,
-              36.0
+              23.6,
+              27.2
             ],
             "test_set_ci_95": [
               0.0,
-              74.7
+              53.0
             ],
             "positive_recall_ci_95": [
               0.0,
-              74.7
+              53.0
             ],
-            "mean_exact_match": 71.07,
+            "mean_exact_match": 75.39,
             "exact_match_training_ci_95": [
-              69.8,
-              72.3
+              74.4,
+              76.4
             ],
-            "mean_micro_f1": 32.83,
+            "mean_micro_f1": 30.87,
             "micro_f1_training_ci_95": [
-              31.2,
-              34.4
+              28.7,
+              33.1
             ],
-            "mean_diff_vs_ricekg": -5.44,
+            "mean_diff_vs_ricekg": -53.81,
             "test_set_diff_ci_95": [
-              -15.9,
-              0.0
+              -88.4,
+              -20.8
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Multinomial Naive Bayes": {
-            "mean_positive_recall": 25.4,
-            "training_std_positive_recall": 8.88,
+            "mean_positive_recall": 30.2,
+            "training_std_positive_recall": 10.0,
             "training_ci_95": [
-              24.2,
-              26.5
+              28.8,
+              31.6
             ],
             "test_set_ci_95": [
               0.0,
-              60.0
+              70.2
             ],
             "positive_recall_ci_95": [
               0.0,
-              60.0
+              70.2
             ],
-            "mean_exact_match": 78.09,
+            "mean_exact_match": 80.89,
             "exact_match_training_ci_95": [
-              77.0,
-              79.1
+              79.9,
+              81.9
             ],
-            "mean_micro_f1": 35.1,
+            "mean_micro_f1": 41.07,
             "micro_f1_training_ci_95": [
-              33.6,
-              36.6
+              39.3,
+              42.8
             ],
-            "mean_diff_vs_ricekg": -14.99,
+            "mean_diff_vs_ricekg": -48.75,
             "test_set_diff_ci_95": [
-              -43.8,
-              0.0
+              -89.8,
+              -9.8
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -1353,46 +1353,46 @@
               0.0,
               0.0
             ],
-            "mean_diff_vs_ricekg": -40.36,
+            "mean_diff_vs_ricekg": -79.4,
             "test_set_diff_ci_95": [
-              -80.0,
-              0.0
+              -100.0,
+              -40.0
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Logistic Regression (OvR)": {
-            "mean_positive_recall": 35.6,
-            "training_std_positive_recall": 8.28,
+            "mean_positive_recall": 40.0,
+            "training_std_positive_recall": 0.0,
             "training_ci_95": [
-              34.5,
-              36.6
+              40.0,
+              40.0
             ],
             "test_set_ci_95": [
               0.0,
-              75.6
+              80.0
             ],
             "positive_recall_ci_95": [
               0.0,
-              75.6
+              80.0
             ],
-            "mean_exact_match": 65.7,
+            "mean_exact_match": 72.57,
             "exact_match_training_ci_95": [
-              64.3,
-              66.9
+              72.1,
+              73.0
             ],
-            "mean_micro_f1": 25.93,
+            "mean_micro_f1": 36.97,
             "micro_f1_training_ci_95": [
-              24.9,
-              26.9
+              36.2,
+              37.7
             ],
-            "mean_diff_vs_ricekg": -4.52,
+            "mean_diff_vs_ricekg": -39.04,
             "test_set_diff_ci_95": [
-              -13.2,
+              -80.0,
               0.0
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           }
@@ -1404,102 +1404,102 @@
         "mean_absent_labels": 0.0,
         "models": {
           "Decision Tree": {
-            "mean_positive_recall": 33.5,
-            "training_std_positive_recall": 9.37,
+            "mean_positive_recall": 31.5,
+            "training_std_positive_recall": 10.85,
             "training_ci_95": [
-              32.2,
-              34.8
+              30.0,
+              33.0
             ],
             "test_set_ci_95": [
               0.0,
-              73.5
+              64.9
             ],
             "positive_recall_ci_95": [
               0.0,
-              73.5
+              64.9
             ],
-            "mean_exact_match": 52.66,
+            "mean_exact_match": 56.07,
             "exact_match_training_ci_95": [
-              51.0,
-              54.3
+              54.0,
+              58.2
             ],
-            "mean_micro_f1": 22.29,
+            "mean_micro_f1": 25.51,
             "micro_f1_training_ci_95": [
-              21.2,
-              23.4
+              24.0,
+              27.0
             ],
-            "mean_diff_vs_ricekg": -6.12,
+            "mean_diff_vs_ricekg": -48.9,
             "test_set_diff_ci_95": [
-              -19.5,
-              0.0
+              -85.2,
+              -11.8
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Random Forest": {
-            "mean_positive_recall": 31.2,
-            "training_std_positive_recall": 9.93,
+            "mean_positive_recall": 23.2,
+            "training_std_positive_recall": 13.18,
             "training_ci_95": [
-              29.9,
-              32.6
+              21.3,
+              25.0
             ],
             "test_set_ci_95": [
               0.0,
-              71.2
+              47.2
             ],
             "positive_recall_ci_95": [
               0.0,
-              71.2
+              47.2
             ],
-            "mean_exact_match": 77.48,
+            "mean_exact_match": 78.68,
             "exact_match_training_ci_95": [
-              76.6,
-              78.3
+              78.0,
+              79.3
             ],
-            "mean_micro_f1": 36.57,
+            "mean_micro_f1": 31.95,
             "micro_f1_training_ci_95": [
-              35.0,
-              38.1
+              29.6,
+              34.2
             ],
-            "mean_diff_vs_ricekg": -8.28,
+            "mean_diff_vs_ricekg": -57.09,
             "test_set_diff_ci_95": [
-              -26.4,
-              0.0
+              -88.8,
+              -24.0
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Multinomial Naive Bayes": {
-            "mean_positive_recall": 8.2,
-            "training_std_positive_recall": 11.17,
+            "mean_positive_recall": 13.1,
+            "training_std_positive_recall": 13.21,
             "training_ci_95": [
-              6.7,
-              9.7
+              11.3,
+              14.9
             ],
             "test_set_ci_95": [
               0.0,
-              18.0
+              27.7
             ],
             "positive_recall_ci_95": [
               0.0,
-              18.0
+              27.7
             ],
-            "mean_exact_match": 73.89,
+            "mean_exact_match": 75.02,
             "exact_match_training_ci_95": [
-              73.1,
-              74.6
+              73.8,
+              76.1
             ],
-            "mean_micro_f1": 7.97,
+            "mean_micro_f1": 16.28,
             "micro_f1_training_ci_95": [
-              6.5,
-              9.4
+              14.0,
+              18.4
             ],
-            "mean_diff_vs_ricekg": -31.13,
+            "mean_diff_vs_ricekg": -67.09,
             "test_set_diff_ci_95": [
-              -65.2,
-              0.0
+              -94.2,
+              -32.7
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -1520,54 +1520,54 @@
               0.0,
               19.1
             ],
-            "mean_exact_match": 73.18,
+            "mean_exact_match": 78.16,
             "exact_match_training_ci_95": [
-              72.0,
-              74.2
+              77.2,
+              79.0
             ],
-            "mean_micro_f1": 9.32,
+            "mean_micro_f1": 14.63,
             "micro_f1_training_ci_95": [
-              7.7,
-              11.0
+              12.2,
+              17.2
             ],
-            "mean_diff_vs_ricekg": -30.1,
+            "mean_diff_vs_ricekg": -70.74,
             "test_set_diff_ci_95": [
-              -61.9,
-              0.0
+              -95.6,
+              -35.1
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
           "Logistic Regression (OvR)": {
-            "mean_positive_recall": 19.0,
-            "training_std_positive_recall": 12.12,
+            "mean_positive_recall": 17.6,
+            "training_std_positive_recall": 13.94,
             "training_ci_95": [
-              17.2,
-              20.5
+              15.7,
+              19.5
             ],
             "test_set_ci_95": [
               0.0,
-              47.0
+              40.0
             ],
             "positive_recall_ci_95": [
               0.0,
-              47.0
+              40.0
             ],
-            "mean_exact_match": 74.61,
+            "mean_exact_match": 80.91,
             "exact_match_training_ci_95": [
-              73.6,
-              75.6
+              80.4,
+              81.4
             ],
-            "mean_micro_f1": 22.93,
+            "mean_micro_f1": 27.25,
             "micro_f1_training_ci_95": [
-              20.8,
-              24.8
+              24.4,
+              29.9
             ],
-            "mean_diff_vs_ricekg": -20.24,
+            "mean_diff_vs_ricekg": -62.81,
             "test_set_diff_ci_95": [
-              -48.0,
-              0.0
+              -93.6,
+              -27.2
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -1595,22 +1595,22 @@
               0.0,
               80.0
             ],
-            "mean_exact_match": 50.45,
+            "mean_exact_match": 52.75,
             "exact_match_training_ci_95": [
-              49.5,
-              51.3
+              52.0,
+              53.5
             ],
-            "mean_micro_f1": 25.25,
+            "mean_micro_f1": 27.96,
             "micro_f1_training_ci_95": [
-              24.7,
-              25.8
+              27.7,
+              28.3
             ],
-            "mean_diff_vs_ricekg": 0.0,
+            "mean_diff_vs_ricekg": -40.74,
             "test_set_diff_ci_95": [
-              0.0,
+              -80.0,
               0.0
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
@@ -1629,22 +1629,22 @@
               0.0,
               80.0
             ],
-            "mean_exact_match": 79.27,
+            "mean_exact_match": 81.86,
             "exact_match_training_ci_95": [
-              78.5,
-              80.0
+              81.8,
+              81.9
             ],
-            "mean_micro_f1": 44.56,
+            "mean_micro_f1": 50.07,
             "micro_f1_training_ci_95": [
-              43.6,
-              45.5
+              50.0,
+              50.2
             ],
-            "mean_diff_vs_ricekg": 0.0,
+            "mean_diff_vs_ricekg": -40.74,
             "test_set_diff_ci_95": [
-              0.0,
+              -80.0,
               0.0
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
@@ -1673,10 +1673,10 @@
               33.3,
               33.3
             ],
-            "mean_diff_vs_ricekg": -19.74,
+            "mean_diff_vs_ricekg": -60.58,
             "test_set_diff_ci_95": [
-              -60.0,
-              0.0
+              -100.0,
+              -20.0
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
@@ -1697,22 +1697,22 @@
               0.0,
               80.0
             ],
-            "mean_exact_match": 81.82,
+            "mean_exact_match": 86.36,
             "exact_match_training_ci_95": [
-              81.8,
-              81.8
+              86.4,
+              86.4
             ],
-            "mean_micro_f1": 36.36,
+            "mean_micro_f1": 57.14,
             "micro_f1_training_ci_95": [
-              36.4,
-              36.4
+              57.1,
+              57.1
             ],
-            "mean_diff_vs_ricekg": 0.0,
+            "mean_diff_vs_ricekg": -40.74,
             "test_set_diff_ci_95": [
-              0.0,
+              -80.0,
               0.0
             ],
-            "exceeds_ricekg_mean": true,
+            "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,
             "is_crossover": false
           },
@@ -1741,10 +1741,10 @@
               33.3,
               33.3
             ],
-            "mean_diff_vs_ricekg": -19.74,
+            "mean_diff_vs_ricekg": -60.58,
             "test_set_diff_ci_95": [
-              -60.0,
-              0.0
+              -100.0,
+              -20.0
             ],
             "exceeds_ricekg_mean": false,
             "test_set_ci_excludes_zero": false,

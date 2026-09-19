@@ -63,7 +63,10 @@ editing the pattern list and rebuilding, never by hand-editing a rater's workboo
    ask the rater, do not guess.
 6. `python analysis/agreement.py` (diagnosis κ) and
    `python analysis/expert_validation.py --rerun` produce `results/expert_validation.md`.
-7. After the definition review, revise `ontology/term_definitions.csv`, set `status` to
+7. The import also writes `data/symptom_encoding_consensus.csv` (terms chosen by a strict
+   majority of raters), which `ricekg.evaluate.load_data` then uses as the field benchmark's
+   encoding. Regenerate every field result afterwards (`make reproduce`).
+8. After the definition review, revise `ontology/term_definitions.csv`, set `status` to
    `reviewed` for each accepted term, and rebuild the ontology.
 
 Do not change the rule base in response to the diagnosis results before the planned fresh

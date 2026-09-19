@@ -8,6 +8,9 @@ R1_TahapB.xlsx, ...) and writes the de-identified annotation tables:
   data/annotations_multirater.csv    case_id, annotator_1..n, notes   (input to analysis/agreement.py;
                                      only cases every rater diagnosed)
   data/annotations_symptoms.csv      case_id, annotator, term
+  data/symptom_encoding_consensus.csv case_id, symptom_1..6: terms chosen by a strict majority of
+                                     raters (all raters when there are two); the field benchmark's
+                                     default encoding (see ricekg/evaluate.py load_data)
   data/annotations_explanations.csv  case_id, annotator, accept, reasoning, completeness, usefulness, comment
   data/definition_review.csv         term, annotator, rating, suggestion
 
@@ -130,9 +133,25 @@ def _write(path, rows, fields):
         w.writerows(rows)
 
 
+def consensus_encoding(symptoms, raters):
+    """Terms chosen by a strict majority of raters, in vocabulary order, one row per case."""
+    from ricekg import model
+    order = {t: i for i, t in enumerate(model.ALL_SYMPTOMS)}
+    votes = {}
+    for s in symptoms:
+        votes.setdefault(s["case_id"], {}).setdefault(s["term"], set()).add(s["annotator"])
+    rows = []
+    for case_id in sorted(set(bp.code_to_case().values())):
+        terms = sorted((t for t, who in votes.get(case_id, {}).items() if 2 * len(who) > len(raters)), key=order.get)
+        if len(terms) > 6:
+            raise ImportError_(f"{case_id}: {len(terms)} consensus terms exceed the 6 symptom columns")
+        rows.append({"case_id": case_id, **{f"symptom_{i}": (terms[i - 1] if i <= len(terms) else "") for i in range(1, 7)}})
+    return rows
+
+
 def import_returns(returned=DEFAULT_RETURNED, out_dir=DEFAULT_OUT):
     codes = bp.code_to_case()
-    sym_labels = bp.symptom_labels(bp.load_definitions())
+    sym_labels = bp.symptom_labels(bp.load_definitions(), include_legacy=True)
     errors = []
     diagnoses, symptoms, reviews, explanations = [], [], [], []
     stage_a = sorted(glob.glob(os.path.join(returned, "R*_TahapA.xlsx")))
@@ -156,6 +175,8 @@ def import_returns(returned=DEFAULT_RETURNED, out_dir=DEFAULT_OUT):
     _write(os.path.join(out_dir, "annotations_diagnosis.csv"), diagnoses,
            ["case_id", "annotator", "diagnosis", "confidence", "other_signs", "notes"])
     _write(os.path.join(out_dir, "annotations_symptoms.csv"), symptoms, ["case_id", "annotator", "term"])
+    _write(os.path.join(out_dir, "symptom_encoding_consensus.csv"), consensus_encoding(symptoms, raters),
+           ["case_id"] + [f"symptom_{i}" for i in range(1, 7)])
     _write(os.path.join(out_dir, "annotations_explanations.csv"), explanations,
            ["case_id", "annotator", "accept", "reasoning", "completeness", "usefulness", "comment"])
     _write(os.path.join(out_dir, "definition_review.csv"), reviews, ["term", "annotator", "rating", "suggestion"])

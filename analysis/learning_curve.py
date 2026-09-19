@@ -541,6 +541,54 @@ def generate_markdown_report(
     flat_cv_ref = zs_refs["Rule: Flat Single-Tier"]["cv_positive_recall"]
     proto_cv_ref = zs_refs["Rule: Nearest Prototype"]["cv_positive_recall"]
 
+    # Every claim in the narrative is computed from the results; nothing is quoted as a literal.
+    all_stats = [(pool, m, b, res["by_budget"][str(b)]["models"][m])
+                 for pool, res in (("A", pool_a_res), ("B", pool_b_res))
+                 for b in res["budgets"] for m in res["crossover_analysis"]]
+    best_pool, best_model, best_budget, best_stat = max(all_stats, key=lambda x: x[3]["mean_positive_recall"])
+    n_above = sum(st["exceeds_ricekg_mean"] for *_, st in all_stats)
+    any_crossover = any(c["has_crossover"] for res in (pool_a_res, pool_b_res)
+                        for c in res["crossover_analysis"].values())
+    terminal = [st for pool, m, b, st in all_stats
+                if (pool == "A" and b == b_a_max) or (pool == "B" and b == b_b_max)]
+    n_sig_below = sum(st["test_set_diff_ci_95"][1] < 0 for st in terminal)
+    headline = (
+        ("**No supervised baseline exceeded the zero-shot knowledge base at any training budget under the "
+         "test-set uncertainty criterion**" if not any_crossover else
+         "**At least one supervised baseline crossed the zero-shot knowledge base under the test-set "
+         "uncertainty criterion**")
+        + f" (up to $N={b_a_max}$ rule-derived cases in Pool A and $N={b_b_max}$ real field cases in Pool B). "
+        + (f"{n_above} model-budget points have a point mean above RiceKG's {rk_pt_ref:.1f}%, but every paired "
+           "95% bootstrap interval spans zero. " if n_above else
+           f"No model reaches RiceKG's {rk_pt_ref:.1f}% point recall at any budget; the best is {best_model} "
+           f"with {best_stat['mean_positive_recall']:.1f}% at $N={best_budget}$ (Pool {best_pool}). ")
+        + f"At the largest budgets, {n_sig_below} of {len(terminal)} model comparisons have a paired interval "
+        f"entirely below zero (RiceKG ahead). With only {EVAL_POS} positive test cases these intervals are wide."
+    )
+
+    with open(BASELINES_JSON, encoding="utf-8") as fh:
+        base = json.load(fh)["field_benchmark"]
+    mde = base["mde_analysis"]["mde_percentage_proportion"]
+    ml_cv_best = max(v["mean_positive_recall"] for k, v in base["system_summaries"].items()
+                     if not k.startswith(("RiceKG", "Rule"))) if base["system_summaries"] else 0.0
+    terminal_b = {m: pool_b_res["by_budget"][str(b_b_max)]["models"][m] for m in pool_b_res["crossover_analysis"]}
+    b_vals = sorted(st["mean_positive_recall"] for st in terminal_b.values())
+    pool_b_best = max(st["mean_positive_recall"] for res in [pool_b_res]
+                      for b in res["budgets"] for st in res["by_budget"][str(b)]["models"].values())
+    terminal_b_range = f"{b_vals[0]:.1f}–{b_vals[-1]:.1f}%"
+    terminal_b_diffs = "; ".join(f"{m} {st['mean_diff_vs_ricekg']:+.1f} [{st['test_set_diff_ci_95'][0]:.1f}, "
+                                 f"{st['test_set_diff_ci_95'][1]:.1f}]" for m, st in terminal_b.items())
+    b_prev = pool_a_res["budgets"][-2]
+    nb_a = [pool_a_res["by_budget"][str(b)]["models"]["Multinomial Naive Bayes"]["mean_positive_recall"]
+            for b in (b_prev, b_a_max)]
+    nb_note = (f"Multinomial Naive Bayes falls from {nb_a[0]:.1f}% at $N={b_prev}$ to {nb_a[1]:.1f}% at "
+               f"$N={b_a_max}$ in Pool A; a change of this size lies well inside the test-set interval and is "
+               "not interpreted." if nb_a[1] < nb_a[0] else
+               f"Multinomial Naive Bayes does not fall between $N={b_prev}$ and $N={b_a_max}$ in Pool A "
+               f"({nb_a[0]:.1f}% then {nb_a[1]:.1f}%).")
+    dt_ci = pool_a_res["by_budget"][str(b_a_max)]["models"]["Decision Tree"]["test_set_ci_95"]
+    terminal_ci_example = f"[{dt_ci[0]:.1f}, {dt_ci[1]:.1f}] for the Decision Tree in Pool A"
+
     lines = [
         "# Cold-Start Learning-Curve Evaluation: Sample Efficiency vs. Knowledge Base",
         "",
@@ -557,9 +605,7 @@ def generate_markdown_report(
         "",
         "### Headline Finding",
         "",
-        f"> **No supervised baseline exceeded the zero-shot knowledge base at any training budget available in this study under the test-set uncertainty criterion** (up to $N={b_a_max}$ rule-derived cases in Pool A, and $N={b_b_max}$ real field cases in Pool B).",
-        ">",
-        "> While several supervised models achieve point means above the reference at larger budgets, **every paired difference 95% bootstrap confidence interval spans zero**. With only 5 positive test cases ($\\Delta = 0.20$ quantisation step) and a wide confidence interval, supervised ML cannot be asserted as statistically superior to the zero-shot symbolic knowledge base on field data.",
+        f"> {headline}",
         "",
         "---",
         "",
@@ -615,35 +661,29 @@ def generate_markdown_report(
         "",
         "## 4. Resolution of the Baseline Discrepancy",
         "",
-        "A key question arises when comparing `results/baselines.md` Table 2 against `results/learning_curve.md` Pool B:",
-        "",
-        "> *Why did supervised classifiers score 0.00% (0/5) positive recall at 11 cases/fold in Table 2, but 33.1%–40.0% at N=8 and N=16 in Pool B?*",
+        f"> *Why do supervised classifiers reach {ml_cv_best:.2f}% positive recall under the 5x2-fold protocol of `results/baselines.md`, but up to {pool_b_best:.1f}% in Pool B?*",
         "",
         "The discrepancy arises from **partition composition and training source**:",
-        f"1. **`results/baselines.md` Table 2 Protocol**: Evaluated 5x2-fold cross-validation solely **within the {EVAL_N} cases of the `eval` split**. In each fold, the training set held about {EVAL_N // 2} cases from `eval`, of which about {round(100 * EVAL_NEG / EVAL_N)}% were negative controls (`No_Diagnosis`) and only {EVAL_POS // 2}–{EVAL_POS - EVAL_POS // 2} were positive cases. Crucially, the {EVAL_POS} positive cases in `eval` span 4 distinct threat classes; a 2-fold split ensures that viral classes (`Rice_Tungro_Virus`, `Rice_Grassy_Stunt`) present in the test fold never appeared in the training fold. Faced with a {round(100 * EVAL_NEG / EVAL_N)}% negative majority and unseen classes, the classifiers predicted all-zeros (`No_Diagnosis`), yielding 0.00% recall.",
-        "2. **`results/learning_curve.md` Pool B Protocol**: Trained models on the **`dev` split ($n=16$)**, where 7 of 16 cases (43.8%) are in-scope positives, including multiple examples of `Bacterial_Leaf_Blight` and `Rice_Root_Nematode`. When evaluated on `eval`, the models correctly identified FIELD_34 (`Rice_Root_Nematode`) and FIELD_36 (`Bacterial_Leaf_Blight`), achieving 2/5 = 40.0% recall, while failing on the 3 viral cases that were absent from `dev`.",
-        "3. **Uncertainty Resolution**: When evaluated under test-set bootstrap resampling (resampling the 5 positive test cases), the paired difference between ML (40.0%) and RiceKG (40.0%) is identically zero with a 95% CI spanning zero ($[-40.0, +20.0]$ for DT at N=4). Thus, the apparent crossover was an artifact of ignoring test-set sampling variance.",
+        f"1. **`results/baselines.md` Table 2 Protocol**: 5x2-fold cross-validation solely **within the {EVAL_N} cases of the `eval` split**. Each training fold holds about {EVAL_N // 2} cases, about {round(100 * EVAL_NEG / EVAL_N)}% of them negative controls and only {EVAL_POS // 2}–{EVAL_POS - EVAL_POS // 2} positive cases spread over several threat classes, so a class present in the test fold is often absent from the training fold.",
+        f"2. **`results/learning_curve.md` Pool B Protocol**: models are trained on the `dev` split ($n={pool_b_res['pool_size']}$, {pool_b_res['pool_n_positive']} positives) and tested on `eval`. At $N={b_b_max}$ they reach {terminal_b_range} positive recall, against RiceKG's {rk_pt_ref:.1f}%.",
+        f"3. **Uncertainty**: at $N={b_b_max}$ the paired test-set bootstrap differences (model − RiceKG, 95% CI) are {terminal_b_diffs}.",
         "",
         "---",
         "",
-        "## 5. Methodological Analysis of Anomalies",
+        "## 5. Methodological Notes",
         "",
-        "### Non-Monotonic Drop of Multinomial Naive Bayes (Pool A: N=40 → N=80)",
-        "In Pool A, Multinomial Naive Bayes drops from 43.8% positive recall at $N=40$ to 20.0% at $N=80$. This is caused by **negative evidence accumulation in One-vs-Rest feature likelihoods**:",
-        "- At $N=40$, stratified draws sample predominantly positive cases from the 10 threat classes, maintaining relatively balanced class priors.",
-        "- At $N=80$, the full verification pool is utilized, introducing all 20 negative control instances alongside counter-evidence from the 9 other classes. For any single threat $c$, negative instances outnumber positive instances by ~7:1.",
-        "- With Laplace smoothing, the aggregated evidence for the negative class drives the posterior log-odds below the decision threshold for borderline field cases, causing MNB to default to `No_Diagnosis`.",
+        nb_note,
         "",
         "### Dual Uncertainty Decomposition",
-        "At the terminal budget ($N=80$ in Pool A, $N=16$ in Pool B), drawing without replacement from a finite pool of size $N$ yields a single unique subsample, causing the *training-subsample variance* across draws to collapse to 0.0. However, the *test-set sampling variance* (resampling over the 5 positive test cases) remains non-zero and wide ($[0.0, 80.0]$), faithfully reflecting empirical uncertainty.",
+        f"At the terminal budget ($N={b_a_max}$ in Pool A, $N={b_b_max}$ in Pool B), drawing without replacement from a finite pool of size $N$ yields a single unique subsample, so the *training-subsample variance* across draws collapses to 0.0. The *test-set sampling variance* (resampling over the {EVAL_POS} positive test cases) stays wide, e.g. {terminal_ci_example}.",
         "",
         "---",
         "",
         "## 6. Granularity and Statistical Power Boundaries",
         "",
-        r"1. **Staircase Quantisation Step ($\Delta = 0.20$)**: Positive recall on the 5 in-scope test cases is strictly quantised to \{0.0, 0.2, 0.4, 0.6, 0.8, 1.0\}.",
-        rf"2. **Minimum Detectable Effect ($\pm 29.5\%$)**: With $n={EVAL_N}$ and {EVAL_POS} positive cases, margins below 29.5% cannot be distinguished from random sampling noise.",
-        "3. **Zero Data Leakage**: In all 200 draws across both pools, training and test case IDs and DOIs were verified to be strictly disjoint."
+        f"1. **Staircase Quantisation Step ($\\Delta = {1 / EVAL_POS:.2f}$)**: Positive recall on the {EVAL_POS} in-scope test cases takes only multiples of {100 / EVAL_POS:.0f}%.",
+        f"2. **Minimum Detectable Effect ($\\pm {mde:.1f}\\%$)**: With $n={EVAL_N}$ and {EVAL_POS} positive cases, margins below {mde:.1f}% cannot be distinguished from random sampling noise (`results/baselines.json`).",
+        f"3. **Zero Data Leakage**: In all {pool_a_res['n_draws']} draws across both pools, training and test case IDs and DOIs were verified to be strictly disjoint."
     ])
 
     return "\n".join(lines)

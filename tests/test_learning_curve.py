@@ -43,16 +43,17 @@ def test_zero_shot_reference_computation():
     assert rk_ref["cv_positive_recall"] == round(float(fb["mean_positive_recall"]), 2)
     assert rk_ref["cv_exact_match"] == round(float(fb["mean_exact_match"]), 2)
     assert rk_ref["cv_micro_f1"] == round(float(fb["mean_micro_f1"]), 2)
-    assert rk_ref["runtime_positive_recall"] == 40.00
-    assert rk_ref["runtime_exact_match"] == 86.36  # 19/22 after FIELD_24 was rejected (v2.2.0)
+    # Expert-consensus encoding (data/symptom_encoding_consensus.csv): 4/5 positives, 21/22 cases.
+    assert rk_ref["runtime_positive_recall"] == 80.00
+    assert rk_ref["runtime_exact_match"] == 95.45
     assert isinstance(rk_ref["positive_recall_ci_95"], list)
     assert len(rk_ref["positive_recall_ci_95"]) == 2
 
     assert "Rule: Flat Single-Tier" in refs
-    assert refs["Rule: Flat Single-Tier"]["runtime_positive_recall"] == 40.00
+    assert refs["Rule: Flat Single-Tier"]["runtime_positive_recall"] == 80.00
 
     assert "Rule: Nearest Prototype" in refs
-    assert refs["Rule: Nearest Prototype"]["runtime_positive_recall"] == 20.00
+    assert refs["Rule: Nearest Prototype"]["runtime_positive_recall"] == 40.00
 
 
 def test_zero_shot_reference_fails_loudly_on_corrupt_baselines(monkeypatch, tmp_path):

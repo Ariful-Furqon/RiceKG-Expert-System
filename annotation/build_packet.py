@@ -77,9 +77,17 @@ def load_definitions():
         return {r["term"]: r for r in csv.DictReader(f)}
 
 
-def symptom_labels(defs):
+# Dropdown labels used by the September 2026 packet for terms whose labels were later revised
+# (ontology v2.3.0). Returned workbooks keep the labels they were issued with.
+LEGACY_LABELS = {
+    "kuning mengikuti tulang daun — yellowing along leaf veins": "Yellowing_Leaf_Veins",
+    "muncul pada fase berbunga hingga masak susu — onset at flowering to milky stage": "Milky_Stage_Vulnerability",
+}
+
+
+def symptom_labels(defs, include_legacy=False):
     """Dropdown label -> term for every observation term; labels must be unique."""
-    out = {}
+    out = dict(LEGACY_LABELS) if include_legacy else {}
     for term, row in defs.items():
         if row["kind"] != "observation":
             continue

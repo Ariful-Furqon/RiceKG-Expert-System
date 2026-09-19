@@ -1,6 +1,6 @@
 # Comparative Baseline Evaluation & Paired Significance Testing
 
-> **Generated**: 2026-09-18 14:29:40 UTC  
+> **Generated**: 2026-09-19 00:51:38 UTC  
 > **Methodology**: 5x2-fold Cross-Validation (Dietterich 1998 paired protocol), paired McNemar exact-match tests, non-parametric bootstrap 95% CIs (B=1,000 resamples), and Holm–Bonferroni FWER step-down correction.
 
 ---
@@ -41,20 +41,20 @@
 
 | System / Model | Paradigm | Training Budget | Exact Match (%) | Positive Recall (%) | Micro-F1 (%) | 95% Bootstrap CI | McNemar $p$ | Holm-Adj $p$ | Risk Diff $\Delta$ Acc [95% CI] | Cohen's $g$* |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **86.36 ± 4.55** | **31.67 ± 27.34** | **41.00 ± 34.39** | **[33.3, 75.7]** | — | — | Baseline Reference | — |
-| RiceKG (Full + Possible) | Knowledge-Based / Semantic Web | 0 cases (cold start) | 50.00 ± 7.33 | 31.67 ± 27.34 | 39.09 ± 11.97 | [31.1, 47.9] | < 0.001 | **< 0.001*** | +36.4% [27.4, 45.4] | +0.50 |
-| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 77.27 ± 4.55 | 15.00 ± 15.28 | 57.05 ± 13.34 | [49.4, 66.7] | 0.0020 | **0.0117*** | +9.1% [3.7, 14.5] | +0.50 |
-| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 86.36 ± 4.55 | 31.67 ± 27.34 | 41.00 ± 34.39 | [33.3, 75.7] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
-| Decision Tree | Supervised Machine Learning | 11 cases/fold | 76.36 ± 8.33 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **0.0068*** | +10.0% [4.4, 15.6] | +0.50 |
-| Random Forest | Supervised Machine Learning | 11 cases/fold | 77.27 ± 9.32 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0020 | **0.0117*** | +9.1% [3.7, 14.5] | +0.50 |
-| Multinomial Naive Bayes | Supervised Machine Learning | 11 cases/fold | 77.27 ± 9.32 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0020 | **0.0117*** | +9.1% [3.7, 14.5] | +0.50 |
-| k-NN | Supervised Machine Learning | 11 cases/fold | 77.27 ± 9.32 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0020 | **0.0117*** | +9.1% [3.7, 14.5] | +0.50 |
-| Logistic Regression (OvR) | Supervised Machine Learning | 11 cases/fold | 77.27 ± 9.32 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | 0.0020 | **0.0117*** | +9.1% [3.7, 14.5] | +0.50 |
+| **RiceKG (Full Proposed)** | Knowledge-Based / Semantic Web | **0 cases (cold start)** | **95.45 ± 4.55** | **85.00 ± 15.28** | **91.14 ± 9.08** | **[77.4, 97.6]** | — | — | Baseline Reference | — |
+| RiceKG (Full + Possible) | Knowledge-Based / Semantic Web | 0 cases (cold start) | 81.82 ± 10.76 | 85.00 ± 15.28 | 70.23 ± 19.90 | [59.4, 81.7] | < 0.001 | **< 0.001*** | +13.6% [7.2, 20.0] | +0.50 |
+| Rule: Nearest Prototype | Knowledge-Based / Semantic Web | 0 cases (cold start) | 86.36 ± 7.33 | 40.83 ± 28.49 | 74.83 ± 10.23 | [63.4, 81.3] | 0.0020 | **0.0039*** | +9.1% [3.7, 14.5] | +0.50 |
+| Rule: Flat Single-Tier | Knowledge-Based / Semantic Web | 0 cases (cold start) | 95.45 ± 4.55 | 85.00 ± 15.28 | 91.14 ± 9.08 | [77.4, 97.6] | 1.0000 | **1.0000** | +0.0% [0.0, 0.0] | +0.00 |
+| Decision Tree | Supervised Machine Learning | 11 cases/fold | 74.55 ± 15.10 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **< 0.001*** | +20.9% [13.3, 28.5] | +0.50 |
+| Random Forest | Supervised Machine Learning | 11 cases/fold | 77.27 ± 9.32 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **< 0.001*** | +18.2% [11.0, 25.4] | +0.50 |
+| Multinomial Naive Bayes | Supervised Machine Learning | 11 cases/fold | 77.27 ± 9.32 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **< 0.001*** | +18.2% [11.0, 25.4] | +0.50 |
+| k-NN | Supervised Machine Learning | 11 cases/fold | 77.27 ± 9.32 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **< 0.001*** | +18.2% [11.0, 25.4] | +0.50 |
+| Logistic Regression (OvR) | Supervised Machine Learning | 11 cases/fold | 77.27 ± 9.32 | 0.00 ± 0.00 (0/5) | 0.00 ± 0.00 | [0.0, 0.0] | < 0.001 | **< 0.001*** | +18.2% [11.0, 25.4] | +0.50 |
 
 *Note: Aggregate exact match is dominated by the 17/22 negative control cases (77.3% of the benchmark), on which returning `No_Diagnosis` is correct. Positive-case recall over the 5 in-scope disease cases is reported separately and is the diagnostically meaningful column. Risk Difference (\Delta Acc) is reported with paired Wald 95% CI. Cohen's g is bounded on $[-0.50, +0.50]$ and saturates; read the Risk Difference for magnitude.*
 
 ### Key Findings (Independent Field Benchmark)
-1. **Positive-Case Recall Is the Binding Constraint**: On the only independent benchmark in the repository, RiceKG attains 31.67% positive-case recall over 5 in-scope disease cases (micro-F1 41.00, 95% CI [33.3, 75.7]), against an aggregate exact match of 86.36%. Diagnostic efficacy on authentic field cases remains largely unproven.
+1. **Positive-Case Recall Is the Binding Constraint**: On the only independent benchmark in the repository, RiceKG attains 85.00% positive-case recall over 5 in-scope disease cases (micro-F1 91.14, 95% CI [77.4, 97.6]), against an aggregate exact match of 95.45%. Diagnostic efficacy on authentic field cases remains largely unproven.
 2. **Every Supervised Baseline Scores Zero on Positive Cases**: All five ML classifiers attain 0.00% positive-case recall, having at most 5 positive training examples split across folds. Their aggregate accuracy is produced solely by predicting the majority `No_Diagnosis` class.
 3. **Residual Failures Are Now Separable**: Following identifier normalization against `model.ALL_SYMPTOMS` (see `data/symptom_mapping.csv`), the remaining errors split into genuine vocabulary gaps — literature descriptors such as bacterial ooze and water-soaked lesions that the 45-term vocabulary does not model — and true Tier-2 rule-recall failures on partially observed cases. `results/field_failure_analysis.md` assigns a cause to each case.
 4. **Negative Control Artifact**: 17 of 22 cases (77.3%) are out-of-scope emerging pathogens. Reporting aggregate exact match alone would conceal positive-case performance entirely, which is why the two are separated above.
@@ -66,15 +66,15 @@ The `dev` split holds 16 cases (7 positive, 9 negative controls) and was visible
 
 | System / Model | Exact Match (%) | Positive Recall (%) | Micro-F1 (%) |
 |:---|:---:|:---:|:---:|
-| **RiceKG (Full Proposed)** | 81.25 | 63.33 | 75.14 |
-| RiceKG (Full + Possible) | 75.00 | 75.00 | 70.94 |
-| Rule: Nearest Prototype | 68.75 | 30.83 | 63.50 |
-| Rule: Flat Single-Tier | 81.25 | 63.33 | 75.14 |
-| Decision Tree | 55.00 | 32.50 | 29.43 |
-| Random Forest | 57.50 | 29.17 | 32.86 |
-| Multinomial Naive Bayes | 56.25 | 0.00 | 0.00 |
-| k-NN | 47.50 | 0.00 | 0.00 |
-| Logistic Regression (OvR) | 58.75 | 18.33 | 19.67 |
+| **RiceKG (Full Proposed)** | 75.00 | 42.50 | 53.57 |
+| RiceKG (Full + Possible) | 68.75 | 55.00 | 59.03 |
+| Rule: Nearest Prototype | 81.25 | 55.00 | 66.48 |
+| Rule: Flat Single-Tier | 75.00 | 42.50 | 53.57 |
+| Decision Tree | 56.25 | 31.67 | 33.05 |
+| Random Forest | 55.00 | 5.83 | 8.00 |
+| Multinomial Naive Bayes | 58.75 | 6.67 | 10.00 |
+| k-NN | 51.25 | 0.00 | 0.00 |
+| Logistic Regression (OvR) | 58.75 | 5.83 | 9.00 |
 
 
 ---
