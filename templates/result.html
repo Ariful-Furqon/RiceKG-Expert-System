@@ -40,6 +40,25 @@
       <p style="color: var(--muted); max-width: 700px; margin: 0 auto;">
         The selected symptom combination did not satisfy any canonical or relaxed Horn-clause conditions. Please review observed symptoms or conduct supplementary laboratory pathology tests.
       </p>
+      {% if abstention and (abstention.nearest_rules or abstention.unused_observations) %}
+      <div style="text-align: left; max-width: 700px; margin: 1.25rem auto 0;">
+        {% if abstention.nearest_rules %}
+        <h4 class="section-subtitle"><i class="fa-solid fa-magnifying-glass"></i> Closest rules and what would settle the case</h4>
+        <ul class="ipm-list">
+          {% for rule in abstention.nearest_rules %}
+          <li class="ipm-list-item">
+            <span><strong>{{ rule.name }}</strong> ({{ rule.rule_id }}, {{ (rule.coverage * 100)|round|int }}% of antecedents observed).
+              Observed: {% for s in rule.matched_symptoms %}{{ symptom_name_map.get(s, s.replace('_', ' ')) }}{% if not loop.last %}, {% endif %}{% endfor %}.
+              Still to check: {% for s in rule.missing_symptoms %}{{ symptom_name_map.get(s, s.replace('_', ' ')) }}{% if not loop.last %}, {% endif %}{% endfor %}.</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% if abstention.unused_observations %}
+        <p style="color: var(--muted);">Recorded but not used by any rule: {% for s in abstention.unused_observations %}{{ symptom_name_map.get(s, s.replace('_', ' ')) }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+        {% endif %}
+      </div>
+      {% endif %}
     {% endif %}
   </div>
 

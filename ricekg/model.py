@@ -1283,6 +1283,48 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
     }
 
 
+def explain_abstention(selected_symptoms, k=2):
+    """
+    Explains why no diagnosis was reached: the in-scope rules closest to firing, with the
+    antecedents already observed and those still missing, and the observed terms that no rule
+    uses. Pure set arithmetic over RULE_REGISTRY; it never changes a diagnosis.
+
+    Expert raters judged silent abstentions the least useful output (usefulness 1.98/5), so an
+    abstention should say which additional observation would settle the case.
+
+    :param selected_symptoms: List of observed symptom identifiers.
+    :param k: Maximum number of nearest rules to return.
+    :return: Dict with `nearest_rules` (list) and `unused_observations` (list).
+    """
+    observed = set(selected_symptoms)
+    candidates = []
+    for rule in RULE_REGISTRY:
+        ants = set(rule["antecedents"])
+        matched = ants & observed
+        if not matched:
+            continue
+        candidates.append({
+            "threat": rule["threat"],
+            "rule_id": rule["id"],
+            "tier": rule["tier"],
+            "coverage": round(len(matched) / len(ants), 4),
+            "matched_symptoms": sorted(matched),
+            "missing_symptoms": sorted(ants - observed),
+        })
+    # Closest first: fewest missing antecedents, then highest coverage; Tier-2 before Tier-1
+    # on ties because it is the rule that would fire first.
+    candidates.sort(key=lambda c: (len(c["missing_symptoms"]), -c["coverage"], c["tier"] != "tier2", c["threat"]))
+    nearest, seen = [], set()
+    for c in candidates:
+        if c["threat"] not in seen:
+            seen.add(c["threat"])
+            nearest.append(c)
+        if len(nearest) == k:
+            break
+    used = {a for r in RULE_REGISTRY for a in r["antecedents"]}
+    return {"nearest_rules": nearest, "unused_observations": sorted(observed - used)}
+
+
 def explain_diagnoses(selected_symptoms, diagnosed_threats):
     """
     Generates explainable deductive proof traces for all inferred diagnoses.

@@ -244,6 +244,11 @@ def diagnose():
                 })
 
         derivation_trace = get_derivation_trace(selected_symptoms, graded_results)
+        abstention = None if diagnosed_results else model.explain_abstention(selected_symptoms)
+        if abstention:
+            for rule in abstention["nearest_rules"]:
+                info = THREAT_MAP.get(rule["threat"]) or {}
+                rule["name"] = info.get("nama", rule["threat"].replace("_", " "))
 
         # Part 7-A: Top-k Differential Diagnosis
         top_k_differential = model.predict_top_k(
@@ -267,6 +272,7 @@ def diagnose():
             differential=top_k_differential,
             explanations=explanations,
             derivation_trace=derivation_trace,
+            abstention=abstention,
             selected_symptoms=selected_symptoms,
             symptom_name_map=SYMPTOM_NAME_MAP,
             elapsed_time=elapsed_time

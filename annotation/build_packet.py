@@ -138,11 +138,20 @@ def rater_order(cases, rater_index):
 # RiceKG explanations for Stage B
 # ---------------------------------------------------------------------------
 
-def render_explanation(outputs, defs):
-    if not outputs:
-        return ("Sistem tidak menyimpulkan penyakit apa pun: tidak ada aturan yang terpenuhi oleh gejala "
-                "yang dicatat, dan tidak ada tanda yang menunjukkan penyebab di luar cakupan.")
+def render_explanation(outputs, defs, symptoms=()):
     label = lambda t: defs[t]["label_id"] if t in defs else t
+    if not outputs:
+        from ricekg import model
+        ab = model.explain_abstention(list(symptoms))
+        text = ("Sistem tidak menyimpulkan penyakit apa pun: tidak ada aturan yang terpenuhi oleh gejala "
+                "yang dicatat, dan tidak ada tanda yang menunjukkan penyebab di luar cakupan.")
+        for r in ab["nearest_rules"]:
+            text += (f"\nAturan terdekat: {label(r['threat'])} ({r['rule_id']}, {round(100 * r['coverage'])}% gejala teramati). "
+                     f"Sudah teramati: {', '.join(label(s) for s in r['matched_symptoms'])}. "
+                     f"Perlu diperiksa: {', '.join(label(s) for s in r['missing_symptoms'])}.")
+        if ab["unused_observations"]:
+            text += f"\nTercatat tetapi tidak dipakai aturan mana pun: {', '.join(label(s) for s in ab['unused_observations'])}."
+        return text
     parts = []
     for r in outputs:
         if r["grade"] == "out_of_scope":
@@ -178,7 +187,7 @@ def explain_cases(cases, defs):
     for c in cases:
         outputs = model.predict_diseases(c["symptoms"], include_possible=True)
         c["conclusion"] = ricekg_conclusion(outputs, defs)
-        c["explanation"] = render_explanation(outputs, defs)
+        c["explanation"] = render_explanation(outputs, defs, c["symptoms"])
         c["recorded"] = ", ".join(defs[s]["label_id"] for s in c["symptoms"]) or "(tidak ada gejala yang terpetakan)"
 
 
