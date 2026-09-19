@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T02:16:02.225707+00:00",
+  "generated_at": "2026-09-19T09:58:26.652299+00:00",
   "diagnosis": {
     "raters": [
       "R1",
@@ -21,6 +21,23 @@
       -0.467,
       -0.164
     ],
+    "collapsed_label_space": {
+      "definition": "Undetermined merged into Other: scores whether an in-scope threat was named, not how a decline was expressed",
+      "pairwise_rater_kappa": {
+        "R1-R2": 0.949
+      },
+      "system_rater_kappa": {
+        "R1": 0.76,
+        "R2": 0.807
+      },
+      "mean_rater_rater_kappa": 0.949,
+      "mean_system_rater_kappa": 0.783,
+      "system_minus_rater_kappa": -0.166,
+      "system_minus_rater_kappa_ci95": [
+        -0.322,
+        -0.036
+      ]
+    },
     "system_within_rater_range": null,
     "vs_published_label": {
       "R1": {
@@ -56,6 +73,48 @@
       "RiceKG strict": {
         "all": {
           "k": 35,
+          "n": 56
+        },
+        "positive_cases": {
+          "k": 21,
+          "n": 30
+        }
+      }
+    },
+    "vs_published_label_collapsed": {
+      "R1": {
+        "all": {
+          "k": 49,
+          "n": 56
+        },
+        "positive_cases": {
+          "k": 26,
+          "n": 30
+        }
+      },
+      "R2": {
+        "all": {
+          "k": 49,
+          "n": 56
+        },
+        "positive_cases": {
+          "k": 25,
+          "n": 30
+        }
+      },
+      "rater majority": {
+        "all": {
+          "k": 46,
+          "n": 56
+        },
+        "positive_cases": {
+          "k": 25,
+          "n": 30
+        }
+      },
+      "RiceKG strict": {
+        "all": {
+          "k": 47,
           "n": 56
         },
         "positive_cases": {

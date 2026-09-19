@@ -468,13 +468,19 @@ def generate_publication_figure(
     rk_ref = pool_a_res["zero_shot_references"]["RiceKG (Full Proposed)"]["cv_positive_recall"]
     proto_ref = pool_a_res["zero_shot_references"]["Rule: Nearest Prototype"]["cv_positive_recall"]
 
-    for ax, res, title in [(ax1, pool_a_res, "(a) Pool A: Rule-Derived Verification Cases (n=80)"),
-                           (ax2, pool_b_res, "(b) Pool B: Real Field Development Cases (n=16)")]:
+    for ax, res, title in [
+        (ax1, pool_a_res, f"(a) Pool A: Rule-Derived Verification Cases (n={pool_a_res['pool_size']})"),
+        (ax2, pool_b_res, f"(b) Pool B: Real Field Development Cases (n={pool_b_res['pool_size']})"),
+    ]:
         budgets = res["budgets"]
 
         # Horizontal zero-shot reference lines
-        ax.axhline(rk_ref, color="#000000", ls="--", lw=1.8, label="RiceKG Reference (35.0%)", zorder=3)
-        ax.axhline(proto_ref, color="#666666", ls=":", lw=1.5, label="Nearest Prototype (17.5%)", zorder=2)
+        # Labels are derived from the plotted values so the legend cannot drift
+        # out of step with the data the way it did before ruleset v2.4.0.
+        ax.axhline(rk_ref, color="#000000", ls="--", lw=1.8,
+                   label=f"RiceKG Reference ({rk_ref:.1f}%)", zorder=3)
+        ax.axhline(proto_ref, color="#666666", ls=":", lw=1.5,
+                   label=f"Nearest Prototype ({proto_ref:.1f}%)", zorder=2)
 
         for m_name, st in styles.items():
             means = [res["by_budget"][str(b)]["models"][m_name]["mean_positive_recall"] for b in budgets]
@@ -708,7 +714,7 @@ def main():
     if args.pool in ("A", "both"):
         res_a = run_learning_curve_for_pool(
             pool_name="pool_A",
-            pool_source_desc="Rule-Derived Verification Suite (n=80)",
+            pool_source_desc=f"Rule-Derived Verification Suite (n={len(cases_pool_a)})",
             X_pool=X_pool_a,
             Y_pool=Y_pool_a,
             pool_cases=cases_pool_a,

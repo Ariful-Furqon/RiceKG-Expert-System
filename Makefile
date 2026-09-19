@@ -75,7 +75,7 @@ import-annotations:
 	$(VENV_BIN)/python3 annotation/import_returns.py
 
 expert-validation:
-	$(VENV_BIN)/python3 analysis/expert_validation.py --rerun
+	$(VENV_BIN)/python3 -m analysis.expert_validation --rerun
 
 reproduce: ablate baselines failure-analysis graded-eval verify-kb competency degradation results-index check-docs
 	@echo "All result artifacts regenerated and documentation figures verified."

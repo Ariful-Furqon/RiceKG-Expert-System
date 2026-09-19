@@ -95,6 +95,36 @@ def diagnosis_agreement(diag_rows, system, truth, rng):
 
         out["system_minus_rater_kappa"] = round(mean_sr - mean_rr, 3)
         out["system_minus_rater_kappa_ci95"] = _boot(n, diff, rng)
+
+        # Collapsed label space. The full space separates an explicit out-of-scope
+        # rejection ("Other") from a silent abstention ("Undetermined"), so a system
+        # that declines without giving a reason is scored as disagreeing with a rater
+        # who declines with one. Collapsing the two asks only whether an in-scope
+        # threat was named, and which -- the comparison that matches the system's
+        # designed scope. Uses its own RandomState so the interval does not depend on
+        # how much of the shared stream the preceding bootstrap consumed.
+        def _collapse(v):
+            return "Other" if v == "Undetermined" else v
+
+        Rc = {r: [_collapse(v) for v in R[r]] for r in raters}
+        Sc = [_collapse(v) for v in S]
+        mean_rr_c = statistics.mean(_kappa(Rc[a], Rc[b]) for a, b in pairs)
+        mean_sr_c = statistics.mean(_kappa(Sc, Rc[r]) for r in raters)
+
+        def diff_c(idx):
+            rr = statistics.mean(_kappa([Rc[a][i] for i in idx], [Rc[b][i] for i in idx]) for a, b in pairs)
+            sr = statistics.mean(_kappa([Sc[i] for i in idx], [Rc[r][i] for i in idx]) for r in raters)
+            return sr - rr
+
+        out["collapsed_label_space"] = {
+            "definition": "Undetermined merged into Other: scores whether an in-scope threat was named, not how a decline was expressed",
+            "pairwise_rater_kappa": {f"{a}-{b}": round(_kappa(Rc[a], Rc[b]), 3) for a, b in pairs},
+            "system_rater_kappa": {r: round(_kappa(Sc, Rc[r]), 3) for r in raters},
+            "mean_rater_rater_kappa": round(mean_rr_c, 3),
+            "mean_system_rater_kappa": round(mean_sr_c, 3),
+            "system_minus_rater_kappa": round(mean_sr_c - mean_rr_c, 3),
+            "system_minus_rater_kappa_ci95": _boot(n, diff_c, np.random.RandomState(SEED)),
+        }
         # A range needs at least two rater pairs (three raters); with two raters the criterion is
         # whether the bootstrap CI of the RiceKG-minus-rater difference includes zero.
         out["system_within_rater_range"] = (
@@ -112,6 +142,24 @@ def diagnosis_agreement(diag_rows, system, truth, rng):
 
     out["vs_published_label"] = {
         who: {"all": acc(labels, range(n)), "positive_cases": acc(labels, pos)}
+        for who, labels in [*((r, R[r]) for r in raters), ("rater majority", majority), ("RiceKG strict", S)]
+    }
+
+    # Collapsed counterpart: a silent abstention ("Undetermined") is counted as an
+    # out-of-scope decline ("Other"), so declining is scored the same however it is
+    # expressed. This isolates how much of the system's apparent disagreement is the
+    # manner of declining rather than the decision itself.
+    def _col(v):
+        return "Other" if v == "Undetermined" else v
+
+    Tc = [_col(t) for t in T]
+
+    def acc_c(labels, idx):
+        lc = [_col(v) for v in labels]
+        return {"k": sum(lc[i] == Tc[i] for i in idx), "n": len(idx)}
+
+    out["vs_published_label_collapsed"] = {
+        who: {"all": acc_c(labels, range(n)), "positive_cases": acc_c(labels, pos)}
         for who, labels in [*((r, R[r]) for r in raters), ("rater majority", majority), ("RiceKG strict", S)]
     }
     out["label_distribution"] = {who: dict(Counter(labels)) for who, labels in [*R.items(), ("RiceKG strict", S)]}
@@ -258,6 +306,21 @@ def write_markdown(rep):
     L += ["", "Agreement with the published label (No_Diagnosis counted as Other):", "",
           "| Who | All cases | Positive cases |", "|:---|:---:|:---:|"]
     L += [f"| {who} | {_pct(v['all'])} | {_pct(v['positive_cases'])} |" for who, v in dx["vs_published_label"].items()]
+    cl = dx.get("collapsed_label_space")
+    if cl:
+        ci = cl["system_minus_rater_kappa_ci95"]
+        L += ["", "### Collapsed label space (`Undetermined` counted as `Other`)", "",
+              "The full label space separates an explicit out-of-scope rejection from a silent abstention, so a "
+              "system that declines without giving a reason is scored as disagreeing with a rater who declines "
+              "with one. Collapsing the two scores only whether an in-scope threat was named, and which.", "",
+              f"Mean rater–rater κ {cl['mean_rater_rater_kappa']}; mean RiceKG–rater κ "
+              f"{cl['mean_system_rater_kappa']}; difference {cl['system_minus_rater_kappa']} "
+              f"[95% CI {ci[0]}, {ci[1]}].", ""]
+        if dx.get("vs_published_label_collapsed"):
+            L += ["Agreement with the published label under the collapsed space:", "",
+                  "| Who | All cases | Positive cases |", "|:---|:---:|:---:|"]
+            L += [f"| {who} | {_pct(v['all'])} | {_pct(v['positive_cases'])} |"
+                  for who, v in dx["vs_published_label_collapsed"].items()]
     enc = rep["encoding"]
     if enc:
         L += ["", f"## Symptom encoding ({enc['n_cases']} cases, {enc['terms_used']} terms used)", "",
