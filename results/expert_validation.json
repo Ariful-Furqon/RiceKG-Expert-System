@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T02:05:13.489355+00:00",
+  "generated_at": "2026-09-19T02:16:02.225707+00:00",
   "diagnosis": {
     "raters": [
       "R1",
@@ -507,105 +507,22 @@
       "adequate": 53,
       "needs_revision": 14
     },
+    "n_reviewers": 1,
     "flagged_terms": {
-      "Bacterial_Leaf_Blight": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Penyakit bakteri padi oleh Xanthomonas oryzae pv. oryzae: lesi kebasahan dari ujung dan/atau tepi daun meluas ke pangkal dengan batas kuning bergelombang, sering disertai eksudat. Pada fase bibit menyebabkan layu (kresek); dibedakan dari bacterial leaf streak (X. oryzae pv. oryzicola) yang berupa garis sempit tembus cahaya di antara tulang daun."
-        }
-      ],
-      "Brown_Streaks": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Garis nekrotik cokelat sempit sejajar tulang daun pada helai atau pelepah daun, panjangnya jauh melebihi lebarnya. Gunakan Necrotic_Spots untuk bercak diskret tanpa pola memanjang searah tulang daun."
-        }
-      ],
-      "Chlorotic_Streaks": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Garis sempit kuning, pucat, atau tembus cahaya yang memanjang sejajar tulang daun. Pada daun padi berpenulangan sejajar, istilah ini sebaiknya menggantikan Interveinal_Chlorosis untuk semua pola klorosis bergaris."
-        }
-      ],
-      "Deadheart_Seedling": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Pucuk tengah anakan pada fase vegetatif (tidak terbatas pada bibit) menguning-cokelat dan mengering sementara daun luar tetap hijau, akibat penggerek batang. ID sebaiknya diganti menjadi Deadheart agar tidak menyiratkan fase bibit saja."
-        }
-      ],
-      "Interveinal_Chlorosis": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Menguning di jaringan antara tulang daun sementara tulang daun tetap hijau, dilaporkan secara eksplisit sebagai pola antartulang. Jaringan \"tembus cahaya\" pada lesi bakteri tidak termasuk; gunakan Chlorotic_Streaks atau Water_Soaked_Lesions."
-        }
-      ],
-      "Leaf_Discoloration_Yellow": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Lesi atau pita kuning yang memanjang di sepanjang tepi helai daun. ID sebaiknya diganti menjadi Yellow_Leaf_Margin_Lesions karena ID sekarang menyiratkan perubahan warna kuning umum, tidak sesuai label."
-        }
-      ],
-      "Leaf_Margin_Sap_Sucking": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Bercak kecil keperakan, pucat, atau mengering pada tepi atau ujung daun akibat isapan serangga (mis. thrips), sering disertai daun menggulung. Perlu menyebut serangga penyebab agar bisa dibedakan dari lesi penyakit di tepi daun."
-        }
-      ],
-      "Leaf_Wilting": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Daun terkulai atau menggulung karena kehilangan turgor. Kematian dini tanaman sebaiknya dicatat sebagai istilah terpisah, bukan digabung dalam definisi layu."
-        }
-      ],
-      "Milky_Stage_Vulnerability": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Gejala pertama kali terlihat antara fase berbunga dan masak susu. ID sebaiknya diganti menjadi Flowering_To_Milky_Onset karena infeksi gosong palsu sendiri terjadi saat bunting, bukan saat masak susu."
-        }
-      ],
-      "Rice_Root_Nematode": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Nematoda puru akar padi Meloidogyne graminicola yang membentuk puru berbentuk kait di ujung akar. ID sebaiknya diganti menjadi Rice_Root_Knot_Nematode, karena \"rice root nematode\" lazim merujuk ke Hirschmanniella oryzae yang tidak membentuk puru."
-        }
-      ],
-      "Rice_Tungro_Virus": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Penyakit tungro yang disebabkan infeksi gabungan rice tungro bacilliform virus (Tungrovirus) dan rice tungro spherical virus (Waikavirus), ditularkan wereng hijau terutama Nephotettix virescens. ID sebaiknya Rice_Tungro_Disease karena penyakit ini melibatkan dua virus."
-        }
-      ],
-      "Rusty_Grain_Balls": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Gabah yang digantikan bola spora beludru lebih besar dari gabah normal, berwarna kuning-oranye hingga hijau atau hijau kekuningan dan belum menghitam. Gunakan istilah ini juga bila warna hanya disebut \"hijau\" tanpa keterangan gelap atau hitam."
-        }
-      ],
-      "Slight_Panicle_Infection": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Hanya sedikit spikelet per malai yang terserang, apa pun bentuk gejalanya. Syarat \"lesi kecil pada glume\" sebaiknya dipisah agar istilah ini bisa dipakai untuk gosong palsu (beberapa bola spora per malai)."
-        }
-      ],
-      "Yellowing_Leaf_Veins": [
-        {
-          "annotator": "R1",
-          "rating": "needs_revision",
-          "suggestion": "Lesi yang meluas mengikuti tulang daun (terutama tulang tengah) dengan batas kuning bergelombang. ID dan label sebaiknya diganti (mis. Lesion_Along_Veins / \"lesi meluas mengikuti tulang daun\") karena istilah sekarang menyiratkan tulang daun yang menguning."
-        }
-      ]
+      "Bacterial_Leaf_Blight": 1,
+      "Brown_Streaks": 1,
+      "Chlorotic_Streaks": 1,
+      "Deadheart_Seedling": 1,
+      "Interveinal_Chlorosis": 1,
+      "Leaf_Discoloration_Yellow": 1,
+      "Leaf_Margin_Sap_Sucking": 1,
+      "Leaf_Wilting": 1,
+      "Milky_Stage_Vulnerability": 1,
+      "Rice_Root_Nematode": 1,
+      "Rice_Tungro_Virus": 1,
+      "Rusty_Grain_Balls": 1,
+      "Slight_Panicle_Infection": 1,
+      "Yellowing_Leaf_Veins": 1
     }
   }
 }

@@ -218,12 +218,13 @@ def explanation_ratings(expl_rows, outcome):
 def definition_review(rows):
     if not rows:
         return None
+    # Aggregate only: raters were told their answers would not be reported individually, so the
+    # public report counts ratings and flagged terms; the wording of suggestions stays local.
     counts = dict(Counter(r["rating"] for r in rows if r["rating"]))
-    flagged = defaultdict(list)
-    for r in rows:
-        if r["rating"] in ("needs_revision", "inadequate") or r["suggestion"]:
-            flagged[r["term"]].append({"annotator": r["annotator"], "rating": r["rating"], "suggestion": r["suggestion"]})
-    return {"counts": counts, "flagged_terms": dict(sorted(flagged.items()))}
+    flagged = Counter(r["term"] for r in rows
+                      if r["rating"] in ("needs_revision", "inadequate") or r["suggestion"])
+    return {"counts": counts, "n_reviewers": len({r["annotator"] for r in rows}),
+            "flagged_terms": dict(sorted(flagged.items()))}
 
 
 # ---------------------------------------------------------------------------
@@ -309,9 +310,9 @@ def write_markdown(rep, path):
                      f"{fmt(s['reasoning'])} | {fmt(s['completeness'])} | {fmt(s['usefulness'])} |")
     dfn = rep["definitions"]
     if dfn:
-        L += ["", "## Definition review", "", f"Ratings: {dfn['counts']}.", ""]
-        for term, notes in dfn["flagged_terms"].items():
-            L.append(f"- `{term}`: " + "; ".join(f"{n['annotator']} {n['rating'] or ''} {n['suggestion']}".strip() for n in notes))
+        L += ["", "## Definition review", "",
+              f"Reviewers: {dfn['n_reviewers']}. Ratings: {dfn['counts']}. Terms flagged for revision "
+              f"(number of reviewers): " + ", ".join(f"`{t}` ({n})" for t, n in dfn["flagged_terms"].items()) + "."]
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(L) + "\n")
 

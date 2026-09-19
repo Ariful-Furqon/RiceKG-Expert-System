@@ -509,7 +509,8 @@ can arise from disease.
 
 One independent agronomist (R1 in the multi-rater study, [`ANNOTATION_PROTOCOL.md`](ANNOTATION_PROTOCOL.md))
 rated all 67 definitions: 53 adequate, 14 needing revision. Each revision follows the reviewer's
-wording (translated from Indonesian) and is recorded in [`data/definition_review.csv`](../data/definition_review.csv);
+wording (translated from Indonesian); the per-rater review is kept locally, not in the public
+repository, and [`results/expert_validation.md`](../results/expert_validation.md) reports it in aggregate;
 `ontology/term_definitions.csv` now marks every term `reviewed` or `revised`, and
 `skos:editorialNote` says which. The second rater did not complete the review, so every definition
 rests on a single reviewer.

@@ -130,5 +130,6 @@ ratings no longer describe the system. The follow-up round:
 | `annotation/build_packet.py`, `import_returns.py`, `redaction.py` | Instrument and import | yes |
 | `annotation/packet/` | Workbooks and coordinator key | **no** |
 | `annotation/returned/` | Completed workbooks | **no** |
-| `data/annotations_*.csv`, `data/definition_review.csv` | De-identified answers (R1–R3) | yes |
+| `data/annotations_*.csv`, `data/definition_review.csv` | De-identified per-rater answers (R1–R3) | **no**: raters were told answers are reported only in aggregate |
+| `data/symptom_encoding_consensus.csv` | Terms chosen by both raters (the benchmark's encoding) | yes |
 | `results/expert_validation.*` | Analysis | yes |

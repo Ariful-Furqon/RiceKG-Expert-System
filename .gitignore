@@ -61,11 +61,20 @@ ENV/
 env.bak/
 venv.bak/
 
-# IDE / Editor
+# IDE / Editor / assistant tooling
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
+
+# Linters, type checkers, logs
+.ruff_cache/
+.mypy_cache/
+*.log
+
+# Office lock files (open Excel/Word workbooks)
+~$*
 
 # OS specific
 Thumbs.db
@@ -84,7 +93,9 @@ scratch/
 *.owx
 *.properties
 
-# Project-specific: Manuscript (must not be in public repo for journal review)
+# Project-specific: Manuscript and journal template (must not be in the public repo during review;
+# versioned elsewhere, e.g. Overleaf)
+paper/
 RiceKG_Manuscript_Remake.md
 Response_to_Reviewers.md
 
@@ -95,5 +106,8 @@ anon_bundle/
 annotation/packet/
 annotation/returned/
 
-# Journal template archives (unzip into paper/ to work on the manuscript)
-paper/*.zip
+# Per-rater answers written by annotation/import_returns.py. Raters were told their answers would
+# be reported only in aggregate, so these stay local; results/expert_validation.* is the public
+# aggregate. data/symptom_encoding_consensus.csv (the agreed encoding) is tracked.
+data/annotations_*.csv
+data/definition_review.csv

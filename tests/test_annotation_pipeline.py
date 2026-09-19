@@ -157,7 +157,7 @@ def test_expert_validation_on_simulated_raters(imported):
     assert dx["vs_published_label"]["R1"]["all"] == {"k": 56, "n": 56}
     assert rep["encoding"]["author_vs_majority_jaccard"] == 1.0
     assert rep["explanations"]["overall"]["accept"] == {"yes": 168}
-    assert list(rep["definitions"]["flagged_terms"]) == [sorted(bp.load_definitions())[0]]
+    assert rep["definitions"]["flagged_terms"] == {sorted(bp.load_definitions())[0]: 3}
 
 
 def test_expert_validation_refuses_without_data(tmp_path):
