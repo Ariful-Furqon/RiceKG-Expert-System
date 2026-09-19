@@ -245,7 +245,7 @@ def write_markdown(rep):
         "> **Data**: field benchmark (`data/benchmark_field.csv`, expert-consensus encoding) and controlled "
         "occlusion cases from `data/generator.py`. `data/verification_suite.csv` was authored from an earlier "
         "rule base and is used only as input to the equivalence check, never scored.  ",
-        "> **Independence**: the ruleset was revised after the field results were seen (`docs/ONTOLOGY.md`, "
+        "> **Independence**: the ruleset was revised after the field results were seen ("
         "v2.4.0); no split here is held out for it.",
         "",
         "## Findings (computed from the tables below)",

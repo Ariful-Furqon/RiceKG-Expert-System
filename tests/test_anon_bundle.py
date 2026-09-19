@@ -35,7 +35,7 @@ def test_deny_list_catches_a_planted_leak(bundle, tmp_path):
     # A planted identifier must be detected — the gate must not be vacuous.
     planted = tmp_path / "planted"
     shutil.copytree(bundle, planted)
-    (planted / "docs" / "leak.md").write_text(
+    (planted / "leak.md").write_text(
         "Contact: ariful.furqon@unej.ac.id\n", encoding="utf-8"
     )
     violations = bab.verify(planted, bab.load_rules())

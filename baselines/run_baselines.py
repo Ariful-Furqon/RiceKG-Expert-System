@@ -299,7 +299,7 @@ def generate_markdown_report(augmented_results: Dict[str, Any], field_results: D
         "`data/rejected_field_candidates.csv` with a stated reason.",
         "- **Independence (downgraded)**: this partition was held out during P0-5 Steps 2-3, but its "
         "aggregate scores have now been observed across two rounds of rule revision. It is "
-        "**development-informed**, not strictly held out. See `docs/LIMITATIONS.md` Section 2. A fresh "
+        "**development-informed**, not strictly held out. A fresh "
         "partition is required before the manuscript cites an independent diagnostic figure.",
         f"- **Cross-Validation Split Strategy**: `{field_results['split_strategy']}`.",
         f"- **Minimum Detectable Effect (MDE)**: $\\pm${field_results['mde_analysis']['mde_percentage_proportion']:.1f}% accuracy ($\\alpha=0.05, 1-\\beta=0.80$).",

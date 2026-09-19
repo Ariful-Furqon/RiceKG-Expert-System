@@ -150,23 +150,23 @@ def check_false_positive_claim(readme_text: str) -> list[str]:
     return []
 
 
-RESULTS_INDEX = os.path.join(BASE_DIR, "docs", "RESULTS_INDEX.md")
 _GENERATED_MARKER = "<!-- GENERATED FILE — DO NOT EDIT BY HAND -->"
 
 
 def check_results_index() -> list[str]:
-    # Fail if docs/RESULTS_INDEX.md is missing or was hand-edited.
+    # Fail if the results-index section of results/REPORT.md is missing or was hand-edited.
+    from analysis import report
     errs = []
-    if not os.path.exists(RESULTS_INDEX):
+    section = report.read_section("results-index")
+    if not section:
         errs.append(
-            "  docs/RESULTS_INDEX.md is missing; run `python analysis/build_results_index.py`"
+            "  results/REPORT.md has no results-index section; run `python analysis/build_results_index.py`"
         )
         return errs
-    with open(RESULTS_INDEX, encoding="utf-8") as fh:
-        content = fh.read()
+    content = section + "\n"
     if _GENERATED_MARKER not in content.splitlines()[0]:
         errs.append(
-            "  docs/RESULTS_INDEX.md does not contain the generated-file header on line 1; "
+            "  the results index does not contain the generated-file header on line 1; "
             "it may have been hand-edited or regenerated incorrectly. "
             "Run `python analysis/build_results_index.py` to regenerate."
         )
@@ -178,7 +178,7 @@ def check_results_index() -> list[str]:
 
     if not build_results_index.verify_hash(content):
         errs.append(
-            "  docs/RESULTS_INDEX.md content does not match its embedded content-sha256; "
+            "  the results index content does not match its embedded content-sha256; "
             "it was hand-edited or is stale. "
             "Run `python analysis/build_results_index.py` to regenerate."
         )
@@ -196,6 +196,8 @@ def main():
 
     for label, value, docs in required_figures():
         for doc in docs:
+            if not os.path.exists(doc):
+                continue  # docs/ is local only (git-ignored); README is always checked
             if doc not in contents:
                 with open(doc, encoding="utf-8") as fh:
                     contents[doc] = fh.read()
@@ -223,7 +225,7 @@ def main():
     if index_errs:
         failures.extend(index_errs)
     else:
-        print("  OK  docs/RESULTS_INDEX.md: generated-file header present")
+        print("  OK  results/REPORT.md#results-index: generated and unedited")
 
     if failures:
         print("\nFAIL: documentation has drifted from results/\n")

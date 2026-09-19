@@ -4,10 +4,10 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ricekg import model  # noqa: E402
+from analysis import report  # noqa: E402
 from owlready2 import sync_reasoner_pellet  # noqa: E402
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT_MD = os.path.join(BASE_DIR, "docs", "COMPETENCY_QUESTIONS.md")
 
 NS = "http://www.semanticweb.org/ontologies/rice_pest_disease.owl#"
 PREFIX = f"PREFIX : <{NS}>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -230,10 +230,9 @@ def main():
         L.append("```")
         L.append("")
 
-    with open(OUT_MD, "w", newline="", encoding="utf-8") as fh:
-        fh.write("\n".join(L) + "\n")
+    report.write_section("competency-questions", "\n".join(L))
 
-    print(f"[OUTPUT] {OUT_MD}")
+    print('[OUTPUT] "competency-questions" section of results/REPORT.md')
     print(f"{len(satisfied)} satisfied, {len(gaps)} gaps")
     for r in mismatched:
         print(f"  MISMATCH {r['id']}: declared {r['status']} but expectation did not hold")

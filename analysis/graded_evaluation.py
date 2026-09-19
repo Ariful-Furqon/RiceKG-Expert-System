@@ -180,7 +180,7 @@ def write_markdown(rep):
         "> **Protocol**: every system runs once on every case; no training and no cross-validation. "
         "Figures are counts over cases with exact Clopper–Pearson 95% intervals.  ",
         "> **Independence**: `eval` is development-informed and `holdout` is development-exposed "
-        "(see `docs/LIMITATIONS.md` Section 2); neither is a strictly held-out estimate.",
+        "because the rule base was revised after they were seen; neither is a strictly held-out estimate.",
         "",
         "Outcome categories are defined in the script docstring. *Committed* means graded confirmed or "
         "suspected; a **misfire** names the wrong disease and is the harmful error, while abstaining or "

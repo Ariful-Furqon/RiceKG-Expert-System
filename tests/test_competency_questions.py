@@ -7,9 +7,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(
 
 import competency_questions as cq  # noqa: E402
 
-DOC = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "COMPETENCY_QUESTIONS.md"
-)
 
 
 @pytest.fixture(scope="module")
@@ -47,11 +44,11 @@ def test_declared_status_matches_the_ontology(results):
 
 
 def test_documentation_is_present_and_lists_every_question(results):
-    assert os.path.exists(DOC), "docs/COMPETENCY_QUESTIONS.md must be generated"
-    with open(DOC, encoding="utf-8") as fh:
-        text = fh.read()
+    from analysis import report
+    text = report.read_section("competency-questions")
+    assert text, "results/REPORT.md must contain the competency-questions section"
     for r in results:
-        assert r["id"] in text, f"{r['id']} missing from docs/COMPETENCY_QUESTIONS.md"
+        assert r["id"] in text, f"{r['id']} missing from results/REPORT.md#competency-questions"
 
 
 def test_competency_questions_status_and_gaps(results):

@@ -13,8 +13,11 @@ def test_required_figures_are_declared():
     assert figures, "The checklist must not be empty"
     for label, value, docs in figures:
         assert label and value and docs
+        # README is public and must exist; docs/ is local only (git-ignored) and may be absent.
+        docs_dir = os.path.join(checker.BASE_DIR, "docs")
         for doc in docs:
-            assert os.path.exists(doc), f"Declared document missing: {doc}"
+            assert doc == checker.README or os.path.dirname(doc) == docs_dir, f"Unexpected document {doc}"
+    assert os.path.exists(checker.README)
 
 
 def test_documentation_matches_results():

@@ -1,6 +1,8 @@
 import csv
 import os
 
+import pytest
+
 from ricekg import evaluate
 
 FIELD_CSV = os.path.join(evaluate.BASE_DIR, "data", "benchmark_field.csv")
@@ -102,6 +104,8 @@ def test_uncovered_threat_classes_are_disclosed():
     if not uncovered:
         return
 
+    if not os.path.exists(LIMITATIONS):
+        pytest.skip("docs/ is local only (git-ignored)")
     with open(LIMITATIONS, encoding="utf-8") as f:
         text = f.read()
 

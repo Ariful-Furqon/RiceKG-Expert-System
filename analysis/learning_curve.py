@@ -595,7 +595,7 @@ def generate_markdown_report(
         f"## 2. Quantitative Results: Pool A (Rule-Derived Cases, $N \\in [{min(pool_a_res['budgets'])}, {b_a_max}]$)",
         "",
         f"Training cases drawn from `data/verification_suite.csv` ($n={pool_a_res['pool_size']}$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n={pool_a_res['test_set_size']}$). "
-        "The suite's labels are the outputs of an earlier rule base (`docs/LIMITATIONS.md` Section 4), so Pool A "
+        "The suite's labels are the outputs of an earlier rule base, so Pool A "
         "measures learning from rule-generated labels that the current ruleset no longer reproduces; Pool B, "
         "trained on real field cases, is the realistic comparison.",
         "",

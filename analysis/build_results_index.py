@@ -10,7 +10,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 RESULTS_DIR = BASE_DIR / "results"
-OUTPUT = BASE_DIR / "docs" / "RESULTS_INDEX.md"
 
 
 # ---------------------------------------------------------------------------
@@ -328,7 +327,7 @@ EXTRACTORS: dict[str, object] = {
 # ---------------------------------------------------------------------------
 
 def build_index() -> str:
-    # Return the full Markdown content for docs/RESULTS_INDEX.md.
+    # Return the Markdown for the results-index section of results/REPORT.md.
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     header = textwrap.dedent(f"""\
@@ -336,7 +335,7 @@ def build_index() -> str:
         <!-- Regenerate with: python analysis/build_results_index.py -->
         <!-- Wired into: make reproduce, CI (check_readme_consistency.py) -->
 
-        # Results Index
+        ## Results Index
 
         Auto-generated on {now} from `results/*.json`.
         Each row maps a manuscript claim to the command that produces it and the
@@ -426,9 +425,10 @@ def verify_hash(content: str) -> bool:
 
 
 def main() -> int:
-    content = stamp_hash(build_index())
-    OUTPUT.write_text(content, encoding="utf-8")
-    print(f"Written: {OUTPUT.relative_to(BASE_DIR)}")
+    sys.path.insert(0, str(BASE_DIR))
+    from analysis import report
+    report.write_section("results-index", stamp_hash(build_index()), demote=False)
+    print('Written: "results-index" section of results/REPORT.md')
     return 0
 
 
