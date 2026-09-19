@@ -94,3 +94,6 @@ anon_bundle/
 # Multi-rater annotation packet (contains the coordinator key) and returned workbooks
 annotation/packet/
 annotation/returned/
+
+# Journal template archives (unzip into paper/ to work on the manuscript)
+paper/*.zip
