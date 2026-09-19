@@ -1,17 +1,3 @@
-# baselines/rule_baselines.py
-# ---------------------------
-# Rule-based baselines for RiceKG comparative evaluation:
-#
-# 1. Naive Symptom-Count Nearest-Prototype Matcher:
-#    Constructs a prototype symptom profile for each threat class from the canonical
-#    rule definitions in model.RULE_REGISTRY. Computes observed symptom overlap and
-#    Jaccard similarity against each prototype profile.
-#
-# 2. Flat Single-Tier Rule Baseline:
-#    Reuses the unstratified single-tier OWL 2 DL ontology already exposed by
-#    model.build_ontology(flat_consequents=True) from P0-2 with Pellet DL reasoning.
-#    Does NOT reimplement rules.
-
 import os
 import sys
 from typing import List, Dict, Set, Any, Optional

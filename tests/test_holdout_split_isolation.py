@@ -1,13 +1,3 @@
-# tests/test_holdout_split_isolation.py
-# -------------------------------------
-# Regression test suite asserting strict split isolation and integrity
-# of the merged holdout partition in data/benchmark_field.csv (NEXT_TASK.md 6-H.5).
-#
-# Guarantees:
-# 1. Holdout cases (split='holdout') never enter dev or eval splits in any loader.
-# 2. The merged holdout partition reproduces the exact locked SHA-256 hash.
-# 3. Tiers A, B, and C integrity constraints are strictly enforced.
-
 import os
 import csv
 import io

@@ -1,9 +1,3 @@
-# Executes every competency question against the ontology (P1-5).
-#
-# The test fixes the *declared* status of each question, not a desired one. A satisfied
-# question that stops being answerable fails here, and so does a gap that quietly becomes
-# answerable without `docs/COMPETENCY_QUESTIONS.md` being regenerated — the methodology
-# depends on the recorded gaps staying honest in both directions.
 import os
 import sys
 

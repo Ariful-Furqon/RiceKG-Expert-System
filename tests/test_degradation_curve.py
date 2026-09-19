@@ -1,8 +1,3 @@
-# tests/test_degradation_curve.py
-# -------------------------------
-# Unit tests verifying the degradation experiment engine (analysis/degradation_curve.py)
-# and asserting formal equivalence between the fast exact solver and Pellet DL forward chaining.
-
 import os
 import sys
 import pytest

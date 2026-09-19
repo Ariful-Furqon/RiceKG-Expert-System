@@ -1,22 +1,3 @@
-# RiceKG Expert System - Probabilistic Reasoning Layer (Noisy-OR)
-# -----------------------------------------------------------------
-# Implements an independent multi-label probabilistic scoring layer based on the
-# Noisy-OR formulation for the six in-scope rice pests and diseases.
-#
-# Mathematical formulation (Protocol Section 8-F):
-# - Each threat t in ALL_DIAGNOSES is modeled as an independent binary hypothesis.
-# - P(t) = PRIOR = 0.10 (fixed a priori; uniform uninformative prior).
-# - For each observation e linked to t:
-#     P(e present | t present) = 1 - (1 - leak_e) * (1 - p_te)
-#     P(e present | t absent)  = leak_e
-# - Observed present signs contribute LR = P(e | t) / P(e | ~t).
-# - Unrecorded signs are marginalized out (contribute nothing, LR = 1.0).
-# - Recorded absent signs contribute (1 - P(e | t)) / (1 - P(e | ~t)) = 1 - p_te.
-# - Observations with no link to t contribute nothing (LR = 1.0).
-#
-# Inference is performed in log-odds space for numerical stability.
-# Does not alter or write into the OWL ontology.
-
 import csv
 import math
 import os

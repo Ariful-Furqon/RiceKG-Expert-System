@@ -1,13 +1,3 @@
-# tests/test_learning_curve.py - Test suite for Cold-Start Learning Curve Experiment
-# ----------------------------------------------------------------------------------
-# Verifies:
-# 1. Determinism under fixed seed.
-# 2. Refusal to run on empty eval split.
-# 3. Zero leakage: No field eval case ever appears in any training draw.
-# 4. Pool B draws come strictly from field dev split.
-# 5. DOI disjointness: No DOI in training draw appears in eval set.
-# 6. Zero-shot reference figures reproduce results/baselines.md Section 2 exactly.
-
 import os
 import sys
 import json

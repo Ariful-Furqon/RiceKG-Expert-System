@@ -1,7 +1,3 @@
-# tests/test_benchmark_generator.py
-# ---------------------------------
-# Unit tests verifying the parameterised benchmark generator (data/generator.py).
-
 import os
 import sys
 import pytest

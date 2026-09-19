@@ -1,12 +1,3 @@
-# Partial-match `possible` grade.
-#
-# Strict Horn-clause matching returns nothing when a single Tier-2 antecedent is
-# unobserved, discarding strong partial evidence: on the field benchmark's dev split three
-# of the seven positive cases failed at one antecedent short of two. The `possible` grade
-# surfaces those as a weaker, clearly-labelled hypothesis.
-#
-# These tests fix the behaviour that must not regress: the v1 surface is unchanged, the
-# grade is opt-in, it respects its threshold, and it stays auditable.
 from ricekg import model
 import pytest
 

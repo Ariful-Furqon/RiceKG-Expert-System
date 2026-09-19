@@ -1,10 +1,3 @@
-# RiceKG Expert System - Ontology Model & Description Logic (DL) Reasoning Engine
-# ---------------------------------------------------------------------------------
-# Implements an OWL 2 DL ontology for rice pests and diseases using Owlready2
-# and the Pellet description logic reasoner. Biotic threats are diagnosed via
-# OWL 2 Equivalent Classes (Defined Classes) with machine-provable subsumption,
-# structured across a two-axis symptom taxonomy (anatomical & phenomenological).
-
 import os
 import uuid
 import math

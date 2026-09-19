@@ -1,7 +1,3 @@
-# Unit tests for the Noisy-OR probabilistic reasoning layer (probabilistic.py).
-# Verifies formulation correctness, numerical stability, monotonicity, determinism,
-# gate precedence, and schema compatibility (PART 8-B.5).
-
 import math
 import pytest
 from ricekg import model

@@ -1,8 +1,3 @@
-# tests/test_top_k.py
-# -------------------
-# Unit tests verifying the top-k differential diagnosis ranking (Part 7-A),
-# guard rails (Part 7-D), and top-k metrics (Hit@k, MRR, FAR@k).
-
 import os
 import sys
 import pytest

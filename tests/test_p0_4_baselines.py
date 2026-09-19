@@ -1,15 +1,3 @@
-# tests/test_p0_4_baselines.py
-# ----------------------------
-# Test suite verifying P0-4 implementation:
-# 1. 45-dimensional binary symptom encoding round-trips correctly and matches model.ALL_SYMPTOMS.
-# 2. Sentinel 'No_Diagnosis' strictly encodes to an all-zero label vector (not an 11th class).
-# 3. Multi-label compound targets joined by ' and ' encode correctly.
-# 4. The 5x2-fold cross-validation protocol shares identical test indices between RiceKG and baselines.
-# 5. McNemar paired test and effect sizes calculate correctly.
-# 6. Bootstrap micro-F1 confidence interval computation.
-# 7. Holm-Bonferroni step-down correction properties.
-# 8. Minimum Detectable Effect (MDE) calculations.
-
 import pytest
 import numpy as np
 from ricekg import model

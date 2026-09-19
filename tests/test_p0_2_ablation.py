@@ -1,11 +1,3 @@
-# tests/test_p0_2_ablation.py
-# ---------------------------
-# Unit test suite verifying P0-2 implementation:
-# 1. Declarative RULE_REGISTRY in model.py.
-# 2. build_ontology(enabled_tiers=...) produces exact requested Imp() instances in isolated worlds.
-# 3. Pellet DL reasoning across isolated ontology worlds.
-# 4. Ablation variant execution and latency/accuracy output differences.
-
 import pytest
 import owlready2
 from ricekg import model

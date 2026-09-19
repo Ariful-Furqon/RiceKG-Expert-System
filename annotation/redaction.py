@@ -1,12 +1,3 @@
-# Redaction of disease and pathogen names from case texts shown to annotators.
-#
-# Annotators must diagnose from the described signs, so every string that names a disease, a
-# causal organism or a disease abbreviation is replaced by REDACTED. Signs, vectors and the host
-# are kept: "smut ball" becomes "[disamarkan] ball", "green leafhopper" stays.
-#
-# The patterns are deliberately broad; a coordinator still reviews every redacted text (the packet
-# builder writes a redaction report for this) before the packet is sent.
-
 import re
 
 REDACTED = "[disamarkan]"

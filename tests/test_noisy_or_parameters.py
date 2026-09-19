@@ -1,7 +1,3 @@
-# Unit tests for Noisy-OR parameter files and leak priors (PART 8-A).
-# Verifies schema, validity of domain terms, value ranges, qualitative scales,
-# no duplicates, and 100% coverage of ALL_SYMPTOMS in leak definitions.
-
 import csv
 import os
 import pytest

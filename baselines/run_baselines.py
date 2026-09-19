@@ -1,15 +1,3 @@
-# baselines/run_baselines.py
-# --------------------------
-# Orchestration script for comparative baselines, fair-comparison 5x2-fold protocol,
-# paired statistical significance testing, and results artifact generation.
-#
-# Generates:
-# - results/baselines.json
-# - results/baselines.md
-#
-# Strictly separates the deductive verification suite from the independent field benchmark,
-# and reports the field benchmark's dev and held-out eval splits separately.
-
 import os
 import pathlib
 import sys

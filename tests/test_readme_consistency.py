@@ -1,8 +1,3 @@
-# Guards that documentation figures stay traceable to results/.
-#
-# The P0-4 revision twice shipped prose that contradicted its own regenerated numbers.
-# `analysis/check_readme_consistency.py` exists to catch that; these tests verify the
-# guard both passes on the current tree and actually fails when a figure drifts.
 import os
 import sys
 

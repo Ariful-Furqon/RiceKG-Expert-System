@@ -1,6 +1,3 @@
-# Tests for the case-level graded evaluation (analysis/graded_evaluation.py) and the
-# knowledge-base verification (analysis/kb_verification.py).
-
 import json
 import os
 

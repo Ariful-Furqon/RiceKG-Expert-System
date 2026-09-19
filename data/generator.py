@@ -1,22 +1,3 @@
-# data/generator.py
-# -----------------
-# Parameterised benchmark generator for RiceKG expert system evaluation.
-#
-# Lifts the static rule-derived verification suite (T1–T6) described in data/README.md
-# into a parameterised generative model with controllable experimental axes:
-# - occlusion_rate: fraction of canonical antecedents hidden/masked (observation incompleteness)
-# - distractor_rate: non-diagnostic environmental context symptoms added (epidemiological noise)
-# - coinfection_rate: fraction of multi-threat cases combining disjoint antecedents
-# - out_of_vocab_rate: out-of-scope controls (insect damage, unmodeled pathogens, isolated signs)
-# - seed: random seed ensuring byte-identical determinism across runs.
-#
-# Guarantees:
-# 1. Dynamic Antecedent Sourcing: Antecedents are read from model.RULE_REGISTRY at runtime;
-#    no symptom lists are hardcoded.
-# 2. Provenance Integrity: Every generated record carries provenance='rule_derived' and
-#    an embedded dictionary of the generative parameters that produced it.
-# 3. Strict Determinism: Running with identical seeds yields identical outputs.
-
 from __future__ import annotations
 
 import argparse

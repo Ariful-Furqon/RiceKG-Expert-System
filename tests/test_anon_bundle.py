@@ -1,9 +1,3 @@
-# Tests for the double-blind review bundle builder and its deny-list gate.
-#
-# The bundle is the artifact a reviewer receives. A leaked identifier there is a
-# desk-reject, so the deny-list scan is the part that must be trusted: these tests
-# check that it passes on a correctly built bundle and fails on a planted leak.
-
 import json
 import shutil
 import subprocess

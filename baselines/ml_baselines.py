@@ -1,22 +1,3 @@
-# baselines/ml_baselines.py
-# -------------------------
-# Multi-label machine learning baselines for RiceKG evaluation.
-#
-# Encodes cases into a 45-dimensional binary symptom vector (indexed strictly
-# by model.ALL_SYMPTOMS) and multi-label targets across 10 biotic threat classes
-# (model.PESTS + model.DISEASES), with 'No_Diagnosis' represented as an all-zero
-# label vector.
-#
-# Implements 5 ML architectures:
-# 1. Decision Tree (DecisionTreeClassifier, random_state=42)
-# 2. Random Forest (RandomForestClassifier, random_state=42)
-# 3. Multinomial Naive Bayes (OneVsRestClassifier(MultinomialNB()))
-# 4. k-Nearest Neighbors (KNeighborsClassifier(n_neighbors=3, algorithm="brute"))
-# 5. One-vs-Rest Logistic Regression (OneVsRestClassifier(LogisticRegression(random_state=42)))
-#
-# Evaluates via stratified 5x2-fold cross-validation with transparent fallback
-# to KFold when multi-label combination counts are < 2.
-
 import os
 import pathlib
 import sys

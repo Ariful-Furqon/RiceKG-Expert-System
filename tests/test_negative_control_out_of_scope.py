@@ -1,10 +1,3 @@
-# tests/test_negative_control_out_of_scope.py
-# -------------------------------------------
-# Unit tests verifying PART 4 requirement 4-J:
-# When a negative control's signs map but match none of the six in-scope disease
-# classes, the output is an explicit "signs recorded, not consistent with any disease in scope"
-# response, distinct from both a positive diagnosis and the insect out-of-scope response.
-
 import pytest
 from ricekg import model
 

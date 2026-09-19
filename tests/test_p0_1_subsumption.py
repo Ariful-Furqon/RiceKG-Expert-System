@@ -1,16 +1,3 @@
-# tests/test_p0_1_subsumption.py
-# ------------------------------
-# Unit test suite verifying P0-1 fix:
-# Eliminate the Tier-1 / Tier-2 subsumption defect in model.py.
-#
-# Verifies:
-# 1. Canonical inputs yield distinguishable output from relaxed inputs (confirmed vs suspected).
-# 2. Diagnostic confidence property (1.0 vs 0.7).
-# 3. Rule firing traceability (both T1+T2 vs T2 only).
-# 4. Missing symptoms identification in suspected diagnoses.
-# 5. Backwards-compatible predict_diseases_flat returning List[str].
-# 6. Object property hierarchy: hasConfirmedThreat and hasSuspectedThreat inherit to hasPest/hasDisease/hasThreat.
-
 import pytest
 from ricekg import model
 

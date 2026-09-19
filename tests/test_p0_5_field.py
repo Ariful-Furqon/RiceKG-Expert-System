@@ -1,20 +1,3 @@
-# tests/test_p0_5_field.py
-# ------------------------
-# Integrity gates for the independent field benchmark (P0-5).
-#
-# These tests fix *structural* requirements — the case-report gate, split hygiene, and
-# source-level separation — not a desired level of coverage. Coverage that the peer-reviewed
-# literature does not supply must be disclosed in `docs/LIMITATIONS.md`, never asserted into
-# existence here.
-#
-# 1. `split` column exists with values strictly in {"dev", "eval"}, disjoint by case id.
-# 2. No source publication (DOI) straddles the dev/eval boundary.
-# 3. Every retained row is a case report (`case_type`), the P0-3 extraction gate.
-# 4. Rejected candidates are preserved with a stated reason and excluded from the benchmark.
-# 5. Both splits contain positives and negatives.
-# 6. Threat classes with no positive case are disclosed in docs/LIMITATIONS.md.
-# 7. Authentic DOIs and citations for all rows.
-
 import csv
 import os
 

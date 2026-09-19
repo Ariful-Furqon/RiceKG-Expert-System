@@ -1,29 +1,3 @@
-# annotation/import_returns.py
-# ----------------------------
-# Reads the completed rater workbooks from annotation/returned/ (R1_TahapA.xlsx,
-# R1_TahapB.xlsx, ...) and writes the de-identified annotation tables:
-#
-#   data/annotations_diagnosis.csv     case_id, annotator, diagnosis, confidence, other_signs, notes
-#   data/annotations_multirater.csv    case_id, annotator_1..n, notes   (input to analysis/agreement.py;
-#                                      only cases every rater diagnosed)
-#   data/annotations_symptoms.csv      case_id, annotator, term
-#   data/symptom_encoding_consensus.csv case_id, symptom_1..6: terms chosen by a strict majority of
-#                                      raters (all raters when there are two); the field benchmark's
-#                                      default encoding (see ricekg/evaluate.py load_data)
-#   data/annotations_explanations.csv  case_id, annotator, shown_output, accept, reasoning, completeness,
-#                                      usefulness, comment   (first round, RiceKG v2.3 outputs)
-#   data/annotations_explanations_v24.csv  same, from R*_TahapB_v24.xlsx (re-rating on ruleset v2.4.0)
-#   data/definition_review.csv         term, annotator, rating, suggestion  (from Stage A, and from
-#                                      R*_ReviewDefinisi.xlsx for raters who reviewed separately)
-#
-# `shown_output` is the category of RiceKG output the rater saw (committed, possible_only,
-# out_of_scope, no_output), read from the workbook's conclusion column.
-#
-# Pseudonymous codes are mapped back to case IDs with the packet's fixed seed, so the key file is
-# not needed. Any value that does not match a dropdown option is reported and the import stops.
-#
-#     python annotation/import_returns.py [--returned DIR] [--out DIR]
-
 import argparse
 import csv
 import glob

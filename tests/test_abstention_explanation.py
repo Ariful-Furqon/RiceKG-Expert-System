@@ -1,5 +1,3 @@
-# Tests for model.explain_abstention (why no diagnosis was reached).
-
 from ricekg import model
 
 

@@ -1,16 +1,3 @@
-# tests/test_ontology_annotations.py
-# ----------------------------------
-# Guards the published `rice_ontology.owl` metadata (NEXT_TASK.md PART 4, 4-G):
-#
-# 1. SKOS, Dublin Core and VANN annotations use their standard namespaces, not
-#    properties minted in the RiceKG namespace.
-# 2. External alignments are IRI-valued and point at the AGROVOC / PO concepts that
-#    were verified by label (a previous revision linked threats to unrelated
-#    concepts such as "X rays" and "Rhododendron simsii").
-# 3. Every class, object property, datatype property and individual carries an
-#    rdfs:comment.
-# 4. The qualified-cardinality `possible` classes use the same k as model.build_ontology.
-
 import math
 import os
 

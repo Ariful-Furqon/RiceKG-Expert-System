@@ -1,6 +1,3 @@
-# End-to-end test of the multi-rater annotation pipeline on simulated raters:
-# build packet -> fill workbooks -> import -> expert validation.
-
 import csv
 import os
 

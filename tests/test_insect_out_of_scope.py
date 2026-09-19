@@ -1,9 +1,3 @@
-# tests/test_insect_out_of_scope.py
-# ---------------------------------
-# Unit tests verifying PART 5 requirement 5-B:
-# Purely insect-damage symptom sets yield an explicit out-of-scope response
-# and not an in-scope disease diagnosis.
-
 import pytest
 from ricekg import model
 

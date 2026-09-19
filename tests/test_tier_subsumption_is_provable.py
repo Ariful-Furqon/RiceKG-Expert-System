@@ -1,17 +1,3 @@
-# tests/test_tier_subsumption_is_provable.py
-# -------------------------------------------
-# Description Logic subsumption over the production rule base (NEXT_TASK.md PART 4, 4-C).
-#
-# The ontology under test is the one the diagnostic system actually uses, built by
-# `model.build_ontology()` from `model.RULE_REGISTRY`; no antecedent list is restated here.
-#
-# Asserts that:
-# 1. For every in-scope threat, Pellet derives ThreatConfirmed ⊑ ThreatSuspect.
-# 2. The entailment is not trivial: ThreatSuspect ⋢ ThreatConfirmed.
-# 3. For every threat, removing from the Tier-1 definition one antecedent of each of its Tier-2
-#    rules makes the entailment disappear for that threat only. (ThreatSuspect is the union of
-#    the Tier-2 rules, so Tier 1 must contain at least one of them.)
-
 import copy
 
 import pytest
