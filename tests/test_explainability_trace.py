@@ -51,8 +51,9 @@ class TestDerivationTrace:
             assert premise["status"] == "SATISFIED"
 
     def test_derivation_trace_records_unmet_antecedents(self):
-        # Only 1 symptom for Rice Blast (insufficient to fire)
-        symptoms = ["Diamond_Shaped_Lesions"]
+        # Only 1 symptom for Rice Blast (insufficient to fire; Diamond_Shaped_Lesions alone
+        # would fire the diagnostic-sign rule SWRL-R26)
+        symptoms = ["Necrotic_Spots"]
         trace = model.get_derivation_trace(symptoms)
 
         blast_rules = trace["candidate_rules_by_threat"]["Rice_Blast"]
@@ -62,7 +63,7 @@ class TestDerivationTrace:
         assert t1_rule["status"] == "UNSATISFIED"
         assert len(t1_rule["satisfied_antecedents"]) == 1
         assert len(t1_rule["unmet_antecedents"]) >= 3
-        assert "Diamond_Shaped_Lesions" in t1_rule["satisfied_antecedents"]
+        assert "Necrotic_Spots" in t1_rule["satisfied_antecedents"]
 
         # Proof tree for unconfirmed case records unmet premises
         tree = trace["proof_trees"].get("Rice_Blast")

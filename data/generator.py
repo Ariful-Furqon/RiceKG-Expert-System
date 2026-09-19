@@ -51,11 +51,11 @@ def get_canonical_antecedents() -> Dict[str, List[str]]:
 
 
 def get_relaxed_antecedents() -> Dict[str, List[str]]:
-    """Return dictionary mapping threat name to sorted list of Tier-2 relaxed antecedents."""
+    """Return dictionary mapping threat name to the sorted antecedents of its primary Tier-2 rule."""
     relaxed = {}
     for r in model.RULE_REGISTRY:
         if r.get("tier") == "tier2":
-            relaxed[r["threat"]] = sorted(r["antecedents"])
+            relaxed.setdefault(r["threat"], sorted(r["antecedents"]))
     return relaxed
 
 

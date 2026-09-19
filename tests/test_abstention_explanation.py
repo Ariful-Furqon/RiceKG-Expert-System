@@ -4,11 +4,12 @@ from ricekg import model
 
 
 def test_nearest_rule_lists_matched_and_missing():
-    ab = model.explain_abstention(["Hook_Like_Root_Swelling"])
+    # One missing sign for both R12 (nematode) and R20 (tungro); R12 has higher coverage.
+    ab = model.explain_abstention(["Stunted_Growth", "Yellowing_Leaves"])
     top = ab["nearest_rules"][0]
     assert top["threat"] == "Rice_Root_Nematode" and top["rule_id"] == "SWRL-R12"
-    assert top["matched_symptoms"] == ["Hook_Like_Root_Swelling"]
-    assert top["missing_symptoms"] == ["Stunted_Growth", "Yellowing_Leaves"]
+    assert top["matched_symptoms"] == ["Stunted_Growth", "Yellowing_Leaves"]
+    assert top["missing_symptoms"] == ["Hook_Like_Root_Swelling"]
 
 
 def test_one_entry_per_threat_and_k_respected():

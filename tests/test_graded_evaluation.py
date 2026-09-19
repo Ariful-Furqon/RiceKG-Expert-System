@@ -93,7 +93,7 @@ def test_case_count_matches_benchmark(graded):
 
 def test_every_threat_has_both_tiers():
     rules = kv.rules_by_threat()
-    assert all(set(tiers) == {"tier1", "tier2"} for tiers in rules.values())
+    assert all({r["tier"] for r in rs} == {"tier1", "tier2"} for rs in rules.values())
 
 
 def test_tier2_is_subset_of_tier1():

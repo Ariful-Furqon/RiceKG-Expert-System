@@ -9,8 +9,9 @@ The ontology under test is the one the diagnostic system actually uses, built by
 Asserts that:
 1. For every in-scope threat, Pellet derives ThreatConfirmed ⊑ ThreatSuspect.
 2. The entailment is not trivial: ThreatSuspect ⋢ ThreatConfirmed.
-3. For every threat, removing one Tier-2 antecedent from the Tier-1 definition makes the
-   entailment disappear for that threat only.
+3. For every threat, removing from the Tier-1 definition one antecedent of each of its Tier-2
+   rules makes the entailment disappear for that threat only. (ThreatSuspect is the union of
+   the Tier-2 rules, so Tier 1 must contain at least one of them.)
 """
 
 import copy
@@ -46,11 +47,10 @@ def test_pellet_proves_confirmed_subsumed_by_suspect(production_onto, threat_nam
 @pytest.mark.parametrize("threat_name", model.ALL_DIAGNOSES)
 def test_subsumption_disappears_when_tier2_antecedent_removed(monkeypatch, threat_name):
     metadata = copy.deepcopy(model.SWRL_RULES_METADATA)
-    tier2 = metadata[threat_name]["tier2"]["antecedents"]
     tier1 = metadata[threat_name]["tier1"]["antecedents"]
-    dropped = tier2[0]
-    assert dropped in tier1, "precondition: Tier-2 antecedents are contained in Tier-1"
-    metadata[threat_name]["tier1"]["antecedents"] = [a for a in tier1 if a != dropped]
+    dropped = {rule["antecedents"][0] for rule in metadata[threat_name]["tier2_rules"]}
+    assert dropped <= set(tier1), "precondition: Tier-2 antecedents are contained in Tier-1"
+    metadata[threat_name]["tier1"]["antecedents"] = [a for a in tier1 if a not in dropped]
     monkeypatch.setattr(model, "SWRL_RULES_METADATA", metadata)
 
     onto = _classify(model.build_ontology())

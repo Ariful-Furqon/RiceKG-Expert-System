@@ -335,10 +335,10 @@ RULE_REGISTRY = [
         "threat_type": "Pest",
         "tier": "tier1",
         "name": "Canonical Rice Root-Knot Nematode Diagnosis",
-        "antecedents": ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves", "Root_Knot_Swelling", "Deformed_Roots", "Necrotic_Spots"],
+        "antecedents": ["Hook_Like_Root_Swelling", "Stunted_Growth", "Yellowing_Leaves", "Root_Knot_Swelling", "Deformed_Roots"],
         "consequent_property": "hasConfirmedPest",
         "flat_consequent_property": "hasPest",
-        "rationale": "Full root galling morphology, cortical necrosis, and secondary vegetative stunting.",
+        "rationale": "Full root galling morphology with secondary vegetative stunting and chlorosis.",
         "literature": "Bridge, J., Plowright, R.A. & Peng, D. (2005), Nematode Parasites of Rice, in Plant Parasitic Nematodes in Subtropical and Tropical Agriculture, CABI Publishing.",
         "doi": "10.1079/9780851997278.0087"
     },
@@ -387,7 +387,7 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier1",
         "name": "Canonical Rice Grassy Stunt Virus Diagnosis",
-        "antecedents": ["Severe_Stunting", "Excessive_Tillering", "Brown_Planthopper_Present", "Necrotic_Spots", "No_Panicle_Formation"],
+        "antecedents": ["Severe_Stunting", "Excessive_Tillering", "Brown_Planthopper_Present", "No_Panicle_Formation"],
         "consequent_property": "hasConfirmedDisease",
         "flat_consequent_property": "hasDisease",
         "rationale": "Excessive profuse tillering, severe dwarfing, heading suppression, and confirmed Nilaparvata lugens vector presence.",
@@ -400,7 +400,7 @@ RULE_REGISTRY = [
         "threat_type": "Disease",
         "tier": "tier1",
         "name": "Canonical Rice Tungro Virus Diagnosis",
-        "antecedents": ["Stunted_Growth", "Orange_Leaf_Discoloration", "Green_Leafhopper_Present", "Necrotic_Spots", "Yellowing_Leaves", "Whitehead_Empty_Panicles"],
+        "antecedents": ["Stunted_Growth", "Orange_Leaf_Discoloration", "Green_Leafhopper_Present", "Yellowing_Leaves", "Whitehead_Empty_Panicles"],
         "consequent_property": "hasConfirmedDisease",
         "flat_consequent_property": "hasDisease",
         "rationale": "Stunting with characteristic yellow-orange discoloration from leaf tips, empty panicles, and Nephotettix virescens presence.",
@@ -489,6 +489,100 @@ RULE_REGISTRY = [
         "literature": "Hibino, H. (1996), Biology and epidemiology of rice viruses, Annual Review of Phytopathology 34:249-274.",
         "doi": "10.1146/annurev.phyto.34.1.249"
     },
+    # ---------------------------------------------------------------------
+    # Tier 2: Diagnostic-sign rules (ruleset v2.4.0)
+    # A single sign suffices for `suspected` when (i) the cited source describes it as
+    # characteristic of, or specific to, the threat, and (ii) no other in-scope threat uses
+    # it. The criterion was fixed from data/noisy_or_parameters.csv before any benchmark was
+    # re-run. Signs that fail it: Severe_Stunting and Orange_Leaf_Discoloration (the sources
+    # name other viruses or rice orange leaf phytoplasma with the same sign) and
+    # Water_Soaked_Lesions (described only as part of a combination). Each composite rule
+    # above stays the threat's primary Tier-2 rule and still defines the `possible` grade.
+    # ---------------------------------------------------------------------
+    {
+        "id": "SWRL-R21",
+        "threat": "Rice_Root_Nematode",
+        "threat_type": "Pest",
+        "tier": "tier2",
+        "form": "diagnostic_sign",
+        "name": "Hook-Shaped Root Gall (Root-Knot Nematode)",
+        "antecedents": ["Hook_Like_Root_Swelling"],
+        "consequent_property": "hasSuspectedPest",
+        "flat_consequent_property": "hasPest",
+        "rationale": "Hook-shaped galls at the root tips are characteristic of Meloidogyne graminicola.",
+        "literature": "Mantelin, S., Bellafiore, S. & Willig, E.B. (2017), Meloidogyne graminicola: a major threat to rice agriculture, Molecular Plant Pathology 18(1):3-15.",
+        "doi": "10.1111/mpp.12394"
+    },
+    {
+        "id": "SWRL-R22",
+        "threat": "Rice_Root_Nematode",
+        "threat_type": "Pest",
+        "tier": "tier2",
+        "form": "diagnostic_sign",
+        "name": "Root Galling (Root-Knot Nematode)",
+        "antecedents": ["Root_Knot_Swelling"],
+        "consequent_property": "hasSuspectedPest",
+        "flat_consequent_property": "hasPest",
+        "rationale": "Root galls (root swellings) are the characteristic symptom of Meloidogyne graminicola on rice.",
+        "literature": "Mantelin, S., Bellafiore, S. & Willig, E.B. (2017), Meloidogyne graminicola: a major threat to rice agriculture, Molecular Plant Pathology 18(1):3-15.",
+        "doi": "10.1111/mpp.12394"
+    },
+    {
+        "id": "SWRL-R23",
+        "threat": "Rice_Grassy_Stunt",
+        "threat_type": "Disease",
+        "tier": "tier2",
+        "form": "diagnostic_sign",
+        "name": "Excessive Tillering (Grassy Stunt)",
+        "antecedents": ["Excessive_Tillering"],
+        "consequent_property": "hasSuspectedDisease",
+        "flat_consequent_property": "hasDisease",
+        "rationale": "Excess tillering is a symptom specific to RGSV infection; chlorosis and stunting also occur with other tenuiviruses.",
+        "literature": "Satoh, K. et al. (2013), Relationship between gene responses and symptoms induced by Rice grassy stunt virus, Frontiers in Microbiology 4:313.",
+        "doi": "10.3389/fmicb.2013.00313"
+    },
+    {
+        "id": "SWRL-R24",
+        "threat": "False_Smut",
+        "threat_type": "Disease",
+        "tier": "tier2",
+        "form": "diagnostic_sign",
+        "name": "Yellow-Orange Smut Balls (False Smut)",
+        "antecedents": ["Rusty_Grain_Balls"],
+        "consequent_property": "hasSuspectedDisease",
+        "flat_consequent_property": "hasDisease",
+        "rationale": "Yellow to orange smut balls replacing individual grains are the typical symptom of false smut.",
+        "literature": "Yang, D., He, N., Huang, F., Jin, Y. & Li, S. (2023), The Genetic Mechanism of the Immune Response to the Rice False Smut (RFS) Fungus Ustilaginoidea virens, Plants 12(4):741.",
+        "doi": "10.3390/plants12040741"
+    },
+    {
+        "id": "SWRL-R25",
+        "threat": "False_Smut",
+        "threat_type": "Disease",
+        "tier": "tier2",
+        "form": "diagnostic_sign",
+        "name": "Greenish-Black Smut Balls (False Smut)",
+        "antecedents": ["Blackened_Grain_Balls"],
+        "consequent_property": "hasSuspectedDisease",
+        "flat_consequent_property": "hasDisease",
+        "rationale": "Mature greenish-black smut balls on the panicle are the typical symptom of false smut.",
+        "literature": "Yang, D., He, N., Huang, F., Jin, Y. & Li, S. (2023), The Genetic Mechanism of the Immune Response to the Rice False Smut (RFS) Fungus Ustilaginoidea virens, Plants 12(4):741.",
+        "doi": "10.3390/plants12040741"
+    },
+    {
+        "id": "SWRL-R26",
+        "threat": "Rice_Blast",
+        "threat_type": "Disease",
+        "tier": "tier2",
+        "form": "diagnostic_sign",
+        "name": "Diamond-Shaped Lesions (Blast)",
+        "antecedents": ["Diamond_Shaped_Lesions"],
+        "consequent_property": "hasSuspectedDisease",
+        "flat_consequent_property": "hasDisease",
+        "rationale": "Leaf blast lesions develop a diamond shape with a grey centre and brown margin.",
+        "literature": "Ashkani, S. et al. (2015), Molecular Breeding Strategy and Challenges Towards Improvement of Blast Disease Resistance in Rice Crop, Frontiers in Plant Science 6:886.",
+        "doi": "10.3389/fpls.2015.00886"
+    },
 ]
 
 # Build lookup metadata for XAI proof generation
@@ -499,9 +593,14 @@ for r in RULE_REGISTRY:
         SWRL_RULES_METADATA[threat] = {}
     tier_key = r["tier"]
     badge = "tier-canonical" if tier_key == "tier1" else "tier-relaxed"
-    tier_title = "Tier 1: Canonical Pathognomonic" if tier_key == "tier1" else "Tier 2: Relaxed Composite (Partial Observation)"
+    if tier_key == "tier1":
+        tier_title = "Tier 1: Canonical Pathognomonic"
+    elif r.get("form") == "diagnostic_sign":
+        tier_title = "Tier 2: Diagnostic Sign"
+    else:
+        tier_title = "Tier 2: Relaxed Composite (Partial Observation)"
     formula = " ∧ ".join(f"hasSymptom(?Rice, {a})" for a in r["antecedents"]) + f" → {r['consequent_property']}(?Rice, {threat})"
-    SWRL_RULES_METADATA[threat][tier_key] = {
+    entry = {
         "rule_id": r["id"],
         "name": r["name"],
         "tier": tier_title,
@@ -512,6 +611,22 @@ for r in RULE_REGISTRY:
         "literature": r.get("literature", ""),
         "doi": r.get("doi", "")
     }
+    # "tier1" / "tier2" hold the threat's canonical and primary composite rule (the first in
+    # RULE_REGISTRY); "tier2_rules" lists every Tier-2 rule, any of which yields `suspected`.
+    SWRL_RULES_METADATA[threat].setdefault(tier_key, entry)
+    if tier_key == "tier2":
+        SWRL_RULES_METADATA[threat].setdefault("tier2_rules", []).append(entry)
+
+
+def tier2_rules(threat):
+    """All Tier-2 rule metadata entries for `threat`, primary composite rule first."""
+    return SWRL_RULES_METADATA.get(threat, {}).get("tier2_rules", [])
+
+
+def fired_tier2_rules(threat, observed):
+    """Tier-2 rules of `threat` whose antecedents are all in `observed`."""
+    observed = set(observed)
+    return [m for m in tier2_rules(threat) if set(m["antecedents"]) <= observed]
 
 
 # =========================================================================
@@ -733,10 +848,15 @@ def build_ontology(enabled_tiers=None, flat_consequents=False, world=None):
             # Tier 2 Suspect Defined Class
             if "tier2" in enabled_tiers:
                 susp_prop = flat_prop if flat_consequents else (hasSuspectedPest if t_name in PESTS else hasSuspectedDisease)
-                susp_expr = Rice
-                for a in t2_ants:
-                    if a in obs_individuals:
-                        susp_expr = susp_expr & hasObservation.value(obs_individuals[a])
+                # Union over the threat's Tier-2 rules: any one of them yields `suspected`
+                disjuncts = []
+                for rule_meta in meta.get("tier2_rules", []):
+                    expr = Rice
+                    for a in rule_meta["antecedents"]:
+                        if a in obs_individuals:
+                            expr = expr & hasObservation.value(obs_individuals[a])
+                    disjuncts.append(expr)
+                susp_expr = disjuncts[0] if len(disjuncts) == 1 else Or(disjuncts)
 
                 susp_cls_name = f"{t_name}Suspect"
                 susp_cls = types.new_class(susp_cls_name, (Rice,))
@@ -868,7 +988,6 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
         for t_name in all_threat_names:
             meta = SWRL_RULES_METADATA.get(t_name, {})
             t1_meta = meta.get("tier1", {})
-            t2_meta = meta.get("tier2", {})
 
             canonical_symptoms = t1_meta.get("antecedents", [])
             matched = [s for s in canonical_symptoms if s in input_symptom_set]
@@ -881,13 +1000,12 @@ def predict_diseases(symptoms, flat=False, onto=None, include_possible=False):
                 fired = []
                 if t1_meta.get("rule_id"):
                     fired.append(t1_meta["rule_id"])
-                if t2_meta.get("rule_id"):
-                    fired.append(t2_meta["rule_id"])
+                fired += [m["rule_id"] for m in fired_tier2_rules(t_name, input_symptom_set)]
                 highest_grade = "confirmed"
             elif t_name in suspected_names:
                 grade = "suspected"
                 confidence = 0.9714
-                fired = [t2_meta["rule_id"]] if t2_meta.get("rule_id") else []
+                fired = [m["rule_id"] for m in fired_tier2_rules(t_name, input_symptom_set)]
                 if highest_grade != "confirmed":
                     highest_grade = "suspected"
             else:
@@ -1128,6 +1246,15 @@ def predict_top_k(symptoms, k=3, onto=None, include_possible=True, include_weak=
 # Explainable AI (XAI): Formal SWRL Rule Knowledge Representation & Traces
 # =========================================================================
 
+def _tier_label(rule):
+    """Human-readable tier label of a trace entry (None gives the composite label)."""
+    if rule and rule["tier"] == "tier1":
+        return "Tier 1 (Canonical)"
+    if rule and rule.get("form") == "diagnostic_sign":
+        return "Tier 2 (Diagnostic Sign)"
+    return "Tier 2 (Relaxed Composite)"
+
+
 def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
     """
     Generates a full explainable derivation trace across all SWRL rules in RiceKG.
@@ -1170,6 +1297,7 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
             "threat": threat,
             "threat_type": rule["threat_type"],
             "tier": rule["tier"],
+            "form": rule.get("form", "composite"),
             "consequent_property": rule["consequent_property"],
             "antecedents_count": len(antecedents),
             "satisfied_count": len(satisfied),
@@ -1209,7 +1337,9 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
     for threat in threats_to_trace:
         threat_rules = candidate_rules_by_threat.get(threat, [])
         t1_rule = next((r for r in threat_rules if r["tier"] == "tier1"), None)
-        t2_rule = next((r for r in threat_rules if r["tier"] == "tier2"), None)
+        # The Tier-2 rule that fired (primary composite first), else the primary composite
+        t2_all = [r for r in threat_rules if r["tier"] == "tier2"]
+        t2_rule = next((r for r in t2_all if r["status"] == "FIRED"), t2_all[0] if t2_all else None)
 
         diag_info = diagnosed_map.get(threat, {})
         grade = diag_info.get("grade")
@@ -1258,7 +1388,7 @@ def get_derivation_trace(selected_symptoms, diagnosed_threats=None):
                 "rule_id": active_rule["rule_id"] if active_rule else "SWRL-GENERIC",
                 "rule_name": active_rule["name"] if active_rule else f"Deductive Rule for {threat}",
                 "inference_rule": "Modus Ponens" if (active_rule and active_rule["status"] == "FIRED") else "Partial Antecedent Match",
-                "tier": "Tier 1 (Canonical)" if (active_rule and active_rule["tier"] == "tier1") else "Tier 2 (Relaxed Composite)",
+                "tier": _tier_label(active_rule),
                 "formula": active_rule["formula"] if active_rule else "",
                 "rationale": active_rule["rationale"] if active_rule else "",
                 "premises": premises
@@ -1385,7 +1515,8 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
         else:
             t1_satisfied = all(ant in selected_set for ant in t1.get("antecedents", []))
 
-        active_rule = t1 if (t1_satisfied and t1) else t2
+        fired_t2 = fired_tier2_rules(threat_key, selected_set)
+        active_rule = t1 if (t1_satisfied and t1) else (fired_t2[0] if fired_t2 else t2)
 
         ant_status = []
         for ant in active_rule.get("antecedents", []):
@@ -1406,7 +1537,8 @@ def explain_diagnoses(selected_symptoms, diagnosed_threats):
             "doi": active_rule.get("doi", ""),
             "antecedents": active_rule.get("antecedents", []),
             "antecedents_status": ant_status,
-            "rule_level": "Tier 1 (Canonical)" if t1_satisfied else "Tier 2 (Relaxed Composite)"
+            "rule_level": "Tier 1 (Canonical)" if t1_satisfied else (
+                "Tier 2 (Diagnostic Sign)" if active_rule.get("tier") == "Tier 2: Diagnostic Sign" else "Tier 2 (Relaxed Composite)")
         }
 
     return explanations

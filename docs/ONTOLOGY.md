@@ -198,7 +198,7 @@ The diagnostic scope was narrowed to six evidence-backed classes (five phytopath
 
 ## Invariants
 
-- Six Tier-1 and six Tier-2 rules (12 surviving rules); `tests/test_p0_2_ablation.py` enforces the counts.
+- Six Tier-1 rules and twelve Tier-2 rules (six composite, six diagnostic-sign rules added in v2.4.0); `tests/test_p0_2_ablation.py` enforces the counts.
 - `ml_baselines.SYMPTOM_ORDER` tracks `model.ALL_SYMPTOMS`; `tests/test_p0_4_baselines.py` enforces the correspondence without pinning a vocabulary size.
 - Every revised rule carries a `literature` and verified `doi` field in `RULE_REGISTRY` naming its source.
 - Surviving rule IDs (`SWRL-R02`, `SWRL-R06`–`SWRL-R10`, `SWRL-R12`, `SWRL-R16`–`SWRL-R20`) are strictly preserved.
@@ -524,3 +524,59 @@ scope note states where the identifier is historical.
 
 These are annotation changes only: no rule antecedent changed, and the reasoner's outputs are
 unaffected.
+
+## Diagnostic-sign rules and unsourced antecedents (ruleset and ontology v2.4.0)
+
+The degradation sweep ([`results/degradation_curve.md`](../results/degradation_curve.md)) showed
+strict RiceKG losing recall fastest of all systems as observations go missing: a conjunctive rule
+fails as soon as any one of its antecedents is unobserved, so recall falls roughly as
+$(1-p)^k$ for a rule of $k$ antecedents. The expert-consensus re-encoding showed the same defect
+on field text: two blast cases reported diamond-shaped lesions but not a separate "necrotic spot",
+so `SWRL-R18` could not fire. Two changes follow. Both apply criteria fixed from
+[`data/noisy_or_parameters.csv`](../data/noisy_or_parameters.csv) and the KB verification report,
+set down before any benchmark was re-run.
+
+### 1. A characteristic, unshared sign suffices for `suspected`
+
+A Tier-2 rule with a single antecedent was added for every sign that meets both conditions:
+
+1. the cited source describes the sign as characteristic of, typical of, or specific to the
+   threat (not merely as one of a combination); and
+2. no other in-scope threat uses the sign.
+
+| Rule | Threat | Antecedent | Source phrase |
+|:--|:--|:--|:--|
+| `SWRL-R21` | Rice_Root_Nematode | `Hook_Like_Root_Swelling` | "Characteristic hook-shaped galls ... at the root tips" (Mantelin et al. 2017) |
+| `SWRL-R22` | Rice_Root_Nematode | `Root_Knot_Swelling` | same passage (root swellings) |
+| `SWRL-R23` | Rice_Grassy_Stunt | `Excessive_Tillering` | "excess tillering is a symptom specific to RGSV infection" (Satoh et al. 2013) |
+| `SWRL-R24` | False_Smut | `Rusty_Grain_Balls` | "The typical symptoms of false smut balls are yellow or dark green smut balls" (Yang et al. 2023) |
+| `SWRL-R25` | False_Smut | `Blackened_Grain_Balls` | same source, greenish-black smut balls |
+| `SWRL-R26` | Rice_Blast | `Diamond_Shaped_Lesions` | "Large lesions usually develop a diamond shape with a grayish center and brown margin" (Ashkani et al. 2015) |
+
+Signs that fail the criterion and stay inside composite rules: `Severe_Stunting` (the same source
+says stunting occurs with other tenuiviruses), `Orange_Leaf_Discoloration` (the source reports the
+same golden-orange leaves for rice orange leaf phytoplasma) and `Water_Soaked_Lesions` (described
+only as part of a combination of signs). Bacterial leaf blight and tungro therefore gain no
+single-sign rule.
+
+`ThreatSuspect` is now the union of the threat's Tier-2 rules. Each composite rule
+(`SWRL-R12`, `R16`–`R20`) remains the threat's primary Tier-2 rule and still defines the
+`possible` grade; a single-sign rule has coverage 0 or 1, so it adds nothing to that grade. Every
+new antecedent is also a Tier-1 antecedent of the same threat, so `ThreatConfirmed ⊑ ThreatSuspect`
+still holds and is still proved by Pellet (`tests/test_tier_subsumption_is_provable.py`).
+
+### 2. Unsourced Tier-1 antecedents removed
+
+The KB verification report listed three (threat, antecedent) links with no cited source:
+`Necrotic_Spots` in the Tier-1 rules of Rice_Root_Nematode (`SWRL-R02`), Rice_Grassy_Stunt
+(`SWRL-R09`) and Rice_Tungro_Virus (`SWRL-R10`). They were removed, so every antecedent link in
+the rule base now has a source, and `Necrotic_Spots` is used only by blast.
+
+### Consequence for the evaluation
+
+These revisions were made after the field benchmark's `dev`, `eval` and `holdout` results and the
+expert annotations had been seen. The criteria above are literature-based and were written down
+before any re-run, but no existing partition can now be called held out for this ruleset;
+[`LIMITATIONS.md`](LIMITATIONS.md) Section 2 records this. The ruleset is frozen at v2.4.0, and
+an independent estimate requires the fresh partition described in
+[`data/HOLDOUT_SOURCING.md`](../data/HOLDOUT_SOURCING.md).

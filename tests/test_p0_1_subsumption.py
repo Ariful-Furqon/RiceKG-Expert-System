@@ -39,7 +39,7 @@ class TestP01SubsumptionResolution:
         assert rrn_canon["confidence"] == 1.0
         assert "SWRL-R02" in rrn_canon["fired_rules"]
         assert rrn_canon["missing_symptoms"] == []
-        assert len(rrn_canon["matched_symptoms"]) == 6
+        assert len(rrn_canon["matched_symptoms"]) == len(canonical_symptoms)
 
         rrn_relax = next((d for d in out_relaxed if d["threat"] == "Rice_Root_Nematode"), None)
         assert rrn_relax is not None

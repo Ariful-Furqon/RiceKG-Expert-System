@@ -33,7 +33,7 @@ sys.path.insert(0, BASE_DIR)
 
 from owlready2 import (
     Thing, AllDifferent, AllDisjoint,
-    World, AnnotationProperty, locstr
+    World, AnnotationProperty, locstr, Or
 )
 
 from ricekg import model
@@ -46,7 +46,7 @@ VANN_IRI = "http://purl.org/vocab/vann/"
 AGROVOC = "http://aims.fao.org/aos/agrovoc/"
 OBO = "http://purl.obolibrary.org/obo/"
 
-ONTOLOGY_VERSION = "2.3.0"
+ONTOLOGY_VERSION = "2.4.0"
 
 EDITORIAL_NOTES = {
     "draft": ("Operational definition drafted by the RiceKG authors from the cited source and "
@@ -411,16 +411,21 @@ def build_and_save_ontology(output_path=OUTPUT_OWL):
             t1_ants = meta.get("tier1", {}).get("antecedents", [])
             t2_ants = meta.get("tier2", {}).get("antecedents", [])
 
-            # Tier 2 Suspect Defined Class
-            susp_expr = Rice
-            for a in t2_ants:
-                if a in obs_individuals:
-                    susp_expr = susp_expr & hasObservation.value(obs_individuals[a])
+            # Tier 2 Suspect Defined Class: union over the threat's Tier-2 rules
+            disjuncts = []
+            for rule_meta in meta.get("tier2_rules", []):
+                expr = Rice
+                for a in rule_meta["antecedents"]:
+                    if a in obs_individuals:
+                        expr = expr & hasObservation.value(obs_individuals[a])
+                disjuncts.append(expr)
+            susp_expr = disjuncts[0] if len(disjuncts) == 1 else Or(disjuncts)
 
             susp_cls = types.new_class(f"{t_name}Suspect", (Rice,))
             susp_cls.equivalent_to = [susp_expr]
             susp_cls.is_a.append(hasSuspectedThreat.value(t_inst))
-            susp_cls.comment = [f"Tier 2 composite definition for suspected {t_name}."]
+            rule_ids = ", ".join(m["rule_id"] for m in meta.get("tier2_rules", []))
+            susp_cls.comment = [f"Tier 2 definition for suspected {t_name}: union of rules {rule_ids}."]
 
             # Tier 1 Confirmed Defined Class (superset of Tier 2 antecedents)
             conf_expr = Rice

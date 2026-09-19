@@ -45,9 +45,10 @@ THREATS = model.PESTS + model.DISEASES
 
 
 def rules_by_threat():
-    out = {t: {} for t in THREATS}
+    """threat -> list of its rules (id, tier, antecedent set), in RULE_REGISTRY order."""
+    out = {t: [] for t in THREATS}
     for r in model.RULE_REGISTRY:
-        out[r["threat"]][r["tier"]] = {"id": r["id"], "antecedents": set(r["antecedents"])}
+        out[r["threat"]].append({"id": r["id"], "tier": r["tier"], "antecedents": set(r["antecedents"])})
     return out
 
 
@@ -62,16 +63,17 @@ def check_consistency():
 
 def check_tier_subsumption(rules):
     rows = []
-    for t, tiers in rules.items():
-        t1, t2 = tiers.get("tier1"), tiers.get("tier2")
-        ok = bool(t1 and t2 and t2["antecedents"] <= t1["antecedents"])
-        rows.append({"threat": t, "tier1": t1 and t1["id"], "tier2": t2 and t2["id"], "tier2_subset_of_tier1": ok})
+    for t, rs in rules.items():
+        t1 = next((r for r in rs if r["tier"] == "tier1"), None)
+        t2s = [r for r in rs if r["tier"] == "tier2"]
+        ok = bool(t1 and t2s and all(r["antecedents"] <= t1["antecedents"] for r in t2s))
+        rows.append({"threat": t, "tier1": t1 and t1["id"], "tier2": [r["id"] for r in t2s], "tier2_subset_of_tier1": ok})
     return rows
 
 
 def check_cross_threat_subsumption(rules):
     """Pairs (A-rule, B-rule), A != B, where B's antecedents are contained in A's."""
-    flat = [(t, tier, r) for t, tiers in rules.items() for tier, r in tiers.items()]
+    flat = [(t, r["tier"], r) for t, rs in rules.items() for r in rs]
     hits = []
     for (ta, tier_a, ra), (tb, tier_b, rb) in itertools.permutations(flat, 2):
         if ta != tb and rb["antecedents"] <= ra["antecedents"]:
@@ -81,8 +83,8 @@ def check_cross_threat_subsumption(rules):
 
 def antecedent_sharing(rules):
     users = {}
-    for t, tiers in rules.items():
-        for r in tiers.values():
+    for t, rs in rules.items():
+        for r in rs:
             for a in r["antecedents"]:
                 users.setdefault(a, set()).add(t)
     shared = {a: sorted(ts) for a, ts in users.items() if len(ts) > 1}
@@ -90,9 +92,12 @@ def antecedent_sharing(rules):
 
 
 def pairwise_overlap(rules, tier):
+    """Jaccard overlap between threats of the union of their antecedents at `tier`."""
+    def ants(t):
+        return set().union(*(r["antecedents"] for r in rules[t] if r["tier"] == tier))
     rows = []
     for ta, tb in itertools.combinations(THREATS, 2):
-        a, b = rules[ta][tier]["antecedents"], rules[tb][tier]["antecedents"]
+        a, b = ants(ta), ants(tb)
         inter = a & b
         rows.append({"pair": [ta, tb], "shared": sorted(inter), "jaccard": round(len(inter) / len(a | b), 3)})
     return sorted(rows, key=lambda r: -r["jaccard"])
@@ -114,7 +119,7 @@ def literature_backing(rules):
     with open(PARAMS_CSV, encoding="utf-8", newline="") as f:
         sourced = {(r["threat"], r["observation"]) for r in csv.DictReader(f)
                    if r["doi"] or r["citation"]}
-    links = sorted({(t, a) for t, tiers in rules.items() for r in tiers.values() for a in r["antecedents"]})
+    links = sorted({(t, a) for t, rs in rules.items() for r in rs for a in r["antecedents"]})
     unsourced = [f"{t}:{a}" for t, a in links if (t, a) not in sourced]
     with open(DEFINITIONS_CSV, encoding="utf-8", newline="") as f:
         defined = {r["term"] for r in csv.DictReader(f) if r["definition"]}
@@ -136,7 +141,7 @@ def run():
     report = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "consistency": check_consistency(),
-        "reachability": {t: sorted(tiers) for t, tiers in rules.items()},
+        "reachability": {t: sorted({r["tier"] for r in rs}) for t, rs in rules.items()},
         "tier_subsumption": check_tier_subsumption(rules),
         "cross_threat_subsumption": check_cross_threat_subsumption(rules),
         "shared_antecedents": shared,
