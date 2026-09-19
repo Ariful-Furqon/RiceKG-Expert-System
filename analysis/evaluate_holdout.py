@@ -1,4 +1,10 @@
 """
+ARCHIVED. Locked single-run evaluation of the holdout field partition, as run on the frozen
+rule base of commit 385caf9 against data/field_holdout_staging.csv (partition lock 46e2c3e).
+The staging file has since been merged into data/benchmark_field.csv (split `holdout`), so this
+script no longer runs on the current tree; check out commit 46e2c3e to reproduce it. Current
+holdout figures are in results/graded_evaluation.md (development-exposed).
+
 Locked Single-Run Evaluation of Holdout Field Partition.
 Protocol: NEXT_TASK.md Section 6-H.
 Evaluates data/field_holdout_staging.csv on the frozen rule base (commit 385caf9).
@@ -167,6 +173,10 @@ def evaluate_case_subset(cases, subset_name):
 
 
 def main():
+    if not os.path.exists(STAGING_CSV):
+        sys.exit("Archived script: data/field_holdout_staging.csv was merged into "
+                 "data/benchmark_field.csv. Check out commit 46e2c3e to reproduce this report; "
+                 "current holdout figures are in results/graded_evaluation.md.")
     lock_hash = compute_sha256(STAGING_CSV)
     expected_lock_hash = "8616419d0781ae2f9c62ba80f3bee8581d0f10798a6d1598ec837e7f29aa9aaa"
 

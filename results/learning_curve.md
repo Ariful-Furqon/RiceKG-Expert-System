@@ -1,6 +1,6 @@
 # Cold-Start Learning-Curve Evaluation: Sample Efficiency vs. Knowledge Base
 
-> **Generated**: 2026-09-19 01:31:42 UTC  
+> **Generated**: 2026-09-19 01:59:11 UTC  
 > **Target Venue**: *Inteligencia Artificial* (IBERAMIA)  
 > **Evaluation Protocol**: Fixed held-out test set (`data/benchmark_field.csv`, `eval` split, $n=22$: 5 positives, 17 negative controls). $R=200$ stratified resamples without replacement per budget; reported with dual uncertainty decomposition (training-subsample variance across draws and test-set sampling variance via non-parametric paired bootstrap over the test cases, $B=1,000$).
 
@@ -18,7 +18,7 @@ This experiment quantifies the sample efficiency of RiceKG's zero-shot symbolic 
 
 ## 2. Quantitative Results: Pool A (Rule-Derived Cases, $N \in [5, 73]$)
 
-Training cases drawn from `data/verification_suite.csv` ($n=73$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n=22$).
+Training cases drawn from `data/verification_suite.csv` ($n=73$, provenance `rule_derived`). Evaluated on the held-out field `eval` split ($n=22$). The suite's labels are the outputs of an earlier rule base (`docs/LIMITATIONS.md` Section 4), so Pool A measures learning from rule-generated labels that the current ruleset no longer reproduces; Pool B, trained on real field cases, is the realistic comparison.
 
 | Model | N=5 | N=10 | N=20 | N=40 | N=73 | Crossover Budget $N^*$ | First Non-Zero $N$ |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|

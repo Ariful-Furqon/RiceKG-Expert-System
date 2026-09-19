@@ -15,8 +15,9 @@ Evaluates RiceKG and comparative baselines under a top-k ranking protocol:
     7. k-NN (ranked via predict_proba)
     8. Logistic Regression (OvR) (ranked via decision_function / predict_proba)
 - Datasets:
-    - Independent Field Benchmark (dev, eval, holdout)
-    - Deductive Verification Suite (n=73)
+    - Field benchmark (dev, eval, holdout), expert-consensus encoding
+    The verification suite is not evaluated: its labels come from an earlier rule base
+    (docs/LIMITATIONS.md Section 4).
 
 Generates:
     results/top_k.json
@@ -477,7 +478,6 @@ def main():
     onto = model.build_ontology()
 
     field_csv = os.path.join(BASE_DIR, "data", "benchmark_field.csv")
-    synth_csv = os.path.join(BASE_DIR, "data", "verification_suite.csv")
 
     evaluations = []
 
@@ -494,11 +494,6 @@ def main():
     # 3. Field holdout split (evidence tiers A, B and C)
     evaluations.append(
         evaluate_dataset_differential(field_csv, "Field Benchmark (Holdout Split, Tiers A-C)", split="holdout", onto=onto)
-    )
-
-    # 4. Deductive verification suite
-    evaluations.append(
-        evaluate_dataset_differential(synth_csv, "Deductive Verification Suite", onto=onto)
     )
 
     # Save outputs

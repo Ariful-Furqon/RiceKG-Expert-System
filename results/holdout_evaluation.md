@@ -1,5 +1,10 @@
 # Holdout Field Partition — Locked Evaluation Report
 
+> **ARCHIVED RECORD.** This report was produced once, on the rule base frozen at commit `385caf9`
+> and the authors' symptom encoding, and is kept unchanged as the record of that locked run. It
+> does not reflect the expert-consensus encoding or ruleset v2.4.0; the holdout split has since
+> been development-exposed. Current holdout figures: `results/graded_evaluation.md`.
+
 > **Protocol**: `NEXT_TASK.md` Section 6-H (Single-run evaluation on frozen rule base).  
 > **Rule-base freeze commit**: `385caf9` (`git diff 385caf9 -- model.py rice_ontology.owl` empty).  
 > **Partition lock commit**: `46e2c3e`  
