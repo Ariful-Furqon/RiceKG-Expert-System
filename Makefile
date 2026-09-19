@@ -5,7 +5,7 @@ VENV_BIN ?= $(VENV)/bin
 # Include standard Homebrew / JVM paths in execution PATH
 export PATH := /opt/homebrew/opt/openjdk/bin:/usr/local/opt/openjdk/bin:$(PATH)
 
-.PHONY: help install test ablate baselines failure-analysis graded-eval verify-kb annotation-packet import-annotations expert-validation competency check-docs degradation results-index reproduce anon-bundle clean
+.PHONY: help install test ablate baselines failure-analysis graded-eval verify-kb annotation-packet rerating-packet import-annotations expert-validation competency check-docs degradation results-index reproduce anon-bundle clean
 
 help:
 	@echo "RiceKG Expert System - Makefile commands"
@@ -17,6 +17,7 @@ help:
 	@echo "  make graded-eval   - Single-run graded case-level field evaluation (headline figures)"
 	@echo "  make verify-kb     - Knowledge-base verification (consistency, subsumption, coverage)"
 	@echo "  make annotation-packet  - Build multi-rater workbooks in annotation/packet/ (see docs/ANNOTATION_PROTOCOL.md)"
+	@echo "  make rerating-packet    - Build the v2.4.0 re-rating workbooks in annotation/packet/v24/"
 	@echo "  make import-annotations - Import completed workbooks from annotation/returned/"
 	@echo "  make expert-validation  - Expert-based validation from imported annotations"
 	@echo "  make competency    - Regenerate the ontology competency-question report"
@@ -66,6 +67,9 @@ results-index:
 
 annotation-packet:
 	$(VENV_BIN)/python3 annotation/build_packet.py --raters 3
+
+rerating-packet:
+	$(VENV_BIN)/python3 annotation/build_rerating_packet.py --raters 2 --review R2
 
 import-annotations:
 	$(VENV_BIN)/python3 annotation/import_returns.py

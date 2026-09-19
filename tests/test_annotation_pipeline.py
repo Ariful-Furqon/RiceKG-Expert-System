@@ -173,3 +173,61 @@ def test_expert_validation_refuses_without_data(tmp_path):
 ])
 def test_system_label(outputs, label):
     assert ev.system_label(outputs) == label
+
+
+# ---------------------------------------------------------------------------
+# Re-rating packet after ruleset v2.4.0
+# ---------------------------------------------------------------------------
+
+def test_rerating_packet_round_trip(tmp_path, monkeypatch):
+    from annotation import build_rerating_packet as rr
+
+    def fake_explain(cases, defs):
+        for c in cases:
+            c["conclusion"] = "blas (DIDUGA)" if c["code"] == "K01" else "Tidak ada diagnosis"
+            c["explanation"], c["recorded"] = "y", "z"
+
+    monkeypatch.setattr(bp, "explain_cases", fake_explain)
+    packet_dir, returned = tmp_path / "packet", tmp_path / "returned"
+    info = rr.build(str(packet_dir), n_raters=2, review=("R2",))
+    assert info["cases"] == 56
+    assert sorted(os.listdir(packet_dir)) == ["R1_TahapB_v24.xlsx", "R2_ReviewDefinisi.xlsx",
+                                              "R2_TahapB_v24.xlsx", "Surat_R1.txt", "Surat_R2.txt"]
+
+    # Stage A for both raters is required by the importer; reuse the first-round packet builder.
+    first = tmp_path / "first"
+    monkeypatch.setattr(bp, "explain_cases", lambda cases, defs: [
+        c.update(conclusion="x", explanation="y", recorded="z") for c in cases])
+    bp.build(str(first), n_raters=2)
+    returned.mkdir()
+    for rater in ("R1", "R2"):
+        _fill(first, returned, rater)
+        wb = load_workbook(packet_dir / f"{rater}_TahapB_v24.xlsx")
+        ws = wb["Tugas B"]
+        for r in range(2, ws.max_row + 1):
+            ws.cell(r, 6).value, ws.cell(r, 7).value, ws.cell(r, 8).value, ws.cell(r, 9).value = "Sebagian", "3", "3", "4"
+        wb.save(returned / f"{rater}_TahapB_v24.xlsx")
+    wb = load_workbook(packet_dir / "R2_ReviewDefinisi.xlsx")
+    wb["Review Definisi"].cell(2, 4).value = "Sesuai"
+    wb.save(returned / "R2_ReviewDefinisi.xlsx")
+
+    out = tmp_path / "data"
+    info = ir.import_returns(str(returned), str(out))
+    assert info["explanation_v24_rows"] == 112
+    assert info["review_rows"] == 3          # one flagged row per Stage A, plus R2's separate review
+    with open(out / "annotations_explanations_v24.csv", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    shown = {r["shown_output"] for r in rows if r["case_id"] == bp.code_to_case()["K01"]}
+    assert shown == {"committed"}
+    rep = ev.run(str(out))
+    assert rep["explanations_v24"]["overall"]["accept"] == {"partly": 112}
+
+
+@pytest.mark.parametrize("conclusion,category", [
+    ("Tidak ada diagnosis", "no_output"),
+    ("Di luar cakupan", "out_of_scope"),
+    ("blas (DIDUGA)", "committed"),
+    ("blas (KEMUNGKINAN (bukti parsial)); tungro (KEMUNGKINAN (bukti parsial))", "possible_only"),
+])
+def test_shown_category(conclusion, category):
+    assert bp.shown_category(conclusion) == category

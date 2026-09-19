@@ -11,8 +11,14 @@ R1_TahapB.xlsx, ...) and writes the de-identified annotation tables:
   data/symptom_encoding_consensus.csv case_id, symptom_1..6: terms chosen by a strict majority of
                                      raters (all raters when there are two); the field benchmark's
                                      default encoding (see ricekg/evaluate.py load_data)
-  data/annotations_explanations.csv  case_id, annotator, accept, reasoning, completeness, usefulness, comment
-  data/definition_review.csv         term, annotator, rating, suggestion
+  data/annotations_explanations.csv  case_id, annotator, shown_output, accept, reasoning, completeness,
+                                     usefulness, comment   (first round, RiceKG v2.3 outputs)
+  data/annotations_explanations_v24.csv  same, from R*_TahapB_v24.xlsx (re-rating on ruleset v2.4.0)
+  data/definition_review.csv         term, annotator, rating, suggestion  (from Stage A, and from
+                                     R*_ReviewDefinisi.xlsx for raters who reviewed separately)
+
+`shown_output` is the category of RiceKG output the rater saw (committed, possible_only,
+out_of_scope, no_output), read from the workbook's conclusion column.
 
 Pseudonymous codes are mapped back to case IDs with the packet's fixed seed, so the key file is
 not needed. Any value that does not match a dropdown option is reported and the import stops.
@@ -91,6 +97,10 @@ def read_stage_a(path, rater, codes, sym_labels, errors):
             if term not in seen:
                 seen.add(term)
                 symptoms.append({"case_id": case_id, "annotator": rater, "term": term})
+    return diagnoses, symptoms, read_reviews(wb, rater, errors)
+
+
+def read_reviews(wb, rater, errors):
     reviews = []
     for row in _rows(wb["Review Definisi"]):
         rating = _text(row["Penilaian"])
@@ -100,7 +110,7 @@ def read_stage_a(path, rater, codes, sym_labels, errors):
             errors.append(f"{rater}: review rating {rating!r} for {row['Istilah (ID sistem)']} is not a dropdown option")
         reviews.append({"term": _text(row["Istilah (ID sistem)"]), "annotator": rater,
                         "rating": _REVIEW.get(rating, ""), "suggestion": _text(row["Usulan perbaikan"])})
-    return diagnoses, symptoms, reviews
+    return reviews
 
 
 def read_stage_b(path, rater, codes, errors):
@@ -120,7 +130,9 @@ def read_stage_b(path, rater, codes, errors):
         for s in scores:
             if s and s not in bp.LIKERT_OPTIONS:
                 errors.append(f"{rater} {code}: rating {s!r} is not 1-5")
-        out.append({"case_id": codes[code], "annotator": rater, "accept": _ACCEPT.get(accept, ""),
+        out.append({"case_id": codes[code], "annotator": rater,
+                    "shown_output": bp.shown_category(_text(row["Kesimpulan sistem"])),
+                    "accept": _ACCEPT.get(accept, ""),
                     "reasoning": scores[0], "completeness": scores[1], "usefulness": scores[2],
                     "comment": _text(row["Komentar"])})
     return out
@@ -153,7 +165,7 @@ def import_returns(returned=DEFAULT_RETURNED, out_dir=DEFAULT_OUT):
     codes = bp.code_to_case()
     sym_labels = bp.symptom_labels(bp.load_definitions(), include_legacy=True)
     errors = []
-    diagnoses, symptoms, reviews, explanations = [], [], [], []
+    diagnoses, symptoms, reviews, explanations, explanations_v24 = [], [], [], [], []
     stage_a = sorted(glob.glob(os.path.join(returned, "R*_TahapA.xlsx")))
     if not stage_a:
         raise ImportError_(f"no R*_TahapA.xlsx files in {returned}")
@@ -168,6 +180,12 @@ def import_returns(returned=DEFAULT_RETURNED, out_dir=DEFAULT_OUT):
         b_path = os.path.join(returned, f"{rater}_TahapB.xlsx")
         if os.path.exists(b_path):
             explanations += read_stage_b(b_path, rater, codes, errors)
+        b24_path = os.path.join(returned, f"{rater}_TahapB_v24.xlsx")
+        if os.path.exists(b24_path):
+            explanations_v24 += read_stage_b(b24_path, rater, codes, errors)
+        review_path = os.path.join(returned, f"{rater}_ReviewDefinisi.xlsx")
+        if os.path.exists(review_path):
+            reviews += read_reviews(load_workbook(review_path, read_only=True), rater, errors)
     if errors:
         raise ImportError_("\n".join(errors))
 
@@ -177,8 +195,10 @@ def import_returns(returned=DEFAULT_RETURNED, out_dir=DEFAULT_OUT):
     _write(os.path.join(out_dir, "annotations_symptoms.csv"), symptoms, ["case_id", "annotator", "term"])
     _write(os.path.join(out_dir, "symptom_encoding_consensus.csv"), consensus_encoding(symptoms, raters),
            ["case_id"] + [f"symptom_{i}" for i in range(1, 7)])
-    _write(os.path.join(out_dir, "annotations_explanations.csv"), explanations,
-           ["case_id", "annotator", "accept", "reasoning", "completeness", "usefulness", "comment"])
+    expl_fields = ["case_id", "annotator", "shown_output", "accept", "reasoning", "completeness", "usefulness", "comment"]
+    _write(os.path.join(out_dir, "annotations_explanations.csv"), explanations, expl_fields)
+    if explanations_v24:
+        _write(os.path.join(out_dir, "annotations_explanations_v24.csv"), explanations_v24, expl_fields)
     _write(os.path.join(out_dir, "definition_review.csv"), reviews, ["term", "annotator", "rating", "suggestion"])
 
     by_case = {}
@@ -194,7 +214,8 @@ def import_returns(returned=DEFAULT_RETURNED, out_dir=DEFAULT_OUT):
     _write(os.path.join(out_dir, "annotations_multirater.csv"), wide,
            ["case_id"] + [f"annotator_{i}" for i in range(1, len(raters) + 1)] + ["notes"])
     return {"raters": raters, "diagnoses": len(diagnoses), "complete_cases": len(wide),
-            "symptom_rows": len(symptoms), "explanation_rows": len(explanations), "review_rows": len(reviews)}
+            "symptom_rows": len(symptoms), "explanation_rows": len(explanations),
+            "explanation_v24_rows": len(explanations_v24), "review_rows": len(reviews)}
 
 
 if __name__ == "__main__":

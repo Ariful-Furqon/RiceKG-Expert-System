@@ -137,10 +137,12 @@ Expert-based validation (two agronomists, all 56 cases; [`results/expert_validat
   name the published disease in 26/30 and 25/30 positive cases; RiceKG in 21/30.
 - The raters' symptom encodings agree closely (mean Jaccard 0.929); the authors' encoding matches
   their consensus in 28/56 cases.
-- The explanation ratings (Stage B) were given on the v2.3 outputs. Every correct RiceKG diagnosis
-  and every explicit out-of-scope rejection was judged acceptable by both raters; silent
-  abstentions were judged least useful, which prompted the abstention explanation added in
-  `model.explain_abstention`.
+- The explanation ratings (Stage B) were given on the v2.3 outputs; grouped by the output the
+  rater saw, committed diagnoses were acceptable in 22/24 ratings (2 partly), out-of-scope
+  rejections in 12/14 (2 not), and silent abstentions were judged least useful (usefulness
+  1.75/5, against 3.79 for committed diagnoses), which prompted the abstention explanation added in
+  `model.explain_abstention`. A re-rating on the v2.4.0 outputs is in preparation
+  ([`ANNOTATION_PROTOCOL.md`](ANNOTATION_PROTOCOL.md), "Re-rating").
 
 With two raters there is no Fleiss' κ and no strict majority beyond agreement of both.
 

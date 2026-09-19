@@ -207,10 +207,12 @@ def explanation_ratings(expl_rows, outcome):
             s[k] = {"mean": round(statistics.mean(vals), 2), "median": statistics.median(vals), "n": len(vals)} if vals else None
         return s
 
+    # Group by the output the rater actually saw; older imports without that column fall back to
+    # the current RiceKG outcome.
     by_outcome = defaultdict(list)
     for r in expl_rows:
-        by_outcome[outcome.get(r["case_id"], "unknown")].append(r)
-    return {"overall": summarize(expl_rows), "by_ricekg_outcome": {k: summarize(v) for k, v in sorted(by_outcome.items())}}
+        by_outcome[r.get("shown_output") or outcome.get(r["case_id"], "unknown")].append(r)
+    return {"overall": summarize(expl_rows), "by_shown_output": {k: summarize(v) for k, v in sorted(by_outcome.items())}}
 
 
 def definition_review(rows):
@@ -246,6 +248,7 @@ def run(data_dir=DATA_DIR, graded_json=GRADED_JSON, rerun=False):
         "diagnosis": dx,
         "encoding": None,
         "explanations": explanation_ratings(_read(os.path.join(data_dir, "annotations_explanations.csv")), outcome),
+        "explanations_v24": explanation_ratings(_read(os.path.join(data_dir, "annotations_explanations_v24.csv")), outcome),
         "definitions": definition_review(_read(os.path.join(data_dir, "definition_review.csv"))),
     }
     sym = _read(os.path.join(data_dir, "annotations_symptoms.csv"))
@@ -290,11 +293,16 @@ def write_markdown(rep, path):
         L += [f"| `{t}` | {k:.3f} |" for t, k in enc["per_term_kappa"].items()]
         if "rerun_on_majority_outcomes" in enc:
             L += ["", f"RiceKG re-run on the rater-majority encoding, outcomes: {enc['rerun_on_majority_outcomes']}."]
-    ex = rep["explanations"]
-    if ex:
-        L += ["", "## Explanation ratings", "", "| RiceKG outcome | n | Acceptable (yes/partly/no) | Reasoning | Completeness | Usefulness |",
+    for key, title in (("explanations", "Explanation ratings, first round (RiceKG v2.3 outputs, authors' encoding)"),
+                       ("explanations_v24", "Explanation ratings, re-rating (ruleset v2.4.0, expert-consensus encoding)")):
+        ex = rep.get(key)
+        if not ex:
+            continue
+        L += ["", f"## {title}", "",
+              "Grouped by the output the rater saw (committed diagnosis, `possible` only, out-of-scope rejection, no output).", "",
+              "| Output shown | n | Acceptable (yes/partly/no) | Reasoning | Completeness | Usefulness |",
               "|:---|:---:|:---:|:---:|:---:|:---:|"]
-        for name, s in [("all", ex["overall"]), *ex["by_ricekg_outcome"].items()]:
+        for name, s in [("all", ex["overall"]), *ex["by_shown_output"].items()]:
             a = s["accept"]
             fmt = lambda x: f"{x['mean']:.2f}" if x else "—"
             L.append(f"| {name} | {s['n']} | {a.get('yes', 0)}/{a.get('partly', 0)}/{a.get('no', 0)} | "

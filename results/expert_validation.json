@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T01:35:18.247152+00:00",
+  "generated_at": "2026-09-19T02:05:13.489355+00:00",
   "diagnosis": {
     "raters": [
       "R1",
@@ -408,103 +408,35 @@
         "n": 112
       }
     },
-    "by_ricekg_outcome": {
-      "abstain": {
-        "n": 16,
+    "by_shown_output": {
+      "committed": {
+        "n": 24,
         "accept": {
-          "yes": 5,
-          "partly": 8,
-          "no": 3
-        },
-        "reasoning": {
-          "mean": 2.5,
-          "median": 2.0,
-          "n": 16
-        },
-        "completeness": {
-          "mean": 2.56,
-          "median": 2.5,
-          "n": 16
-        },
-        "usefulness": {
-          "mean": 2.19,
-          "median": 2.0,
-          "n": 16
-        }
-      },
-      "correct": {
-        "n": 42,
-        "accept": {
-          "no": 2,
           "yes": 22,
-          "partly": 18
-        },
-        "reasoning": {
-          "mean": 3.17,
-          "median": 3.0,
-          "n": 42
-        },
-        "completeness": {
-          "mean": 3.05,
-          "median": 3.0,
-          "n": 42
-        },
-        "usefulness": {
-          "mean": 3.24,
-          "median": 3.0,
-          "n": 42
-        }
-      },
-      "explicit_rejection": {
-        "n": 28,
-        "accept": {
-          "yes": 12,
-          "no": 5,
-          "partly": 11
-        },
-        "reasoning": {
-          "mean": 2.89,
-          "median": 3.0,
-          "n": 28
-        },
-        "completeness": {
-          "mean": 2.29,
-          "median": 2.0,
-          "n": 28
-        },
-        "usefulness": {
-          "mean": 2.39,
-          "median": 3.0,
-          "n": 28
-        }
-      },
-      "misfire": {
-        "n": 2,
-        "accept": {
           "partly": 2
         },
         "reasoning": {
-          "mean": 2.5,
-          "median": 2.5,
-          "n": 2
+          "mean": 3.83,
+          "median": 4.0,
+          "n": 24
         },
         "completeness": {
-          "mean": 2.5,
-          "median": 2.5,
-          "n": 2
+          "mean": 3.54,
+          "median": 4.0,
+          "n": 24
         },
         "usefulness": {
-          "mean": 2.5,
-          "median": 2.5,
-          "n": 2
+          "mean": 3.79,
+          "median": 4.0,
+          "n": 24
         }
       },
-      "silent_abstention": {
+      "no_output": {
         "n": 24,
         "accept": {
-          "partly": 9,
-          "no": 8,
-          "yes": 7
+          "no": 4,
+          "partly": 14,
+          "yes": 6
         },
         "reasoning": {
           "mean": 2.83,
@@ -512,18 +444,64 @@
           "n": 24
         },
         "completeness": {
-          "mean": 2.29,
+          "mean": 1.88,
           "median": 2.0,
           "n": 24
         },
         "usefulness": {
-          "mean": 2.04,
+          "mean": 1.75,
           "median": 2.0,
           "n": 24
+        }
+      },
+      "out_of_scope": {
+        "n": 14,
+        "accept": {
+          "yes": 12,
+          "no": 2
+        },
+        "reasoning": {
+          "mean": 3.5,
+          "median": 4.0,
+          "n": 14
+        },
+        "completeness": {
+          "mean": 2.86,
+          "median": 3.0,
+          "n": 14
+        },
+        "usefulness": {
+          "mean": 2.79,
+          "median": 3.0,
+          "n": 14
+        }
+      },
+      "possible_only": {
+        "n": 50,
+        "accept": {
+          "no": 12,
+          "yes": 6,
+          "partly": 32
+        },
+        "reasoning": {
+          "mean": 2.36,
+          "median": 2.0,
+          "n": 50
+        },
+        "completeness": {
+          "mean": 2.46,
+          "median": 2.0,
+          "n": 50
+        },
+        "usefulness": {
+          "mean": 2.4,
+          "median": 2.0,
+          "n": 50
         }
       }
     }
   },
+  "explanations_v24": null,
   "definitions": {
     "counts": {
       "adequate": 53,

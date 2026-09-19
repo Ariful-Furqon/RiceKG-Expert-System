@@ -1419,7 +1419,7 @@ def explain_abstention(selected_symptoms, k=2):
     antecedents already observed and those still missing, and the observed terms that no rule
     uses. Pure set arithmetic over RULE_REGISTRY; it never changes a diagnosis.
 
-    Expert raters judged silent abstentions the least useful output (usefulness 1.98/5), so an
+    Expert raters judged silent abstentions the least useful output (usefulness 1.75/5), so an
     abstention should say which additional observation would settle the case.
 
     :param selected_symptoms: List of observed symptom identifiers.

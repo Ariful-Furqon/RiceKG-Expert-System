@@ -190,6 +190,20 @@ def ricekg_conclusion(outputs, defs):
                      else f"{label(r['threat'])} ({GRADE_ID.get(r['grade'], r['grade'])})" for r in outputs)
 
 
+def shown_category(conclusion):
+    """Category of the RiceKG output a rater saw, from the Stage B conclusion text."""
+    text = conclusion or ""
+    if text.startswith("Tidak ada diagnosis"):
+        return "no_output"
+    if "Di luar cakupan" in text:
+        return "out_of_scope"
+    if GRADE_ID["confirmed"] in text or GRADE_ID["suspected"] in text:
+        return "committed"
+    if GRADE_ID["possible"] in text:
+        return "possible_only"
+    return "unknown"
+
+
 def explain_cases(cases, defs):
     from ricekg import model
     for c in cases:
@@ -288,6 +302,18 @@ STAGE_B_INSTRUCTIONS = [
 ]
 
 
+def add_review_sheet(wb, defs, review_range):
+    rv = wb.create_sheet("Review Definisi")
+    header(rv, ["Istilah (ID sistem)", "Label Indonesia", "Definisi", "Penilaian", "Usulan perbaikan"], [28, 32, 70, 16, 50])
+    for term, row in sorted(defs.items()):
+        rv.append([term, row["label_id"], row["definition"], None, None])
+        rv.cell(row=rv.max_row, column=3).alignment = WRAP
+        for col in (4, 5):
+            rv.cell(row=rv.max_row, column=col).fill = INPUT_FILL
+    dropdown(rv, review_range, f"D2:D{rv.max_row}")
+    return rv
+
+
 def build_stage_a(path, rater, cases, practice, defs, sym_labels):
     wb = Workbook()
     instructions(wb.active, STAGE_A_INSTRUCTIONS)
@@ -325,22 +351,15 @@ def build_stage_a(path, rater, cases, practice, defs, sym_labels):
             for col in (4, 5):
                 gl.cell(row=gl.max_row, column=col).alignment = WRAP
 
-    rv = wb.create_sheet("Review Definisi")
-    header(rv, ["Istilah (ID sistem)", "Label Indonesia", "Definisi", "Penilaian", "Usulan perbaikan"], [28, 32, 70, 16, 50])
-    for term, row in sorted(defs.items()):
-        rv.append([term, row["label_id"], row["definition"], None, None])
-        rv.cell(row=rv.max_row, column=3).alignment = WRAP
-        for col in (4, 5):
-            rv.cell(row=rv.max_row, column=col).fill = INPUT_FILL
-    dropdown(rv, ranges["review"], f"D2:D{rv.max_row}")
+    add_review_sheet(wb, defs, ranges["review"])
 
     wb.properties.creator = f"RiceKG annotation packet ({rater})"
     wb.save(path)
 
 
-def build_stage_b(path, rater, cases):
+def build_stage_b(path, rater, cases, instruction_lines=STAGE_B_INSTRUCTIONS):
     wb = Workbook()
-    instructions(wb.active, STAGE_B_INSTRUCTIONS)
+    instructions(wb.active, instruction_lines)
     wb.active.title = "Petunjuk"
     ranges = list_sheet(wb, {"terima": ACCEPT_OPTIONS, "skala": LIKERT_OPTIONS})
     ws = wb.create_sheet("Tugas B", 1)

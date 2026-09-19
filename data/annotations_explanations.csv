@@ -1,113 +1,113 @@
-case_id,annotator,accept,reasoning,completeness,usefulness,comment
-HOLD_10,R1,no,1,1,1,"Puru akar berbentuk kait bersifat patognomonis untuk nematoda puru akar (Meloidogyne graminicola), tetapi sistem tidak menyimpulkan apa pun. Inkonsisten dengan K30 dan K44 yang dengan gejala serupa menghasilkan kesimpulan NPA. Satu tanda patognomonis seharusnya cukup untuk minimal DIDUGA."
-FIELD_07,R1,yes,4,3,4,Keputusan di luar cakupan tepat: lesi lonjong coklat pada pelepah yang menyatu dan menghambat keluarnya malai khas busuk pelepah (Sarocladium oryzae). Penjelasan akan lebih berguna bila menyebut kandidat penyakit di luar cakupan.
-HOLD_09,R1,yes,4,4,4,Kesimpulan benar. 'Infeksi ringan pada malai' (1-20 gabah per malai) sebenarnya tertulis di teks tetapi dinyatakan tidak teramati; dengan gejala itu tingkat kesimpulan layak lebih tinggi.
-FIELD_08,R1,partly,3,1,1,"Tidak mendiagnosis penyakit dalam cakupan sudah tepat, tetapi pemetaan gejala gagal total. Kematian bibit, malformasi berat, dan garis-garis daun (pola RSNV di Afrika Barat) seharusnya ditandai sebagai petunjuk penyakit di luar cakupan. Penjelasan tidak memberi arahan apa pun bagi petugas."
-FIELD_19,R1,no,1,2,1,"Ujung daun memutih/menguning lalu nekrosis, ujung daun dan daun bendera terpuntir adalah gejala khas nematoda ujung putih (Aphelenchoides besseyi), di luar cakupan. Gejala ujung daun tidak terpetakan; menyimpulkan tungro hanya dari 'tanaman kerdil' tidak tepat secara agronomis."
-HOLD_16,R1,yes,4,4,4,"Tingkat KEMUNGKINAN proporsional: daun oranye mendukung tungro, tetapi tidak ada kerdil maupun vektor. Sebaiknya menyebut diferensial defisiensi kalium."
-FIELD_21,R1,partly,3,2,3,"Mengarah ke Xanthomonas sudah dekat, tetapi lesi translusen dan garis coklat-hitam dengan eksudat lebih khas hawar daun bergaris (bacterial leaf streak, X. oryzae pv. oryzicola) daripada HDB. Eksudat tercatat tetapi tidak dipakai aturan. 'Klorosis antartulang daun' tidak eksplisit di teks."
-FIELD_25,R1,partly,2,1,1,"Hasil akhir dapat diterima (tanpa puru, jadi bukan NPA; mengarah busuk akar/rebah semai), tetapi 'layu' dan 'akar berubah warna' tersedia di glosarium dan tidak terpetakan. Penjelasan tidak informatif."
-FIELD_51,R1,partly,2,2,2,"Teks menyebut daun kuning-oranye parah dan kerdil pada TN1 dengan ko-infeksi (pola RTBV+RTSV), jadi tungro jelas. 'Daun berwarna oranye' tidak tercatat sehingga tungro tidak diperingkat utama. NPA (tanpa data akar) dan kerdil rumput tidak didukung."
-FIELD_13,R1,no,2,3,2,"Bercak bulat hitam 3-4 mm justru diferensial yang menyingkirkan blas (lesi blas belah ketupat dengan pusat abu-abu). 'Bercak nekrotik' terlalu umum untuk mengarah ke blas. Seharusnya di luar cakupan (bercak coklat/Bipolaris, Curvularia)."
-HOLD_01,R1,yes,4,3,4,Kesimpulan benar. 'Lesi kuning di tepi daun' tertulis eksplisit di teks tetapi dinyatakan tidak teramati (kesalahan pemetaan input).
-FIELD_27,R1,yes,4,2,2,Tepat karena agen memang tidak berhasil diisolasi. Namun belang/mosaik dan menguning di Afrika Barat seharusnya ditandai sebagai petunjuk di luar cakupan (mirip RYMV).
-HOLD_15,R1,partly,2,2,3,"Pemetaan warna terbalik: teks menyebut bola hijau beludru yang mengeras, tetapi yang tercatat bola kuning-oranye, dan bola hijau dinyatakan tidak teramati. Diagnosis benar tetapi tingkat terlalu rendah untuk gejala yang patognomonis."
-FIELD_20,R1,partly,3,2,3,"Sama dengan K38: garis translusen, garis coklat-hitam, dan eksudat khas bacterial leaf streak, bukan HDB. Eksudat tidak dipakai aturan."
-FIELD_33,R1,yes,4,4,4,"Kesimpulan benar. 'Tanaman kerdil' merupakan interpretasi dari 'maldeveloped', bukan pernyataan eksplisit. 'Bercak nekrotik' sebagai syarat aturan R12 janggal untuk NPA."
-FIELD_31,R1,no,2,2,2,"Lesi kebasahan pada koleoptil dan garis coklat pada pelepah/ibu tulang daun bibit khas bacterial brown stripe (Acidovorax avenae), di luar cakupan. Input melewatkan 'garis-garis cokelat', 'lesi pada pelepah daun', dan 'bibit terinfeksi'."
-HOLD_02,R1,partly,2,3,3,Puru akar berbentuk kait ditambah nematoda betina berbentuk pir sudah cukup untuk DIDUGA atau TERKONFIRMASI. Aturan terlalu bergantung pada 'tanaman kerdil'. 'Puru akar' juga tidak tercatat.
-FIELD_03,R1,partly,2,2,2,"Deskripsi HDB paling lengkap (kebasahan dari ujung, menjalar di tepi, daun mengering, tetes eksudat kuning), tetapi hanya menghasilkan KEMUNGKINAN. 'Ujung daun menguning' dinyatakan tidak teramati padahal eksplisit; eksudat diabaikan aturan."
-HOLD_06,R1,partly,3,2,2,Wajar tidak mendiagnosis karena teks gejala minim. Pola ko-infeksi dua agen (satu agen tunggal tanpa gejala) yang khas tungro tidak dapat ditangkap sistem.
-FIELD_04,R1,yes,3,3,3,"Kesimpulan benar, tetapi bertumpu pada 'daun menguning' dan 'tanaman kerdil' yang tidak ada di teks. 'Puru akar' yang eksplisit tidak tercatat."
-FIELD_17,R1,no,1,2,1,"Input menambahkan 'daun menguning' yang tidak ada di teks. Mosaik daun, anakan berkurang, dan kerdil di Burundi mengarah ke RYMV (di luar cakupan). NPA dan tungro tidak didukung."
-FIELD_52,R1,partly,2,2,2,"Kasus tungro klasik (kerdil, kuning-oranye, wereng hijau N. virescens). 'Daun berwarna oranye' eksplisit tetapi tidak tercatat; 'ada wereng hijau' tidak dipakai aturan tungro. NPA diperingkat di atas tungro, menyesatkan."
-FIELD_05,R1,yes,5,4,4,Kesimpulan benar. 'Infeksi ringan pada malai' (beberapa spikelet per malai) eksplisit di teks tetapi tidak tercatat.
-FIELD_23,R1,yes,4,3,3,Tepat: busuk anakan coklat gelap yang bermula dari daerah ligula adalah busuk pelepah/batang di luar cakupan.
-HOLD_03,R1,partly,3,2,3,Bola kuning-oranye hingga hijau zaitun dan gabah hampa tercatat sebagian; bola hijau gelap dinyatakan tidak teramati. Gosong palsu seharusnya minimal DIDUGA.
-HOLD_04,R1,partly,2,2,2,"DIDUGA tungro terlalu yakin. Teks sendiri menyebut beberapa kandidat (tungro, RGSV, virus baru), dan daun bergerigi/terpuntir/menggulung (petunjuk RRSV) diabaikan. Kemungkinan infeksi campuran."
-HOLD_07,R1,yes,5,4,4,Tepat. Lesi belah ketupat abu-abu dengan tepi coklat gelap yang menyatu adalah blas klasik.
-FIELD_32,R1,no,2,1,1,"Input hanya menangkap 'daun menguning'. Pola klorosis dari ujung ke pangkal, lesi memutih-nekrotik dengan tepi bergelombang, dan hawar luas (khas HDB) terlewat."
-HOLD_14,R1,partly,2,2,2,"Tiga kandidat dari gejala umum (kerdil, menguning, bercak) tidak membantu keputusan di lapangan. NPA tanpa data akar tidak didukung. Teks memang tidak cukup untuk diagnosis."
-FIELD_36,R1,yes,4,3,4,Kesimpulan benar. 'Lesi kuning di tepi daun' eksplisit tetapi dinyatakan tidak teramati.
-FIELD_18,R1,yes,4,3,3,Tepat: malai tegak dengan gabah bernoda dan hampa mengarah ke hawar malai bakteri (Burkholderia glumae) atau kompleks gabah kotor.
-FIELD_34,R1,yes,4,4,4,Kesimpulan benar. Temuan nematoda betina dan kelompok telur di korteks akar layak menaikkan tingkat ke TERKONFIRMASI. 'Bercak nekrotik' sebagai syarat aturan R12 janggal secara agronomis.
-FIELD_15,R1,yes,4,3,3,Keputusan di luar cakupan tepat (pola hawar malai bakteri). Input menambahkan 'bercak nekrotik' yang tidak ada di teks.
-FIELD_12,R1,partly,3,2,2,"Tidak mendiagnosis penyakit dalam cakupan sudah benar, tetapi belang/mosaik dan menguning di Afrika (RD Kongo) seharusnya memicu DI LUAR CAKUPAN (RYMV). Penjelasan tidak memberi arahan."
-HOLD_11,R1,partly,3,3,3,Lesi fusiform/belah ketupat dengan pusat abu-abu dan sporulasi sudah diagnostik untuk blas. Syarat tambahan 'bercak nekrotik' yang tidak spesifik membuat tingkat terlalu rendah. Halo kuning dan lapisan jamur tidak dipakai.
-HOLD_20,R1,partly,2,2,3,'Puru akar' tercatat tetapi tidak dipakai aturan (inkonsisten; di K33 'puru akar' muncul sebagai gejala aturan R12). Tungro tidak relevan bila ada puru akar.
-FIELD_02,R1,no,1,2,1,"Kesalahan kritis: busuk leher malai dipetakan menjadi 'busuk batang', sehingga blas leher dan blas kerah (dalam cakupan) ditolak sebagai di luar cakupan. Gejala 'busuk leher malai' tersedia di glosarium."
-FIELD_16,R1,partly,1,1,1,"Empat istilah glosarium eksplisit (lesi kebasahan, daun menguning, layu, daun mengering) tidak terpetakan sama sekali. Hasil 'tanpa diagnosis' hanya kebetulan dapat diterima karena teks menyebut gejala 'mirip' HDB (agen kemungkinan lain)."
-HOLD_18,R1,yes,5,4,4,Tepat. Bercak belah ketupat coklat dengan pusat putih keabuan adalah blas daun klasik.
-FIELD_01,R1,partly,3,3,2,"Kedua kandidat lemah: bukan morfologi blas maupun HDB (lesi tidak dari ujung/tepi daun). Wajar sebagai KEMUNGKINAN, tetapi kurang membantu di lapangan."
-FIELD_30,R1,partly,3,2,2,Sama dengan K03: belang/mosaik dan menguning di Uganda mengarah ke RYMV; seharusnya DI LUAR CAKUPAN.
-FIELD_28,R1,yes,3,3,3,KEMUNGKINAN blas wajar karena bentuk lesi linear dan tidak khas belah ketupat. Pusat abu-abu dengan tepi coklat belum dimodelkan sebagai ciri blas.
-FIELD_14,R1,no,2,3,2,"Sama dengan K08: bercak bulat hitam 2-4 mm menyingkirkan blas. Seharusnya di luar cakupan (bercak coklat, Curvularia, dll.)."
-FIELD_10,R1,partly,3,2,2,Sama dengan K03: belang/mosaik dan menguning di Republik Afrika Tengah mengarah ke RYMV; seharusnya DI LUAR CAKUPAN.
-FIELD_35,R1,yes,4,3,4,Kesimpulan benar. 'Lesi kuning di tepi daun' eksplisit tetapi dinyatakan tidak teramati.
-FIELD_26,R1,partly,2,2,2,"'Busuk batang' (stalk rot) tidak dicatat padahal merupakan petunjuk penyakit di luar cakupan (kombinasi hawar daun dan busuk batang mengarah ke bakteri lain, mis. Dickeya/Pseudomonas). Blas tidak didukung."
-HOLD_12,R1,yes,4,4,4,Kesimpulan benar. Perkembangan warna bola spora kuning-oranye ke hijau zaitun hingga hitam tertangkap dengan baik.
-FIELD_11,R1,yes,4,3,3,Tepat karena teks minim. Idealnya 'garis-garis klorotik' juga dicatat dan ditandai sebagai petunjuk virus bergaris di luar cakupan.
-FIELD_22,R1,yes,4,3,3,Tepat: perubahan warna pangkal sekam dengan batas coklat kemerahan khas hawar malai bakteri (B. glumae). Input menambahkan 'gabah hampa' yang tidak ada di teks.
-FIELD_29,R1,partly,3,2,3,Sama dengan K38: garis kuning translusen dengan eksudat khas bacterial leaf streak. Eksudat tidak dipakai aturan.
-HOLD_13,R1,yes,4,3,3,KEMUNGKINAN wajar untuk satu gejala. Lesi kebasahan dengan tepi bergelombang (ciri khas HDB) belum dimodelkan.
-HOLD_08,R1,partly,3,3,3,Sama dengan K01: lesi spindle-elips dengan pusat abu-abu dan tepi coklat sudah diagnostik; syarat 'bercak nekrotik' membuat tingkat terlalu rendah.
-HOLD_05,R1,partly,2,2,2,Teks menyebut virus yang belum dikenal (kemungkinan RGSV strain 2). NPA tidak relevan karena tidak ada data akar. Tungro sebagai diferensial masih wajar.
-FIELD_09,R1,partly,3,2,2,Sama dengan K03: belang/mosaik dan menguning di Etiopia mengarah ke RYMV; seharusnya DI LUAR CAKUPAN.
-FIELD_53,R1,partly,2,2,2,"Input melewatkan 'anakan berlebihan' yang eksplisit; dengan gejala itu aturan kerdil rumput seharusnya terpenuhi. Kehadiran wereng batang cokelat (vektor) tidak dimanfaatkan. NPA diperingkat pertama tanpa gejala akar, menyesatkan."
-FIELD_06,R1,yes,3,3,3,"Keputusan di luar cakupan dapat diterima (gejala multi-organ: ujung daun menghitam, gabah dan sekam menggelap). Alasan hanya 'perubahan warna gabah'; diferensial HDB tidak dibahas."
-HOLD_15,R2,partly,3,3,3,"Penyakitnya benar, tetapi tingkat KEMUNGKINAN terlalu rendah. Bola spora beludru yang menggantikan gabah sudah patognomonik; aturan tidak perlu mensyaratkan kedua fase warna. Pemetaan bola ""green"" ke fase kuning-oranye sudah tepat."
-HOLD_11,R2,partly,3,3,3,"Blas benar, tetapi aturan relaksasi mensyaratkan ""bercak nekrotik"" di samping bercak belah ketupat, padahal glosarium melarang mencatat keduanya bila hanya satu bentuk lesi. Sporulasi abu-abu dan halo kuning tidak dimanfaatkan."
-FIELD_10,R2,partly,3,2,2,"Tidak mendiagnosis penyakit dalam cakupan sudah tepat, tetapi ""tidak ada tanda di luar cakupan"" keliru: kuning + belang di Afrika adalah sinyal kuat RYMV. Perlu aturan penanda di luar cakupan untuk belang/mosaik."
-HOLD_01,R2,yes,4,3,4,"Kesimpulan tepat. Kesalahan pemetaan: ""daun menguning"" dicatat padahal teks menyebut lesi kuning di tepi daun, lalu ""lesi kuning di tepi daun"" justru dilaporkan tidak teramati."
-FIELD_05,R2,yes,4,4,4,"Tepat. ""Infeksi ringan pada malai"" sebenarnya tertulis (""a few spikelets in a panicle"") tetapi tidak dicatat."
-FIELD_11,R2,yes,4,3,3,"Tidak mendiagnosis sudah tepat, tetapi ""yellowing stripe"" seharusnya dipetakan ke garis-garis klorotik, bukan daun menguning."
-FIELD_29,R2,partly,2,2,2,"Etiologi bakteri benar, tetapi garis tembus cahaya + eksudat mengarah ke hawar daun bergaris bakteri (Xoc), bukan HDB. Eksudat dan klorosis antartulang yang tercatat tidak digunakan. Idealnya DI LUAR CAKUPAN atau menyebut BLS sebagai diferensial."
-HOLD_03,R2,partly,3,3,3,"Penyakitnya benar, tetapi keyakinan terlalu rendah. Warna ""olive-green"" semestinya memenuhi bola spora hijau gelap sehingga aturan terpenuhi."
-FIELD_36,R2,yes,4,3,4,"Tepat. Tepi kuning satu/dua sisi daun tidak dipetakan ke ""lesi kuning di tepi daun""; ""daun menguning"" dicatat berlebihan."
-FIELD_04,R2,yes,2,3,3,"Kesimpulan benar, tetapi aturan terpenuhi karena ""tanaman kerdil"" dan ""daun menguning"" yang tidak ada dalam teks. Puru berbentuk kait saja sudah diagnostik. Bandingkan K49: bukti sama menghasilkan ""tidak ada diagnosis""."
-HOLD_04,R2,partly,3,3,3,"Tungro masuk akal sebagai salah satu diferensial, tetapi teks menyatakan ""-like"" dan menyebut deformasi daun (bergerigi, terpilin) yang khas kerdil hampa. DIDUGA terlalu tinggi; sebaiknya tampilkan diferensial dan saran uji laboratorium."
-FIELD_08,R2,yes,4,2,2,"Tidak mendiagnosis sudah tepat, tetapi ""kematian bibit"" seharusnya terpetakan ke ""bibit terinfeksi"", dan penjelasan tidak menyebut teks yang tidak terpetakan."
-HOLD_06,R2,yes,4,3,2,"Tepat karena informasi minim, tetapi penjelasan kurang memberi arahan tindak lanjut bagi petugas."
-FIELD_30,R2,partly,3,2,2,Sama dengan K04: seharusnya ada penanda di luar cakupan (RYMV).
-FIELD_12,R2,partly,3,2,2,Sama dengan K04.
-FIELD_18,R2,yes,4,3,3,DI LUAR CAKUPAN tepat. Penjelasan bisa ditambah diferensial (hawar malai bakteri) dan menyebut malai tegak sebagai tanda.
-FIELD_53,R2,partly,2,2,2,"Kerdil rumput muncul tetapi hanya sejajar dengan nematoda dan tungro; nematoda malah tertinggi tanpa gejala akar. ""Anakan berlebihan"" tertulis jelas tetapi tidak dicatat — bila dicatat, aturan kerdil rumput terpenuhi. ""Ada WBC"" dicatat dari kalimat penularan."
-FIELD_19,R2,no,2,2,2,Tungro tidak didukung. Ujung daun memutih yang terpilin/berkerut dan daun bendera terpilin khas nematoda pucuk putih. Hanya satu gejala terpetakan; seharusnya DI LUAR CAKUPAN.
-FIELD_27,R2,yes,4,3,2,"Tidak mendiagnosis sudah tepat, tetapi penjelasan tidak memberi arahan apa pun."
-FIELD_01,R2,no,2,3,2,"Blas dan HDB sama-sama tidak didukung: tidak ada bercak belah ketupat, lesi tidak berawal dari ujung/tepi daun. Penalaran dari gejala umum (bercak nekrotik, water-soaked) ke penyakit spesifik terlalu longgar."
-FIELD_34,R2,yes,4,4,4,"Tepat. ""Bercak nekrotik"" dalam aturan nematoda tidak relevan secara agronomis. Temuan betina dan massa telur tidak dimanfaatkan."
-FIELD_03,R2,partly,3,2,3,"Penyakit benar, tetapi pemetaan melewatkan ujung daun menguning, lesi kuning di tepi daun, kuning mengikuti tulang daun, dan daun mengering; dengan pemetaan benar kesimpulan jauh lebih kuat. Eksudat bakteri tidak diberi bobot."
-FIELD_07,R2,yes,4,3,3,DI LUAR CAKUPAN tepat. Diferensial busuk pelepah bisa disebutkan.
-FIELD_26,R2,no,2,2,2,"""Stalk rot"" tidak dipetakan ke busuk batang; bila dipetakan, sistem akan menyatakan di luar cakupan. Blas tidak didukung sama sekali."
-FIELD_16,R2,partly,2,1,1,"Tidak ada gejala terpetakan padahal teks memuat lesi kebasahan, daun menguning, layu, dan mengering. Tidak mendiagnosis bisa dibenarkan (teks menyiratkan patogen mirip HDB), tetapi karena kegagalan pemetaan, bukan penalaran."
-HOLD_14,R2,partly,2,2,2,"Kasus memang tidak dapat ditentukan, tetapi urutan nematoda (67%) tanpa gejala akar menyesatkan. ""Dwarf"" semestinya dipetakan ke sangat kerdil."
-FIELD_52,R2,partly,2,2,1,Tungro seharusnya DIDUGA/TERKONFIRMASI. Daun oranye tidak dipetakan; wereng hijau (vektor) tercatat tetapi diabaikan. Nematoda di atas tungro tanpa gejala akar menyesatkan petugas.
-FIELD_02,R2,no,1,2,1,"""Neck rot"" dipetakan ke busuk batang, bukan busuk leher malai, sehingga kasus blas leher/kerah yang khas dinyatakan di luar cakupan."
-FIELD_23,R2,yes,4,3,3,DI LUAR CAKUPAN tepat.
-FIELD_22,R2,yes,4,3,3,"Kesimpulan tepat, tetapi ""gabah hampa"" dicatat padahal tidak tertulis."
-HOLD_02,R2,partly,2,3,3,"Puru berbentuk kait dan betina berbentuk pir sudah memastikan nematoda. Menahan kesimpulan karena ""tanaman kerdil"" tidak teramati tidak tepat secara agronomis."
-FIELD_15,R2,yes,4,3,3,"Kesimpulan tepat. ""Bercak nekrotik"" dicatat tanpa dasar teks; ""malai busuk"" (grain rot) tidak dicatat."
-HOLD_20,R2,partly,3,3,3,"Nematoda benar, tetapi ""puru akar"" yang tercatat tidak dipakai aturan (hanya varian berbentuk kait). Tungro tidak relevan."
-HOLD_09,R2,yes,4,4,4,Tepat.
-FIELD_28,R2,yes,3,3,3,"Sejalan dengan anotasi (blas, ragu), tetapi dasarnya hanya ""bercak nekrotik"" yang umum. Pusat abu dengan tepi cokelat tidak dipertimbangkan."
-FIELD_31,R2,no,2,2,2,HDB tidak didukung. Garis cokelat pada pelepah/tulang daun bibit dan lesi kebasahan di koleoptil mengarah ke penyakit bibit bakteri lain. Beberapa gejala tidak terpetakan.
-FIELD_25,R2,partly,3,1,1,"Tidak mendiagnosis sudah tepat, tetapi layu, akar berubah warna, dan akar memendek tidak terpetakan. ""Tidak ada tanda di luar cakupan"" keliru."
-FIELD_14,R2,no,2,3,2,"Bercak bulat hitam kecil tidak khas blas; ""bercak nekrotik"" terlalu umum untuk mengarahkan ke blas."
-FIELD_13,R2,no,2,3,2,Sama dengan K05.
-HOLD_12,R2,yes,4,4,4,Tepat.
-HOLD_07,R2,yes,4,4,4,"Tepat. Pencatatan ""bercak nekrotik"" bersama belah ketupat bertentangan dengan catatan glosarium, meski di sini masih dapat dibenarkan oleh nekrosis luas."
-FIELD_33,R2,yes,3,4,4,"Kesimpulan tepat, tetapi ""tanaman kerdil"" disimpulkan dari kata ""maldeveloped"" dan menjadi syarat aturan."
-FIELD_20,R2,partly,2,2,2,Sama dengan K42: pola hawar daun bergaris bakteri. Eksudat dan garis tembus cahaya tidak dimanfaatkan.
-FIELD_09,R2,partly,3,2,2,Sama dengan K04.
-HOLD_18,R2,yes,4,4,4,Tepat. Sama dengan K31 terkait pencatatan bercak nekrotik.
-HOLD_10,R2,no,1,2,1,"Puru berbentuk kait yang patognomonik diabaikan. Tidak konsisten dengan K44, di mana bukti akar yang sama ditambah gejala tak tertulis menghasilkan DIDUGA."
-HOLD_13,R2,yes,3,3,3,Sejalan dengan anotasi. Tepi lesi bergelombang yang diagnostik tidak ditangkap.
-FIELD_17,R2,no,2,2,2,"Pola RYMV. ""Daun menguning"" dicatat tanpa dasar teks; nematoda dan tungro tidak didukung."
-HOLD_05,R2,partly,2,3,2,"Tungro sebagai kemungkinan masuk akal (teks menyatakan kemiripan), tetapi nematoda tanpa gejala akar tidak relevan."
-FIELD_32,R2,no,2,2,2,"Ujung daun menguning, daun memutih, dan tepi bergelombang tidak terpetakan. Semestinya minimal KEMUNGKINAN HDB."
-HOLD_16,R2,yes,3,3,3,"Sejalan dengan anotasi (tungro, ragu). Penjelasan sebaiknya menyebut diferensial defisiensi hara."
-HOLD_08,R2,partly,2,3,3,"Sama dengan K01: aturan blas gagal karena mensyaratkan ""bercak nekrotik"" di samping bercak belah ketupat."
-FIELD_35,R2,yes,4,3,4,Sama dengan K37.
-FIELD_51,R2,partly,2,2,2,"Warna kuning-oranye tidak dipetakan ke daun oranye, sehingga tungro hanya KEMUNGKINAN dan nematoda di urutan pertama."
-FIELD_06,R2,yes,4,3,3,DI LUAR CAKUPAN tepat.
-FIELD_21,R2,partly,2,2,2,Sama dengan K19/K42.
+case_id,annotator,shown_output,accept,reasoning,completeness,usefulness,comment
+HOLD_10,R1,no_output,no,1,1,1,"Puru akar berbentuk kait bersifat patognomonis untuk nematoda puru akar (Meloidogyne graminicola), tetapi sistem tidak menyimpulkan apa pun. Inkonsisten dengan K30 dan K44 yang dengan gejala serupa menghasilkan kesimpulan NPA. Satu tanda patognomonis seharusnya cukup untuk minimal DIDUGA."
+FIELD_07,R1,out_of_scope,yes,4,3,4,Keputusan di luar cakupan tepat: lesi lonjong coklat pada pelepah yang menyatu dan menghambat keluarnya malai khas busuk pelepah (Sarocladium oryzae). Penjelasan akan lebih berguna bila menyebut kandidat penyakit di luar cakupan.
+HOLD_09,R1,committed,yes,4,4,4,Kesimpulan benar. 'Infeksi ringan pada malai' (1-20 gabah per malai) sebenarnya tertulis di teks tetapi dinyatakan tidak teramati; dengan gejala itu tingkat kesimpulan layak lebih tinggi.
+FIELD_08,R1,no_output,partly,3,1,1,"Tidak mendiagnosis penyakit dalam cakupan sudah tepat, tetapi pemetaan gejala gagal total. Kematian bibit, malformasi berat, dan garis-garis daun (pola RSNV di Afrika Barat) seharusnya ditandai sebagai petunjuk penyakit di luar cakupan. Penjelasan tidak memberi arahan apa pun bagi petugas."
+FIELD_19,R1,possible_only,no,1,2,1,"Ujung daun memutih/menguning lalu nekrosis, ujung daun dan daun bendera terpuntir adalah gejala khas nematoda ujung putih (Aphelenchoides besseyi), di luar cakupan. Gejala ujung daun tidak terpetakan; menyimpulkan tungro hanya dari 'tanaman kerdil' tidak tepat secara agronomis."
+HOLD_16,R1,possible_only,yes,4,4,4,"Tingkat KEMUNGKINAN proporsional: daun oranye mendukung tungro, tetapi tidak ada kerdil maupun vektor. Sebaiknya menyebut diferensial defisiensi kalium."
+FIELD_21,R1,possible_only,partly,3,2,3,"Mengarah ke Xanthomonas sudah dekat, tetapi lesi translusen dan garis coklat-hitam dengan eksudat lebih khas hawar daun bergaris (bacterial leaf streak, X. oryzae pv. oryzicola) daripada HDB. Eksudat tercatat tetapi tidak dipakai aturan. 'Klorosis antartulang daun' tidak eksplisit di teks."
+FIELD_25,R1,no_output,partly,2,1,1,"Hasil akhir dapat diterima (tanpa puru, jadi bukan NPA; mengarah busuk akar/rebah semai), tetapi 'layu' dan 'akar berubah warna' tersedia di glosarium dan tidak terpetakan. Penjelasan tidak informatif."
+FIELD_51,R1,possible_only,partly,2,2,2,"Teks menyebut daun kuning-oranye parah dan kerdil pada TN1 dengan ko-infeksi (pola RTBV+RTSV), jadi tungro jelas. 'Daun berwarna oranye' tidak tercatat sehingga tungro tidak diperingkat utama. NPA (tanpa data akar) dan kerdil rumput tidak didukung."
+FIELD_13,R1,possible_only,no,2,3,2,"Bercak bulat hitam 3-4 mm justru diferensial yang menyingkirkan blas (lesi blas belah ketupat dengan pusat abu-abu). 'Bercak nekrotik' terlalu umum untuk mengarah ke blas. Seharusnya di luar cakupan (bercak coklat/Bipolaris, Curvularia)."
+HOLD_01,R1,committed,yes,4,3,4,Kesimpulan benar. 'Lesi kuning di tepi daun' tertulis eksplisit di teks tetapi dinyatakan tidak teramati (kesalahan pemetaan input).
+FIELD_27,R1,no_output,yes,4,2,2,Tepat karena agen memang tidak berhasil diisolasi. Namun belang/mosaik dan menguning di Afrika Barat seharusnya ditandai sebagai petunjuk di luar cakupan (mirip RYMV).
+HOLD_15,R1,possible_only,partly,2,2,3,"Pemetaan warna terbalik: teks menyebut bola hijau beludru yang mengeras, tetapi yang tercatat bola kuning-oranye, dan bola hijau dinyatakan tidak teramati. Diagnosis benar tetapi tingkat terlalu rendah untuk gejala yang patognomonis."
+FIELD_20,R1,possible_only,partly,3,2,3,"Sama dengan K38: garis translusen, garis coklat-hitam, dan eksudat khas bacterial leaf streak, bukan HDB. Eksudat tidak dipakai aturan."
+FIELD_33,R1,committed,yes,4,4,4,"Kesimpulan benar. 'Tanaman kerdil' merupakan interpretasi dari 'maldeveloped', bukan pernyataan eksplisit. 'Bercak nekrotik' sebagai syarat aturan R12 janggal untuk NPA."
+FIELD_31,R1,possible_only,no,2,2,2,"Lesi kebasahan pada koleoptil dan garis coklat pada pelepah/ibu tulang daun bibit khas bacterial brown stripe (Acidovorax avenae), di luar cakupan. Input melewatkan 'garis-garis cokelat', 'lesi pada pelepah daun', dan 'bibit terinfeksi'."
+HOLD_02,R1,possible_only,partly,2,3,3,Puru akar berbentuk kait ditambah nematoda betina berbentuk pir sudah cukup untuk DIDUGA atau TERKONFIRMASI. Aturan terlalu bergantung pada 'tanaman kerdil'. 'Puru akar' juga tidak tercatat.
+FIELD_03,R1,possible_only,partly,2,2,2,"Deskripsi HDB paling lengkap (kebasahan dari ujung, menjalar di tepi, daun mengering, tetes eksudat kuning), tetapi hanya menghasilkan KEMUNGKINAN. 'Ujung daun menguning' dinyatakan tidak teramati padahal eksplisit; eksudat diabaikan aturan."
+HOLD_06,R1,no_output,partly,3,2,2,Wajar tidak mendiagnosis karena teks gejala minim. Pola ko-infeksi dua agen (satu agen tunggal tanpa gejala) yang khas tungro tidak dapat ditangkap sistem.
+FIELD_04,R1,committed,yes,3,3,3,"Kesimpulan benar, tetapi bertumpu pada 'daun menguning' dan 'tanaman kerdil' yang tidak ada di teks. 'Puru akar' yang eksplisit tidak tercatat."
+FIELD_17,R1,possible_only,no,1,2,1,"Input menambahkan 'daun menguning' yang tidak ada di teks. Mosaik daun, anakan berkurang, dan kerdil di Burundi mengarah ke RYMV (di luar cakupan). NPA dan tungro tidak didukung."
+FIELD_52,R1,possible_only,partly,2,2,2,"Kasus tungro klasik (kerdil, kuning-oranye, wereng hijau N. virescens). 'Daun berwarna oranye' eksplisit tetapi tidak tercatat; 'ada wereng hijau' tidak dipakai aturan tungro. NPA diperingkat di atas tungro, menyesatkan."
+FIELD_05,R1,committed,yes,5,4,4,Kesimpulan benar. 'Infeksi ringan pada malai' (beberapa spikelet per malai) eksplisit di teks tetapi tidak tercatat.
+FIELD_23,R1,out_of_scope,yes,4,3,3,Tepat: busuk anakan coklat gelap yang bermula dari daerah ligula adalah busuk pelepah/batang di luar cakupan.
+HOLD_03,R1,possible_only,partly,3,2,3,Bola kuning-oranye hingga hijau zaitun dan gabah hampa tercatat sebagian; bola hijau gelap dinyatakan tidak teramati. Gosong palsu seharusnya minimal DIDUGA.
+HOLD_04,R1,committed,partly,2,2,2,"DIDUGA tungro terlalu yakin. Teks sendiri menyebut beberapa kandidat (tungro, RGSV, virus baru), dan daun bergerigi/terpuntir/menggulung (petunjuk RRSV) diabaikan. Kemungkinan infeksi campuran."
+HOLD_07,R1,committed,yes,5,4,4,Tepat. Lesi belah ketupat abu-abu dengan tepi coklat gelap yang menyatu adalah blas klasik.
+FIELD_32,R1,no_output,no,2,1,1,"Input hanya menangkap 'daun menguning'. Pola klorosis dari ujung ke pangkal, lesi memutih-nekrotik dengan tepi bergelombang, dan hawar luas (khas HDB) terlewat."
+HOLD_14,R1,possible_only,partly,2,2,2,"Tiga kandidat dari gejala umum (kerdil, menguning, bercak) tidak membantu keputusan di lapangan. NPA tanpa data akar tidak didukung. Teks memang tidak cukup untuk diagnosis."
+FIELD_36,R1,committed,yes,4,3,4,Kesimpulan benar. 'Lesi kuning di tepi daun' eksplisit tetapi dinyatakan tidak teramati.
+FIELD_18,R1,out_of_scope,yes,4,3,3,Tepat: malai tegak dengan gabah bernoda dan hampa mengarah ke hawar malai bakteri (Burkholderia glumae) atau kompleks gabah kotor.
+FIELD_34,R1,committed,yes,4,4,4,Kesimpulan benar. Temuan nematoda betina dan kelompok telur di korteks akar layak menaikkan tingkat ke TERKONFIRMASI. 'Bercak nekrotik' sebagai syarat aturan R12 janggal secara agronomis.
+FIELD_15,R1,out_of_scope,yes,4,3,3,Keputusan di luar cakupan tepat (pola hawar malai bakteri). Input menambahkan 'bercak nekrotik' yang tidak ada di teks.
+FIELD_12,R1,no_output,partly,3,2,2,"Tidak mendiagnosis penyakit dalam cakupan sudah benar, tetapi belang/mosaik dan menguning di Afrika (RD Kongo) seharusnya memicu DI LUAR CAKUPAN (RYMV). Penjelasan tidak memberi arahan."
+HOLD_11,R1,possible_only,partly,3,3,3,Lesi fusiform/belah ketupat dengan pusat abu-abu dan sporulasi sudah diagnostik untuk blas. Syarat tambahan 'bercak nekrotik' yang tidak spesifik membuat tingkat terlalu rendah. Halo kuning dan lapisan jamur tidak dipakai.
+HOLD_20,R1,possible_only,partly,2,2,3,'Puru akar' tercatat tetapi tidak dipakai aturan (inkonsisten; di K33 'puru akar' muncul sebagai gejala aturan R12). Tungro tidak relevan bila ada puru akar.
+FIELD_02,R1,out_of_scope,no,1,2,1,"Kesalahan kritis: busuk leher malai dipetakan menjadi 'busuk batang', sehingga blas leher dan blas kerah (dalam cakupan) ditolak sebagai di luar cakupan. Gejala 'busuk leher malai' tersedia di glosarium."
+FIELD_16,R1,no_output,partly,1,1,1,"Empat istilah glosarium eksplisit (lesi kebasahan, daun menguning, layu, daun mengering) tidak terpetakan sama sekali. Hasil 'tanpa diagnosis' hanya kebetulan dapat diterima karena teks menyebut gejala 'mirip' HDB (agen kemungkinan lain)."
+HOLD_18,R1,committed,yes,5,4,4,Tepat. Bercak belah ketupat coklat dengan pusat putih keabuan adalah blas daun klasik.
+FIELD_01,R1,possible_only,partly,3,3,2,"Kedua kandidat lemah: bukan morfologi blas maupun HDB (lesi tidak dari ujung/tepi daun). Wajar sebagai KEMUNGKINAN, tetapi kurang membantu di lapangan."
+FIELD_30,R1,no_output,partly,3,2,2,Sama dengan K03: belang/mosaik dan menguning di Uganda mengarah ke RYMV; seharusnya DI LUAR CAKUPAN.
+FIELD_28,R1,possible_only,yes,3,3,3,KEMUNGKINAN blas wajar karena bentuk lesi linear dan tidak khas belah ketupat. Pusat abu-abu dengan tepi coklat belum dimodelkan sebagai ciri blas.
+FIELD_14,R1,possible_only,no,2,3,2,"Sama dengan K08: bercak bulat hitam 2-4 mm menyingkirkan blas. Seharusnya di luar cakupan (bercak coklat, Curvularia, dll.)."
+FIELD_10,R1,no_output,partly,3,2,2,Sama dengan K03: belang/mosaik dan menguning di Republik Afrika Tengah mengarah ke RYMV; seharusnya DI LUAR CAKUPAN.
+FIELD_35,R1,committed,yes,4,3,4,Kesimpulan benar. 'Lesi kuning di tepi daun' eksplisit tetapi dinyatakan tidak teramati.
+FIELD_26,R1,possible_only,partly,2,2,2,"'Busuk batang' (stalk rot) tidak dicatat padahal merupakan petunjuk penyakit di luar cakupan (kombinasi hawar daun dan busuk batang mengarah ke bakteri lain, mis. Dickeya/Pseudomonas). Blas tidak didukung."
+HOLD_12,R1,committed,yes,4,4,4,Kesimpulan benar. Perkembangan warna bola spora kuning-oranye ke hijau zaitun hingga hitam tertangkap dengan baik.
+FIELD_11,R1,no_output,yes,4,3,3,Tepat karena teks minim. Idealnya 'garis-garis klorotik' juga dicatat dan ditandai sebagai petunjuk virus bergaris di luar cakupan.
+FIELD_22,R1,out_of_scope,yes,4,3,3,Tepat: perubahan warna pangkal sekam dengan batas coklat kemerahan khas hawar malai bakteri (B. glumae). Input menambahkan 'gabah hampa' yang tidak ada di teks.
+FIELD_29,R1,possible_only,partly,3,2,3,Sama dengan K38: garis kuning translusen dengan eksudat khas bacterial leaf streak. Eksudat tidak dipakai aturan.
+HOLD_13,R1,possible_only,yes,4,3,3,KEMUNGKINAN wajar untuk satu gejala. Lesi kebasahan dengan tepi bergelombang (ciri khas HDB) belum dimodelkan.
+HOLD_08,R1,possible_only,partly,3,3,3,Sama dengan K01: lesi spindle-elips dengan pusat abu-abu dan tepi coklat sudah diagnostik; syarat 'bercak nekrotik' membuat tingkat terlalu rendah.
+HOLD_05,R1,possible_only,partly,2,2,2,Teks menyebut virus yang belum dikenal (kemungkinan RGSV strain 2). NPA tidak relevan karena tidak ada data akar. Tungro sebagai diferensial masih wajar.
+FIELD_09,R1,no_output,partly,3,2,2,Sama dengan K03: belang/mosaik dan menguning di Etiopia mengarah ke RYMV; seharusnya DI LUAR CAKUPAN.
+FIELD_53,R1,possible_only,partly,2,2,2,"Input melewatkan 'anakan berlebihan' yang eksplisit; dengan gejala itu aturan kerdil rumput seharusnya terpenuhi. Kehadiran wereng batang cokelat (vektor) tidak dimanfaatkan. NPA diperingkat pertama tanpa gejala akar, menyesatkan."
+FIELD_06,R1,out_of_scope,yes,3,3,3,"Keputusan di luar cakupan dapat diterima (gejala multi-organ: ujung daun menghitam, gabah dan sekam menggelap). Alasan hanya 'perubahan warna gabah'; diferensial HDB tidak dibahas."
+HOLD_15,R2,possible_only,partly,3,3,3,"Penyakitnya benar, tetapi tingkat KEMUNGKINAN terlalu rendah. Bola spora beludru yang menggantikan gabah sudah patognomonik; aturan tidak perlu mensyaratkan kedua fase warna. Pemetaan bola ""green"" ke fase kuning-oranye sudah tepat."
+HOLD_11,R2,possible_only,partly,3,3,3,"Blas benar, tetapi aturan relaksasi mensyaratkan ""bercak nekrotik"" di samping bercak belah ketupat, padahal glosarium melarang mencatat keduanya bila hanya satu bentuk lesi. Sporulasi abu-abu dan halo kuning tidak dimanfaatkan."
+FIELD_10,R2,no_output,partly,3,2,2,"Tidak mendiagnosis penyakit dalam cakupan sudah tepat, tetapi ""tidak ada tanda di luar cakupan"" keliru: kuning + belang di Afrika adalah sinyal kuat RYMV. Perlu aturan penanda di luar cakupan untuk belang/mosaik."
+HOLD_01,R2,committed,yes,4,3,4,"Kesimpulan tepat. Kesalahan pemetaan: ""daun menguning"" dicatat padahal teks menyebut lesi kuning di tepi daun, lalu ""lesi kuning di tepi daun"" justru dilaporkan tidak teramati."
+FIELD_05,R2,committed,yes,4,4,4,"Tepat. ""Infeksi ringan pada malai"" sebenarnya tertulis (""a few spikelets in a panicle"") tetapi tidak dicatat."
+FIELD_11,R2,no_output,yes,4,3,3,"Tidak mendiagnosis sudah tepat, tetapi ""yellowing stripe"" seharusnya dipetakan ke garis-garis klorotik, bukan daun menguning."
+FIELD_29,R2,possible_only,partly,2,2,2,"Etiologi bakteri benar, tetapi garis tembus cahaya + eksudat mengarah ke hawar daun bergaris bakteri (Xoc), bukan HDB. Eksudat dan klorosis antartulang yang tercatat tidak digunakan. Idealnya DI LUAR CAKUPAN atau menyebut BLS sebagai diferensial."
+HOLD_03,R2,possible_only,partly,3,3,3,"Penyakitnya benar, tetapi keyakinan terlalu rendah. Warna ""olive-green"" semestinya memenuhi bola spora hijau gelap sehingga aturan terpenuhi."
+FIELD_36,R2,committed,yes,4,3,4,"Tepat. Tepi kuning satu/dua sisi daun tidak dipetakan ke ""lesi kuning di tepi daun""; ""daun menguning"" dicatat berlebihan."
+FIELD_04,R2,committed,yes,2,3,3,"Kesimpulan benar, tetapi aturan terpenuhi karena ""tanaman kerdil"" dan ""daun menguning"" yang tidak ada dalam teks. Puru berbentuk kait saja sudah diagnostik. Bandingkan K49: bukti sama menghasilkan ""tidak ada diagnosis""."
+HOLD_04,R2,committed,partly,3,3,3,"Tungro masuk akal sebagai salah satu diferensial, tetapi teks menyatakan ""-like"" dan menyebut deformasi daun (bergerigi, terpilin) yang khas kerdil hampa. DIDUGA terlalu tinggi; sebaiknya tampilkan diferensial dan saran uji laboratorium."
+FIELD_08,R2,no_output,yes,4,2,2,"Tidak mendiagnosis sudah tepat, tetapi ""kematian bibit"" seharusnya terpetakan ke ""bibit terinfeksi"", dan penjelasan tidak menyebut teks yang tidak terpetakan."
+HOLD_06,R2,no_output,yes,4,3,2,"Tepat karena informasi minim, tetapi penjelasan kurang memberi arahan tindak lanjut bagi petugas."
+FIELD_30,R2,no_output,partly,3,2,2,Sama dengan K04: seharusnya ada penanda di luar cakupan (RYMV).
+FIELD_12,R2,no_output,partly,3,2,2,Sama dengan K04.
+FIELD_18,R2,out_of_scope,yes,4,3,3,DI LUAR CAKUPAN tepat. Penjelasan bisa ditambah diferensial (hawar malai bakteri) dan menyebut malai tegak sebagai tanda.
+FIELD_53,R2,possible_only,partly,2,2,2,"Kerdil rumput muncul tetapi hanya sejajar dengan nematoda dan tungro; nematoda malah tertinggi tanpa gejala akar. ""Anakan berlebihan"" tertulis jelas tetapi tidak dicatat — bila dicatat, aturan kerdil rumput terpenuhi. ""Ada WBC"" dicatat dari kalimat penularan."
+FIELD_19,R2,possible_only,no,2,2,2,Tungro tidak didukung. Ujung daun memutih yang terpilin/berkerut dan daun bendera terpilin khas nematoda pucuk putih. Hanya satu gejala terpetakan; seharusnya DI LUAR CAKUPAN.
+FIELD_27,R2,no_output,yes,4,3,2,"Tidak mendiagnosis sudah tepat, tetapi penjelasan tidak memberi arahan apa pun."
+FIELD_01,R2,possible_only,no,2,3,2,"Blas dan HDB sama-sama tidak didukung: tidak ada bercak belah ketupat, lesi tidak berawal dari ujung/tepi daun. Penalaran dari gejala umum (bercak nekrotik, water-soaked) ke penyakit spesifik terlalu longgar."
+FIELD_34,R2,committed,yes,4,4,4,"Tepat. ""Bercak nekrotik"" dalam aturan nematoda tidak relevan secara agronomis. Temuan betina dan massa telur tidak dimanfaatkan."
+FIELD_03,R2,possible_only,partly,3,2,3,"Penyakit benar, tetapi pemetaan melewatkan ujung daun menguning, lesi kuning di tepi daun, kuning mengikuti tulang daun, dan daun mengering; dengan pemetaan benar kesimpulan jauh lebih kuat. Eksudat bakteri tidak diberi bobot."
+FIELD_07,R2,out_of_scope,yes,4,3,3,DI LUAR CAKUPAN tepat. Diferensial busuk pelepah bisa disebutkan.
+FIELD_26,R2,possible_only,no,2,2,2,"""Stalk rot"" tidak dipetakan ke busuk batang; bila dipetakan, sistem akan menyatakan di luar cakupan. Blas tidak didukung sama sekali."
+FIELD_16,R2,no_output,partly,2,1,1,"Tidak ada gejala terpetakan padahal teks memuat lesi kebasahan, daun menguning, layu, dan mengering. Tidak mendiagnosis bisa dibenarkan (teks menyiratkan patogen mirip HDB), tetapi karena kegagalan pemetaan, bukan penalaran."
+HOLD_14,R2,possible_only,partly,2,2,2,"Kasus memang tidak dapat ditentukan, tetapi urutan nematoda (67%) tanpa gejala akar menyesatkan. ""Dwarf"" semestinya dipetakan ke sangat kerdil."
+FIELD_52,R2,possible_only,partly,2,2,1,Tungro seharusnya DIDUGA/TERKONFIRMASI. Daun oranye tidak dipetakan; wereng hijau (vektor) tercatat tetapi diabaikan. Nematoda di atas tungro tanpa gejala akar menyesatkan petugas.
+FIELD_02,R2,out_of_scope,no,1,2,1,"""Neck rot"" dipetakan ke busuk batang, bukan busuk leher malai, sehingga kasus blas leher/kerah yang khas dinyatakan di luar cakupan."
+FIELD_23,R2,out_of_scope,yes,4,3,3,DI LUAR CAKUPAN tepat.
+FIELD_22,R2,out_of_scope,yes,4,3,3,"Kesimpulan tepat, tetapi ""gabah hampa"" dicatat padahal tidak tertulis."
+HOLD_02,R2,possible_only,partly,2,3,3,"Puru berbentuk kait dan betina berbentuk pir sudah memastikan nematoda. Menahan kesimpulan karena ""tanaman kerdil"" tidak teramati tidak tepat secara agronomis."
+FIELD_15,R2,out_of_scope,yes,4,3,3,"Kesimpulan tepat. ""Bercak nekrotik"" dicatat tanpa dasar teks; ""malai busuk"" (grain rot) tidak dicatat."
+HOLD_20,R2,possible_only,partly,3,3,3,"Nematoda benar, tetapi ""puru akar"" yang tercatat tidak dipakai aturan (hanya varian berbentuk kait). Tungro tidak relevan."
+HOLD_09,R2,committed,yes,4,4,4,Tepat.
+FIELD_28,R2,possible_only,yes,3,3,3,"Sejalan dengan anotasi (blas, ragu), tetapi dasarnya hanya ""bercak nekrotik"" yang umum. Pusat abu dengan tepi cokelat tidak dipertimbangkan."
+FIELD_31,R2,possible_only,no,2,2,2,HDB tidak didukung. Garis cokelat pada pelepah/tulang daun bibit dan lesi kebasahan di koleoptil mengarah ke penyakit bibit bakteri lain. Beberapa gejala tidak terpetakan.
+FIELD_25,R2,no_output,partly,3,1,1,"Tidak mendiagnosis sudah tepat, tetapi layu, akar berubah warna, dan akar memendek tidak terpetakan. ""Tidak ada tanda di luar cakupan"" keliru."
+FIELD_14,R2,possible_only,no,2,3,2,"Bercak bulat hitam kecil tidak khas blas; ""bercak nekrotik"" terlalu umum untuk mengarahkan ke blas."
+FIELD_13,R2,possible_only,no,2,3,2,Sama dengan K05.
+HOLD_12,R2,committed,yes,4,4,4,Tepat.
+HOLD_07,R2,committed,yes,4,4,4,"Tepat. Pencatatan ""bercak nekrotik"" bersama belah ketupat bertentangan dengan catatan glosarium, meski di sini masih dapat dibenarkan oleh nekrosis luas."
+FIELD_33,R2,committed,yes,3,4,4,"Kesimpulan tepat, tetapi ""tanaman kerdil"" disimpulkan dari kata ""maldeveloped"" dan menjadi syarat aturan."
+FIELD_20,R2,possible_only,partly,2,2,2,Sama dengan K42: pola hawar daun bergaris bakteri. Eksudat dan garis tembus cahaya tidak dimanfaatkan.
+FIELD_09,R2,no_output,partly,3,2,2,Sama dengan K04.
+HOLD_18,R2,committed,yes,4,4,4,Tepat. Sama dengan K31 terkait pencatatan bercak nekrotik.
+HOLD_10,R2,no_output,no,1,2,1,"Puru berbentuk kait yang patognomonik diabaikan. Tidak konsisten dengan K44, di mana bukti akar yang sama ditambah gejala tak tertulis menghasilkan DIDUGA."
+HOLD_13,R2,possible_only,yes,3,3,3,Sejalan dengan anotasi. Tepi lesi bergelombang yang diagnostik tidak ditangkap.
+FIELD_17,R2,possible_only,no,2,2,2,"Pola RYMV. ""Daun menguning"" dicatat tanpa dasar teks; nematoda dan tungro tidak didukung."
+HOLD_05,R2,possible_only,partly,2,3,2,"Tungro sebagai kemungkinan masuk akal (teks menyatakan kemiripan), tetapi nematoda tanpa gejala akar tidak relevan."
+FIELD_32,R2,no_output,no,2,2,2,"Ujung daun menguning, daun memutih, dan tepi bergelombang tidak terpetakan. Semestinya minimal KEMUNGKINAN HDB."
+HOLD_16,R2,possible_only,yes,3,3,3,"Sejalan dengan anotasi (tungro, ragu). Penjelasan sebaiknya menyebut diferensial defisiensi hara."
+HOLD_08,R2,possible_only,partly,2,3,3,"Sama dengan K01: aturan blas gagal karena mensyaratkan ""bercak nekrotik"" di samping bercak belah ketupat."
+FIELD_35,R2,committed,yes,4,3,4,Sama dengan K37.
+FIELD_51,R2,possible_only,partly,2,2,2,"Warna kuning-oranye tidak dipetakan ke daun oranye, sehingga tungro hanya KEMUNGKINAN dan nematoda di urutan pertama."
+FIELD_06,R2,out_of_scope,yes,4,3,3,DI LUAR CAKUPAN tepat.
+FIELD_21,R2,possible_only,partly,2,2,2,Sama dengan K19/K42.

@@ -78,6 +78,26 @@ antecedents) was written after the two-rater annotations had been analysed, with
 literature-based criterion fixed before any re-run. [`LIMITATIONS.md`](LIMITATIONS.md) Section 2
 records the resulting exposure; the rule base is now frozen at v2.4.0.
 
+## Re-rating after ruleset v2.4.0
+
+The Stage B ratings of the first round were given on RiceKG v2.3 outputs for the authors'
+encoding. After the switch to the expert-consensus encoding and ruleset v2.4.0, 47 of the 56 cases
+show a different conclusion, encoding or explanation (25 a different conclusion), so the first-round
+ratings no longer describe the system. The follow-up round:
+
+1. `python annotation/build_rerating_packet.py --raters 2 --review R2` writes
+   `annotation/packet/v24/` (git-ignored): `Rx_TahapB_v24.xlsx` for every rater (all 56 cases, same
+   codes and per-rater order as the first round, v2.4.0 outputs on the consensus encoding),
+   `R2_ReviewDefinisi.xlsx` (R2 did not return the definition review in the first round) and a cover
+   letter `Surat_Rx.txt`. `--only-changed` restricts Stage B to the 25 cases whose conclusion changed.
+2. Raters work without their first-round answers; the instructions say so.
+3. Save the returned files unchanged in `annotation/returned/` and run
+   `python annotation/import_returns.py`, which writes `data/annotations_explanations_v24.csv` and adds
+   R2's definition ratings to `data/definition_review.csv`.
+4. `python analysis/expert_validation.py --rerun` reports both rounds side by side. Every
+   explanation table is grouped by the output the rater saw (`shown_output`), not by the current
+   RiceKG outcome.
+
 ## Analysis
 
 `analysis/expert_validation.py` computes:
