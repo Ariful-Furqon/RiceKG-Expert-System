@@ -111,3 +111,5 @@ annotation/returned/
 # aggregate. data/symptom_encoding_consensus.csv (the agreed encoding) is tracked.
 data/annotations_*.csv
 data/definition_review.csv
+
+docs/
