@@ -37,8 +37,8 @@ gives the right answers.
 | V1. Knowledge-base verification | Is the rule base consistent, non-redundant and grounded? | [`results/kb_verification.md`](../results/kb_verification.md) | Done |
 | V2. Competency | Can the ontology answer the questions it was built for? | [`docs/COMPETENCY_QUESTIONS.md`](COMPETENCY_QUESTIONS.md) | Done |
 | A1. Validation against field ground truth | On published cases, does it name the right disease, and how does it fail? | [`results/graded_evaluation.md`](../results/graded_evaluation.md) | Done |
-| A2. Validation against experts | Given the same text, does it agree with agronomists as often as they agree with each other? | [`ANNOTATION_PROTOCOL.md`](ANNOTATION_PROTOCOL.md), `analysis/expert_validation.py` | Instrument ready; awaiting raters |
-| A3. Explanation quality | Do experts judge the derivation trace correct and useful? | [`ANNOTATION_PROTOCOL.md`](ANNOTATION_PROTOCOL.md), `analysis/expert_validation.py` | Instrument ready; awaiting raters |
+| A2. Validation against experts | Given the same text, does it agree with agronomists as often as they agree with each other? | [`results/expert_validation.md`](../results/expert_validation.md) | Done (2 raters) |
+| A3. Explanation quality | Do experts judge the derivation trace correct and useful? | [`results/expert_validation.md`](../results/expert_validation.md) | Done (2 raters) |
 | R. Robustness | How does performance fall as observations go missing? | [`results/degradation_curve.md`](../results/degradation_curve.md) | Done |
 | C. Comparison | How do baselines do under the same protocol? | [`results/graded_evaluation.md`](../results/graded_evaluation.md) (rule baselines); [`results/learning_curve.md`](../results/learning_curve.md) (ML trained on `dev`, tested on `eval`) | Done |
 
@@ -77,7 +77,7 @@ Reported per split, each as a count with an exact Clopper–Pearson 95% interval
 Systems are compared on the same cases with an exact McNemar test on per-case success
 (positive: `correct`; control: no committed alarm).
 
-### A2 and A3. Expert-based validation (instrument ready)
+### A2 and A3. Expert-based validation
 
 Two or three agronomists read each case's symptom text with disease and pathogen names
 redacted, and independently:
@@ -103,6 +103,20 @@ expert–expert agreement, not whether it matches the published label.
 - `Necrotic_Spots` is a Tier-1 antecedent of four threats, three of them without a cited source,
   and 10 vocabulary terms are used by no rule or gate — including `Bacterial_Ooze`, a recognized
   sign of bacterial leaf blight.
+
+Expert-based validation (two agronomists, all 56 cases; [`results/expert_validation.md`](../results/expert_validation.md)):
+
+- The raters agree with each other at Cohen's κ = 0.885; RiceKG agrees with them at κ ≈ 0.29
+  (difference −0.595, 95% CI −0.741 to −0.442). From the same redacted text the raters name the
+  published disease in 26/30 and 25/30 positive cases; RiceKG in 11/30.
+- The raters' symptom encodings agree closely (mean Jaccard 0.929), but the authors' benchmark
+  encoding matches the rater consensus in only 28/56 cases (mean Jaccard 0.685). The authors
+  added terms the text does not support mostly among the shared, weakly discriminating
+  antecedents (`Yellowing_Leaves` 9 cases, `Stunted_Growth` 5, `Necrotic_Spots` 4).
+- Every correct RiceKG diagnosis and every explicit out-of-scope rejection was judged acceptable
+  by both raters; silent abstentions were judged least useful (mean 1.98 of 5).
+
+With two raters there is no Fleiss' κ and no strict majority beyond agreement of both.
 
 The `eval` split is development-informed and `holdout` is development-exposed
 ([`LIMITATIONS.md`](LIMITATIONS.md) Section 2); none of these figures is a strictly held-out estimate.

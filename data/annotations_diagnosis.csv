@@ -1,0 +1,113 @@
+case_id,annotator,diagnosis,confidence,other_signs,notes
+HOLD_10,R1,Rice_Root_Nematode,high,,
+FIELD_07,R1,Other,medium,garis cokelat kemerahan difus sepanjang pelepah; lesi menyatu menutupi sebagian besar pelepah; keluarnya malai terhambat,Lesi pelepah yang menghambat keluarnya malai paling sesuai busuk pelepah (Sarocladium). Diferensial: hawar pelepah.
+HOLD_09,R1,False_Smut,high,1–20 gabah terinfeksi per malai; massa spora >2 kali diameter gabah normal,Infeksi ringan pada malai tidak dipilih karena definisinya mensyaratkan lesi kecil pada glume.
+FIELD_08,R1,Other,low,kematian bibit; malformasi tanaman berat; daun bergaris (warna tidak disebut),Malformasi berat dan daun bergaris tidak khas keenam kelas; mengarah ke virosis lain (mis. rice stripe necrosis). Bukti lemah karena warna garis tidak disebut.
+FIELD_19,R1,Other,high,nekrosis ujung daun cokelat-hitam; ujung daun muda terpilin dan keriput; daun bendera terpilin menghambat perkembangan malai,"Ujung daun memutih lalu terpilin khas nematoda ujung putih (Aphelenchoides besseyi), di luar 6 kelas."
+HOLD_16,R1,Rice_Tungro_Virus,low,warna daun kuning kecokelatan,Hanya perubahan warna daun; kerdil tidak disebut. Diferensial: defisiensi hara dan orange leaf.
+FIELD_21,R1,Other,medium,lesi tembus cahaya (translucent),Lesi tembus cahaya bergaris dengan eksudat lebih sesuai bacterial leaf streak daripada hawar daun bakteri. Posisi lesi (antartulang/tepi) tidak disebut.
+FIELD_25,R1,Undetermined,low,reduksi panjang akar 21–48%,"Layu bibit generik dan perubahan warna akar tidak spesifik. Diferensial: jamur tular tanah, Hirschmanniella."
+FIELD_51,R1,Rice_Tungro_Virus,medium,anakan berkurang,"Kuning-oranye, sangat kerdil, dan anakan berkurang konsisten tungro. Anakan berkurang menyingkirkan kerdil rumput."
+FIELD_13,R1,Other,medium,bercak bulat hitam 3–4 mm; 8–10 bercak per daun,"Bercak bulat hitam kecil tidak sesuai lesi blas; lebih sesuai bercak daun jamur lain (bercak cokelat, dll.)."
+HOLD_01,R1,Bacterial_Leaf_Blight,high,insidensi hingga 30–50%,Lesi kebasahan dan kuning di tepi serta ujung daun khas hawar daun bakteri.
+FIELD_27,R1,Undetermined,low,,
+HOLD_15,R1,False_Smut,high,bola spora mengeras saat masak,"Warna hanya disebut ""hijau"". Dipetakan ke tahap muda (bola beludru membesar) karena warna gelap-hitam tidak disebut."
+FIELD_20,R1,Other,medium,garis tembus cahaya (translucent stripes),"Kombinasi garis tembus cahaya, garis kuning-cokelat, dan eksudat lebih sesuai bacterial leaf streak. ""Translucent stripes"" tidak dipetakan ke klorosis antartulang karena posisi antartulang tidak disebut."
+FIELD_33,R1,Rice_Root_Nematode,high,tanaman tumbuh tidak normal (maldeveloped),"Ujung akar berkait khas M. graminicola. ""Maldeveloped"" tidak dipetakan ke kerdil."
+FIELD_31,R1,Other,medium,lesi kebasahan pada koleoptil; garis cokelat pada tulang tengah daun,"Bibit dengan koleoptil kebasahan dan garis cokelat pada pelepah dan tulang tengah khas bacterial brown stripe (Acidovorax), di luar 6 kelas."
+HOLD_02,R1,Rice_Root_Nematode,high,betina berbentuk buah pir di akar; gejala muncul sekitar 30 HST,"Puru dan ujung akar berkait, ditambah betina berbentuk pir, mendukung kuat nematoda puru akar."
+FIELD_03,R1,Bacterial_Leaf_Blight,high,lesi berwarna kuning hingga keabuan,"Lesi kebasahan dari ujung, meluas sepanjang tulang tengah/tepi daun, dengan tetesan eksudat kuning: khas hawar daun bakteri."
+HOLD_06,R1,Undetermined,low,,
+FIELD_04,R1,Rice_Root_Nematode,high,,
+FIELD_17,R1,Other,medium,anakan berkurang; serangan berupa petak kecil <10% hamparan,"Belang daun, kerdil, dan anakan berkurang lebih konsisten RYMV. Tungro tetap diferensial, tetapi belang bukan gejala utamanya."
+FIELD_52,R1,Rice_Tungro_Virus,high,,
+FIELD_05,R1,False_Smut,high,bola spora diselubungi membran oranye tipis yang pecah melepas spora serbuk,Infeksi ringan pada malai tidak dipilih karena definisinya menyangkut lesi pada glume. Ukuran 2–5 cm kemungkinan salah tulis.
+FIELD_23,R1,Other,medium,busuk menyebar dari daerah ligula,"Busuk anakan cokelat gelap dari daerah ligula mengarah ke busuk batang/pangkal batang (jamur atau bakteri), di luar 6 kelas."
+HOLD_03,R1,False_Smut,high,malai hampa seluruhnya pada serangan berat,Transisi kuning-oranye ke hijau zaitun dicatat sebagai dua tahap bola spora.
+HOLD_04,R1,Other,low,"pertumbuhan menyebar (spreading); daun bergerigi, terpilin, dan keriting; insidensi ~90%","Kuning-oranye dan kerdil mengarah ke tungro, tetapi daun bergerigi/terpilin khas kerdil hampa; kemungkinan infeksi campuran atau virus lain. Serangan merata tidak dipilih karena tidak dinyatakan eksplisit."
+HOLD_07,R1,Rice_Blast,high,lesi menyatu menyebabkan nekrosis luas dan kematian seluruh jaringan di atas tanah,Lesi belah ketupat abu-abu bertepi cokelat gelap khas blas.
+FIELD_32,R1,Bacterial_Leaf_Blight,medium,lesi nekrotik memutih dengan tepi bergelombang; insidensi sekitar 5%,Klorosis dari ujung ke pangkal dengan tepi lesi bergelombang sesuai hawar daun bakteri. Lesi kebasahan dan eksudat tidak disebut; diferensial: leaf scald.
+HOLD_14,R1,Rice_Tungro_Virus,low,anakan sedikit; bercak karat; helai daun pendek; kelainan tulang tengah daun,"Kerdil, menguning, anakan sedikit, dan bercak karat konsisten tungro. Namun teks kurang jelas dan warna oranye tidak disebut."
+FIELD_36,R1,Bacterial_Leaf_Blight,high,daun terserang berat berwarna cokelat keabuan,Garis kebasahan di bawah ujung dan di tepi daun yang kemudian menguning khas hawar daun bakteri.
+FIELD_18,R1,Other,medium,malai tegak,Malai tegak dengan gabah bernoda dan hampa sesuai hawar malai bakteri (Burkholderia glumae). Diferensial: busuk pelepah.
+FIELD_34,R1,Rice_Root_Nematode,high,tanaman jarang (thinning); betina dan massa telur nematoda di dalam korteks akar,Ujung akar berbentuk kait disertai kerdil dan klorosis khas M. graminicola. Massa telur nematoda tidak dicatat sebagai telur serangga.
+FIELD_15,R1,Other,medium,malai berwarna abu-abu jerami,"Malai tegak, berwarna jerami, hampa, dengan gabah busuk: sesuai hawar malai bakteri. Diferensial: blas leher, busuk pelepah."
+FIELD_12,R1,Other,low,,
+HOLD_11,R1,Rice_Blast,high,halo kuning di sekitar lesi; garis nekrotik cokelat memanjang di kedua ujung lesi; lapisan jamur putih keabuan di balik lesi saat lembap,Lesi fusiform berpusat putih keabuan dengan sporulasi keabuan patognomonik blas.
+HOLD_20,R1,Rice_Root_Nematode,medium,banyak pembengkakan pada akar,Puru akar tidak disebut berbentuk kait. Diferensial: spesies Meloidogyne lain.
+FIELD_02,R1,Rice_Blast,medium,lesi gelap pada kerah daun bendera,Busuk leher malai plus lesi kerah daun bendera khas blas leher/kerah. Morfologi lesi tidak dijelaskan.
+FIELD_16,R1,Bacterial_Leaf_Blight,low,garis kebasahan hijau dari ujung atau tepi daun,"Pola gejala menyerupai hawar daun bakteri, tetapi teks menyebutnya ""mirip"" penyakit lain; mungkin patogen lain (mis. Pantoea)."
+HOLD_18,R1,Rice_Blast,high,bercak memanjang searah urat daun,Bercak belah ketupat bertepi cokelat dan berpusat putih keabuan khas blas daun.
+FIELD_01,R1,Other,low,bercak hijau keabuan bertepi hijau gelap; membesar cepat hingga beberapa cm; menjadi cokelat muda dengan tepi nekrotik jelas,Lesi besar hijau keabuan yang menjadi cokelat muda bertepi nekrotik mengarah ke hawar pelepah pada daun atau bercak daun lain. Tidak khas blas maupun hawar daun bakteri.
+FIELD_30,R1,Other,low,,
+FIELD_28,R1,Rice_Blast,low,lesi linier 2–7 mm berpusat putih/abu-abu bertepi cokelat sempit pada daun bawah,"Pusat abu-abu dan tepi cokelat mengarah ke blas, tetapi bentuk linier bukan belah ketupat. Diferensial: narrow brown leaf spot."
+FIELD_14,R1,Other,medium,bercak bulat hitam 2–4 mm,"Bercak bulat hitam kecil tidak sesuai lesi blas; lebih sesuai bercak daun jamur lain (bercak cokelat, dll.)."
+FIELD_10,R1,Other,low,,
+FIELD_35,R1,Bacterial_Leaf_Blight,high,insidensi 5–10%,Lesi kebasahan dan kuning di tepi serta ujung daun khas hawar daun bakteri.
+FIELD_26,R1,Other,low,bercak cokelat muda hingga kemerahan pada daun atas,"Garis kebasahan diikuti hawar daun dan busuk batang mengarah ke busuk batang/pangkal bakteri, di luar 6 kelas. Diferensial: hawar daun bakteri."
+HOLD_12,R1,False_Smut,high,,
+FIELD_11,R1,Undetermined,low,,
+FIELD_22,R1,Other,medium,"perubahan warna dimulai dari pangkal glume, kemudian muncul batas cokelat kemerahan; sisa glume berwarna jerami",Perubahan warna dari pangkal glume dengan batas cokelat kemerahan khas hawar malai bakteri (B. glumae).
+FIELD_29,R1,Other,medium,garis tembus cahaya (translucent),Garis kuning tembus cahaya dengan eksudat khas bacterial leaf streak.
+HOLD_13,R1,Bacterial_Leaf_Blight,medium,tepi lesi bergelombang,Lesi kebasahan bertepi bergelombang sesuai hawar daun bakteri. Lokasi lesi (ujung/tepi) tidak disebut.
+HOLD_08,R1,Rice_Blast,high,,
+HOLD_05,R1,Other,low,pertumbuhan menyebar; kematian dini tanaman,Teks menyebut penyakit virus yang belum dikenal. Kerdil dan menguning nonspesifik; diferensial: tungro.
+FIELD_09,R1,Other,low,,
+FIELD_53,R1,Rice_Grassy_Stunt,high,daun sempit,"Sangat kerdil dengan anakan berlebihan dan daun sempit pucat khas kerdil rumput. Wereng batang cokelat hanya disebut sebagai vektor, bukan teramati."
+FIELD_06,R1,Other,low,gejala hawar daun; ujung daun menghitam berupa bercak/garis gelap; kulit gabah menggelap,"Hawar daun, ujung daun menghitam, dan perubahan warna gabah tidak khas hawar daun bakteri; mengarah ke patogen bakteri lain. Bukti campuran."
+HOLD_15,R2,False_Smut,high,"Bola spora awalnya lunak berbulu (fluffy), kemudian mengeras saat gabah masak","Warna hanya disebut ""green"" tanpa keterangan gelap/hitam, jadi dicatat sebagai fase belum matang (kuning-hijau)."
+HOLD_11,R2,Rice_Blast,high,Halo kuning di sekeliling lesi; urat tengah cokelat memanjang di kedua ujung lesi; lapisan kapang putih keabuan di sisi bawah lesi saat cuaca lembap (sporulasi),"Inang padi liar cv. Haihong-12. Bercak nekrotik tidak dicatat, sesuai catatan cakupan glosarium."
+FIELD_10,R2,Other,medium,,"Kuning dan belang pada padi di Afrika sangat khas Rice yellow mottle virus (RYMV), di luar 6 kelas."
+HOLD_01,R2,Bacterial_Leaf_Blight,high,Insiden 30–50%,Lesi kebasahan dan lesi kuning di tepi serta ujung daun adalah deskripsi klasik kresek.
+FIELD_05,R2,False_Smut,high,Bola dilapisi membran oranye tipis yang pecah dan melepaskan spora serbuk hijau gelap,"Diameter ""2–5 cm"" tidak lazim untuk bola gosong palsu; kemungkinan kesalahan satuan di sumber."
+FIELD_11,R2,Undetermined,medium,,"Garis kuning pada daun tidak spesifik: bisa fase awal hawar daun bergaris bakteri, virus bergaris, atau gangguan hara."
+FIELD_29,R2,Other,medium,Garis kuning yang tembus cahaya (translucent),"Garis tembus cahaya di antara tulang daun disertai eksudat khas hawar daun bergaris bakteri (X. oryzae pv. oryzicola), bukan HDB yang lesinya berawal dari ujung/tepi daun."
+HOLD_03,R2,False_Smut,high,Bola ±2× ukuran gabah normal; pada serangan berat seluruh malai hampa dengan banyak bola spora,"Warna ""olive-green"" dicatat sebagai fase matang (hijau gelap); batas antara kedua istilah ini tipis."
+FIELD_36,R2,Bacterial_Leaf_Blight,high,Garis membesar; daun terparah menjadi abu-abu kecokelatan dengan tepi kuning pada satu atau kedua sisi daun,Tepi kuning pada satu atau dua sisi daun sangat khas kresek.
+FIELD_04,R2,Rice_Root_Nematode,high,,Puru dengan ujung akar bengkok seperti kait patognomonik untuk M. graminicola. Teks tidak menyebut gejala tajuk apa pun.
+HOLD_04,R2,Undetermined,medium,"Pertumbuhan menyebar (spreading growth); deformasi daun (bergerigi, terpilin, menggulung); insiden ~90% pada musim kemarau","Teks menyebut penyakit ini ""mirip"" beberapa virus (tungro, kerdil rumput, dll.). Daun bergerigi/terpilin mengarah ke kerdil hampa (ragged stunt). Perlu uji molekuler."
+FIELD_08,R2,Undetermined,medium,Kematian bibit; malformasi tanaman berat; garis pada daun (warna tidak disebut),"Informasi tidak cukup untuk membedakan virus, bakteri, atau penyebab lain."
+HOLD_06,R2,Undetermined,medium,,"Pola ""dua agen bersama menimbulkan gejala, satu agen sendiri tanpa gejala"" konsisten dengan kompleks tungro, tetapi gejala tertulis hanya daun menguning."
+FIELD_30,R2,Other,medium,,Sama dengan K04: pola RYMV (Uganda).
+FIELD_12,R2,Other,medium,,Sama dengan K04: pola RYMV (RD Kongo).
+FIELD_18,R2,Other,medium,Malai tetap tegak (tidak merunduk) dengan gabah bernoda,Malai tegak dengan gabah bernoda dan hampa khas hawar malai bakteri (Burkholderia glumae) atau kompleks busuk malai.
+FIELD_53,R2,Rice_Grassy_Stunt,high,"Daun sempit, hijau pucat hingga kekuningan; penularan oleh WBC disebutkan","Sangat kerdil + anakan berlebihan + daun sempit + vektor WBC = ciri khas RGSV. ""Ada WBC"" tidak dicatat karena teks menyebut cara penularan, bukan pengamatan serangga di tanaman."
+FIELD_19,R2,Other,high,Ujung daun menjadi cokelat/hitam (nekrosis); ujung daun muda terpilin dan berkerut; daun bendera terpilin menghambat perkembangan malai,"Khas nematoda pucuk putih (white tip, Aphelenchoides besseyi)."
+FIELD_27,R2,Undetermined,medium,,"Gejala mirip RYMV, tetapi teks menyatakan patogen tersebut tidak pernah diisolasi, sehingga penyebab tidak dapat dipastikan."
+FIELD_01,R2,Other,low,Bercak awal hijau keabuan dengan tepi hijau gelap; meluas cepat hingga beberapa cm; menjadi cokelat muda dengan tepi nekrotik tegas,Tidak cocok dengan blas (bukan belah ketupat) maupun HDB (tidak berawal dari ujung/tepi daun).
+FIELD_34,R2,Rice_Root_Nematode,high,"Rumpun jarang (thinning); betina dan massa telur nematoda di korteks akar, jantan di tanah dan akar",Didukung konfirmasi morfologis nematoda.
+FIELD_03,R2,Bacterial_Leaf_Blight,high,Lesi berwarna kuning hingga keabuan,"Lesi dari ujung daun menjalar sepanjang tulang tengah atau tepi daun, ditambah tetesan eksudat kuning: deskripsi HDB yang lengkap."
+FIELD_07,R2,Other,medium,Lesi menyatu menutup sebagian besar pelepah; keluarnya malai terhambat,"Mengarah ke busuk pelepah (sheath rot, Sarocladium oryzae) atau penyakit pelepah sejenis."
+FIELD_26,R2,Other,low,Hawar daun (leaf blight) pada helai daun atas,"Kombinasi hawar daun dan busuk batang mengarah ke penyakit bakteri lain (busuk batang/kaki bakteri), bukan HDB klasik."
+FIELD_16,R2,Other,low,Garis kebasahan hijau berawal dari ujung atau tepi helai daun,"Teks membandingkan dengan HDB (""similar to""), menyiratkan patogen berbeda. Dari gejala saja, HDB tetap alternatif kuat."
+HOLD_14,R2,Undetermined,medium,Anakan sedikit; bercak karat; kelainan tulang daun; helai daun pendek,"Campuran gejala tidak spesifik (virus, hara, atau jamur). ""Dwarf plants"" dipetakan ke sangat kerdil sesuai glosarium."
+FIELD_52,R2,Rice_Tungro_Virus,high,,Kerdil + daun kuning-oranye + vektor N. virescens: kombinasi diagnostik tungro.
+FIELD_02,R2,Rice_Blast,medium,Lesi gelap pada kerah (collar) daun bendera,Lesi pada buku leher malai dan kerah daun bendera khas blas leher/kerah. Diferensial: busuk pelepah.
+FIELD_23,R2,Other,medium,Busuk cokelat gelap pada anakan yang menyebar dari area ligula,Mengarah ke busuk batang atau pelepah.
+FIELD_22,R2,Other,medium,Pangkal sekam hijau muda hingga cokelat muda dengan batas cokelat kemerahan; sisa sekam berwarna jerami,Pola khas hawar malai bakteri (Burkholderia glumae). Gabah hampa tidak disebut dalam teks.
+HOLD_02,R2,Rice_Root_Nematode,high,Nematoda betina berbentuk buah pir; muncul ±30 HST,Puru berbentuk kait dan betina berbentuk pir memastikan Meloidogyne.
+FIELD_15,R2,Other,medium,Malai tegak berwarna jerami keabuan,Sama dengan K45: pola hawar malai bakteri.
+HOLD_20,R2,Rice_Root_Nematode,medium,Banyak pembengkakan pada akar,"Puru tidak disebut berbentuk kait, tetapi tetap mengarah ke nematoda puru akar."
+HOLD_09,R2,False_Smut,high,"1–20 gabah per malai, di bagian malai mana pun; bola lebih dari 2× diameter gabah","""Infeksi ringan pada malai"" tidak dicatat karena hingga 20 gabah per malai tidak termasuk ""beberapa""."
+FIELD_28,R2,Rice_Blast,low,"Lesi linear 2–7 mm dengan pusat keputihan/abu dan tepi cokelat sempit, pada daun bawah","Pusat abu dengan tepi cokelat mengarah ke blas, tetapi bentuk linear membuka diferensial dengan bercak daun cercospora."
+FIELD_31,R2,Other,medium,Area kebasahan pada koleoptil; garis cokelat pada tulang tengah daun,"Penyakit bibit bakteri (mis. garis cokelat bakteri, Acidovorax)."
+FIELD_25,R2,Other,low,Panjang akar berkurang 21–48%,"Mengarah ke busuk akar atau rebah bibit. Tidak ada puru, sehingga bukan nematoda puru akar."
+FIELD_14,R2,Other,medium,Bercak bulat hitam berdiameter 2–4 mm,Bentuk bulat hitam kecil tidak khas blas; lebih mengarah ke bercak daun jamur lain.
+FIELD_13,R2,Other,medium,"Bercak bulat hitam 3–4 mm, 8–10 bercak per daun",Sama dengan K05.
+HOLD_12,R2,False_Smut,high,Transisi warna kuning → oranye → hijau zaitun → hitam,Seluruh siklus pematangan bola spora terdokumentasi.
+HOLD_07,R2,Rice_Blast,high,"Lesi menyatu, nekrosis luas, kematian seluruh jaringan di atas tanah","Bercak nekrotik tidak dicatat, sesuai catatan cakupan glosarium."
+FIELD_33,R2,Rice_Root_Nematode,high,Tanaman tumbuh abnormal (maldeveloped); 84% tanaman terinfeksi,"""Maldeveloped"" tidak otomatis berarti kerdil, sehingga ""tanaman kerdil"" tidak dicatat."
+FIELD_20,R2,Other,medium,Garis tembus cahaya; garis kuning-cokelat hingga hitam,"Pola hawar daun bergaris bakteri (Xoc), sama dengan K42."
+FIELD_09,R2,Other,medium,,Sama dengan K04: pola RYMV (Ethiopia).
+HOLD_18,R2,Rice_Blast,high,Bercak memanjang searah urat daun,Deskripsi klasik blas daun.
+HOLD_10,R2,Rice_Root_Nematode,high,,Puru dengan ujung akar berbentuk kait sudah cukup diagnostik.
+HOLD_13,R2,Bacterial_Leaf_Blight,medium,Tepi lesi bergelombang (wavy margin),"Lesi kebasahan dengan tepi bergelombang khas kresek. Warna tepi tidak disebut, sehingga ""kuning mengikuti tulang daun"" tidak dicatat."
+FIELD_17,R2,Other,medium,Anakan berkurang; petak kecil pada kurang dari 10% lahan,Belang + kerdil + anakan berkurang di Burundi khas RYMV.
+HOLD_05,R2,Other,low,Pertumbuhan menyebar; kematian dini tanaman,"Teks menyebutnya ""unknown virus"" yang mirip penyakit lain, sehingga tidak dimasukkan ke kelas yang sudah dikenal."
+FIELD_32,R2,Bacterial_Leaf_Blight,medium,Lesi nekrotik memutih dengan tepi bergelombang yang menyatu menjadi hawar; insiden ~5%,Pola dari ujung daun ke pangkal dengan tepi bergelombang khas HDB. Diferensial: patogen lain yang mirip HDB.
+HOLD_16,R2,Rice_Tungro_Virus,low,Daun kuning kecokelatan,"Hanya ada gejala warna daun. Diferensial: defisiensi hara (N, K, Zn)."
+HOLD_08,R2,Rice_Blast,high,Lesi berbentuk gelendong hingga elips,Deskripsi klasik blas daun.
+FIELD_35,R2,Bacterial_Leaf_Blight,high,Insiden 5–10%,Sama dengan K37.
+FIELD_51,R2,Rice_Tungro_Virus,medium,Anakan berkurang; ko-infeksi dua agen,Ko-infeksi dua agen + daun kuning-oranye + kerdil nyata pada varietas rentan TN1 konsisten dengan tungro.
+FIELD_06,R2,Other,low,Hawar daun; ujung daun menghitam; sekam menggelap,Gejala pada daun dan malai sekaligus mengarah ke penyakit bakteri lain.
+FIELD_21,R2,Other,medium,Lesi tembus cahaya,Sama dengan K19: hawar daun bergaris bakteri.

@@ -1,0 +1,649 @@
+{
+  "generated_at": "2026-09-19T00:33:41.806100+00:00",
+  "diagnosis": {
+    "raters": [
+      "R1",
+      "R2"
+    ],
+    "n_cases": 56,
+    "fleiss_kappa": null,
+    "pairwise_rater_kappa": {
+      "R1-R2": 0.885
+    },
+    "system_rater_kappa": {
+      "R1": 0.289,
+      "R2": 0.291
+    },
+    "mean_rater_rater_kappa": 0.885,
+    "mean_system_rater_kappa": 0.29,
+    "system_minus_rater_kappa": -0.595,
+    "system_minus_rater_kappa_ci95": [
+      -0.741,
+      -0.442
+    ],
+    "system_within_rater_range": null,
+    "vs_published_label": {
+      "R1": {
+        "all": {
+          "k": 46,
+          "n": 56
+        },
+        "positive_cases": {
+          "k": 26,
+          "n": 30
+        }
+      },
+      "R2": {
+        "all": {
+          "k": 46,
+          "n": 56
+        },
+        "positive_cases": {
+          "k": 25,
+          "n": 30
+        }
+      },
+      "rater majority": {
+        "all": {
+          "k": 44,
+          "n": 56
+        },
+        "positive_cases": {
+          "k": 25,
+          "n": 30
+        }
+      },
+      "RiceKG strict": {
+        "all": {
+          "k": 17,
+          "n": 56
+        },
+        "positive_cases": {
+          "k": 11,
+          "n": 30
+        }
+      }
+    },
+    "label_distribution": {
+      "R1": {
+        "Other": 23,
+        "Rice_Blast": 6,
+        "Bacterial_Leaf_Blight": 7,
+        "Rice_Root_Nematode": 6,
+        "False_Smut": 5,
+        "Undetermined": 4,
+        "Rice_Tungro_Virus": 4,
+        "Rice_Grassy_Stunt": 1
+      },
+      "R2": {
+        "Other": 23,
+        "Rice_Blast": 6,
+        "Bacterial_Leaf_Blight": 6,
+        "Rice_Root_Nematode": 6,
+        "False_Smut": 5,
+        "Undetermined": 6,
+        "Rice_Tungro_Virus": 3,
+        "Rice_Grassy_Stunt": 1
+      },
+      "RiceKG strict": {
+        "Undetermined": 37,
+        "Other": 7,
+        "Rice_Root_Nematode": 3,
+        "False_Smut": 3,
+        "Bacterial_Leaf_Blight": 3,
+        "Rice_Tungro_Virus": 1,
+        "Rice_Blast": 2
+      }
+    }
+  },
+  "encoding": {
+    "terms_used": 36,
+    "per_term_kappa": {
+      "Deformed_Roots": 0.0,
+      "Interveinal_Chlorosis": 0.0,
+      "Leaf_Bleaching": 0.0,
+      "Slight_Panicle_Infection": 0.0,
+      "Whitehead_Empty_Panicles": 0.0,
+      "Root_Knot_Swelling": 0.486,
+      "Leaf_Desiccation": 0.65,
+      "Brown_Streaks": 0.848,
+      "Empty_Grains": 0.848,
+      "Grain_Discoloration": 0.848,
+      "Bacterial_Ooze": 1.0,
+      "Blackened_Grain_Balls": 1.0,
+      "Chlorotic_Streaks": 1.0,
+      "Diamond_Shaped_Lesions": 1.0,
+      "Discolored_Roots": 1.0,
+      "Excessive_Tillering": 1.0,
+      "Green_Leafhopper_Present": 1.0,
+      "Hook_Like_Root_Swelling": 1.0,
+      "Infected_Seedlings": 1.0,
+      "Leaf_Discoloration_Yellow": 1.0,
+      "Leaf_Mottling": 1.0,
+      "Leaf_Sheath_Lesions": 1.0,
+      "Leaf_Wilting": 1.0,
+      "Necrotic_Spots": 1.0,
+      "Orange_Leaf_Discoloration": 1.0,
+      "Panicle_Neck_Rot": 1.0,
+      "Rotten_Panicles": 1.0,
+      "Rusty_Grain_Balls": 1.0,
+      "Severe_Stunting": 1.0,
+      "Stem_Rot_Lesions": 1.0,
+      "Stunted_Growth": 1.0,
+      "Water_Soaked_Lesions": 1.0,
+      "Whitened_Leaf_Tips": 1.0,
+      "Yellowing_Leaf_Tips": 1.0,
+      "Yellowing_Leaf_Veins": 1.0,
+      "Yellowing_Leaves": 1.0
+    },
+    "mean_pairwise_jaccard": 0.929,
+    "author_vs_majority_jaccard": 0.685,
+    "cases_author_equals_majority": 28,
+    "n_cases": 56,
+    "majority_encoding": {
+      "FIELD_01": [
+        "Necrotic_Spots",
+        "Water_Soaked_Lesions"
+      ],
+      "FIELD_02": [
+        "Empty_Grains",
+        "Panicle_Neck_Rot"
+      ],
+      "FIELD_03": [
+        "Bacterial_Ooze",
+        "Leaf_Desiccation",
+        "Leaf_Discoloration_Yellow",
+        "Water_Soaked_Lesions",
+        "Yellowing_Leaf_Tips",
+        "Yellowing_Leaf_Veins"
+      ],
+      "FIELD_04": [
+        "Hook_Like_Root_Swelling",
+        "Infected_Seedlings"
+      ],
+      "FIELD_05": [
+        "Blackened_Grain_Balls",
+        "Rusty_Grain_Balls"
+      ],
+      "FIELD_06": [
+        "Grain_Discoloration",
+        "Necrotic_Spots",
+        "Water_Soaked_Lesions"
+      ],
+      "FIELD_07": [
+        "Leaf_Sheath_Lesions",
+        "Necrotic_Spots"
+      ],
+      "FIELD_08": [
+        "Infected_Seedlings"
+      ],
+      "FIELD_09": [
+        "Leaf_Mottling",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_10": [
+        "Leaf_Mottling",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_11": [
+        "Chlorotic_Streaks"
+      ],
+      "FIELD_12": [
+        "Leaf_Mottling",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_13": [
+        "Necrotic_Spots"
+      ],
+      "FIELD_14": [
+        "Necrotic_Spots"
+      ],
+      "FIELD_15": [
+        "Rotten_Panicles"
+      ],
+      "FIELD_16": [
+        "Leaf_Desiccation",
+        "Leaf_Wilting",
+        "Water_Soaked_Lesions",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_17": [
+        "Leaf_Mottling",
+        "Stunted_Growth"
+      ],
+      "FIELD_18": [
+        "Empty_Grains",
+        "Grain_Discoloration"
+      ],
+      "FIELD_19": [
+        "Stunted_Growth",
+        "Whitened_Leaf_Tips",
+        "Yellowing_Leaf_Tips"
+      ],
+      "FIELD_20": [
+        "Bacterial_Ooze",
+        "Brown_Streaks",
+        "Water_Soaked_Lesions"
+      ],
+      "FIELD_21": [
+        "Bacterial_Ooze",
+        "Brown_Streaks",
+        "Water_Soaked_Lesions"
+      ],
+      "FIELD_22": [
+        "Grain_Discoloration"
+      ],
+      "FIELD_23": [
+        "Leaf_Sheath_Lesions",
+        "Stem_Rot_Lesions"
+      ],
+      "FIELD_25": [
+        "Discolored_Roots",
+        "Infected_Seedlings",
+        "Leaf_Wilting"
+      ],
+      "FIELD_26": [
+        "Necrotic_Spots",
+        "Stem_Rot_Lesions",
+        "Water_Soaked_Lesions"
+      ],
+      "FIELD_27": [
+        "Leaf_Mottling",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_28": [
+        "Necrotic_Spots"
+      ],
+      "FIELD_29": [
+        "Bacterial_Ooze",
+        "Chlorotic_Streaks",
+        "Water_Soaked_Lesions"
+      ],
+      "FIELD_30": [
+        "Leaf_Mottling",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_31": [
+        "Brown_Streaks",
+        "Infected_Seedlings",
+        "Leaf_Sheath_Lesions",
+        "Water_Soaked_Lesions"
+      ],
+      "FIELD_32": [
+        "Yellowing_Leaf_Tips"
+      ],
+      "FIELD_33": [
+        "Hook_Like_Root_Swelling",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_34": [
+        "Hook_Like_Root_Swelling",
+        "Stunted_Growth",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_35": [
+        "Leaf_Discoloration_Yellow",
+        "Water_Soaked_Lesions",
+        "Yellowing_Leaf_Tips"
+      ],
+      "FIELD_36": [
+        "Leaf_Discoloration_Yellow",
+        "Water_Soaked_Lesions",
+        "Yellowing_Leaf_Tips"
+      ],
+      "FIELD_51": [
+        "Orange_Leaf_Discoloration",
+        "Severe_Stunting"
+      ],
+      "FIELD_52": [
+        "Green_Leafhopper_Present",
+        "Orange_Leaf_Discoloration",
+        "Stunted_Growth",
+        "Yellowing_Leaves"
+      ],
+      "FIELD_53": [
+        "Excessive_Tillering",
+        "Severe_Stunting",
+        "Yellowing_Leaves"
+      ],
+      "HOLD_01": [
+        "Leaf_Discoloration_Yellow",
+        "Water_Soaked_Lesions",
+        "Yellowing_Leaf_Tips"
+      ],
+      "HOLD_02": [
+        "Hook_Like_Root_Swelling",
+        "Yellowing_Leaves"
+      ],
+      "HOLD_03": [
+        "Blackened_Grain_Balls",
+        "Empty_Grains",
+        "Rusty_Grain_Balls"
+      ],
+      "HOLD_04": [
+        "Orange_Leaf_Discoloration",
+        "Stunted_Growth"
+      ],
+      "HOLD_05": [
+        "Stunted_Growth",
+        "Yellowing_Leaves"
+      ],
+      "HOLD_06": [
+        "Yellowing_Leaves"
+      ],
+      "HOLD_07": [
+        "Diamond_Shaped_Lesions"
+      ],
+      "HOLD_08": [
+        "Diamond_Shaped_Lesions"
+      ],
+      "HOLD_09": [
+        "Blackened_Grain_Balls",
+        "Rusty_Grain_Balls"
+      ],
+      "HOLD_10": [
+        "Hook_Like_Root_Swelling"
+      ],
+      "HOLD_11": [
+        "Diamond_Shaped_Lesions"
+      ],
+      "HOLD_12": [
+        "Blackened_Grain_Balls",
+        "Rusty_Grain_Balls"
+      ],
+      "HOLD_13": [
+        "Water_Soaked_Lesions"
+      ],
+      "HOLD_14": [
+        "Necrotic_Spots",
+        "Severe_Stunting",
+        "Yellowing_Leaves"
+      ],
+      "HOLD_15": [
+        "Rusty_Grain_Balls"
+      ],
+      "HOLD_16": [
+        "Orange_Leaf_Discoloration",
+        "Yellowing_Leaves"
+      ],
+      "HOLD_18": [
+        "Diamond_Shaped_Lesions"
+      ],
+      "HOLD_20": [
+        "Root_Knot_Swelling",
+        "Stunted_Growth",
+        "Yellowing_Leaves"
+      ]
+    },
+    "rerun_on_majority_outcomes": {
+      "abstain": 18,
+      "correct": 11,
+      "explicit_rejection": 14,
+      "silent_abstention": 12,
+      "misfire": 1
+    }
+  },
+  "explanations": {
+    "overall": {
+      "n": 112,
+      "accept": {
+        "no": 18,
+        "yes": 46,
+        "partly": 48
+      },
+      "reasoning": {
+        "mean": 2.92,
+        "median": 3.0,
+        "n": 112
+      },
+      "completeness": {
+        "mean": 2.62,
+        "median": 3.0,
+        "n": 112
+      },
+      "usefulness": {
+        "mean": 2.61,
+        "median": 3.0,
+        "n": 112
+      }
+    },
+    "by_ricekg_outcome": {
+      "abstain": {
+        "n": 34,
+        "accept": {
+          "no": 3,
+          "yes": 5,
+          "partly": 26
+        },
+        "reasoning": {
+          "mean": 2.47,
+          "median": 2.0,
+          "n": 34
+        },
+        "completeness": {
+          "mean": 2.5,
+          "median": 2.5,
+          "n": 34
+        },
+        "usefulness": {
+          "mean": 2.44,
+          "median": 2.5,
+          "n": 34
+        }
+      },
+      "correct": {
+        "n": 22,
+        "accept": {
+          "yes": 22
+        },
+        "reasoning": {
+          "mean": 3.95,
+          "median": 4.0,
+          "n": 22
+        },
+        "completeness": {
+          "mean": 3.64,
+          "median": 4.0,
+          "n": 22
+        },
+        "usefulness": {
+          "mean": 3.91,
+          "median": 4.0,
+          "n": 22
+        }
+      },
+      "explicit_rejection": {
+        "n": 12,
+        "accept": {
+          "yes": 12
+        },
+        "reasoning": {
+          "mean": 3.92,
+          "median": 4.0,
+          "n": 12
+        },
+        "completeness": {
+          "mean": 3,
+          "median": 3.0,
+          "n": 12
+        },
+        "usefulness": {
+          "mean": 3.08,
+          "median": 3.0,
+          "n": 12
+        }
+      },
+      "misfire": {
+        "n": 2,
+        "accept": {
+          "partly": 2
+        },
+        "reasoning": {
+          "mean": 2.5,
+          "median": 2.5,
+          "n": 2
+        },
+        "completeness": {
+          "mean": 2.5,
+          "median": 2.5,
+          "n": 2
+        },
+        "usefulness": {
+          "mean": 2.5,
+          "median": 2.5,
+          "n": 2
+        }
+      },
+      "rejected": {
+        "n": 2,
+        "accept": {
+          "no": 2
+        },
+        "reasoning": {
+          "mean": 1,
+          "median": 1.0,
+          "n": 2
+        },
+        "completeness": {
+          "mean": 2,
+          "median": 2.0,
+          "n": 2
+        },
+        "usefulness": {
+          "mean": 1,
+          "median": 1.0,
+          "n": 2
+        }
+      },
+      "silent_abstention": {
+        "n": 40,
+        "accept": {
+          "partly": 20,
+          "no": 13,
+          "yes": 7
+        },
+        "reasoning": {
+          "mean": 2.55,
+          "median": 2.5,
+          "n": 40
+        },
+        "completeness": {
+          "mean": 2.08,
+          "median": 2.0,
+          "n": 40
+        },
+        "usefulness": {
+          "mean": 1.98,
+          "median": 2.0,
+          "n": 40
+        }
+      }
+    }
+  },
+  "definitions": {
+    "counts": {
+      "adequate": 53,
+      "needs_revision": 14
+    },
+    "flagged_terms": {
+      "Bacterial_Leaf_Blight": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Penyakit bakteri padi oleh Xanthomonas oryzae pv. oryzae: lesi kebasahan dari ujung dan/atau tepi daun meluas ke pangkal dengan batas kuning bergelombang, sering disertai eksudat. Pada fase bibit menyebabkan layu (kresek); dibedakan dari bacterial leaf streak (X. oryzae pv. oryzicola) yang berupa garis sempit tembus cahaya di antara tulang daun."
+        }
+      ],
+      "Brown_Streaks": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Garis nekrotik cokelat sempit sejajar tulang daun pada helai atau pelepah daun, panjangnya jauh melebihi lebarnya. Gunakan Necrotic_Spots untuk bercak diskret tanpa pola memanjang searah tulang daun."
+        }
+      ],
+      "Chlorotic_Streaks": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Garis sempit kuning, pucat, atau tembus cahaya yang memanjang sejajar tulang daun. Pada daun padi berpenulangan sejajar, istilah ini sebaiknya menggantikan Interveinal_Chlorosis untuk semua pola klorosis bergaris."
+        }
+      ],
+      "Deadheart_Seedling": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Pucuk tengah anakan pada fase vegetatif (tidak terbatas pada bibit) menguning-cokelat dan mengering sementara daun luar tetap hijau, akibat penggerek batang. ID sebaiknya diganti menjadi Deadheart agar tidak menyiratkan fase bibit saja."
+        }
+      ],
+      "Interveinal_Chlorosis": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Menguning di jaringan antara tulang daun sementara tulang daun tetap hijau, dilaporkan secara eksplisit sebagai pola antartulang. Jaringan \"tembus cahaya\" pada lesi bakteri tidak termasuk; gunakan Chlorotic_Streaks atau Water_Soaked_Lesions."
+        }
+      ],
+      "Leaf_Discoloration_Yellow": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Lesi atau pita kuning yang memanjang di sepanjang tepi helai daun. ID sebaiknya diganti menjadi Yellow_Leaf_Margin_Lesions karena ID sekarang menyiratkan perubahan warna kuning umum, tidak sesuai label."
+        }
+      ],
+      "Leaf_Margin_Sap_Sucking": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Bercak kecil keperakan, pucat, atau mengering pada tepi atau ujung daun akibat isapan serangga (mis. thrips), sering disertai daun menggulung. Perlu menyebut serangga penyebab agar bisa dibedakan dari lesi penyakit di tepi daun."
+        }
+      ],
+      "Leaf_Wilting": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Daun terkulai atau menggulung karena kehilangan turgor. Kematian dini tanaman sebaiknya dicatat sebagai istilah terpisah, bukan digabung dalam definisi layu."
+        }
+      ],
+      "Milky_Stage_Vulnerability": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Gejala pertama kali terlihat antara fase berbunga dan masak susu. ID sebaiknya diganti menjadi Flowering_To_Milky_Onset karena infeksi gosong palsu sendiri terjadi saat bunting, bukan saat masak susu."
+        }
+      ],
+      "Rice_Root_Nematode": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Nematoda puru akar padi Meloidogyne graminicola yang membentuk puru berbentuk kait di ujung akar. ID sebaiknya diganti menjadi Rice_Root_Knot_Nematode, karena \"rice root nematode\" lazim merujuk ke Hirschmanniella oryzae yang tidak membentuk puru."
+        }
+      ],
+      "Rice_Tungro_Virus": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Penyakit tungro yang disebabkan infeksi gabungan rice tungro bacilliform virus (Tungrovirus) dan rice tungro spherical virus (Waikavirus), ditularkan wereng hijau terutama Nephotettix virescens. ID sebaiknya Rice_Tungro_Disease karena penyakit ini melibatkan dua virus."
+        }
+      ],
+      "Rusty_Grain_Balls": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Gabah yang digantikan bola spora beludru lebih besar dari gabah normal, berwarna kuning-oranye hingga hijau atau hijau kekuningan dan belum menghitam. Gunakan istilah ini juga bila warna hanya disebut \"hijau\" tanpa keterangan gelap atau hitam."
+        }
+      ],
+      "Slight_Panicle_Infection": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Hanya sedikit spikelet per malai yang terserang, apa pun bentuk gejalanya. Syarat \"lesi kecil pada glume\" sebaiknya dipisah agar istilah ini bisa dipakai untuk gosong palsu (beberapa bola spora per malai)."
+        }
+      ],
+      "Yellowing_Leaf_Veins": [
+        {
+          "annotator": "R1",
+          "rating": "needs_revision",
+          "suggestion": "Lesi yang meluas mengikuti tulang daun (terutama tulang tengah) dengan batas kuning bergelombang. ID dan label sebaiknya diganti (mis. Lesion_Along_Veins / \"lesi meluas mengikuti tulang daun\") karena istilah sekarang menyiratkan tulang daun yang menguning."
+        }
+      ]
+    }
+  }
+}

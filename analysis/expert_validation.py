@@ -122,8 +122,11 @@ def diagnosis_agreement(diag_rows, system, truth, rng):
 
         out["system_minus_rater_kappa"] = round(mean_sr - mean_rr, 3)
         out["system_minus_rater_kappa_ci95"] = _boot(n, diff, rng)
-        out["system_within_rater_range"] = (min(out["pairwise_rater_kappa"].values())
-                                            <= mean_sr <= max(out["pairwise_rater_kappa"].values()))
+        # A range needs at least two rater pairs (three raters); with two raters the criterion is
+        # whether the bootstrap CI of the RiceKG-minus-rater difference includes zero.
+        out["system_within_rater_range"] = (
+            min(out["pairwise_rater_kappa"].values()) <= mean_sr <= max(out["pairwise_rater_kappa"].values())
+            if len(pairs) > 1 else None)
 
     majority = []
     for i in range(n):
@@ -271,8 +274,10 @@ def write_markdown(rep, path):
         L += ["", f"Fleiss' κ across raters: {dx['fleiss_kappa'] if dx['fleiss_kappa'] is not None else 'n/a (fewer than 3 raters)'}. "
               f"Mean rater–rater κ {dx['mean_rater_rater_kappa']:.3f}; mean RiceKG–rater κ {dx['mean_system_rater_kappa']:.3f}; "
               f"difference {dx['system_minus_rater_kappa']:+.3f} [95% CI {dx['system_minus_rater_kappa_ci95'][0]}, "
-              f"{dx['system_minus_rater_kappa_ci95'][1]}]. RiceKG within the rater–rater range: "
-              f"**{'yes' if dx['system_within_rater_range'] else 'no'}**."]
+              f"{dx['system_minus_rater_kappa_ci95'][1]}]. "
+              + ("RiceKG within the rater–rater range: " + f"**{'yes' if dx['system_within_rater_range'] else 'no'}**."
+                 if dx["system_within_rater_range"] is not None
+                 else "With two raters there is no rater–rater range; the criterion is whether the interval includes zero.")]
     L += ["", "Agreement with the published label (No_Diagnosis counted as Other):", "",
           "| Who | All cases | Positive cases |", "|:---|:---:|:---:|"]
     L += [f"| {who} | {_pct(v['all'])} | {_pct(v['positive_cases'])} |" for who, v in dx["vs_published_label"].items()]

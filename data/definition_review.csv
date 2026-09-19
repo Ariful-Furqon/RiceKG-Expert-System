@@ -1,0 +1,68 @@
+term,annotator,rating,suggestion
+Adult_Insects_Present,R1,adequate,
+Bacterial_Leaf_Blight,R1,needs_revision,"Penyakit bakteri padi oleh Xanthomonas oryzae pv. oryzae: lesi kebasahan dari ujung dan/atau tepi daun meluas ke pangkal dengan batas kuning bergelombang, sering disertai eksudat. Pada fase bibit menyebabkan layu (kresek); dibedakan dari bacterial leaf streak (X. oryzae pv. oryzicola) yang berupa garis sempit tembus cahaya di antara tulang daun."
+Bacterial_Ooze,R1,adequate,
+Blackened_Feeding_Punctures,R1,adequate,
+Blackened_Grain_Balls,R1,adequate,
+Bore_Holes_In_Stem,R1,adequate,
+Broad_Leaf_Damage,R1,adequate,
+Brown_Nymphs,R1,adequate,
+Brown_Planthopper_Present,R1,adequate,
+Brown_Streaks,R1,needs_revision,"Garis nekrotik cokelat sempit sejajar tulang daun pada helai atau pelepah daun, panjangnya jauh melebihi lebarnya. Gunakan Necrotic_Spots untuk bercak diskret tanpa pola memanjang searah tulang daun."
+Chlorotic_Streaks,R1,needs_revision,"Garis sempit kuning, pucat, atau tembus cahaya yang memanjang sejajar tulang daun. Pada daun padi berpenulangan sejajar, istilah ini sebaiknya menggantikan Interveinal_Chlorosis untuk semua pola klorosis bergaris."
+Circular_Hopperburn_Patches,R1,adequate,
+Deadheart_Seedling,R1,needs_revision,"Pucuk tengah anakan pada fase vegetatif (tidak terbatas pada bibit) menguning-cokelat dan mengering sementara daun luar tetap hijau, akibat penggerek batang. ID sebaiknya diganti menjadi Deadheart agar tidak menyiratkan fase bibit saja."
+Deformed_Roots,R1,adequate,
+Diamond_Shaped_Lesions,R1,adequate,
+Discolored_Roots,R1,adequate,
+Easily_Pulled_Tillers,R1,adequate,
+Eggs_On_Plant,R1,adequate,
+Empty_Grains,R1,adequate,
+Excessive_Tillering,R1,adequate,
+False_Smut,R1,adequate,
+Frass_In_Stem,R1,adequate,
+Grain_Discoloration,R1,adequate,
+Green_Leafhopper_Present,R1,adequate,
+Hook_Like_Root_Swelling,R1,adequate,
+Hopperburn_Drying,R1,adequate,
+Infected_Seedlings,R1,adequate,
+Interveinal_Chlorosis,R1,needs_revision,"Menguning di jaringan antara tulang daun sementara tulang daun tetap hijau, dilaporkan secara eksplisit sebagai pola antartulang. Jaringan ""tembus cahaya"" pada lesi bakteri tidak termasuk; gunakan Chlorotic_Streaks atau Water_Soaked_Lesions."
+Leaf_Bleaching,R1,adequate,
+Leaf_Chewing_Damage,R1,adequate,
+Leaf_Desiccation,R1,adequate,
+Leaf_Discoloration_Yellow,R1,needs_revision,"Lesi atau pita kuning yang memanjang di sepanjang tepi helai daun. ID sebaiknya diganti menjadi Yellow_Leaf_Margin_Lesions karena ID sekarang menyiratkan perubahan warna kuning umum, tidak sesuai label."
+Leaf_Margin_Sap_Sucking,R1,needs_revision,"Bercak kecil keperakan, pucat, atau mengering pada tepi atau ujung daun akibat isapan serangga (mis. thrips), sering disertai daun menggulung. Perlu menyebut serangga penyebab agar bisa dibedakan dari lesi penyakit di tepi daun."
+Leaf_Mottling,R1,adequate,
+Leaf_Sheath_Lesions,R1,adequate,
+Leaf_Wilting,R1,needs_revision,"Daun terkulai atau menggulung karena kehilangan turgor. Kematian dini tanaman sebaiknya dicatat sebagai istilah terpisah, bukan digabung dalam definisi layu."
+Localized_Leaf_Yellowing,R1,adequate,
+Milky_Stage_Vulnerability,R1,needs_revision,"Gejala pertama kali terlihat antara fase berbunga dan masak susu. ID sebaiknya diganti menjadi Flowering_To_Milky_Onset karena infeksi gosong palsu sendiri terjadi saat bunting, bukan saat masak susu."
+Necrotic_Spots,R1,adequate,
+No_Panicle_Formation,R1,adequate,
+Nymphs_Present,R1,adequate,
+Orange_Leaf_Discoloration,R1,adequate,
+Panicle_Neck_Rot,R1,adequate,
+Plant_Yellowing,R1,adequate,
+Rainy_Season_Outbreak,R1,adequate,
+Random_Feeding_Pattern,R1,adequate,
+Rapid_Disease_Spread,R1,adequate,
+Rice_Blast,R1,adequate,
+Rice_Grassy_Stunt,R1,adequate,
+Rice_Root_Nematode,R1,needs_revision,"Nematoda puru akar padi Meloidogyne graminicola yang membentuk puru berbentuk kait di ujung akar. ID sebaiknya diganti menjadi Rice_Root_Knot_Nematode, karena ""rice root nematode"" lazim merujuk ke Hirschmanniella oryzae yang tidak membentuk puru."
+Rice_Tungro_Virus,R1,needs_revision,"Penyakit tungro yang disebabkan infeksi gabungan rice tungro bacilliform virus (Tungrovirus) dan rice tungro spherical virus (Waikavirus), ditularkan wereng hijau terutama Nephotettix virescens. ID sebaiknya Rice_Tungro_Disease karena penyakit ini melibatkan dua virus."
+Root_Knot_Swelling,R1,adequate,
+Rotten_Panicles,R1,adequate,
+Rusty_Grain_Balls,R1,needs_revision,"Gabah yang digantikan bola spora beludru lebih besar dari gabah normal, berwarna kuning-oranye hingga hijau atau hijau kekuningan dan belum menghitam. Gunakan istilah ini juga bila warna hanya disebut ""hijau"" tanpa keterangan gelap atau hitam."
+Severe_Stunting,R1,adequate,
+Severed_Panicles,R1,adequate,
+Slight_Panicle_Infection,R1,needs_revision,"Hanya sedikit spikelet per malai yang terserang, apa pun bentuk gejalanya. Syarat ""lesi kecil pada glume"" sebaiknya dipisah agar istilah ini bisa dipakai untuk gosong palsu (beberapa bola spora per malai)."
+Stem_Rot_Lesions,R1,adequate,
+Stunted_Growth,R1,adequate,
+Uniform_Field_Infection,R1,adequate,
+Water_Soaked_Lesions,R1,adequate,
+Whitehead_Empty_Panicles,R1,adequate,
+Whitened_Leaf_Tips,R1,adequate,
+Yellow_Nymphs,R1,adequate,
+Yellowing_Leaf_Tips,R1,adequate,
+Yellowing_Leaf_Veins,R1,needs_revision,"Lesi yang meluas mengikuti tulang daun (terutama tulang tengah) dengan batas kuning bergelombang. ID dan label sebaiknya diganti (mis. Lesion_Along_Veins / ""lesi meluas mengikuti tulang daun"") karena istilah sekarang menyiratkan tulang daun yang menguning."
+Yellowing_Leaves,R1,adequate,
